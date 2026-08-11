@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@astrojs/svelte": "latest",
+    "@tailwindcss/vite": "latest",
     "astro": "latest",
-    "svelte": "latest"
+    "svelte": "latest",
+    "tailwindcss": "latest"
   }
 }
