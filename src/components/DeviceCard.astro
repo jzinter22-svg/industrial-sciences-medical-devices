@@ -1,0 +1,95 @@
+---
+interface Props {
+  number: number;
+  nameAr: string;
+  nameEn: string;
+  description: string;
+}
+
+const { number, nameAr, nameEn, description } = Astro.props;
+---
+
+<article class="device-card neo-surface-soft">
+  <div class="device-card-header">
+    <span class="device-number" aria-hidden="true">{number}</span>
+    <div class="device-titles">
+      <h3 class="device-name-ar">{nameAr}</h3>
+      <p class="device-name-en" dir="ltr">{nameEn}</p>
+    </div>
+  </div>
+
+  <div class="device-image-placeholder neo-inset">
+    <span class="placeholder-text">سيتم إضافة الصورة لاحقًا</span>
+  </div>
+
+  <p class="device-description">{description}</p>
+</article>
+
+<style>
+  .device-card {
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-sm);
+  }
+
+  .device-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--neo-space-sm);
+  }
+
+  .device-number {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .device-titles {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .device-name-ar {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--neo-text);
+  }
+
+  .device-name-en {
+    margin: 2px 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--neo-primary);
+    unicode-bidi: isolate;
+  }
+
+  .device-image-placeholder {
+    min-height: 140px;
+    display: grid;
+    place-items: center;
+    padding: var(--neo-space-sm);
+    text-align: center;
+  }
+
+  .placeholder-text {
+    color: var(--neo-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .device-description {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+import ChapterHeader from "./ChapterHeader.astro";
+import SectionRenderer from "./SectionRenderer.astro";
+
+interface Props {
+  page: any;
+}
+
+const { page } = Astro.props;
+---
+
+<main class="page-content">
+  <ChapterHeader
+    chapterLabel={page.source.chapter}
+    titleAr={page.title.ar}
+    titleEn={page.title.en}
+  />
+
+  {page.sections.map((section: any) => <SectionRenderer section={section} />)}
+</main>
+
+<style>
+  .page-content {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--neo-space-lg) var(--neo-space-md) var(--neo-space-xl);
+  }
+
+  @media (max-width: 640px) {
+    .page-content {
+      padding: var(--neo-space-md) var(--neo-space-sm) var(--neo-space-lg);
+    }
+  }
+</style>

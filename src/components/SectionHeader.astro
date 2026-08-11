@@ -1,0 +1,48 @@
+---
+interface Props {
+  number: string;
+  titleAr: string;
+  titleEn?: string;
+}
+
+const { number, titleAr, titleEn } = Astro.props;
+---
+
+<div class="section-header neo-surface">
+  <h2 class="section-title">
+    <span class="section-number" dir="ltr">{number}</span>
+    <span class="section-title-ar">{titleAr}</span>
+  </h2>
+  {titleEn && <p class="section-title-en" dir="ltr">{titleEn}</p>}
+</div>
+
+<style>
+  .section-header {
+    padding: var(--neo-space-sm) var(--neo-space-md);
+    margin: 0 0 var(--neo-space-md);
+    border-inline-start: 4px solid var(--neo-primary);
+  }
+
+  .section-title {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--neo-space-sm);
+    font-size: var(--neo-font-size-h2);
+    font-weight: 700;
+    color: var(--neo-text);
+  }
+
+  .section-number {
+    color: var(--neo-primary);
+  }
+
+  .section-title-en {
+    margin: var(--neo-space-xs) 0 0;
+    color: var(--neo-muted);
+    font-weight: 600;
+    font-size: 1rem;
+    unicode-bidi: isolate;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+interface Props {
+  chapterLabel: string;
+  titleAr: string;
+  titleEn: string;
+}
+
+const { chapterLabel, titleAr, titleEn } = Astro.props;
+---
+
+<header class="chapter-header">
+  <p class="chapter-label">{chapterLabel}</p>
+  <h1 class="chapter-title">{titleAr}</h1>
+  <p class="chapter-title-en" dir="ltr">{titleEn}</p>
+</header>
+
+<style>
+  .chapter-header {
+    text-align: center;
+    padding: var(--neo-space-lg) var(--neo-space-md);
+  }
+
+  .chapter-label {
+    margin: 0 0 var(--neo-space-xs);
+    color: var(--neo-muted);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .chapter-title {
+    margin: 0;
+    font-size: var(--neo-font-size-h1);
+    font-weight: 700;
+    color: var(--neo-text);
+  }
+
+  .chapter-title-en {
+    margin: var(--neo-space-xs) 0 0;
+    color: var(--neo-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+    unicode-bidi: isolate;
+  }
+
+  @media (max-width: 640px) {
+    .chapter-header {
+      padding: var(--neo-space-md) var(--neo-space-sm);
+    }
+  }
+</style>

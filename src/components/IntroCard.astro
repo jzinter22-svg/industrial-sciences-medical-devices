@@ -1,0 +1,30 @@
+---
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+---
+
+<article class="intro-card neo-surface">
+  <p class="intro-text">{content}</p>
+</article>
+
+<style>
+  .intro-card {
+    padding: var(--neo-space-lg);
+  }
+
+  .intro-text {
+    margin: 0;
+    font-size: var(--neo-font-size-body);
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+  }
+
+  @media (max-width: 640px) {
+    .intro-card {
+      padding: var(--neo-space-md);
+    }
+  }
+</style>

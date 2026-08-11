@@ -1,0 +1,21 @@
+---
+import IntroCard from "./IntroCard.astro";
+import DeviceCard from "./DeviceCard.astro";
+
+interface Props {
+  block: any;
+}
+
+const { block } = Astro.props;
+---
+
+{block.type === "paragraph" && <IntroCard content={block.content.ar} />}
+
+{block.type === "device" && (
+  <DeviceCard
+    number={block.number}
+    nameAr={block.name.ar}
+    nameEn={block.name.en}
+    description={block.description.ar}
+  />
+)}

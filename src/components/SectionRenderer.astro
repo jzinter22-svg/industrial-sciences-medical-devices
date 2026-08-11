@@ -1,0 +1,43 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import BlockRenderer from "./BlockRenderer.astro";
+
+interface Props {
+  section: any;
+}
+
+const { section } = Astro.props;
+const isDeviceGrid = section.blocks.some((block: any) => block.type === "device");
+---
+
+<section class="page-section">
+  <SectionHeader number={section.number} titleAr={section.title.ar} titleEn={section.titleEn} />
+
+  <div class:list={["section-blocks", isDeviceGrid && "device-grid"]}>
+    {section.blocks.map((block: any) => <BlockRenderer block={block} />)}
+  </div>
+</section>
+
+<style>
+  .page-section {
+    margin-bottom: var(--neo-space-xl);
+  }
+
+  .section-blocks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--neo-space-md);
+  }
+
+  @media (min-width: 640px) {
+    .device-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .device-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

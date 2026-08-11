@@ -14,6 +14,18 @@
   --neo-shadow-light: #ffffff;
 
   --neo-radius: 20px;
+  --neo-radius-sm: 12px;
+
+  --neo-space-xs: 8px;
+  --neo-space-sm: 12px;
+  --neo-space-md: 20px;
+  --neo-space-lg: 32px;
+  --neo-space-xl: 48px;
+
+  --neo-font-size-body: 1rem;
+  --neo-font-size-h1: clamp(1.75rem, 4vw, 2.75rem);
+  --neo-font-size-h2: clamp(1.25rem, 3vw, 1.75rem);
+  --neo-line-height: 1.8;
 }
 
 html {
@@ -45,4 +57,12 @@ body {
   box-shadow:
     inset 8px 8px 16px var(--neo-shadow-dark),
     inset -8px -8px 16px var(--neo-shadow-light);
+}
+
+.neo-surface-soft {
+  background: var(--neo-surface);
+  border-radius: var(--neo-radius-sm);
+  box-shadow:
+    5px 5px 10px var(--neo-shadow-dark),
+    -5px -5px 10px var(--neo-shadow-light);
 }
