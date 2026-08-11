@@ -3,15 +3,46 @@
 
 :root {
   font-family: 'Cairo', sans-serif;
+
+  --neo-bg: #e6e7ee;
+  --neo-surface: #e6e7ee;
+  --neo-text: #263238;
+  --neo-muted: #667085;
+  --neo-primary: #2563eb;
+
+  --neo-shadow-dark: #c4c5cc;
+  --neo-shadow-light: #ffffff;
+
+  --neo-radius: 20px;
 }
 
 html {
   direction: rtl;
   font-family: 'Cairo', sans-serif;
+  background: var(--neo-bg);
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
   font-family: 'Cairo', sans-serif;
+  background: var(--neo-bg);
+  color: var(--neo-text);
+}
+
+.neo-surface {
+  background: var(--neo-surface);
+  border-radius: var(--neo-radius);
+  box-shadow:
+    10px 10px 20px var(--neo-shadow-dark),
+    -10px -10px 20px var(--neo-shadow-light);
+}
+
+.neo-inset {
+  background: var(--neo-surface);
+  border-radius: var(--neo-radius);
+  box-shadow:
+    inset 8px 8px 16px var(--neo-shadow-dark),
+    inset -8px -8px 16px var(--neo-shadow-light);
 }
