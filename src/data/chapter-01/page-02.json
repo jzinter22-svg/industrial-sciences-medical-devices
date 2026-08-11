@@ -1,0 +1,139 @@
+{
+  "id": "page-02",
+  "pageNumber": 10,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 10
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-3",
+      "number": "1-3",
+      "title": {
+        "ar": "الأجزاء الرئيسة لجهاز الاشعة السينية",
+        "en": "The Major Sections of the X-ray Machine"
+      },
+      "blocks": [
+
+        {
+          "type": "paragraph",
+          "id": "intro-01",
+          "content": {
+            "ar": "يتكون جهاز الاشعة السينية من المكونات التالية:-"
+          }
+        },
+
+        {
+          "type": "numbered-list",
+          "id": "list-01",
+          "items": [
+            {
+              "id": "component-01",
+              "content": {
+                "ar": "مجهز القدرة الرئيسي",
+                "en": "Main Power Supply"
+              }
+            },
+            {
+              "id": "component-02",
+              "content": {
+                "ar": "انبوبة الاشعة السينية",
+                "en": "X-ray tube"
+              }
+            },
+            {
+              "id": "component-03",
+              "content": {
+                "ar": "وحدة السيطرة",
+                "en": "Control Unit"
+              }
+            },
+            {
+              "id": "component-04",
+              "content": {
+                "ar": "مولد الضغط العالي",
+                "en": "High Tension Generator"
+              }
+            },
+            {
+              "id": "component-05",
+              "content": {
+                "ar": "المنضدة والبكي",
+                "en": "Table And Bucky"
+              }
+            }
+          ]
+        },
+
+        {
+          "type": "diagram",
+          "id": "diagram-01",
+          "src": "/assets/diagrams/chapter-01/diagram-01-block-diagram.svg",
+          "alt": "شكل 1-1: المخطط الكتلوي لجهاز الأشعة السينية",
+          "caption": {
+            "ar": "الشكل (1-1) يمثل المخطط الكتلوي لجهاز الاشعة السينية و سنتناول في هذا الفصل شرح موجز لكل من مكونات الجهاز."
+          }
+        },
+
+        {
+          "type": "definition",
+          "id": "definition-main-power-supply",
+          "number": "1-3-1",
+          "term": {
+            "ar": "مجهز القدرة الرئيسي",
+            "en": "Main Power Supply"
+          },
+          "definition": {
+            "ar": "يتم تجهيز جهاز الاشعة السينية من مصدر تجهيز القدرة الرئيسي اما احادي الطور (Singal Phase) (220V-50Hz) او ثلاثي الطور (Three Phase) (380V-50Hz) اعتمادا على قدرة الاجهزة وهنالك أجهزة تعمل بالتردد العالي (High Frequency)."
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "intro-xray-tube",
+          "number": "2-3-1",
+          "title": {
+            "ar": "أنبوبة الاشعة السينية",
+            "en": "X-Ray Tube"
+          },
+          "content": {
+            "ar": "لاحظ مكونات انبوبة الاشعة السينية في الشكل (1-2):-"
+          }
+        },
+
+        {
+          "type": "definition",
+          "id": "definition-cathode",
+          "number": "أ",
+          "term": {
+            "ar": "الكاثود (المهبط)",
+            "en": "The Cathode"
+          },
+          "definition": {
+            "ar": "وهو القطب السالب في انبوبة الاشعة السينية وهو عبارة عن فتيل (Filament) من مادة التنكستن (Tungsten) يتم امرار تيار فيه ويسبب هذا التيار تسخين الفتيل وتهيج ذراته واطلاق الكترونات تتجمع حول هذا الفتيل. يمكن ان يتألف الكاثود من فتيل واحد ويسمى الانبوب في هذه الحالة احادي التركيز ويمكن ان يتألف من فتيلين ويسمى ثنائي التركيز."
+          }
+        }
+
+      ]
+    }
+  ],
+
+  "assets": []
+}
