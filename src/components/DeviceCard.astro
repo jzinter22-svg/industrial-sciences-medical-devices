@@ -23,6 +23,8 @@ const { number, nameAr, nameEn, description } = Astro.props;
   </div>
 
   <p class="device-description">{description}</p>
+
+  <slot name="visualization" />
 </article>
 
 <style>

@@ -1,6 +1,7 @@
 ---
 import IntroCard from "./IntroCard.astro";
 import DeviceCard from "./DeviceCard.astro";
+import TomographySectionsDiagram from "./TomographySectionsDiagram.astro";
 
 interface Props {
   block: any;
@@ -17,5 +18,7 @@ const { block } = Astro.props;
     nameAr={block.name.ar}
     nameEn={block.name.en}
     description={block.description.ar}
-  />
+  >
+    {block.id === "device-05" && <TomographySectionsDiagram slot="visualization" />}
+  </DeviceCard>
 )}

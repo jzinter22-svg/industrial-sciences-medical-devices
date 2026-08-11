@@ -1,0 +1,357 @@
+---
+// Educational concept diagram for Device 05 (Computerized X-ray Scan Machine / Tomography).
+// Every label below is a direct restatement of device-05.description.ar in page-01.json —
+// no anatomy, component, or specification beyond that sentence is introduced.
+---
+
+<div class="tomography-diagram" role="group" aria-label="مخطط تفاعلي: تصوير مقاطع الجسم">
+  <svg
+    class="tomography-svg"
+    viewBox="0 0 320 490"
+    role="presentation"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <!-- body silhouette (deliberately simplified, not anatomical) -->
+    <circle cx="160" cy="55" r="38" class="body-outline" />
+    <rect x="138" y="90" width="44" height="34" rx="10" class="body-outline" />
+    <rect x="100" y="120" width="120" height="92" rx="18" class="body-outline" />
+    <rect x="95" y="210" width="130" height="92" rx="16" class="body-outline" />
+    <rect x="100" y="300" width="120" height="70" rx="20" class="body-outline" />
+
+    <!-- spine (vertical, decorative line only — interactive hit area is placed after
+         the wider slice regions below so it isn't hidden underneath them in paint order) -->
+    <line x1="160" y1="120" x2="160" y2="368" class="spine-line" />
+
+    <!-- pituitary gland (tiny marker inside head) -->
+    <g
+      class="region gland"
+      data-region="pituitary"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد الغدة النخامية"
+    >
+      <circle cx="160" cy="62" r="4" class="gland-dot" />
+      <line x1="156" y1="62" x2="70" y2="40" class="leader" />
+      <circle cx="70" cy="40" r="14" class="hit-area-round" />
+      <text x="60" y="36" class="region-label small" text-anchor="end">الغدة النخامية</text>
+    </g>
+
+    <!-- adrenal gland (tiny marker inside abdomen) -->
+    <g
+      class="region gland"
+      data-region="adrenal"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد الغدة فوق الكلوية"
+    >
+      <circle cx="150" cy="232" r="4" class="gland-dot" />
+      <line x1="146" y1="232" x2="55" y2="232" class="leader" />
+      <circle cx="55" cy="232" r="14" class="hit-area-round" />
+      <text x="45" y="236" class="region-label small" text-anchor="end">الغدة فوق الكلوية</text>
+    </g>
+
+    <!-- labeled slice regions -->
+    <g
+      class="region"
+      data-region="head"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد منطقة الرأس"
+    >
+      <circle cx="160" cy="55" r="38" class="hit-area-round" />
+      <line x1="198" y1="55" x2="222" y2="55" class="leader" />
+      <text x="228" y="60" class="region-label" text-anchor="start">رأس</text>
+    </g>
+
+    <g
+      class="region"
+      data-region="neck"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد منطقة العنق"
+    >
+      <rect x="138" y="90" width="44" height="34" class="hit-area" />
+      <line x1="182" y1="107" x2="222" y2="107" class="leader" />
+      <text x="228" y="112" class="region-label" text-anchor="start">عنق</text>
+    </g>
+
+    <g
+      class="region"
+      data-region="chest"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد منطقة الصدر"
+    >
+      <rect x="100" y="120" width="120" height="92" class="hit-area" />
+      <line x1="220" y1="166" x2="240" y2="166" class="leader" />
+      <text x="246" y="171" class="region-label" text-anchor="start">صدر</text>
+    </g>
+
+    <g
+      class="region"
+      data-region="abdomen"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد منطقة البطن"
+    >
+      <rect x="95" y="210" width="130" height="92" class="hit-area" />
+      <line x1="225" y1="256" x2="240" y2="256" class="leader" />
+      <text x="246" y="261" class="region-label" text-anchor="start">بطن</text>
+    </g>
+
+    <g
+      class="region"
+      data-region="pelvis"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد منطقة الحوض"
+    >
+      <rect x="100" y="300" width="120" height="70" class="hit-area" />
+      <line x1="220" y1="335" x2="240" y2="335" class="leader" />
+      <text x="246" y="340" class="region-label" text-anchor="start">حوض</text>
+    </g>
+
+    <!-- spine hit area: the dashed line inside the torso is decorative only
+         (pointer-events: none) — its click target lives entirely in the open
+         space below the pelvis, around its own label, so it never overlaps
+         the chest/abdomen/pelvis hit areas (which are horizontally centered
+         on the same column the spine passes through) -->
+    <g
+      class="region"
+      data-region="spine"
+      tabindex="0"
+      role="button"
+      aria-pressed="false"
+      aria-label="تحديد العمود الفقري"
+    >
+      <line x1="160" y1="368" x2="160" y2="404" class="leader" />
+      <rect x="90" y="392" width="140" height="34" class="hit-area" />
+      <text x="160" y="420" class="region-label" text-anchor="middle">العمود الفقري</text>
+    </g>
+
+    <!-- static slice-thickness indicator (always visible, not interactive).
+         The caption uses a center anchor at the bottom of the diagram rather
+         than a left-aligned anchor near the caliper: SVG resolves text-anchor
+         against the string's detected script direction, and this phrase mixes
+         Arabic words with a leading digit ("1ملم") — a start/end anchor placed
+         close to the canvas edge clipped most of the phrase off-viewBox in
+         testing. A center anchor with room on both sides avoids that. -->
+    <g class="thickness-indicator">
+      <line x1="80" y1="205" x2="96" y2="205" class="thickness-tick" />
+      <line x1="80" y1="215" x2="96" y2="215" class="thickness-tick" />
+      <line x1="82" y1="205" x2="82" y2="215" class="thickness-tick" />
+      <line x1="82" y1="210" x2="60" y2="455" class="thickness-tick" />
+      <text x="160" y="470" class="thickness-label" text-anchor="middle">سماكة المقطع: 1ملم</text>
+    </g>
+
+    <!-- optional slice-sweep animation element (hidden unless "playing") -->
+    <rect x="90" y="52" width="140" height="6" rx="3" class="scan-line" />
+  </svg>
+
+  <button type="button" class="replay-button">
+    تشغيل حركة المسح
+  </button>
+</div>
+
+<style>
+  .tomography-diagram {
+    margin-top: var(--neo-space-xs);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-xs);
+  }
+
+  .tomography-svg {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+  }
+
+  .body-outline {
+    fill: var(--neo-bg);
+    stroke: var(--neo-muted);
+    stroke-width: 2;
+    pointer-events: none;
+  }
+
+  .spine-line {
+    stroke: var(--neo-muted);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+    pointer-events: none;
+  }
+
+  .gland-dot {
+    fill: var(--neo-primary);
+    pointer-events: none;
+  }
+
+  .leader {
+    stroke: var(--neo-muted);
+    stroke-width: 1;
+    pointer-events: none;
+  }
+
+  .region-label {
+    font-family: "Cairo", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    fill: var(--neo-text);
+  }
+
+  .region-label.small {
+    font-size: 12px;
+  }
+
+  .hit-area {
+    fill: transparent;
+    cursor: pointer;
+  }
+
+  .hit-area-round {
+    fill: transparent;
+    cursor: pointer;
+  }
+
+  .region:focus {
+    outline: none;
+  }
+
+  .region:focus .hit-area,
+  .region:focus .hit-area-round {
+    outline: 2px solid var(--neo-primary);
+    outline-offset: 2px;
+  }
+
+  .region.active .hit-area,
+  .region.active .hit-area-round {
+    fill: color-mix(in srgb, var(--neo-primary) 18%, transparent);
+  }
+
+  .region.active .region-label {
+    fill: var(--neo-primary);
+    font-weight: 700;
+  }
+
+  .region.active .leader {
+    stroke: var(--neo-primary);
+    stroke-width: 1.5;
+  }
+
+  .thickness-tick {
+    stroke: var(--neo-text);
+    stroke-width: 1.5;
+    pointer-events: none;
+  }
+
+  .thickness-label {
+    font-family: "Cairo", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--neo-muted);
+    pointer-events: none;
+  }
+
+  .scan-line {
+    fill: var(--neo-primary);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  svg.playing .scan-line {
+    animation: scan-sweep 2.2s ease-in-out;
+  }
+
+  @keyframes scan-sweep {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    10% {
+      opacity: 0.55;
+    }
+    90% {
+      opacity: 0.55;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(316px);
+    }
+  }
+
+  .replay-button {
+    border: none;
+    border-radius: var(--neo-radius-sm);
+    background: var(--neo-surface);
+    color: var(--neo-primary);
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    box-shadow:
+      3px 3px 6px var(--neo-shadow-dark),
+      -3px -3px 6px var(--neo-shadow-light);
+  }
+
+  .replay-button:focus-visible {
+    outline: 2px solid var(--neo-primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .replay-button {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll(".tomography-diagram").forEach((container) => {
+    const svg = container.querySelector("svg");
+    const regions = container.querySelectorAll(".region");
+
+    regions.forEach((region) => {
+      const toggle = () => {
+        const wasActive = region.classList.contains("active");
+        regions.forEach((r) => {
+          r.classList.remove("active");
+          r.setAttribute("aria-pressed", "false");
+        });
+        if (!wasActive) {
+          region.classList.add("active");
+          region.setAttribute("aria-pressed", "true");
+        }
+      };
+
+      region.addEventListener("click", toggle);
+      region.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggle();
+        }
+      });
+    });
+
+    const replayButton = container.querySelector(".replay-button");
+    if (replayButton && svg) {
+      replayButton.addEventListener("click", () => {
+        svg.classList.remove("playing");
+        // force reflow so the animation can restart
+        void svg.getBoundingClientRect();
+        svg.classList.add("playing");
+      });
+      svg.addEventListener("animationend", () => {
+        svg.classList.remove("playing");
+      });
+    }
+  });
+</script>
