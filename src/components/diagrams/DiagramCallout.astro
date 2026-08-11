@@ -1,0 +1,53 @@
+---
+// A single direct-label callout for the Educational Diagram System.
+//
+// Positioned at `topPercent` of the callout column's height — the column is
+// forced (via CSS grid stretch in DiagramFrame) to the same rendered height
+// as the illustration, and the illustration's own leader lines are drawn at
+// the matching percentage of its viewBox height. Because both sides scale
+// with the same container height, the label and its leader line's outer
+// endpoint stay vertically aligned at any screen width without needing
+// separate per-breakpoint positioning.
+//
+// side="start" labels sit in the start (right, in RTL) column and read
+// toward the illustration; side="end" labels sit in the end (left) column.
+interface Props {
+  label: string;
+  topPercent: number;
+  side: "start" | "end";
+}
+
+const { label, topPercent, side } = Astro.props;
+---
+
+<span class={`diagram-callout diagram-callout-${side}`} style={`top: ${topPercent}%`}>
+  {label}
+</span>
+
+<style>
+  .diagram-callout {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    transform: translateY(-50%);
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    color: var(--neo-text);
+  }
+
+  .diagram-callout-start {
+    text-align: start;
+  }
+
+  .diagram-callout-end {
+    text-align: end;
+  }
+
+  @media (min-width: 640px) {
+    .diagram-callout {
+      font-size: 0.95rem;
+    }
+  }
+</style>

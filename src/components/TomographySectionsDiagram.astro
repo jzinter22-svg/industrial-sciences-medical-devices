@@ -3,90 +3,118 @@
 // Every label below is a direct restatement of device-05.description.ar in page-01.json —
 // no anatomy, component, or specification beyond that sentence is introduced.
 //
-// Built on the Educational Diagram System (DiagramFrame + DiagramLegend):
-// the illustration carries only shapes and small numbered markers, never
-// Arabic text — labels live entirely in the HTML legend zone, connected to
-// their marker by a shared number instead of a leader line reaching across
-// the diagram. This is a structural fix, not a repositioning of the old
-// in-SVG labels: see git history on this file for the earlier approach
-// that caused label/illustration/leader-line collisions.
+// Visual Style #2 — Simplified Educational Infographic (project-wide standard):
+// direct Arabic labels sit outside the illustration, connected by short
+// leader lines — no numbered legend. Labels are spaced evenly down each
+// column (guaranteed room for two-line Arabic text, regardless of how
+// close together the real anatomical points are — e.g. the pituitary
+// gland sits right next to the head) while each leader line runs
+// diagonally from the true anatomical point to that evenly-spaced label
+// position. This is safe from crossings by construction, not by luck:
+// within one column, both the anatomical points (top to bottom) and the
+// label positions (evenly spaced, same top-to-bottom order) are sorted
+// identically, and straight lines drawn between two same-ordered
+// sequences on parallel tracks never cross. Because labels live in a
+// separate HTML column (not SVG text), a leader line can never pass
+// through label text either — it ends at the stage edge, not inside it.
 import DiagramFrame from "./diagrams/DiagramFrame.astro";
-import DiagramLegend from "./diagrams/DiagramLegend.astro";
+import DiagramCallout from "./diagrams/DiagramCallout.astro";
 
-const legendItems = [
-  { region: "head", number: 1, label: "رأس" },
-  { region: "pituitary", number: 2, label: "الغدة النخامية" },
-  { region: "neck", number: 3, label: "عنق" },
-  { region: "chest", number: 4, label: "صدر" },
-  { region: "abdomen", number: 5, label: "بطن" },
-  { region: "adrenal", number: 6, label: "الغدة فوق الكلوية" },
-  { region: "pelvis", number: 7, label: "حوض" },
-  { region: "spine", number: 8, label: "العمود الفقري" },
+// viewBox is 260 x 400. labelPercent positions the label evenly in its
+// column; anchor{X,Y} is the true point on the illustration the leader
+// line originates from — the two need not match, the line diagonals
+// between them.
+//
+// Percentages below aren't arbitrary: measured at the narrowest supported
+// width (375px), a two-line Arabic label at this font size renders ~35px
+// tall and a one-line label ~18px. Positions are spaced so that even two
+// adjacent two-line labels keep a real measured pixel gap between their
+// rendered edges, not just a percentage that happens to look even —
+// evenly-spaced percentages alone under-counted actual text height and
+// produced a real, measured overlap at 375px in testing (adrenal gland /
+// spine labels), which is why the columns are 4-and-4 rather than 3-and-5:
+// the abdomen is wide enough that its adrenal-gland label can anchor from
+// either side, and moving it out of the crowded five-label column is what
+// actually fixed the overlap — reflowing content, not just shrinking text.
+const startCallouts = [
+  { label: "رأس", labelPercent: 12, anchorX: 152, anchorY: 42 },
+  { label: "صدر", labelPercent: 38, anchorX: 182, anchorY: 148 },
+  { label: "الغدة فوق الكلوية", labelPercent: 64, anchorX: 160, anchorY: 268 },
+  { label: "حوض", labelPercent: 90, anchorX: 182, anchorY: 325 },
 ];
+
+const endCallouts = [
+  { label: "الغدة النخامية", labelPercent: 14, anchorX: 112, anchorY: 64 },
+  { label: "عنق", labelPercent: 42, anchorX: 108, anchorY: 107 },
+  { label: "بطن", labelPercent: 62, anchorX: 78, anchorY: 222 },
+  { label: "العمود الفقري", labelPercent: 88, anchorX: 130, anchorY: 362 },
+];
+
+const viewBoxHeight = 400;
+const toSvgY = (percent: number) => (percent / 100) * viewBoxHeight;
 ---
 
-<DiagramFrame ariaLabel="مخطط تفاعلي: تصوير مقاطع الجسم">
+<DiagramFrame ariaLabel="مخطط توضيحي: تصوير مقاطع الجسم">
+  <Fragment slot="callouts-start">
+    {startCallouts.map((c) => <DiagramCallout label={c.label} topPercent={c.labelPercent} side="start" />)}
+  </Fragment>
+
+  <Fragment slot="callouts-end">
+    {endCallouts.map((c) => <DiagramCallout label={c.label} topPercent={c.labelPercent} side="end" />)}
+  </Fragment>
+
   <svg
     slot="illustration"
     class="tomography-svg"
-    viewBox="80 0 160 395"
+    viewBox="0 0 260 400"
     role="presentation"
     preserveAspectRatio="xMidYMid meet"
   >
     <!-- body silhouette (deliberately simplified, not anatomical) -->
-    <circle cx="160" cy="55" r="38" class="body-outline" />
-    <rect x="138" y="90" width="44" height="34" rx="10" class="body-outline" />
-    <rect x="100" y="120" width="120" height="92" rx="18" class="body-outline" />
-    <rect x="95" y="210" width="130" height="92" rx="16" class="body-outline" />
-    <rect x="100" y="300" width="120" height="70" rx="20" class="body-outline" />
+    <circle cx="130" cy="55" r="38" class="body-outline" />
+    <rect x="108" y="90" width="44" height="34" rx="10" class="body-outline" />
+    <rect x="70" y="120" width="120" height="92" rx="18" class="body-outline" />
+    <rect x="65" y="210" width="130" height="92" rx="16" class="body-outline" />
+    <rect x="70" y="300" width="120" height="70" rx="20" class="body-outline" />
 
-    <!-- spine: decorative line only, no text, no hit area -->
-    <line x1="160" y1="120" x2="160" y2="368" class="spine-line" />
+    <!-- spine: decorative line only -->
+    <line x1="130" y1="120" x2="130" y2="368" class="spine-line" />
 
-    <!-- tiny reference dots at the glands' true (illustrative) position -->
-    <circle cx="160" cy="58" r="3" class="gland-dot" />
-    <circle cx="145" cy="268" r="3" class="gland-dot" />
+    <!-- leader lines: each runs from the true anatomical anchor to the
+         stage edge at the label's evenly-spaced height. Within a column,
+         anchors and label positions share the same top-to-bottom order,
+         so these diagonals are guaranteed not to cross one another (see
+         comment above), and they can't cross a label since labels live
+         outside the SVG entirely. -->
+    <g class="leaders">
+      {startCallouts.map((c) => (
+        <line x1={c.anchorX} y1={c.anchorY} x2="260" y2={toSvgY(c.labelPercent)} class="leader" />
+      ))}
+      {endCallouts.map((c) => (
+        <line x1={c.anchorX} y1={c.anchorY} x2="0" y2={toSvgY(c.labelPercent)} class="leader" />
+      ))}
+    </g>
 
-    <!-- numbered markers: each corresponds 1:1 to a legend entry below -->
-    <circle cx="179" cy="44" r="10" class="marker" data-region="head" />
-    <text x="179" y="44" class="marker-number">1</text>
-
-    <circle cx="143" cy="49" r="10" class="marker" data-region="pituitary" />
-    <text x="143" y="49" class="marker-number">2</text>
-
-    <circle cx="160" cy="107" r="10" class="marker" data-region="neck" />
-    <text x="160" y="107" class="marker-number">3</text>
-
-    <circle cx="130" cy="145" r="10" class="marker" data-region="chest" />
-    <text x="130" y="145" class="marker-number">4</text>
-
-    <circle cx="125" cy="230" r="10" class="marker" data-region="abdomen" />
-    <text x="125" y="230" class="marker-number">5</text>
-
-    <circle cx="125" cy="275" r="10" class="marker" data-region="adrenal" />
-    <text x="125" y="275" class="marker-number">6</text>
-
-    <circle cx="130" cy="325" r="10" class="marker" data-region="pelvis" />
-    <text x="130" y="325" class="marker-number">7</text>
-
-    <circle cx="160" cy="355" r="10" class="marker" data-region="spine" />
-    <text x="160" y="355" class="marker-number">8</text>
+    <!-- attachment points: mark precisely where each leader line meets the structure -->
+    <g class="anchors">
+      {[...startCallouts, ...endCallouts].map((c) => (
+        <circle cx={c.anchorX} cy={c.anchorY} r="3.5" class="anchor" />
+      ))}
+    </g>
 
     <!-- static slice-thickness caliper (purely visual, no text — the
-         measurement is stated in words in the caption zone below) -->
+         measurement is stated in words in the caption zone below);
+         placed between the chest and abdomen leader lines' heights, on
+         the side with no leader line traffic at that height -->
     <g class="thickness-indicator">
-      <line x1="95" y1="205" x2="111" y2="205" class="thickness-tick" />
-      <line x1="95" y1="215" x2="111" y2="215" class="thickness-tick" />
-      <line x1="97" y1="205" x2="97" y2="215" class="thickness-tick" />
+      <line x1="182" y1="203" x2="198" y2="203" class="thickness-tick" />
+      <line x1="182" y1="213" x2="198" y2="213" class="thickness-tick" />
+      <line x1="184" y1="203" x2="184" y2="213" class="thickness-tick" />
     </g>
 
     <!-- optional slice-sweep animation element (hidden unless "playing") -->
-    <rect x="95" y="14" width="130" height="6" rx="3" class="scan-line" />
+    <rect x="72" y="14" width="116" height="6" rx="3" class="scan-line" />
   </svg>
-
-  <Fragment slot="legend">
-    <DiagramLegend items={legendItems} />
-  </Fragment>
 
   <Fragment slot="caption">
     <p class="tomography-caption">سماكة المقطع: 1ملم</p>
@@ -100,7 +128,7 @@ const legendItems = [
 <style>
   .tomography-svg {
     width: 100%;
-    max-width: 220px;
+    aspect-ratio: 260 / 400;
     height: auto;
   }
 
@@ -118,35 +146,15 @@ const legendItems = [
     pointer-events: none;
   }
 
-  .gland-dot {
+  .leader {
+    stroke: var(--neo-muted);
+    stroke-width: 1.25;
+    pointer-events: none;
+  }
+
+  .anchor {
     fill: var(--neo-primary);
     pointer-events: none;
-    opacity: 0.6;
-  }
-
-  .marker {
-    fill: var(--neo-primary);
-    stroke: var(--neo-bg);
-    stroke-width: 1.5;
-    pointer-events: none;
-  }
-
-  .marker-number {
-    font-family: "Cairo", sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    fill: #ffffff;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-  }
-
-  circle.marker.is-active {
-    stroke: var(--neo-text);
-    stroke-width: 2.5;
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: scale(1.35);
   }
 
   .thickness-tick {
@@ -178,7 +186,7 @@ const legendItems = [
     }
     100% {
       opacity: 0;
-      transform: translateY(355px);
+      transform: translateY(348px);
     }
   }
 

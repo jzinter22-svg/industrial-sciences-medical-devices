@@ -1,15 +1,17 @@
 ---
 // Reusable layout shell for the Educational Diagram System.
 //
-// Every scientific diagram in the book is composed of clearly separated
-// zones (illustration / legend / caption / controls) rather than free-form
-// SVG text placed wherever there happens to be room. This component owns
-// ONLY the spatial layout and the shared interaction wiring; it has no
-// knowledge of any specific diagram's scientific content.
+// Approved visual standard: "Simplified Educational Infographic". The
+// illustration is the primary object; Arabic labels sit directly around it
+// (never a separate numbered legend) connected by short, non-crossing
+// leader lines. This component owns ONLY the three-zone stage layout
+// (start callouts | illustration | end callouts) plus the caption/controls
+// zones below it — it has no knowledge of any specific diagram's shapes,
+// callouts, or scientific content.
 //
-// Layout: illustration + legend sit side by side on wide screens and stack
-// vertically on narrow screens, so labels never have to compete for space
-// inside the illustration itself at any width.
+// "start"/"end" (not "left"/"right"): in this RTL-primary book, logical
+// start renders on the right and end on the left, matching normal reading
+// flow instead of hard-coding a physical side.
 interface Props {
   ariaLabel: string;
 }
@@ -18,12 +20,15 @@ const { ariaLabel } = Astro.props;
 ---
 
 <div class="diagram-frame neo-surface-soft" role="group" aria-label={ariaLabel}>
-  <div class="diagram-grid">
+  <div class="diagram-stage">
+    <div class="diagram-callouts diagram-callouts-start">
+      <slot name="callouts-start" />
+    </div>
     <div class="diagram-illustration">
       <slot name="illustration" />
     </div>
-    <div class="diagram-legend-zone">
-      <slot name="legend" />
+    <div class="diagram-callouts diagram-callouts-end">
+      <slot name="callouts-end" />
     </div>
   </div>
 
@@ -39,27 +44,50 @@ const { ariaLabel } = Astro.props;
 <style>
   .diagram-frame {
     margin-top: var(--neo-space-sm);
-    padding: var(--neo-space-md);
+    padding: var(--neo-space-sm) var(--neo-space-md);
     display: flex;
     flex-direction: column;
     gap: var(--neo-space-md);
+    min-width: 0;
   }
 
-  .diagram-grid {
+  /* The three-column stage (start callouts | illustration | end callouts)
+     is used at every width, not just above some breakpoint: each callout's
+     vertical position is a percentage of the illustration's own height
+     (see DiagramCallout), so stacking columns above/below the illustration
+     on narrow screens would point every leader line at empty space instead
+     of intelligently adapting — keeping the three zones side by side is
+     what actually preserves the label-to-structure relationship on mobile.
+     Columns narrow and callout text wraps to two lines instead. */
+  .diagram-stage {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--neo-space-md);
-    align-items: center;
+    grid-template-columns: minmax(60px, 0.8fr) minmax(96px, 1.3fr) minmax(60px, 0.8fr);
+    gap: var(--neo-space-xs);
+    align-items: stretch;
+    min-width: 0;
   }
 
   .diagram-illustration {
+    grid-row: 1;
+    grid-column: 2;
     display: flex;
     justify-content: center;
     min-width: 0;
   }
 
-  .diagram-legend-zone {
+  .diagram-callouts {
+    position: relative;
     min-width: 0;
+  }
+
+  .diagram-callouts-start {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .diagram-callouts-end {
+    grid-row: 1;
+    grid-column: 3;
   }
 
   .diagram-caption {
@@ -79,45 +107,20 @@ const { ariaLabel } = Astro.props;
     display: none;
   }
 
-  /* Side-by-side layout only once there is genuinely enough width for both
-     the illustration and a comfortable legend column without cramping
-     either — below this the two-zone separation itself (Rule 1) matters
-     more than a side-by-side arrangement (Rule 6: mobile is a full stack). */
-  @media (min-width: 560px) {
-    .diagram-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* Callout columns get a little more breathing room once there's space
+     for it; the illustration itself grows too so the stage stays
+     proportionate rather than just leaving extra gutter. */
+  @media (min-width: 640px) {
+    .diagram-stage {
+      grid-template-columns: minmax(120px, 0.85fr) minmax(160px, 1.3fr) minmax(120px, 0.85fr);
     }
   }
 </style>
 
 <script>
-  // Shared interaction: any element carrying a matching data-region inside
-  // this frame (legend buttons, illustration markers, whatever a specific
-  // diagram supplies) gets highlighted together. This lives here, once,
-  // instead of being reimplemented per diagram.
+  // The only cross-zone behavior a diagram may need from this shell: an
+  // optional replay control for an optional supplementary animation.
   document.querySelectorAll(".diagram-frame").forEach((frame) => {
-    const regionEls = Array.from(frame.querySelectorAll("[data-region]"));
-    if (regionEls.length === 0) return;
-
-    const setActive = (region) => {
-      regionEls.forEach((el) => {
-        const isMatch = region !== null && el.getAttribute("data-region") === region;
-        el.classList.toggle("is-active", isMatch);
-        if (el.matches("button")) {
-          el.setAttribute("aria-pressed", String(isMatch));
-        }
-      });
-    };
-
-    const legendButtons = frame.querySelectorAll("button[data-region]");
-    legendButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const region = button.getAttribute("data-region");
-        const alreadyActive = button.getAttribute("aria-pressed") === "true";
-        setActive(alreadyActive ? null : region);
-      });
-    });
-
     const svg = frame.querySelector("svg");
     const replayButton = frame.querySelector(".diagram-replay-button");
     if (replayButton && svg) {
