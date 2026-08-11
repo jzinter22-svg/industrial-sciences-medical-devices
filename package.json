@@ -8,5 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "latest",
+    "astro": "latest",
+    "svelte": "latest"
   }
 }
