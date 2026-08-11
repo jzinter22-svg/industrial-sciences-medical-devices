@@ -8,9 +8,9 @@ interface Props {
 const { number, titleAr, titleEn } = Astro.props;
 ---
 
-<div class="section-header neo-surface">
+<div class="section-header">
   <h2 class="section-title">
-    <span class="section-number" dir="ltr">{number}</span>
+    <span class="section-badge" dir="ltr">{number}</span>
     <span class="section-title-ar">{titleAr}</span>
   </h2>
   {titleEn && <p class="section-title-en" dir="ltr">{titleEn}</p>}
@@ -18,15 +18,16 @@ const { number, titleAr, titleEn } = Astro.props;
 
 <style>
   .section-header {
-    padding: var(--neo-space-sm) var(--neo-space-md);
-    margin: 0 0 var(--neo-space-md);
+    padding: var(--neo-space-sm) 0 var(--neo-space-md);
+    margin: var(--neo-space-lg) 0 var(--neo-space-md);
     border-inline-start: 4px solid var(--neo-primary);
+    padding-inline-start: var(--neo-space-md);
   }
 
   .section-title {
     margin: 0;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     flex-wrap: wrap;
     gap: var(--neo-space-sm);
     font-size: var(--neo-font-size-h2);
@@ -34,8 +35,18 @@ const { number, titleAr, titleEn } = Astro.props;
     color: var(--neo-text);
   }
 
-  .section-number {
-    color: var(--neo-primary);
+  .section-badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.5rem;
+    height: 1.85rem;
+    padding: 0 0.5rem;
+    border-radius: var(--neo-radius-sm);
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex: 0 0 auto;
   }
 
   .section-title-en {

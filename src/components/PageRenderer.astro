@@ -11,6 +11,7 @@ const { page } = Astro.props;
 
 <main class="page-content">
   <ChapterHeader
+    chapterNumber={page.chapterNumber}
     chapterLabel={page.source.chapter}
     titleAr={page.title.ar}
     titleEn={page.title.en}
