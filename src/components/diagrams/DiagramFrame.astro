@@ -1,0 +1,134 @@
+---
+// Reusable layout shell for the Educational Diagram System.
+//
+// Every scientific diagram in the book is composed of clearly separated
+// zones (illustration / legend / caption / controls) rather than free-form
+// SVG text placed wherever there happens to be room. This component owns
+// ONLY the spatial layout and the shared interaction wiring; it has no
+// knowledge of any specific diagram's scientific content.
+//
+// Layout: illustration + legend sit side by side on wide screens and stack
+// vertically on narrow screens, so labels never have to compete for space
+// inside the illustration itself at any width.
+interface Props {
+  ariaLabel: string;
+}
+
+const { ariaLabel } = Astro.props;
+---
+
+<div class="diagram-frame neo-surface-soft" role="group" aria-label={ariaLabel}>
+  <div class="diagram-grid">
+    <div class="diagram-illustration">
+      <slot name="illustration" />
+    </div>
+    <div class="diagram-legend-zone">
+      <slot name="legend" />
+    </div>
+  </div>
+
+  <div class="diagram-caption">
+    <slot name="caption" />
+  </div>
+
+  <div class="diagram-controls">
+    <slot name="controls" />
+  </div>
+</div>
+
+<style>
+  .diagram-frame {
+    margin-top: var(--neo-space-sm);
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-md);
+  }
+
+  .diagram-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--neo-space-md);
+    align-items: center;
+  }
+
+  .diagram-illustration {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .diagram-legend-zone {
+    min-width: 0;
+  }
+
+  .diagram-caption {
+    text-align: center;
+  }
+
+  .diagram-caption:empty {
+    display: none;
+  }
+
+  .diagram-controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  .diagram-controls:empty {
+    display: none;
+  }
+
+  /* Side-by-side layout only once there is genuinely enough width for both
+     the illustration and a comfortable legend column without cramping
+     either — below this the two-zone separation itself (Rule 1) matters
+     more than a side-by-side arrangement (Rule 6: mobile is a full stack). */
+  @media (min-width: 560px) {
+    .diagram-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Shared interaction: any element carrying a matching data-region inside
+  // this frame (legend buttons, illustration markers, whatever a specific
+  // diagram supplies) gets highlighted together. This lives here, once,
+  // instead of being reimplemented per diagram.
+  document.querySelectorAll(".diagram-frame").forEach((frame) => {
+    const regionEls = Array.from(frame.querySelectorAll("[data-region]"));
+    if (regionEls.length === 0) return;
+
+    const setActive = (region) => {
+      regionEls.forEach((el) => {
+        const isMatch = region !== null && el.getAttribute("data-region") === region;
+        el.classList.toggle("is-active", isMatch);
+        if (el.matches("button")) {
+          el.setAttribute("aria-pressed", String(isMatch));
+        }
+      });
+    };
+
+    const legendButtons = frame.querySelectorAll("button[data-region]");
+    legendButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const region = button.getAttribute("data-region");
+        const alreadyActive = button.getAttribute("aria-pressed") === "true";
+        setActive(alreadyActive ? null : region);
+      });
+    });
+
+    const svg = frame.querySelector("svg");
+    const replayButton = frame.querySelector(".diagram-replay-button");
+    if (replayButton && svg) {
+      replayButton.addEventListener("click", () => {
+        svg.classList.remove("playing");
+        void svg.getBoundingClientRect();
+        svg.classList.add("playing");
+      });
+      svg.addEventListener("animationend", () => {
+        svg.classList.remove("playing");
+      });
+    }
+  });
+</script>
