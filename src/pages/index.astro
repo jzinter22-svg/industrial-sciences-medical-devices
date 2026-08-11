@@ -10,9 +10,61 @@ import "../styles/global.css";
   </head>
 
   <body>
-    <main>
-      <h1>العلوم الصناعية – الأجهزة الطبية</h1>
-      <p>الصف الثالث المهني</p>
+    <main class="test-page">
+      <section class="neo-surface test-card">
+        <p class="eyebrow">الصف الثالث المهني</p>
+
+        <h1>العلوم الصناعية</h1>
+
+        <p class="description">
+          الأجهزة الطبية
+        </p>
+
+        <div class="neo-inset test-status">
+          أساس الكتاب التفاعلي جاهز
+        </div>
+      </section>
     </main>
   </body>
 </html>
+
+<style>
+  .test-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+
+  .test-card {
+    width: min(92vw, 560px);
+    padding: 40px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    margin: 0 0 12px;
+    color: var(--neo-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+  }
+
+  .description {
+    margin: 8px 0 28px;
+    color: var(--neo-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .test-status {
+    padding: 16px 20px;
+    color: var(--neo-muted);
+    font-weight: 600;
+  }
+</style>
