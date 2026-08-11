@@ -13,6 +13,7 @@
     "@astrojs/svelte": "latest",
     "@tailwindcss/vite": "latest",
     "astro": "latest",
+    "gsap": "latest",
     "svelte": "latest",
     "tailwindcss": "latest"
   }
