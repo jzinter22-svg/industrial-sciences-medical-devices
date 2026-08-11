@@ -1,0 +1,43 @@
+{
+  "id": "page-01",
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الأول",
+    "printedPage": 9
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": true
+  },
+
+  "title": {
+    "ar": "جهاز الأشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-1",
+      "number": "1-1",
+      "title": {
+        "ar": "تمهيد"
+      },
+      "blocks": []
+    },
+    {
+      "id": "section-1-2",
+      "number": "1-2",
+      "title": {
+        "ar": "أنواع واستخدامات جهاز الأشعة السينية"
+      },
+      "titleEn": "Types and uses of X-ray Equipment",
+      "blocks": []
+    }
+  ],
+
+  "assets": []
+}
