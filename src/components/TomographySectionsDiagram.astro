@@ -187,19 +187,22 @@ const minorAnnotations = [
 </DiagramFrame>
 
 <style>
-  /* 75% of the illustration column's own actual rendered width (not a
-     hard-coded pixel cap) — the column itself is now sized correctly by
-     DiagramFrame's grid floors, so this percentage is what keeps the
-     illustration responsive to its real container at every breakpoint
-     rather than pinned to one screenshot's measurements. The remaining
-     25% is intentional breathing room, so the artwork never touches the
-     column's edges. Sized to its own intrinsic aspect ratio (never
+  /* 57% of the illustration column's own actual rendered width (not a
+     hard-coded pixel cap) — the column itself is sized by DiagramFrame's
+     grid floors, so this percentage is what keeps the illustration
+     responsive to its real container at every breakpoint rather than
+     pinned to one screenshot's measurements. Reduced from 75% so the
+     illustration reads as supporting the cards rather than competing with
+     them for space. Anchor dots inside are positioned by percentage of
+     this wrapper (see below), so they stay correctly aligned to the
+     artwork automatically at any wrapper size — no coordinates to
+     recompute here. Sized to its own intrinsic aspect ratio (never
      stretched/distorted); vertically centered within the row, which
      DiagramFrame's grid may make taller than the image alone (e.g. a
      taller card column). */
   .illustration-wrap {
     position: relative;
-    width: 75%;
+    width: 57%;
     margin-inline: auto;
     align-self: center;
   }
