@@ -9,7 +9,7 @@ interface Props {
 const { chapterNumber, chapterLabel, titleAr, titleEn } = Astro.props;
 ---
 
-<header class="chapter-header">
+<header class="chapter-header neo-surface-soft">
   <div class="chapter-eyebrow">
     <span class="chapter-badge" dir="ltr">{chapterNumber}</span>
     <span class="chapter-label">{chapterLabel}</span>
@@ -19,56 +19,60 @@ const { chapterNumber, chapterLabel, titleAr, titleEn } = Astro.props;
 </header>
 
 <style>
+  /* Compact, refined card — not an oversized full-bleed hero block. Sized
+     so the chapter title (--neo-font-size-h1) stays clearly, but not
+     excessively, larger than a lesson/section title (--neo-font-size-h2),
+     establishing chapter > lesson by size alone at every viewport. */
   .chapter-header {
     text-align: center;
-    padding: var(--neo-space-lg) var(--neo-space-md);
-    border-bottom: 1px solid var(--neo-shadow-dark);
+    padding: var(--neo-space-md) var(--neo-space-lg);
   }
 
   .chapter-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: var(--neo-space-xs);
-    margin: 0 0 var(--neo-space-sm);
+    margin: 0 0 var(--neo-space-xs);
   }
 
   .chapter-badge {
     display: inline-grid;
     place-items: center;
-    min-width: 1.75rem;
-    height: 1.75rem;
+    min-width: 1.6rem;
+    height: 1.6rem;
     padding: 0 0.4rem;
     border-radius: 999px;
     background: var(--neo-primary);
     color: #ffffff;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .chapter-label {
     color: var(--neo-muted);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .chapter-title {
     margin: 0;
     font-size: var(--neo-font-size-h1);
-    font-weight: 700;
+    font-weight: 800;
+    line-height: 1.3;
     color: var(--neo-text);
   }
 
   .chapter-title-en {
-    margin: var(--neo-space-xs) 0 0;
+    margin: 0.2rem 0 0;
     color: var(--neo-primary);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     unicode-bidi: isolate;
   }
 
   @media (max-width: 640px) {
     .chapter-header {
-      padding: var(--neo-space-md) var(--neo-space-sm);
+      padding: var(--neo-space-sm) var(--neo-space-md);
     }
   }
 </style>

@@ -23,21 +23,27 @@ const isDeviceGrid = section.blocks.some((block: any) => block.type === "device"
     margin-bottom: var(--neo-space-xl);
   }
 
+  /* minmax(0, 1fr), not bare 1fr: a bare 1fr track's implicit minimum is
+     auto (its content's min-content size), so a card with unshrinkable
+     content grows its track past the container instead of wrapping —
+     confirmed by measurement (every .device-card overflowed its column by
+     ~23px at 375px). minmax(0, 1fr) lets the track actually shrink to the
+     available width. */
   .section-blocks {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--neo-space-md);
   }
 
   @media (min-width: 640px) {
     .device-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1024px) {
     .device-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 </style>

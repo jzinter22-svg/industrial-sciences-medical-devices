@@ -23,8 +23,11 @@
   --neo-space-xl: 48px;
 
   --neo-font-size-body: 1rem;
-  --neo-font-size-h1: clamp(1.75rem, 4vw, 2.75rem);
-  --neo-font-size-h2: clamp(1.25rem, 3vw, 1.75rem);
+  /* Chapter title: elegant, not a poster. Kept clearly above h2's ceiling
+     (1.75rem) at every viewport so the hierarchy (chapter > lesson/section)
+     holds by size alone, without relying on an oversized clamp max. */
+  --neo-font-size-h1: clamp(1.6rem, 3.4vw, 2.25rem);
+  --neo-font-size-h2: clamp(1.15rem, 2.6vw, 1.5rem);
   --neo-font-size-h3: clamp(1.05rem, 2.2vw, 1.25rem);
   --neo-line-height: 1.8;
 }
@@ -53,26 +56,31 @@ body {
   color: var(--neo-text);
 }
 
+/* Neumorphism is a supporting surface treatment for cards/controls/small
+   interface surfaces — not the book's whole visual identity. Shadows are
+   deliberately restrained (moderate blur, no large "floating bubble"
+   spread) so surfaces read as calm editorial cards, not decorative
+   glass/gradient effects. */
 .neo-surface {
   background: var(--neo-surface);
   border-radius: var(--neo-radius);
   box-shadow:
-    10px 10px 20px var(--neo-shadow-dark),
-    -10px -10px 20px var(--neo-shadow-light);
+    6px 6px 14px var(--neo-shadow-dark),
+    -6px -6px 14px var(--neo-shadow-light);
 }
 
 .neo-inset {
   background: var(--neo-surface);
   border-radius: var(--neo-radius);
   box-shadow:
-    inset 8px 8px 16px var(--neo-shadow-dark),
-    inset -8px -8px 16px var(--neo-shadow-light);
+    inset 5px 5px 10px var(--neo-shadow-dark),
+    inset -5px -5px 10px var(--neo-shadow-light);
 }
 
 .neo-surface-soft {
   background: var(--neo-surface);
   border-radius: var(--neo-radius-sm);
   box-shadow:
-    5px 5px 10px var(--neo-shadow-dark),
-    -5px -5px 10px var(--neo-shadow-light);
+    3px 3px 7px var(--neo-shadow-dark),
+    -3px -3px 7px var(--neo-shadow-light);
 }

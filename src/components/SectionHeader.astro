@@ -8,7 +8,7 @@ interface Props {
 const { number, titleAr, titleEn } = Astro.props;
 ---
 
-<div class="section-header">
+<div class="section-header neo-surface-soft">
   <h2 class="section-title">
     <span class="section-badge" dir="ltr">{number}</span>
     <span class="section-title-ar">{titleAr}</span>
@@ -17,11 +17,15 @@ const { number, titleAr, titleEn } = Astro.props;
 </div>
 
 <style>
+  /* Refined card, not a side-border accent: a straight colored edge on
+     every section header reads as a "rail" once several sections appear
+     down the page — the same visual issue already fixed on diagram cards
+     (see DiagramCard.astro). Color identity now comes from the number
+     badge only. Clearly smaller than the chapter header
+     (--neo-font-size-h2 < --neo-font-size-h1) so chapter > lesson holds. */
   .section-header {
-    padding: var(--neo-space-sm) 0 var(--neo-space-md);
+    padding: var(--neo-space-sm) var(--neo-space-md);
     margin: var(--neo-space-lg) 0 var(--neo-space-md);
-    border-inline-start: 4px solid var(--neo-primary);
-    padding-inline-start: var(--neo-space-md);
   }
 
   .section-title {
@@ -38,14 +42,14 @@ const { number, titleAr, titleEn } = Astro.props;
   .section-badge {
     display: inline-grid;
     place-items: center;
-    min-width: 2.5rem;
-    height: 1.85rem;
+    min-width: 2.25rem;
+    height: 1.7rem;
     padding: 0 0.5rem;
     border-radius: var(--neo-radius-sm);
     background: var(--neo-primary);
     color: #ffffff;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     flex: 0 0 auto;
   }
 
@@ -53,7 +57,7 @@ const { number, titleAr, titleEn } = Astro.props;
     margin: var(--neo-space-xs) 0 0;
     color: var(--neo-muted);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     unicode-bidi: isolate;
   }
 </style>
