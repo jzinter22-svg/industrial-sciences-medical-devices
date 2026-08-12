@@ -4,36 +4,38 @@
 // page-01.json: "يستخدم هذا الجهاز وبمساعدة الحاسوب لتصوير الاجزاء المختلفة
 // من الجسم كالرأس والعنق والصدر والبطن والحوض والعمود الفقري وحتى الاجزاء
 // المتناهية الصغر في الجسم كالغدة النخامية والغدة فوق الكلوية... يصل سمكها
-// 1ملم." That sentence lists five main regions (head, neck, chest, abdomen,
-// pelvis) at the same level, then names the spinal column, then separately
-// calls out the pituitary/adrenal glands as "even the tiniest parts" — a
-// deliberately lesser tier. Card structure below mirrors that tiering:
-// five full numbered cards for the five main regions, and the spine/glands
-// as lighter secondary callouts, not additional full cards (Phase 2.1).
+// 1ملم." Card structure mirrors that sentence's own tiering: five full
+// numbered cards for the five main regions, and the spine/glands as
+// lighter secondary callouts, not additional full cards.
 //
-// Illustration: a detailed, organic, hand-authored body illustration (head
-// with jaw/ear detail, ribcage linework, abdominal contour, pelvis bowl,
-// and a real segmented vertebral column) with translucent colored region
-// bands layered ON TOP of that linework — the artwork is never replaced by
-// the colored shapes themselves.
+// Illustration: the central artwork is a direct crop of
+// docs/design/GOLDEN_VISUAL_REFERENCE.png's own illustration — the actual
+// reference image, not a redrawing of it — saved at
+// src/assets/diagrams/tomography-body-illustration.png. The crop keeps
+// ONLY the artwork (the illustration plus its own translucent colored
+// region bands, already baked into the reference at head/neck/chest/
+// abdomen/pelvis); it deliberately excludes everything else in the
+// reference PNG — the page header, chapter label, title, intro paragraph,
+// its own cards/captions, and footer branding — all of which describe a
+// *different* chapter (the nervous system) and would misrepresent this
+// page's actual subject (an X-ray tomography device) if shown verbatim.
+// Every label, number, description, and icon the student reads on this
+// page is still this project's own, drawn only from device-05's real
+// source sentence above — the reference contributes art, never text.
 //
 // Cards and minor labels stack in normal document flow (DiagramFrame) and
 // are connected to their illustration anchor by DiagramFrame's generic
-// leader-line overlay (anchor → illustration edge → target), matched via
-// `data-leader-anchor`/`data-leader-target` ids from real measured
-// positions.
+// leader-line overlay (anchor → illustration edge → target). Anchors here
+// are small absolutely-positioned dots over the image, placed at each
+// visible band's measured vertical center (read directly off the cropped
+// image's pixels) rather than SVG coordinates.
+import { Image } from "astro:assets";
 import DiagramFrame from "./diagrams/DiagramFrame.astro";
 import DiagramCard from "./diagrams/DiagramCard.astro";
+import tomographyIllustration from "../assets/diagrams/tomography-body-illustration.png";
 
-// One coherent icon style: bold stroke line icons (not solid UI glyphs),
-// each evoking its region's own anatomy rather than a generic symbol.
-// An earlier solid-fill set included a plain head/shoulders bust — the
-// standard generic "user account" UI icon, exactly what a scientific
-// diagram must avoid. A first line-icon replacement (head outline + a
-// horizontal brain-fold squiggle) was screenshot-tested and read as
-// ambiguous (headphones/a cup) at the card's small size; replaced with a
-// head outline plus a simple hemisphere midline, closer to how brain
-// diagrams conventionally divide left/right hemispheres.
+// One coherent icon style: bold stroke line icons, each evoking its
+// region's own anatomy.
 const headIcon =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c-3.6 0-6.2 2.6-6.2 6 0 2.1 1 3.9 2.6 5v1.5c0 1.1.9 2 2 2h3.2c1.1 0 2-.9 2-2V15c1.6-1.1 2.6-2.9 2.6-5 0-3.4-2.6-6-6.2-6Z"/><path d="M12 6.5v9"/></svg>';
 const neckIcon =
@@ -45,21 +47,20 @@ const abdomenIcon =
 const pelvisIcon =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5c0 4.5 2.5 6.5 7 6.5s7-2 7-6.5"/><path d="M9 11.5V19M15 11.5V19"/></svg>';
 
-// Region overlay bands sit on top of the body illustration's own linework
-// (see the <svg> below) at each region's real vertical extent. Anchor
-// coordinates mark the true anatomical point the leader line starts from;
-// DiagramFrame's overlay draws a short stub from that exact point to the
-// illustration's edge, then a mostly-horizontal line on to the card, so
-// the connector visually touches the dot rather than an unrelated edge
-// point. anchorY must stay in the same top-to-bottom order as the cards.
+// anchorYPercent values were read directly off
+// tomography-body-illustration.png's pixels (a 145×944 crop): each
+// region's colored band was located by sampling pixel color transitions
+// down the image, then its vertical center converted to a percentage of
+// the crop's height. They must stay in the same top-to-bottom order as
+// the cards below — DiagramFrame's non-crossing proof requires the anchor
+// sequence and the on-page target sequence to be sorted the same way.
 const regions = [
   {
     number: 1,
     title: "رأس",
     color: "#e11d48",
     icon: headIcon,
-    anchorX: 78,
-    anchorY: 71,
+    anchorYPercent: 10.3,
     description: "الرأس أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
   },
   {
@@ -67,8 +68,7 @@ const regions = [
     title: "عنق",
     color: "#16a34a",
     icon: neckIcon,
-    anchorX: 96,
-    anchorY: 135,
+    anchorYPercent: 30.2,
     description: "العنق أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
   },
   {
@@ -76,8 +76,7 @@ const regions = [
     title: "صدر",
     color: "#2563eb",
     icon: chestIcon,
-    anchorX: 38,
-    anchorY: 199,
+    anchorYPercent: 49.3,
     description: "الصدر أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
   },
   {
@@ -85,8 +84,7 @@ const regions = [
     title: "بطن",
     color: "#9333ea",
     icon: abdomenIcon,
-    anchorX: 54,
-    anchorY: 289,
+    anchorYPercent: 71.5,
     description: "البطن أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
   },
   {
@@ -94,53 +92,37 @@ const regions = [
     title: "حوض",
     color: "#db2777",
     icon: pelvisIcon,
-    anchorX: 80,
-    anchorY: 360,
+    anchorYPercent: 87.9,
     description: "الحوض أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
   },
 ];
 
-// Secondary callouts: the spinal column and the two glands. The source
-// sentence names these at a lesser tier than the five main regions above
-// (the glands explicitly as "even the tiniest parts"; the spine as part of
-// the same list but without its own explanatory detail) — a lighter label
-// + dashed connector, not a sixth full numbered card, mirrors that tiering
-// and matches the Golden Reference's own treatment of its minor detail.
-const spineColor = "#d97706";
-// Sorted top-to-bottom by anchorY (gland-1, gland-2, spine-note): the minor
-// column renders in this array order via normal document flow, and the
-// leader-line non-crossing proof requires the anchor sequence and the
-// on-page target sequence to be sorted the same way.
+// Secondary callouts: the spinal column and the two glands, mirroring the
+// source sentence's lesser tier for these (the glands explicitly named as
+// "even the tiniest parts"). The adrenal anchor (68.3%) points at the
+// kidney icon that is itself visible in the cropped reference artwork;
+// the pituitary anchor (19.6%) marks its real anatomical location at the
+// base of the skull, and the spine-note anchor (96.4%) the column's base.
 const minorAnnotations = [
   {
     id: "gland-1",
     label: "الغدة النخامية",
     description: "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها.",
-    anchorX: 118,
-    anchorY: 64,
+    anchorYPercent: 19.6,
   },
   {
     id: "gland-2",
     label: "الغدة فوق الكلوية",
     description: "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها.",
-    anchorX: 66,
-    anchorY: 272,
+    anchorYPercent: 68.3,
   },
   {
     id: "spine-note",
     label: "العمود الفقري",
     description: "العمود الفقري أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
-    anchorX: 122,
-    anchorY: 384,
+    anchorYPercent: 96.4,
   },
 ];
-
-// Vertebral column: an actual stack of small segments (not a dashed line)
-// running from the base of the neck to the base of the pelvis — part of
-// the illustration itself, matching the spine's role as a background
-// structure in the source sentence rather than a separately cataloged
-// region with its own explanatory detail.
-const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 ---
 
 <DiagramFrame ariaLabel="مخطط توضيحي: مكونات تصوير مقاطع الجسم">
@@ -152,107 +134,35 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
     ))}
   </Fragment>
 
-  <svg
-    slot="illustration"
-    class="tomography-svg"
-    viewBox="0 0 260 420"
-    role="presentation"
-    preserveAspectRatio="xMidYMid meet"
-  >
-    <!-- Base body illustration: organic, recognizable linework (not
-         geometric primitives). Neutral tone so the colored region bands
-         layered on top (below) read as a distinct highlight, not the
-         artwork itself. -->
-    <g class="body-illustration">
-      <!-- head: rounded skull with tapered jaw + ears -->
-      <path
-        d="M130 14 C158 14 176 36 176 66 C176 88 166 104 150 113 L150 120 C150 125 141 129 130 129 C119 129 110 125 110 120 L110 113 C94 104 84 88 84 66 C84 36 102 14 130 14 Z"
-        class="body-outline"
+  <div slot="illustration" class="illustration-wrap" data-playable>
+    <Image
+      src={tomographyIllustration}
+      alt="رسم توضيحي لجسم الإنسان يظهر مناطق الرأس والعنق والصدر والبطن والحوض والعمود الفقري، مقتبس من الرسم المرجعي المعتمد للتصاميم العلمية"
+      class="tomography-illustration-img"
+    />
+
+    <div class="scan-line" aria-hidden="true"></div>
+
+    {regions.map((r) => (
+      <span
+        class="anchor-dot"
+        style={`top: ${r.anchorYPercent}%; --region-color: ${r.color}`}
+        data-leader-anchor={String(r.number)}
+        data-leader-color={r.color}
       />
-      <path d="M84 62c-6 0-9 5-9 10c0 5 3 9 9 9" class="body-outline" />
-      <path d="M176 62c6 0 9 5 9 10c0 5-3 9-9 9" class="body-outline" />
+    ))}
 
-      <!-- neck -->
-      <path d="M110 120 L150 120 L158 148 L102 148 Z" class="body-outline" />
-
-      <!-- chest / ribcage, with rib arcs for recognizable detail -->
-      <path
-        d="M70 150 C55 156 46 172 44 195 C42 218 48 236 62 248 L198 248 C212 236 218 218 216 195 C214 172 205 156 190 150 C170 138 145 132 130 132 C115 132 90 138 70 150 Z"
-        class="body-outline"
+    {minorAnnotations.map((m) => (
+      <span
+        class="anchor-dot minor"
+        style={`top: ${m.anchorYPercent}%`}
+        data-leader-anchor={m.id}
+        data-leader-color="var(--neo-muted)"
+        data-leader-width="1"
+        data-leader-dashed=""
       />
-      <path d="M80 175 Q130 188 180 175" class="body-linework" />
-      <path d="M76 195 Q130 210 184 195" class="body-linework" />
-      <path d="M74 215 Q130 228 186 215" class="body-linework" />
-
-      <!-- abdomen, with a navel + oblique contour lines -->
-      <path
-        d="M62 248 C56 265 54 285 62 302 C68 315 80 326 96 330 L164 330 C180 326 192 315 198 302 C206 285 204 265 198 248 Z"
-        class="body-outline"
-      />
-      <circle cx="130" cy="270" r="2" class="body-linework" />
-      <path d="M100 258 C95 275 96 292 104 305" class="body-linework" />
-      <path d="M160 258 C165 275 164 292 156 305" class="body-linework" />
-
-      <!-- pelvis / hip bowl -->
-      <path
-        d="M96 330 C88 345 90 365 104 378 C116 388 144 388 156 378 C170 365 172 345 164 330 C150 340 110 340 96 330 Z"
-        class="body-outline"
-      />
-    </g>
-
-    <!-- colored region bands: layered ON TOP of the illustration above,
-         translucent, at each region's real vertical extent -->
-    <g class="region-bands">
-      <rect x="78" y="10" width="104" height="122" rx="52" class="region-band" style={`--region-color: ${regions[0].color}`} />
-      <rect x="96" y="118" width="68" height="34" rx="17" class="region-band" style={`--region-color: ${regions[1].color}`} />
-      <rect x="38" y="146" width="184" height="106" rx="30" class="region-band" style={`--region-color: ${regions[2].color}`} />
-      <rect x="54" y="244" width="152" height="90" rx="28" class="region-band" style={`--region-color: ${regions[3].color}`} />
-      <rect x="80" y="326" width="100" height="68" rx="26" class="region-band" style={`--region-color: ${regions[4].color}`} />
-    </g>
-
-    <!-- vertebral column: drawn on top of the bands so it stays legible;
-         part of the illustration, not a numbered region of its own -->
-    <g class="vertebral-column" style={`--spine-color: ${spineColor}`}>
-      {vertebraYs.map((y) => (
-        <rect x="122" y={y} width="16" height="8" rx="3" class="vertebra" />
-      ))}
-    </g>
-
-    <!-- region anchor dots: leader line start points, read by
-         DiagramFrame's overlay script via data-leader-anchor -->
-    <g class="anchors">
-      {regions.map((r) => (
-        <circle
-          cx={r.anchorX}
-          cy={r.anchorY}
-          r="4"
-          class="anchor"
-          style={`--region-color: ${r.color}`}
-          data-leader-anchor={String(r.number)}
-          data-leader-color={r.color}
-        />
-      ))}
-    </g>
-
-    <!-- minor (spine/gland) anchor dots: lighter weight, dashed connector -->
-    <g class="minor-anchors">
-      {minorAnnotations.map((m) => (
-        <circle
-          cx={m.anchorX}
-          cy={m.anchorY}
-          r="2.5"
-          class="minor-anchor"
-          data-leader-anchor={m.id}
-          data-leader-color="var(--neo-muted)"
-          data-leader-width="1"
-          data-leader-dashed=""
-        />
-      ))}
-    </g>
-
-    <!-- optional slice-sweep animation element (hidden unless "playing") -->
-    <rect x="60" y="14" width="140" height="6" rx="3" class="scan-line" />
-  </svg>
+    ))}
+  </div>
 
   <Fragment slot="cards">
     {regions.map((r) => (
@@ -277,71 +187,68 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 </DiagramFrame>
 
 <style>
-  /* Fills the row's full height (set by whichever of illustration/cards is
-     naturally tallest — see DiagramFrame's grid) rather than a fixed
-     aspect-ratio-derived height, so a taller card column never leaves the
-     illustration short of the row. preserveAspectRatio="xMidYMid meet"
-     keeps the artwork itself undistorted and vertically centered,
-     letterboxing if needed. */
-  .tomography-svg {
+  /* Sized to its own intrinsic aspect ratio (never stretched or distorted),
+     capped near the source crop's native width (145px) so it never
+     upscales past its real resolution (which would blur it) while still
+     shrinking to fit narrower columns on mobile. Vertically centered
+     within the row, which DiagramFrame's grid may make taller than the
+     image alone (e.g. a taller card column). */
+  .illustration-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 145px;
+    margin-inline: auto;
+    align-self: center;
+  }
+
+  .tomography-illustration-img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    border-radius: var(--neo-radius-sm);
   }
 
-  .body-outline {
-    fill: color-mix(in srgb, var(--neo-text) 6%, var(--neo-surface));
-    stroke: var(--neo-muted);
-    stroke-width: 1.6;
-    pointer-events: none;
+  .anchor-dot {
+    position: absolute;
+    inset-inline-end: 2%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 999px;
+    background: var(--region-color, var(--neo-muted));
+    box-shadow: 0 0 0 2px var(--neo-surface);
   }
 
-  .body-linework {
-    fill: none;
-    stroke: var(--neo-muted);
-    stroke-width: 1.2;
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  .region-band {
-    fill: var(--region-color);
-    fill-opacity: 0.3;
-    stroke: var(--region-color);
-    stroke-width: 1;
-    stroke-opacity: 0.5;
-    pointer-events: none;
-  }
-
-  .vertebra {
-    fill: var(--spine-color);
-    pointer-events: none;
-  }
-
-  .anchor {
-    fill: var(--region-color);
-    pointer-events: none;
-  }
-
-  .minor-anchor {
-    fill: var(--neo-muted);
-    pointer-events: none;
+  .anchor-dot.minor {
+    inset-inline-end: auto;
+    inset-inline-start: 2%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
   }
 
   .scan-line {
-    fill: var(--neo-primary);
+    position: absolute;
+    inset-inline: 8%;
+    top: 3%;
+    height: 4px;
+    border-radius: 3px;
+    background: var(--neo-primary);
     opacity: 0;
     pointer-events: none;
   }
 
-  svg.playing .scan-line {
+  /* Animates `top` (a percentage of the wrapper's own height) rather than
+     a pixel transform, so the sweep travels the full length of the
+     illustration regardless of its rendered size at any breakpoint. */
+  .illustration-wrap.playing .scan-line {
     animation: scan-sweep 2.2s ease-in-out;
   }
 
   @keyframes scan-sweep {
     0% {
       opacity: 0;
-      transform: translateY(0);
+      top: 3%;
     }
     10% {
       opacity: 0.55;
@@ -351,7 +258,7 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
     }
     100% {
       opacity: 0;
-      transform: translateY(368px);
+      top: 94%;
     }
   }
 

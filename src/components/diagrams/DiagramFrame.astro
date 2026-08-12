@@ -159,16 +159,19 @@ const { ariaLabel } = Astro.props;
 <script>
   document.querySelectorAll(".diagram-frame").forEach((frame) => {
     // The optional replay control for an optional supplementary animation.
-    const illustrationSvg = frame.querySelector(".diagram-illustration svg");
+    // Targets `[data-playable]` rather than assuming an `<svg>` root: the
+    // illustration may be a raster image (with an absolutely-positioned
+    // overlay element carrying the animation) just as easily as inline SVG.
+    const playableEl = frame.querySelector(".diagram-illustration [data-playable]");
     const replayButton = frame.querySelector(".diagram-replay-button");
-    if (replayButton && illustrationSvg) {
+    if (replayButton && playableEl) {
       replayButton.addEventListener("click", () => {
-        illustrationSvg.classList.remove("playing");
-        void illustrationSvg.getBoundingClientRect();
-        illustrationSvg.classList.add("playing");
+        playableEl.classList.remove("playing");
+        void playableEl.getBoundingClientRect();
+        playableEl.classList.add("playing");
       });
-      illustrationSvg.addEventListener("animationend", () => {
-        illustrationSvg.classList.remove("playing");
+      playableEl.addEventListener("animationend", () => {
+        playableEl.classList.remove("playing");
       });
     }
 
