@@ -187,16 +187,19 @@ const minorAnnotations = [
 </DiagramFrame>
 
 <style>
-  /* Sized to its own intrinsic aspect ratio (never stretched or distorted),
-     capped near the source crop's native width (145px) so it never
-     upscales past its real resolution (which would blur it) while still
-     shrinking to fit narrower columns on mobile. Vertically centered
-     within the row, which DiagramFrame's grid may make taller than the
-     image alone (e.g. a taller card column). */
+  /* 75% of the illustration column's own actual rendered width (not a
+     hard-coded pixel cap) — the column itself is now sized correctly by
+     DiagramFrame's grid floors, so this percentage is what keeps the
+     illustration responsive to its real container at every breakpoint
+     rather than pinned to one screenshot's measurements. The remaining
+     25% is intentional breathing room, so the artwork never touches the
+     column's edges. Sized to its own intrinsic aspect ratio (never
+     stretched/distorted); vertically centered within the row, which
+     DiagramFrame's grid may make taller than the image alone (e.g. a
+     taller card column). */
   .illustration-wrap {
     position: relative;
-    width: 100%;
-    max-width: 145px;
+    width: 75%;
     margin-inline: auto;
     align-self: center;
   }

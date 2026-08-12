@@ -87,12 +87,16 @@ const { number, title, description, leaderId, color, icon } = Astro.props;
     color: var(--neo-text);
   }
 
+  /* Smaller than the badge: the icon is a decorative reinforcing signal,
+     not information on its own (the number and title already carry that),
+     so it's the right thing to shrink when the header's available width
+     is tight — unlike font-size, which must stay readable. */
   .diagram-card-icon {
     flex: 0 0 auto;
     display: inline-grid;
     place-items: center;
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1rem;
+    height: 1rem;
     color: var(--card-color);
   }
 
@@ -125,8 +129,8 @@ const { number, title, description, leaderId, color, icon } = Astro.props;
     }
 
     .diagram-card-icon {
-      width: 1.6rem;
-      height: 1.6rem;
+      width: 1.2rem;
+      height: 1.2rem;
     }
   }
 </style>

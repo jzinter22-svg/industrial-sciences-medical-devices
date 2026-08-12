@@ -52,14 +52,18 @@ const { ariaLabel } = Astro.props;
 </div>
 
 <style>
-  /* Capped width: a device card can be much wider than the diagram needs
-     (up to the full page content column on desktop) — left unconstrained,
-     the diagram stretches to fill it and dominates the page instead of
-     supporting the surrounding text, per the Golden Reference's own
-     restraint. 480px keeps the illustration+card composition compact and
-     balanced without shrinking its internal grid (already tuned/verified
-     for no overlap at 375/768/1440px). */
+  /* width: 100% is load-bearing here, not decoration: this element also
+     has horizontal auto margins (below) to center it when its parent is
+     wider than max-width. A flex/block item with auto side margins but no
+     explicit width sizes to its own content's min-content width instead
+     of its parent's — measured to be 464px (the stage grid's column
+     floors), which overflowed the actual device card (as narrow as
+     ~275px in the 3-column device grid at 1024px) by up to ~190px. width:
+     100% forces sizing from the parent's actual available width first,
+     with max-width only capping the rare case where a parent is wider
+     than 480px (none of this project's device cards currently are). */
   .diagram-frame {
+    width: 100%;
     max-width: 480px;
     margin: var(--neo-space-sm) auto 0;
     padding: var(--neo-space-xs) var(--neo-space-sm);
@@ -67,6 +71,7 @@ const { ariaLabel } = Astro.props;
     flex-direction: column;
     gap: var(--neo-space-sm);
     min-width: 0;
+    box-sizing: border-box;
   }
 
   /* Side by side at every width, not just above a breakpoint: each card is
@@ -75,11 +80,18 @@ const { ariaLabel } = Astro.props;
      narrow screens would point every leader line at empty space instead of
      adapting — keeping the zones side by side is what actually preserves
      the label-to-structure relationship on mobile. The illustration stays
-     the dominant zone (wider than the card column) at every width. */
+     the dominant zone (wider than the card column) at every width.
+     Column floors are sized for the diagram's real container — a device
+     card, not the full viewport — measured as narrow as ~250px (3-column
+     device grid at 1024px). A viewport media query can't safely detect
+     that (1024px is "desktop" by viewport but yields a narrower card than
+     768px's 2-column layout), so both this and the breakpoint below use
+     floors proven to fit the tightest real case, and let each column's fr
+     weight (illustration highest) claim any real extra space instead. */
   .diagram-stage {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(48px, 0.42fr) minmax(110px, 1.5fr) minmax(120px, 1.3fr);
+    grid-template-columns: minmax(28px, 0.42fr) minmax(78px, 1.6fr) minmax(118px, 1.2fr);
     gap: var(--neo-space-xs);
     align-items: stretch;
     min-width: 0;
@@ -151,7 +163,15 @@ const { ariaLabel } = Astro.props;
 
   @media (min-width: 640px) {
     .diagram-stage {
-      grid-template-columns: minmax(64px, 0.42fr) minmax(160px, 1.5fr) minmax(200px, 1.3fr);
+      /* A modest floor bump, not the previous 160px/200px: those assumed
+         a viewport ≥640px implies a wide container, but this component's
+         real container is a device card, which is only ~250-315px wide
+         across every breakpoint that matters here (see comment above).
+         Cards keep the largest floor of the three (over illustration's,
+         despite its higher fr weight): a card's header (badge+title+icon)
+         measurably collapsed and visually overlapped at anything narrower
+         — text is the one thing here that must never be compressed. */
+      grid-template-columns: minmax(30px, 0.42fr) minmax(82px, 1.6fr) minmax(120px, 1.2fr);
     }
   }
 </style>
