@@ -41,13 +41,17 @@ const { number, title, description, leaderId, color, icon } = Astro.props;
   /* Description sits on its own row, spanning the card's full width —
      not sharing a row with the badge — because at the mobile card-column
      width (~120px) that split left too little room and wrapped the
-     description one word per line (confirmed by screenshot). */
+     description one word per line (confirmed by screenshot).
+     No side border: a solid colored edge on every stacked card reads, once
+     several cards sit close together in a column, as one continuous
+     vertical colored rail beside the whole card stack — exactly what the
+     Golden Reference does not have. Color identity comes from the badge,
+     icon, and background tint instead. */
   .diagram-card {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     background: color-mix(in srgb, var(--card-color) 10%, var(--neo-surface));
-    border-inline-start: 3px solid var(--card-color);
     border-radius: var(--neo-radius-sm);
     padding: 0.5rem 0.65rem;
   }

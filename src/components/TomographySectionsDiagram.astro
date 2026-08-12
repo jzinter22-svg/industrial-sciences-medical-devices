@@ -1,88 +1,145 @@
 ---
 // Educational concept diagram for Device 05 (Computerized X-ray Scan Machine / Tomography).
-// Every label/description below is a direct restatement of
-// device-05.description.ar in page-01.json — no anatomy, component, or
-// specification beyond that sentence is introduced. The source sentence
-// only lists which regions the device images (head, neck, chest, abdomen,
-// pelvis, spine, and — as tiny examples — the pituitary and adrenal
-// glands); it does not give a unique explanatory sentence per region, so
-// every card below shares the same faithful restatement rather than
-// inventing per-region facts the textbook doesn't provide.
+// Every fact stated below comes directly from device-05.description.ar in
+// page-01.json: "يستخدم هذا الجهاز وبمساعدة الحاسوب لتصوير الاجزاء المختلفة
+// من الجسم كالرأس والعنق والصدر والبطن والحوض والعمود الفقري وحتى الاجزاء
+// المتناهية الصغر في الجسم كالغدة النخامية والغدة فوق الكلوية... يصل سمكها
+// 1ملم." That sentence lists five main regions (head, neck, chest, abdomen,
+// pelvis) at the same level, then names the spinal column, then separately
+// calls out the pituitary/adrenal glands as "even the tiniest parts" — a
+// deliberately lesser tier. Card structure below mirrors that tiering:
+// five full numbered cards for the five main regions, and the spine/glands
+// as lighter secondary callouts, not additional full cards (Phase 2.1).
 //
-// Illustration model rebuilt to match docs/design/GOLDEN_VISUAL_REFERENCE.png
-// directly (not a text summary of it): a detailed, organic body illustration
-// (head with jaw/ear detail, ribcage linework, abdominal contour, pelvis
-// bowl, and an actual segmented vertebral column — not a single dashed
-// line) with translucent colored region bands layered ON TOP of that
-// linework, exactly as the reference layers its colored bands over the
-// brain/spinal-cord artwork rather than replacing it. A prior version used
-// bare circle/rounded-rect primitives as the illustration itself, which is
-// the flat geometric placeholder the reference explicitly rules out
-// (§4.2/§4.13) — project-created detailed SVG illustration was always
-// permitted; no licensed asset is required for that.
+// Illustration: a detailed, organic, hand-authored body illustration (head
+// with jaw/ear detail, ribcage linework, abdominal contour, pelvis bowl,
+// and a real segmented vertebral column) with translucent colored region
+// bands layered ON TOP of that linework — the artwork is never replaced by
+// the colored shapes themselves.
 //
 // Cards and minor labels stack in normal document flow (DiagramFrame) and
 // are connected to their illustration anchor by DiagramFrame's generic
-// leader-line overlay, matched via `data-leader-anchor`/`data-leader-target`
-// ids and drawn from real measured positions — this mechanism is unchanged
-// and does not care how detailed the illustration underneath it is.
+// leader-line overlay (anchor → illustration edge → target), matched via
+// `data-leader-anchor`/`data-leader-target` ids from real measured
+// positions.
 import DiagramFrame from "./diagrams/DiagramFrame.astro";
 import DiagramCard from "./diagrams/DiagramCard.astro";
 
-const regionDescription = "أحد الأجزاء التي يقوم الجهاز بتصويرها";
-const glandDescription = "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها";
-
-// Small themed icons (Golden Reference §4.3 item 4) — static,
-// developer-authored inline SVG, one simple recognizable glyph per region.
-// Solid filled silhouettes (not fine multi-stroke line art): at the card's
-// small rendered size (~22px) an earlier line-icon version was screenshot-
-// tested and read as the wrong thing entirely (head → lightbulb, neck →
-// dollar sign, abdomen → "33", pelvis → a tooth) — bold solid shapes stay
-// legible at that size, where thin overlapping strokes do not.
+// One coherent icon style: bold stroke line icons (not solid UI glyphs),
+// each evoking its region's own anatomy rather than a generic symbol.
+// An earlier solid-fill set included a plain head/shoulders bust — the
+// standard generic "user account" UI icon, exactly what a scientific
+// diagram must avoid. A first line-icon replacement (head outline + a
+// horizontal brain-fold squiggle) was screenshot-tested and read as
+// ambiguous (headphones/a cup) at the card's small size; replaced with a
+// head outline plus a simple hemisphere midline, closer to how brain
+// diagrams conventionally divide left/right hemispheres.
 const headIcon =
-  '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="9" r="5"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1Z"/></svg>';
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c-3.6 0-6.2 2.6-6.2 6 0 2.1 1 3.9 2.6 5v1.5c0 1.1.9 2 2 2h3.2c1.1 0 2-.9 2-2V15c1.6-1.1 2.6-2.9 2.6-5 0-3.4-2.6-6-6.2-6Z"/><path d="M12 6.5v9"/></svg>';
 const neckIcon =
-  '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="6" width="10" height="4.5" rx="2.2"/><rect x="7" y="13.5" width="10" height="4.5" rx="2.2"/></svg>';
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="6" width="9" height="4" rx="2"/><rect x="7.5" y="13" width="9" height="4" rx="2"/></svg>';
 const chestIcon =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M9.5 6c-2 .2-3.6 1.6-3.6 3.4M14.5 6c2 .2 3.6 1.6 3.6 3.4"/><path d="M8.6 10.2c-2 .2-3.3 1.4-3.1 3M15.4 10.2c2 .2 3.3 1.4 3.1 3"/><path d="M8.9 14.4c-1.8.3-2.8 1.4-2.5 2.9M15.1 14.4c1.8.3 2.8 1.4 2.5 2.9"/></svg>';
 const abdomenIcon =
-  '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="12" height="14" rx="6"/></svg>';
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="14" rx="6"/><path d="M8.5 12c1-1.3 2-1.3 3 0s2 1.3 3 0"/></svg>';
 const pelvisIcon =
-  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4c0 5 2.5 7 8 7s8-2 8-7h-3c0 2.8-1.6 4-5 4S7 6.8 7 4H4Z"/><rect x="7.3" y="12" width="3.4" height="8" rx="1.7"/><rect x="13.3" y="12" width="3.4" height="8" rx="1.7"/></svg>';
-const spineIcon =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><rect x="8.8" y="2.6" width="6.4" height="2.3" rx="1"/><rect x="8.8" y="6.4" width="6.4" height="2.3" rx="1"/><rect x="8.8" y="10.2" width="6.4" height="2.3" rx="1"/><rect x="8.8" y="14" width="6.4" height="2.3" rx="1"/><rect x="8.8" y="17.8" width="6.4" height="2.3" rx="1"/></svg>';
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5c0 4.5 2.5 6.5 7 6.5s7-2 7-6.5"/><path d="M9 11.5V19M15 11.5V19"/></svg>';
 
 // Region overlay bands sit on top of the body illustration's own linework
-// (see the <svg> below) at each region's real vertical extent — the
-// Golden Reference's "colored wash over the artwork" model, not a
-// colored shape standing in for the artwork. Anchor coordinates mark
-// each band's edge nearest the card column; the leader-line overlay
-// (DiagramFrame) draws from these using real rendered positions.
-//
-// anchorY must stay in the same top-to-bottom order as the cards below
-// (DiagramFrame's non-crossing proof requires both the anchor sequence and
-// the target sequence sorted the same way). The spine's anchor is placed
-// at the *bottom* of its vertebral column, not the column's midpoint, for
-// this reason: the spine card is last in the stack (matching the source
-// sentence's own region order), but the vertebral column's vertical
-// midpoint sits above the abdomen/pelvis anchors — using the midpoint
-// produced a measured leader-line crossing.
+// (see the <svg> below) at each region's real vertical extent. Anchor
+// coordinates mark the true anatomical point the leader line starts from;
+// DiagramFrame's overlay draws a short stub from that exact point to the
+// illustration's edge, then a mostly-horizontal line on to the card, so
+// the connector visually touches the dot rather than an unrelated edge
+// point. anchorY must stay in the same top-to-bottom order as the cards.
 const regions = [
-  { number: 1, title: "رأس", color: "#e11d48", icon: headIcon, anchorX: 78, anchorY: 71 },
-  { number: 2, title: "عنق", color: "#16a34a", icon: neckIcon, anchorX: 96, anchorY: 135 },
-  { number: 3, title: "صدر", color: "#2563eb", icon: chestIcon, anchorX: 38, anchorY: 199 },
-  { number: 4, title: "بطن", color: "#9333ea", icon: abdomenIcon, anchorX: 54, anchorY: 289 },
-  { number: 5, title: "حوض", color: "#db2777", icon: pelvisIcon, anchorX: 80, anchorY: 360 },
-  { number: 6, title: "العمود الفقري", color: "#d97706", icon: spineIcon, anchorX: 122, anchorY: 384 },
+  {
+    number: 1,
+    title: "رأس",
+    color: "#e11d48",
+    icon: headIcon,
+    anchorX: 78,
+    anchorY: 71,
+    description: "الرأس أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+  },
+  {
+    number: 2,
+    title: "عنق",
+    color: "#16a34a",
+    icon: neckIcon,
+    anchorX: 96,
+    anchorY: 135,
+    description: "العنق أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+  },
+  {
+    number: 3,
+    title: "صدر",
+    color: "#2563eb",
+    icon: chestIcon,
+    anchorX: 38,
+    anchorY: 199,
+    description: "الصدر أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+  },
+  {
+    number: 4,
+    title: "بطن",
+    color: "#9333ea",
+    icon: abdomenIcon,
+    anchorX: 54,
+    anchorY: 289,
+    description: "البطن أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+  },
+  {
+    number: 5,
+    title: "حوض",
+    color: "#db2777",
+    icon: pelvisIcon,
+    anchorX: 80,
+    anchorY: 360,
+    description: "الحوض أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+  },
 ];
 
+// Secondary callouts: the spinal column and the two glands. The source
+// sentence names these at a lesser tier than the five main regions above
+// (the glands explicitly as "even the tiniest parts"; the spine as part of
+// the same list but without its own explanatory detail) — a lighter label
+// + dashed connector, not a sixth full numbered card, mirrors that tiering
+// and matches the Golden Reference's own treatment of its minor detail.
+const spineColor = "#d97706";
+// Sorted top-to-bottom by anchorY (gland-1, gland-2, spine-note): the minor
+// column renders in this array order via normal document flow, and the
+// leader-line non-crossing proof requires the anchor sequence and the
+// on-page target sequence to be sorted the same way.
 const minorAnnotations = [
-  { id: "gland-1", label: "الغدة النخامية", description: glandDescription, anchorX: 118, anchorY: 64 },
-  { id: "gland-2", label: "الغدة فوق الكلوية", description: glandDescription, anchorX: 66, anchorY: 272 },
+  {
+    id: "gland-1",
+    label: "الغدة النخامية",
+    description: "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها.",
+    anchorX: 118,
+    anchorY: 64,
+  },
+  {
+    id: "gland-2",
+    label: "الغدة فوق الكلوية",
+    description: "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها.",
+    anchorX: 66,
+    anchorY: 272,
+  },
+  {
+    id: "spine-note",
+    label: "العمود الفقري",
+    description: "العمود الفقري أحد الأجزاء التي يصورها الجهاز بمساعدة الحاسوب.",
+    anchorX: 122,
+    anchorY: 384,
+  },
 ];
 
 // Vertebral column: an actual stack of small segments (not a dashed line)
-// running from the base of the neck to the base of the pelvis.
+// running from the base of the neck to the base of the pelvis — part of
+// the illustration itself, matching the spine's role as a background
+// structure in the source sentence rather than a separately cataloged
+// region with its own explanatory detail.
 const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 ---
 
@@ -153,9 +210,9 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
       <rect x="80" y="326" width="100" height="68" rx="26" class="region-band" style={`--region-color: ${regions[4].color}`} />
     </g>
 
-    <!-- vertebral column: drawn on top of the bands so it stays legible,
-         solid-filled in the spine region's own color (region 6) -->
-    <g class="vertebral-column" style={`--region-color: ${regions[5].color}`}>
+    <!-- vertebral column: drawn on top of the bands so it stays legible;
+         part of the illustration, not a numbered region of its own -->
+    <g class="vertebral-column" style={`--spine-color: ${spineColor}`}>
       {vertebraYs.map((y) => (
         <rect x="122" y={y} width="16" height="8" rx="3" class="vertebra" />
       ))}
@@ -177,7 +234,7 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
       ))}
     </g>
 
-    <!-- minor (gland) anchor dots: lighter weight, dashed leader line -->
+    <!-- minor (spine/gland) anchor dots: lighter weight, dashed connector -->
     <g class="minor-anchors">
       {minorAnnotations.map((m) => (
         <circle
@@ -202,7 +259,7 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
       <DiagramCard
         number={r.number}
         title={r.title}
-        description={regionDescription}
+        description={r.description}
         leaderId={String(r.number)}
         color={r.color}
         icon={r.icon}
@@ -224,7 +281,8 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
      naturally tallest — see DiagramFrame's grid) rather than a fixed
      aspect-ratio-derived height, so a taller card column never leaves the
      illustration short of the row. preserveAspectRatio="xMidYMid meet"
-     keeps the artwork itself undistorted, letterboxing if needed. */
+     keeps the artwork itself undistorted and vertically centered,
+     letterboxing if needed. */
   .tomography-svg {
     display: block;
     width: 100%;
@@ -256,7 +314,7 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
   }
 
   .vertebra {
-    fill: var(--region-color);
+    fill: var(--spine-color);
     pointer-events: none;
   }
 

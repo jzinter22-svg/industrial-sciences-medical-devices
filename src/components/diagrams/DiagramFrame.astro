@@ -171,15 +171,19 @@ const { ariaLabel } = Astro.props;
     // in normal flow and can be any height, so only a measured line stays
     // attached to the right one.
     //
-    // Each line's start point is projected onto the illustration zone's
-    // near edge (same y as the anchor, x = the illustration's own left or
-    // right edge, whichever faces the target) rather than the anchor's
-    // true interior x. Anchors sit at scattered anatomical x-positions, so
-    // connecting them directly can cross a neighboring line even when both
-    // anchors and targets are in top-to-bottom order; collapsing every
-    // line in a group onto one shared edge x restores the non-crossing
-    // guarantee (proven for two point-sets sorted in the same order along
-    // two vertical lines), confirmed by measurement after this fix.
+    // Each connector is drawn as a two-point polyline, not a single line
+    // straight from the anchor to the card:
+    //   1. true anchor position → the illustration zone's near edge, at
+    //      the SAME y as the anchor (a short stub, so the line visually
+    //      touches the dot instead of starting from an unrelated point on
+    //      the container's outer edge).
+    //   2. that edge point → the target (card/label), predominantly
+    //      horizontal since step 1 already absorbed the anchor's vertical
+    //      offset from the edge.
+    // Collapsing every connector's step-2 start onto one shared edge x
+    // (not the anchor's true interior x) is what keeps connectors
+    // non-crossing: two point-sets sorted in the same top-to-bottom order
+    // along two vertical lines can never cross when connected pairwise.
     const stage = frame.querySelector(".diagram-stage");
     const overlay = frame.querySelector(".leader-overlay");
     const illustrationZone = frame.querySelector(".diagram-illustration");
@@ -199,22 +203,22 @@ const { ariaLabel } = Astro.props;
         const a = anchorEl.getBoundingClientRect();
         const t = targetEl.getBoundingClientRect();
         const facingRight = t.left + t.width / 2 > illusBox.left + illusBox.width / 2;
-        const ax = (facingRight ? illusBox.right : illusBox.left) - stageBox.left;
-        const ay = a.top + a.height / 2 - stageBox.top;
+        const anchorX = a.left + a.width / 2 - stageBox.left;
+        const anchorY = a.top + a.height / 2 - stageBox.top;
+        const edgeX = (facingRight ? illusBox.right : illusBox.left) - stageBox.left;
         const tx = (t.left < a.left ? t.right : t.left) - stageBox.left;
         const ty = t.top + t.height / 2 - stageBox.top;
 
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", String(ax));
-        line.setAttribute("y1", String(ay));
-        line.setAttribute("x2", String(tx));
-        line.setAttribute("y2", String(ty));
-        line.setAttribute("stroke", anchorEl.getAttribute("data-leader-color") || "currentColor");
-        line.setAttribute("stroke-width", anchorEl.getAttribute("data-leader-width") || "1.5");
+        const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        polyline.setAttribute("points", `${anchorX},${anchorY} ${edgeX},${anchorY} ${tx},${ty}`);
+        polyline.setAttribute("fill", "none");
+        polyline.setAttribute("stroke", anchorEl.getAttribute("data-leader-color") || "currentColor");
+        polyline.setAttribute("stroke-width", anchorEl.getAttribute("data-leader-width") || "1.5");
+        polyline.setAttribute("stroke-linejoin", "round");
         if (anchorEl.hasAttribute("data-leader-dashed")) {
-          line.setAttribute("stroke-dasharray", "3 3");
+          polyline.setAttribute("stroke-dasharray", "3 3");
         }
-        overlay.appendChild(line);
+        overlay.appendChild(polyline);
       });
     };
 
