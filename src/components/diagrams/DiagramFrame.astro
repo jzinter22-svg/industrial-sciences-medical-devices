@@ -1,17 +1,26 @@
 ---
 // Reusable layout shell for the Educational Diagram System.
 //
-// Approved visual standard: "Simplified Educational Infographic". The
-// illustration is the primary object; Arabic labels sit directly around it
-// (never a separate numbered legend) connected by short, non-crossing
-// leader lines. This component owns ONLY the three-zone stage layout
-// (start callouts | illustration | end callouts) plus the caption/controls
-// zones below it — it has no knowledge of any specific diagram's shapes,
-// callouts, or scientific content.
+// Visual authority: docs/design/GOLDEN_VISUAL_REFERENCE.png, specified in
+// docs/design/GOLDEN_VISUAL_REFERENCE.md. Composition: one dominant
+// illustration on one side, a single top-to-bottom column of
+// self-contained explanatory cards on the other side, connected by short
+// non-crossing leader lines. An optional narrow zone carries lighter-weight
+// secondary annotations (e.g. a tiny structure that doesn't warrant a full
+// numbered card) on the illustration's other flank.
 //
-// "start"/"end" (not "left"/"right"): in this RTL-primary book, logical
-// start renders on the right and end on the left, matching normal reading
-// flow instead of hard-coding a physical side.
+// This component owns ONLY the stage layout — it has no knowledge of any
+// specific diagram's shapes, cards, colors, or scientific content. The one
+// exception is the leader-line overlay below: it connects any element
+// carrying `data-leader-anchor="<id>"` (inside the illustration) to any
+// element carrying `data-leader-target="<id>"` (inside the cards/minor
+// zones) using their real rendered positions. This is deliberately generic
+// (no anatomy/label knowledge) because cards and minor labels stack in
+// normal document flow — their heights vary with real text at each screen
+// width, so only a measured line, not a computed percentage, can stay
+// attached to a card that may have shifted. (An earlier evenly-spaced
+// percentage scheme was measured to overlap every card at every
+// breakpoint; this replaces it.)
 interface Props {
   ariaLabel: string;
 }
@@ -21,15 +30,16 @@ const { ariaLabel } = Astro.props;
 
 <div class="diagram-frame neo-surface-soft" role="group" aria-label={ariaLabel}>
   <div class="diagram-stage">
-    <div class="diagram-callouts diagram-callouts-start">
-      <slot name="callouts-start" />
+    <div class="diagram-minor">
+      <slot name="minor" />
     </div>
     <div class="diagram-illustration">
       <slot name="illustration" />
     </div>
-    <div class="diagram-callouts diagram-callouts-end">
-      <slot name="callouts-end" />
+    <div class="diagram-cards">
+      <slot name="cards" />
     </div>
+    <svg class="leader-overlay" aria-hidden="true"></svg>
   </div>
 
   <div class="diagram-caption">
@@ -51,20 +61,40 @@ const { ariaLabel } = Astro.props;
     min-width: 0;
   }
 
-  /* The three-column stage (start callouts | illustration | end callouts)
-     is used at every width, not just above some breakpoint: each callout's
-     vertical position is a percentage of the illustration's own height
-     (see DiagramCallout), so stacking columns above/below the illustration
-     on narrow screens would point every leader line at empty space instead
-     of intelligently adapting — keeping the three zones side by side is
-     what actually preserves the label-to-structure relationship on mobile.
-     Columns narrow and callout text wraps to two lines instead. */
+  /* Side by side at every width, not just above a breakpoint: each card is
+     connected to its illustration anchor by a measured leader line (see the
+     script below), so stacking illustration above/below the card column on
+     narrow screens would point every leader line at empty space instead of
+     adapting — keeping the zones side by side is what actually preserves
+     the label-to-structure relationship on mobile. The illustration stays
+     the dominant zone (wider than the card column) at every width. */
   .diagram-stage {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(60px, 0.8fr) minmax(96px, 1.3fr) minmax(60px, 0.8fr);
+    grid-template-columns: minmax(48px, 0.42fr) minmax(110px, 1.5fr) minmax(120px, 1.3fr);
     gap: var(--neo-space-xs);
     align-items: stretch;
     min-width: 0;
+  }
+
+  /* Cards and minor labels stack in normal flow (not absolute + percent):
+     their real content height varies with text length at each width, so
+     letting the browser lay them out top-to-bottom is what actually
+     guarantees no overlap. space-between lets a short column (e.g. two
+     minor labels) spread across the full row height, which is set by
+     whichever zone (illustration or cards) is naturally tallest. */
+  .diagram-minor {
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: var(--neo-space-sm);
+    min-width: 0;
+  }
+
+  .diagram-minor:empty {
+    display: none;
   }
 
   .diagram-illustration {
@@ -75,19 +105,23 @@ const { ariaLabel } = Astro.props;
     min-width: 0;
   }
 
-  .diagram-callouts {
-    position: relative;
+  .diagram-cards {
+    grid-row: 1;
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--neo-space-xs);
     min-width: 0;
   }
 
-  .diagram-callouts-start {
-    grid-row: 1;
-    grid-column: 1;
-  }
-
-  .diagram-callouts-end {
-    grid-row: 1;
-    grid-column: 3;
+  .leader-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
   }
 
   .diagram-caption {
@@ -107,31 +141,88 @@ const { ariaLabel } = Astro.props;
     display: none;
   }
 
-  /* Callout columns get a little more breathing room once there's space
-     for it; the illustration itself grows too so the stage stays
-     proportionate rather than just leaving extra gutter. */
   @media (min-width: 640px) {
     .diagram-stage {
-      grid-template-columns: minmax(120px, 0.85fr) minmax(160px, 1.3fr) minmax(120px, 0.85fr);
+      grid-template-columns: minmax(64px, 0.42fr) minmax(160px, 1.5fr) minmax(200px, 1.3fr);
     }
   }
 </style>
 
 <script>
-  // The only cross-zone behavior a diagram may need from this shell: an
-  // optional replay control for an optional supplementary animation.
   document.querySelectorAll(".diagram-frame").forEach((frame) => {
-    const svg = frame.querySelector("svg");
+    // The optional replay control for an optional supplementary animation.
+    const illustrationSvg = frame.querySelector(".diagram-illustration svg");
     const replayButton = frame.querySelector(".diagram-replay-button");
-    if (replayButton && svg) {
+    if (replayButton && illustrationSvg) {
       replayButton.addEventListener("click", () => {
-        svg.classList.remove("playing");
-        void svg.getBoundingClientRect();
-        svg.classList.add("playing");
+        illustrationSvg.classList.remove("playing");
+        void illustrationSvg.getBoundingClientRect();
+        illustrationSvg.classList.add("playing");
       });
-      svg.addEventListener("animationend", () => {
-        svg.classList.remove("playing");
+      illustrationSvg.addEventListener("animationend", () => {
+        illustrationSvg.classList.remove("playing");
       });
     }
+
+    // Leader-line overlay: connects each `[data-leader-anchor]` element
+    // (inside the illustration) to the `[data-leader-target]` element
+    // sharing its id (a card or a minor label), using their real rendered
+    // positions rather than a computed percentage — cards and labels stack
+    // in normal flow and can be any height, so only a measured line stays
+    // attached to the right one.
+    //
+    // Each line's start point is projected onto the illustration zone's
+    // near edge (same y as the anchor, x = the illustration's own left or
+    // right edge, whichever faces the target) rather than the anchor's
+    // true interior x. Anchors sit at scattered anatomical x-positions, so
+    // connecting them directly can cross a neighboring line even when both
+    // anchors and targets are in top-to-bottom order; collapsing every
+    // line in a group onto one shared edge x restores the non-crossing
+    // guarantee (proven for two point-sets sorted in the same order along
+    // two vertical lines), confirmed by measurement after this fix.
+    const stage = frame.querySelector(".diagram-stage");
+    const overlay = frame.querySelector(".leader-overlay");
+    const illustrationZone = frame.querySelector(".diagram-illustration");
+    if (!stage || !overlay || !illustrationZone) return;
+
+    const drawLeaders = () => {
+      const stageBox = stage.getBoundingClientRect();
+      const illusBox = illustrationZone.getBoundingClientRect();
+      overlay.setAttribute("viewBox", `0 0 ${stageBox.width} ${stageBox.height}`);
+      overlay.innerHTML = "";
+
+      frame.querySelectorAll("[data-leader-anchor]").forEach((anchorEl) => {
+        const id = anchorEl.getAttribute("data-leader-anchor");
+        const targetEl = frame.querySelector(`[data-leader-target="${id}"]`);
+        if (!targetEl) return;
+
+        const a = anchorEl.getBoundingClientRect();
+        const t = targetEl.getBoundingClientRect();
+        const facingRight = t.left + t.width / 2 > illusBox.left + illusBox.width / 2;
+        const ax = (facingRight ? illusBox.right : illusBox.left) - stageBox.left;
+        const ay = a.top + a.height / 2 - stageBox.top;
+        const tx = (t.left < a.left ? t.right : t.left) - stageBox.left;
+        const ty = t.top + t.height / 2 - stageBox.top;
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", String(ax));
+        line.setAttribute("y1", String(ay));
+        line.setAttribute("x2", String(tx));
+        line.setAttribute("y2", String(ty));
+        line.setAttribute("stroke", anchorEl.getAttribute("data-leader-color") || "currentColor");
+        line.setAttribute("stroke-width", anchorEl.getAttribute("data-leader-width") || "1.5");
+        if (anchorEl.hasAttribute("data-leader-dashed")) {
+          line.setAttribute("stroke-dasharray", "3 3");
+        }
+        overlay.appendChild(line);
+      });
+    };
+
+    drawLeaders();
+    window.addEventListener("resize", drawLeaders);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(drawLeaders);
+    }
+    new ResizeObserver(drawLeaders).observe(stage);
   });
 </script>

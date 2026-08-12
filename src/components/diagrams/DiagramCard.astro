@@ -1,0 +1,102 @@
+---
+// A self-contained explanatory card for the Educational Diagram System —
+// replaces the old bare-text DiagramCallout. Per the Golden Visual
+// Reference, a direct label alone is not enough context: every region gets
+// a number, a title, and one explanatory sentence together.
+//
+// Cards stack in normal document flow (see DiagramFrame's `.diagram-cards`)
+// so their real rendered height — which varies with title/description
+// length at different widths — can never overlap a neighbor the way a
+// fixed evenly-spaced percentage position previously did (confirmed by
+// measurement: that scheme overlapped every card at every breakpoint).
+// `leaderId` pairs this card with its matching illustration anchor so
+// DiagramFrame's generic leader-line overlay can connect them using their
+// real measured positions instead of a computed percentage.
+interface Props {
+  number: number;
+  title: string;
+  description: string;
+  leaderId: string;
+  color: string;
+}
+
+const { number, title, description, leaderId, color } = Astro.props;
+---
+
+<article class="diagram-card" data-leader-target={leaderId} style={`--card-color: ${color}`}>
+  <div class="diagram-card-header">
+    <span class="diagram-card-badge">{number}</span>
+    <h4 class="diagram-card-title">{title}</h4>
+  </div>
+  <p class="diagram-card-description">{description}</p>
+</article>
+
+<style>
+  /* Description sits on its own row, spanning the card's full width —
+     not sharing a row with the badge — because at the mobile card-column
+     width (~120px) that split left too little room and wrapped the
+     description one word per line (confirmed by screenshot). */
+  .diagram-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background: color-mix(in srgb, var(--card-color) 10%, var(--neo-surface));
+    border-inline-start: 3px solid var(--card-color);
+    border-radius: var(--neo-radius-sm);
+    padding: 0.5rem 0.65rem;
+  }
+
+  .diagram-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--neo-space-xs);
+    min-width: 0;
+  }
+
+  .diagram-card-badge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--card-color);
+    color: #ffffff;
+    font-family: "Cairo", sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  .diagram-card-title {
+    margin: 0;
+    min-width: 0;
+    font-family: "Cairo", sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--neo-text);
+  }
+
+  .diagram-card-description {
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: var(--neo-muted);
+  }
+
+  @media (min-width: 640px) {
+    .diagram-card {
+      padding: 0.65rem 0.85rem;
+      gap: var(--neo-space-sm);
+    }
+
+    .diagram-card-title {
+      font-size: 0.95rem;
+    }
+
+    .diagram-card-description {
+      font-size: 0.8rem;
+    }
+  }
+</style>

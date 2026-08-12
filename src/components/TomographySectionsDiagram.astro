@@ -1,66 +1,69 @@
 ---
 // Educational concept diagram for Device 05 (Computerized X-ray Scan Machine / Tomography).
-// Every label below is a direct restatement of device-05.description.ar in page-01.json —
-// no anatomy, component, or specification beyond that sentence is introduced.
+// Every label/description below is a direct restatement of
+// device-05.description.ar in page-01.json — no anatomy, component, or
+// specification beyond that sentence is introduced. The source sentence
+// only lists which regions the device images (head, neck, chest, abdomen,
+// pelvis, spine, and — as tiny examples — the pituitary and adrenal
+// glands); it does not give a unique explanatory sentence per region, so
+// every card below shares the same faithful restatement rather than
+// inventing per-region facts the textbook doesn't provide.
 //
-// Visual Style #2 — Simplified Educational Infographic (project-wide standard):
-// direct Arabic labels sit outside the illustration, connected by short
-// leader lines — no numbered legend. Labels are spaced evenly down each
-// column (guaranteed room for two-line Arabic text, regardless of how
-// close together the real anatomical points are — e.g. the pituitary
-// gland sits right next to the head) while each leader line runs
-// diagonally from the true anatomical point to that evenly-spaced label
-// position. This is safe from crossings by construction, not by luck:
-// within one column, both the anatomical points (top to bottom) and the
-// label positions (evenly spaced, same top-to-bottom order) are sorted
-// identically, and straight lines drawn between two same-ordered
-// sequences on parallel tracks never cross. Because labels live in a
-// separate HTML column (not SVG text), a leader line can never pass
-// through label text either — it ends at the stage edge, not inside it.
+// Rebuilt to match docs/design/GOLDEN_VISUAL_REFERENCE.md: one dominant
+// illustration + a single column of numbered explanatory cards (not a
+// bare label split across two sides), with the two gland mentions treated
+// as lighter secondary annotations exactly as the reference treats its own
+// minor detail (the adrenal glands) — a small label and dashed connector,
+// not a full numbered card.
+//
+// Cards and minor labels stack in normal document flow (DiagramFrame) and
+// are connected to their illustration anchor by DiagramFrame's generic
+// leader-line overlay, matched via `data-leader-anchor`/`data-leader-target`
+// ids and drawn from real measured positions. An earlier version placed
+// cards at fixed evenly-spaced percentages of the illustration's height;
+// measurement showed every card overlapping its neighbor at every
+// breakpoint (card content is taller than an even 1/6 slot), so that
+// scheme was replaced with normal-flow stacking, which cannot overlap.
+//
+// The illustration itself stays the existing simplified schematic body
+// outline rather than fabricated realistic anatomical artwork: this
+// project's asset rules require honestly-sourced or honestly-labeled
+// illustrations, and no real medical illustration asset has been sourced
+// for this device. Region shapes are filled with the card's own color so
+// the "colored band over the region's exact extent" principle still holds.
 import DiagramFrame from "./diagrams/DiagramFrame.astro";
-import DiagramCallout from "./diagrams/DiagramCallout.astro";
+import DiagramCard from "./diagrams/DiagramCard.astro";
 
-// viewBox is 260 x 400. labelPercent positions the label evenly in its
-// column; anchor{X,Y} is the true point on the illustration the leader
-// line originates from — the two need not match, the line diagonals
-// between them.
-//
-// Percentages below aren't arbitrary: measured at the narrowest supported
-// width (375px), a two-line Arabic label at this font size renders ~35px
-// tall and a one-line label ~18px. Positions are spaced so that even two
-// adjacent two-line labels keep a real measured pixel gap between their
-// rendered edges, not just a percentage that happens to look even —
-// evenly-spaced percentages alone under-counted actual text height and
-// produced a real, measured overlap at 375px in testing (adrenal gland /
-// spine labels), which is why the columns are 4-and-4 rather than 3-and-5:
-// the abdomen is wide enough that its adrenal-gland label can anchor from
-// either side, and moving it out of the crowded five-label column is what
-// actually fixed the overlap — reflowing content, not just shrinking text.
-const startCallouts = [
-  { label: "رأس", labelPercent: 12, anchorX: 152, anchorY: 42 },
-  { label: "صدر", labelPercent: 38, anchorX: 182, anchorY: 148 },
-  { label: "الغدة فوق الكلوية", labelPercent: 64, anchorX: 160, anchorY: 268 },
-  { label: "حوض", labelPercent: 90, anchorX: 182, anchorY: 325 },
+const regionDescription = "أحد الأجزاء التي يقوم الجهاز بتصويرها";
+const glandDescription = "من الأجزاء الدقيقة التي يمكن للجهاز تصويرها";
+
+// viewBox is 260 x 400. Anchor coordinates mark each region's true
+// anatomical position on the illustration; the leader line to each card is
+// drawn at runtime from this anchor's real screen position to the card's
+// real screen position (see DiagramFrame's leader-line overlay), so no
+// hand-computed slot percentage is needed.
+const regions = [
+  { number: 1, title: "رأس", color: "#e11d48", anchorX: 165, anchorY: 42 },
+  { number: 2, title: "عنق", color: "#16a34a", anchorX: 150, anchorY: 107 },
+  { number: 3, title: "صدر", color: "#2563eb", anchorX: 188, anchorY: 155 },
+  { number: 4, title: "بطن", color: "#9333ea", anchorX: 192, anchorY: 240 },
+  { number: 5, title: "حوض", color: "#db2777", anchorX: 188, anchorY: 330 },
+  { number: 6, title: "العمود الفقري", color: "#d97706", anchorX: 130, anchorY: 360 },
 ];
 
-const endCallouts = [
-  { label: "الغدة النخامية", labelPercent: 14, anchorX: 112, anchorY: 64 },
-  { label: "عنق", labelPercent: 42, anchorX: 108, anchorY: 107 },
-  { label: "بطن", labelPercent: 62, anchorX: 78, anchorY: 222 },
-  { label: "العمود الفقري", labelPercent: 88, anchorX: 130, anchorY: 362 },
+const minorAnnotations = [
+  { id: "gland-1", label: "الغدة النخامية", description: glandDescription, anchorX: 98, anchorY: 64 },
+  { id: "gland-2", label: "الغدة فوق الكلوية", description: glandDescription, anchorX: 72, anchorY: 240 },
 ];
-
-const viewBoxHeight = 400;
-const toSvgY = (percent: number) => (percent / 100) * viewBoxHeight;
 ---
 
-<DiagramFrame ariaLabel="مخطط توضيحي: تصوير مقاطع الجسم">
-  <Fragment slot="callouts-start">
-    {startCallouts.map((c) => <DiagramCallout label={c.label} topPercent={c.labelPercent} side="start" />)}
-  </Fragment>
-
-  <Fragment slot="callouts-end">
-    {endCallouts.map((c) => <DiagramCallout label={c.label} topPercent={c.labelPercent} side="end" />)}
+<DiagramFrame ariaLabel="مخطط توضيحي: مكونات تصوير مقاطع الجسم">
+  <Fragment slot="minor">
+    {minorAnnotations.map((m) => (
+      <div class="diagram-minor-item" data-leader-target={m.id} title={m.description}>
+        <span class="diagram-minor-label">{m.label}</span>
+      </div>
+    ))}
   </Fragment>
 
   <svg
@@ -70,51 +73,66 @@ const toSvgY = (percent: number) => (percent / 100) * viewBoxHeight;
     role="presentation"
     preserveAspectRatio="xMidYMid meet"
   >
-    <!-- body silhouette (deliberately simplified, not anatomical) -->
-    <circle cx="130" cy="55" r="38" class="body-outline" />
-    <rect x="108" y="90" width="44" height="34" rx="10" class="body-outline" />
-    <rect x="70" y="120" width="120" height="92" rx="18" class="body-outline" />
-    <rect x="65" y="210" width="130" height="92" rx="16" class="body-outline" />
-    <rect x="70" y="300" width="120" height="70" rx="20" class="body-outline" />
+    <!-- body silhouette (deliberately simplified, not anatomical) — each
+         shape filled with its card's own color, giving the "colored band
+         over the region's exact extent" the golden reference uses. -->
+    <circle cx="130" cy="55" r="38" class="body-outline" style="--region-color: #e11d48" />
+    <rect x="108" y="90" width="44" height="34" rx="10" class="body-outline" style="--region-color: #16a34a" />
+    <rect x="70" y="120" width="120" height="92" rx="18" class="body-outline" style="--region-color: #2563eb" />
+    <rect x="65" y="210" width="130" height="92" rx="16" class="body-outline" style="--region-color: #9333ea" />
+    <rect x="70" y="300" width="120" height="70" rx="20" class="body-outline" style="--region-color: #db2777" />
 
-    <!-- spine: decorative line only -->
-    <line x1="130" y1="120" x2="130" y2="368" class="spine-line" />
+    <!-- spine: its own region too (card 6), drawn as a line rather than a
+         filled band since it is a slender structure, not an area -->
+    <line x1="130" y1="120" x2="130" y2="368" class="spine-line" style="--region-color: #d97706" />
 
-    <!-- leader lines: each runs from the true anatomical anchor to the
-         stage edge at the label's evenly-spaced height. Within a column,
-         anchors and label positions share the same top-to-bottom order,
-         so these diagonals are guaranteed not to cross one another (see
-         comment above), and they can't cross a label since labels live
-         outside the SVG entirely. -->
-    <g class="leaders">
-      {startCallouts.map((c) => (
-        <line x1={c.anchorX} y1={c.anchorY} x2="260" y2={toSvgY(c.labelPercent)} class="leader" />
-      ))}
-      {endCallouts.map((c) => (
-        <line x1={c.anchorX} y1={c.anchorY} x2="0" y2={toSvgY(c.labelPercent)} class="leader" />
-      ))}
-    </g>
-
-    <!-- attachment points: mark precisely where each leader line meets the structure -->
+    <!-- region anchor dots: also the leader line's start point, read by
+         DiagramFrame's overlay script via data-leader-anchor -->
     <g class="anchors">
-      {[...startCallouts, ...endCallouts].map((c) => (
-        <circle cx={c.anchorX} cy={c.anchorY} r="3.5" class="anchor" />
+      {regions.map((r) => (
+        <circle
+          cx={r.anchorX}
+          cy={r.anchorY}
+          r="4"
+          class="anchor"
+          style={`--region-color: ${r.color}`}
+          data-leader-anchor={String(r.number)}
+          data-leader-color={r.color}
+        />
       ))}
     </g>
 
-    <!-- static slice-thickness caliper (purely visual, no text — the
-         measurement is stated in words in the caption zone below);
-         placed between the chest and abdomen leader lines' heights, on
-         the side with no leader line traffic at that height -->
-    <g class="thickness-indicator">
-      <line x1="182" y1="203" x2="198" y2="203" class="thickness-tick" />
-      <line x1="182" y1="213" x2="198" y2="213" class="thickness-tick" />
-      <line x1="184" y1="203" x2="184" y2="213" class="thickness-tick" />
+    <!-- minor (gland) anchor dots: lighter weight, dashed leader line -->
+    <g class="minor-anchors">
+      {minorAnnotations.map((m) => (
+        <circle
+          cx={m.anchorX}
+          cy={m.anchorY}
+          r="2.5"
+          class="minor-anchor"
+          data-leader-anchor={m.id}
+          data-leader-color="var(--neo-muted)"
+          data-leader-width="1"
+          data-leader-dashed=""
+        />
+      ))}
     </g>
 
     <!-- optional slice-sweep animation element (hidden unless "playing") -->
     <rect x="72" y="14" width="116" height="6" rx="3" class="scan-line" />
   </svg>
+
+  <Fragment slot="cards">
+    {regions.map((r) => (
+      <DiagramCard
+        number={r.number}
+        title={r.title}
+        description={regionDescription}
+        leaderId={String(r.number)}
+        color={r.color}
+      />
+    ))}
+  </Fragment>
 
   <Fragment slot="caption">
     <p class="tomography-caption">سماكة المقطع: 1ملم</p>
@@ -126,40 +144,38 @@ const toSvgY = (percent: number) => (percent / 100) * viewBoxHeight;
 </DiagramFrame>
 
 <style>
+  /* Fills the row's full height (set by whichever of illustration/cards is
+     naturally tallest — see DiagramFrame's grid) rather than a fixed
+     aspect-ratio-derived height, so a taller card column never leaves the
+     illustration short of the row. preserveAspectRatio="xMidYMid meet"
+     keeps the artwork itself undistorted, letterboxing if needed. */
   .tomography-svg {
+    display: block;
     width: 100%;
-    aspect-ratio: 260 / 400;
-    height: auto;
+    height: 100%;
   }
 
   .body-outline {
-    fill: var(--neo-bg);
-    stroke: var(--neo-muted);
+    fill: color-mix(in srgb, var(--region-color) 22%, var(--neo-bg));
+    stroke: var(--region-color);
     stroke-width: 2;
     pointer-events: none;
   }
 
   .spine-line {
-    stroke: var(--neo-muted);
-    stroke-width: 1.5;
+    stroke: var(--region-color);
+    stroke-width: 2;
     stroke-dasharray: 4 4;
     pointer-events: none;
   }
 
-  .leader {
-    stroke: var(--neo-muted);
-    stroke-width: 1.25;
-    pointer-events: none;
-  }
-
   .anchor {
-    fill: var(--neo-primary);
+    fill: var(--region-color);
     pointer-events: none;
   }
 
-  .thickness-tick {
-    stroke: var(--neo-text);
-    stroke-width: 1.5;
+  .minor-anchor {
+    fill: var(--neo-muted);
     pointer-events: none;
   }
 
@@ -187,6 +203,25 @@ const toSvgY = (percent: number) => (percent / 100) * viewBoxHeight;
     100% {
       opacity: 0;
       transform: translateY(348px);
+    }
+  }
+
+  .diagram-minor-item {
+    text-align: end;
+    padding-inline-end: 0.4rem;
+  }
+
+  .diagram-minor-label {
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    line-height: 1.25;
+    color: var(--neo-muted);
+  }
+
+  @media (min-width: 640px) {
+    .diagram-minor-label {
+      font-size: 0.75rem;
     }
   }
 
