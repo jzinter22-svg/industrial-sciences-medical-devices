@@ -1,0 +1,172 @@
+---
+// Shared animated component for Figures 1-7 .. 1-10 (one/two/six/twelve
+// -pulse generators). These four static diagrams share one identical
+// circuit layout (bridge rectifier, meter, tube, coil position) and
+// differ only in their waveform traces and a couple of labels — verified
+// by diffing the four source SVGs before building this. Rather than
+// duplicating ~150 lines of markup four times, the shared geometry lives
+// here once and the per-variant differences (exact waveform <path d>
+// strings copied verbatim from the approved SVGs, label text, three-phase
+// coil) come from pulseGeneratorData.ts — content kept separate from
+// presentation, reused across all four call sites.
+//
+// Teaches: the input AC trace "draws" itself, then the rectified output
+// trace draws itself below it (showing what the bridge does to the
+// waveform), then a current particle flows from the transformer through
+// the bridge to the tube. Level 1 — this is the core rectification
+// concept the whole figure exists to explain.
+import "../../styles/diagram-animations.css";
+import { pulseGeneratorVariants } from "./pulseGeneratorData";
+
+interface Props {
+  variant: keyof typeof pulseGeneratorVariants;
+  caption: string;
+}
+
+const { variant, caption } = Astro.props;
+const v = pulseGeneratorVariants[variant];
+---
+
+<figure class={`diagram-block neo-surface-soft animated-diagram pulse-diagram pulse-diagram-${variant}`}>
+  <div class="diagram-block-image">
+    <svg
+      class="pulse-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="900"
+      height="340"
+      viewBox="0 0 900 340"
+      role="img"
+      aria-label={v.circuitLabel}
+    >
+      <defs>
+        <marker id={`arrow-pulse-${variant}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="900" height="340" fill="none"></rect>
+
+      <rect x="30" y="20" width="220" height="130" rx="8" fill="#f8fafc" stroke="#57606f" stroke-width="2"></rect>
+      <line x1="40" y1="85" x2="240" y2="85" stroke="#57606f" stroke-width="1"></line>
+      <path class="wave-path input-wave" d={v.inputWave} fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+      <text x="140" y="172" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">أ- الإشارة الداخلة</text>
+
+      <rect x="30" y="185" width="220" height="90" rx="8" fill="#f8fafc" stroke="#57606f" stroke-width="2"></rect>
+      <line x1="40" y1="230" x2="240" y2="230" stroke="#57606f" stroke-width="1"></line>
+      <path class="wave-path output-wave" d={v.outputWave} fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+      <text x="140" y="297" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">ب- الإشارة الخارجة</text>
+
+      <g class="flow-highlight bridge-outline">
+        <line x1="430" y1="70" x2="530" y2="150" stroke="#263238" stroke-width="2"></line>
+        <line x1="530" y1="150" x2="430" y2="230" stroke="#263238" stroke-width="2"></line>
+        <line x1="430" y1="230" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
+        <line x1="330" y1="150" x2="430" y2="70" stroke="#263238" stroke-width="2"></line>
+      </g>
+      <path d="M 369.0,100.0 L 369.0,120.0 L 391.0,110.0 z" fill="#263238" stroke="#263238"></path>
+      <line x1="391.0" y1="98.0" x2="391.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
+      <path d="M 491.0,100.0 L 491.0,120.0 L 469.0,110.0 z" fill="#263238" stroke="#263238"></path>
+      <line x1="469.0" y1="98.0" x2="469.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
+      <path d="M 391.0,180.0 L 391.0,200.0 L 369.0,190.0 z" fill="#263238" stroke="#263238"></path>
+      <line x1="369.0" y1="178.0" x2="369.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
+      <path d="M 469.0,180.0 L 469.0,200.0 L 491.0,190.0 z" fill="#263238" stroke="#263238"></path>
+      <line x1="491.0" y1="178.0" x2="491.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
+      <circle class="flow-highlight ma-meter" cx="430" cy="150" r="16" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
+      <text x="430" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">mA</text>
+      <line x1="530" y1="150" x2="570" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#arrow-pulse-${variant})`}></line>
+      <text x="620" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
+      <text x="620" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة</text>
+      <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
+      <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
+      <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
+      <text x="430" y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">{v.circuitLabel}</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-in" cx="290" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-out" cx="530" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pulse-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .coil-path {
+    --highlight-delay: 1.4s;
+    --highlight-duration: 0.6s;
+  }
+
+  .bridge-outline {
+    --highlight-delay: 2.5s;
+    --highlight-duration: 0.6s;
+  }
+
+  .ma-meter {
+    --highlight-delay: 2.6s;
+    --highlight-duration: 0.6s;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes wave-draw {
+      from {
+        stroke-dashoffset: 1000;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .playing .input-wave {
+      stroke-dasharray: 1000;
+      animation: wave-draw 1s ease-out 0.2s forwards;
+    }
+
+    .playing .output-wave {
+      stroke-dasharray: 1000;
+      animation: wave-draw 0.8s ease-out 1.3s forwards;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".pulse-diagram");
+</script>

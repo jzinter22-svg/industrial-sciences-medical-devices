@@ -1,0 +1,207 @@
+---
+// Animated Figure 1-5 (مخطط دائرة المؤقت). Markup matches
+// diagram-05-timer-circuit.svg exactly. Teaches the cause -> effect chain
+// that is the whole point of this figure: the timer switch closes ->
+// energizes the contactor coil -> the contactor's main contacts close ->
+// power reaches the high-voltage transformer only while that path is
+// live. Level 1 — this is a real process with a clear trigger and
+// consequence, worth the richer treatment.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram timer-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="timer-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="820"
+      height="420"
+      viewBox="0 0 820 420"
+      role="img"
+      aria-label="مخطط دائرة المؤقت"
+    >
+      <defs>
+        <marker id="arrow-timer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="820" height="420" fill="none"></rect>
+      <rect x="40" y="140" width="90" height="140" rx="6" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <text x="85" y="200" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
+      <text x="85" y="218" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
+      <text x="85" y="236" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">AC</text>
+      <line x1="130" y1="170" x2="300" y2="170" stroke="#263238" stroke-width="2"></line>
+      <circle cx="170" cy="170" r="3" fill="#263238"></circle>
+      <circle cx="210" cy="170" r="3" fill="#263238"></circle>
+      <line x1="170" y1="170" x2="195" y2="150" stroke="#263238" stroke-width="2"></line>
+      <text x="180" y="140" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح</text>
+      <path d="M 230.0,170.0 L 236.7,174.0 L 243.3,166.0 L 250.0,174.0 L 256.7,166.0 L 263.3,174.0 L 270.0,170.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="250" y="155" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">منصهر</text>
+      <line x1="130" y1="250" x2="300" y2="250" stroke="#263238" stroke-width="2"></line>
+      <circle cx="170" cy="250" r="3" fill="#263238"></circle>
+      <circle cx="210" cy="250" r="3" fill="#263238"></circle>
+      <line x1="170" y1="250" x2="195" y2="230" stroke="#263238" stroke-width="2"></line>
+      <text x="180" y="285" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح</text>
+      <path d="M 230.0,250.0 L 236.7,254.0 L 243.3,246.0 L 250.0,254.0 L 256.7,246.0 L 263.3,254.0 L 270.0,250.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="250" y="285" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">منصهر</text>
+      <rect class="flow-highlight contactor-box" x="320" y="150" width="130" height="110" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
+      <text x="385" y="145" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">موصل هوائي</text>
+      <text x="385" y="128" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#263238" text-anchor="middle" direction="ltr">Contactor</text>
+      <line x1="300" y1="170" x2="320" y2="170" stroke="#263238" stroke-width="2"></line>
+      <line x1="300" y1="250" x2="320" y2="240" stroke="#263238" stroke-width="2"></line>
+      <rect class="flow-highlight coil-box" x="360" y="225" width="50" height="16" fill="#c2410c"></rect>
+      <text x="470" y="233" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">ملف الموصل</text>
+      <text x="470" y="246" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">الهوائي</text>
+      <line x1="450" y1="190" x2="560" y2="190" stroke="#263238" stroke-width="2" marker-end="url(#arrow-timer)"></line>
+      <text x="600" y="160" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الى محولة</text>
+      <text x="600" y="180" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الضغط العالي</text>
+      <line x1="385" y1="260" x2="385" y2="330" stroke="#263238" stroke-width="2"></line>
+      <line x1="300" y1="250" x2="300" y2="330" stroke="#263238" stroke-width="2"></line>
+      <line x1="300" y1="330" x2="385" y2="330" stroke="#263238" stroke-width="2"></line>
+      <rect class="flow-highlight timer-switch-box" x="330" y="315" width="55" height="30" rx="6" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"></rect>
+      <text x="357" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">مفتاح مؤقت</text>
+      <text x="357" y="336" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">T</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="particle-loop p-timer" cx="130" cy="250" r="5"></circle>
+        <circle class="flow-particle p-top" cx="130" cy="170" r="5" style="--tx:190px; --ty:0px; --particle-delay:2.0s; --particle-duration:0.8s"></circle>
+        <circle class="particle-diag p-bottom" cx="130" cy="250" r="5"></circle>
+        <circle class="flow-particle p-out" cx="450" cy="190" r="5" style="--tx:110px; --ty:0px; --particle-delay:2.9s; --particle-duration:0.7s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.8s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .timer-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .timer-switch-box {
+    --highlight-delay: 0.9s;
+    --highlight-duration: 0.6s;
+  }
+
+  .coil-box {
+    --highlight-delay: 1.4s;
+    --highlight-duration: 0.7s;
+  }
+
+  .contactor-box {
+    --highlight-delay: 1.9s;
+    --highlight-duration: 0.8s;
+  }
+
+  .particle-loop,
+  .particle-diag {
+    fill: var(--neo-primary);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* (130,250) -> (300,250) -> (300,330) -> (385,330) -> (385,260):
+       the timer branch's own L-shaped wire, taken directly from the
+       existing <line> coordinates above. */
+    @keyframes timer-loop-move {
+      0% {
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      35% {
+        transform: translate(170px, 0);
+      }
+      60% {
+        transform: translate(170px, 80px);
+      }
+      85% {
+        transform: translate(255px, 80px);
+      }
+      92% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(255px, 10px);
+        opacity: 0;
+      }
+    }
+
+    .playing .p-timer {
+      animation: timer-loop-move 1.3s ease-in-out 0.2s;
+    }
+
+    /* (130,250) -> (300,250) -> (320,240): main bottom rail into the
+       contactor, running once the coil above has already latched. */
+    @keyframes bottom-rail-move {
+      0% {
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      85% {
+        transform: translate(170px, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(190px, -10px);
+        opacity: 0;
+      }
+    }
+
+    .playing .p-bottom {
+      animation: bottom-rail-move 0.8s ease-in-out 2.0s;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".timer-diagram");
+</script>

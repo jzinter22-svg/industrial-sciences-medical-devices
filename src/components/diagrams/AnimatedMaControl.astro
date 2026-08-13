@@ -1,0 +1,147 @@
+---
+// Animated Figure 1-4 (السيطرة على تيار أنبوب الأشعة). Markup matches
+// diagram-04-ma-control.svg exactly. Teaches: current leaves the power
+// supply (ب, the practical circuit), passes through the selected
+// resistor tap, reaches the mA-select node, and exits toward the
+// filament transformer. Part أ (the simplified illustrative circuit)
+// gets only a restrained highlight, since the artwork itself does not
+// draw a single unambiguous closed loop for it — that stays true to what
+// is actually on the page instead of inventing a path. Level 2.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram ma-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="ma-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="900"
+      height="380"
+      viewBox="0 0 900 380"
+      role="img"
+      aria-label="السيطرة على تيار انبوب الأشعة"
+    >
+      <defs>
+        <marker id="arrow-ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="900" height="380" fill="none"></rect>
+      <text x="770" y="40" font-family="Cairo, sans-serif" font-size="20" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">أ</text>
+      <path class="flow-highlight resistor-a" d="M 700.0,90.0 L 718.3,97.0 L 736.7,83.0 L 755.0,97.0 L 773.3,83.0 L 791.7,97.0 L 810.0,90.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <circle cx="680" cy="90" r="5" fill="#263238"></circle>
+      <text x="680" y="75" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">A</text>
+      <line x1="640" y1="90" x2="680" y2="90" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+      <line x1="735" y1="90" x2="735" y2="140" stroke="#263238" stroke-width="2"></line>
+      <line x1="640" y1="90" x2="640" y2="180" stroke="#263238" stroke-width="2"></line>
+      <line x1="640" y1="180" x2="700" y2="180" stroke="#263238" stroke-width="2"></line>
+      <rect x="700" y="140" width="70" height="90" rx="6" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <text x="735" y="190" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
+      <text x="735" y="205" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
+
+      <text x="300" y="40" font-family="Cairo, sans-serif" font-size="20" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">ب</text>
+      <path class="flow-highlight resistor-300" d="M 120.0,70.0 L 135.0,75.0 L 150.0,65.0 L 165.0,75.0 L 180.0,65.0 L 195.0,75.0 L 210.0,70.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="90" y="75" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">300 mA</text>
+      <path d="M 120.0,94.0 L 135.0,99.0 L 150.0,89.0 L 165.0,99.0 L 180.0,89.0 L 195.0,99.0 L 210.0,94.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="90" y="99" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">200 mA</text>
+      <path d="M 120.0,118.0 L 135.0,123.0 L 150.0,113.0 L 165.0,123.0 L 180.0,113.0 L 195.0,123.0 L 210.0,118.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="90" y="123" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">150 mA</text>
+      <path d="M 120.0,142.0 L 135.0,147.0 L 150.0,137.0 L 165.0,147.0 L 180.0,137.0 L 195.0,147.0 L 210.0,142.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="90" y="147" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">100 mA</text>
+      <path d="M 120.0,166.0 L 135.0,171.0 L 150.0,161.0 L 165.0,171.0 L 180.0,161.0 L 195.0,171.0 L 210.0,166.0" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
+      <text x="90" y="171" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">75 mA</text>
+      <line x1="210" y1="70" x2="260" y2="70" stroke="#263238" stroke-width="2"></line>
+      <line x1="210" y1="166" x2="260" y2="166" stroke="#263238" stroke-width="2"></line>
+      <line x1="260" y1="70" x2="260" y2="166" stroke="#263238" stroke-width="2"></line>
+      <circle class="flow-highlight selector-dot" cx="300" cy="120" r="6" fill="#1d4ed8"></circle>
+      <text x="320" y="60" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح اختيار</text>
+      <text x="320" y="78" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">mA  (S)</text>
+      <line x1="260" y1="70" x2="300" y2="120" stroke="#263238" stroke-width="2"></line>
+      <line x1="300" y1="120" x2="360" y2="120" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+      <line x1="120" y1="70" x2="70" y2="70" stroke="#263238" stroke-width="2"></line>
+      <line x1="70" y1="70" x2="70" y2="190" stroke="#263238" stroke-width="2"></line>
+      <line x1="120" y1="166" x2="70" y2="166" stroke="#263238" stroke-width="2"></line>
+      <line x1="70" y1="166" x2="70" y2="190" stroke="#263238" stroke-width="2"></line>
+      <rect x="30" y="190" width="80" height="80" rx="6" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <text x="70" y="235" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
+      <text x="70" y="250" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
+      <text x="450" y="340" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تغذي فتيل انبوبة الاشعة السينية (محولة الفتيل)</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-rise" cx="70" cy="190" r="5" style="--tx:0px; --ty:-120px; --particle-delay:0.2s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-resistor" cx="120" cy="70" r="5" style="--tx:90px; --ty:0px; --particle-delay:0.7s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-diag" cx="260" cy="70" r="5" style="--tx:40px; --ty:50px; --particle-delay:1.2s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-out" cx="300" cy="120" r="5" style="--tx:60px; --ty:0px; --particle-delay:1.7s; --particle-duration:0.5s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.6s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ma-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .resistor-300 {
+    --highlight-delay: 0.7s;
+    --highlight-duration: 0.5s;
+  }
+
+  .selector-dot {
+    --highlight-delay: 1.6s;
+    --highlight-duration: 0.6s;
+  }
+
+  .resistor-a {
+    --highlight-delay: 1.0s;
+    --highlight-duration: 1.2s;
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".ma-diagram");
+</script>

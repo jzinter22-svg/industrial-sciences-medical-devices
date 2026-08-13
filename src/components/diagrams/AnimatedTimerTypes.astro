@@ -1,0 +1,165 @@
+---
+// Animated Figure 1-6 (بعض أنواع المؤقتات). Markup matches
+// diagram-06-timer-types.svg exactly — same three icon cards, same
+// positions/colors/labels. This is a comparison of three device types,
+// not a single process, so each icon gets only the one motion that
+// actually explains its own operating principle: the mechanical dial's
+// hand sweeps, the synchronous motor's rotor spins, the digital
+// display's reading pulses. Level 2 — restrained, no card interaction.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram timer-types-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="timer-types-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="780"
+      height="300"
+      viewBox="0 0 780 300"
+      role="img"
+      aria-label="بعض أنواع المؤقتات"
+    >
+      <defs>
+        <marker id="arrow-tt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="780" height="300" fill="none"></rect>
+
+      <rect x="60" y="40" width="180" height="140" rx="14" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <circle cx="150" cy="105" r="45" fill="#fff" stroke="#263238" stroke-width="3"></circle>
+      <g class="dial-hand-group" style="transform-origin: 150px 105px;">
+        <line x1="150" y1="105" x2="150" y2="70" stroke="#263238" stroke-width="3"></line>
+        <line x1="150" y1="105" x2="175" y2="115" stroke="#263238" stroke-width="3"></line>
+      </g>
+      <text x="150" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقت ميكانيكي</text>
+
+      <rect x="300" y="40" width="180" height="140" rx="14" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <circle cx="390" cy="105" r="38" fill="#fde68a" stroke="#263238" stroke-width="3"></circle>
+      <g class="motor-rotor-group" style="transform-origin: 390px 105px;">
+        <circle cx="390" cy="105" r="10" fill="#263238"></circle>
+        <line x1="428.0" y1="105.0" x2="438.0" y2="105.0" stroke="#263238" stroke-width="3"></line>
+        <line x1="416.8700576850888" y1="131.8700576850888" x2="423.94112549695427" y2="138.94112549695427" stroke="#263238" stroke-width="3"></line>
+        <line x1="390.0" y1="143.0" x2="390.0" y2="153.0" stroke="#263238" stroke-width="3"></line>
+        <line x1="363.1299423149112" y1="131.8700576850888" x2="356.05887450304573" y2="138.94112549695427" stroke="#263238" stroke-width="3"></line>
+        <line x1="352.0" y1="105.0" x2="342.0" y2="105.0" stroke="#263238" stroke-width="3"></line>
+        <line x1="363.1299423149112" y1="78.1299423149112" x2="356.05887450304573" y2="71.05887450304573" stroke="#263238" stroke-width="3"></line>
+        <line x1="390.0" y1="67.0" x2="390.0" y2="57.0" stroke="#263238" stroke-width="3"></line>
+        <line x1="416.8700576850888" y1="78.12994231491119" x2="423.94112549695427" y2="71.05887450304571" stroke="#263238" stroke-width="3"></line>
+      </g>
+      <text x="390" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقت تزامني</text>
+
+      <rect x="540" y="40" width="180" height="140" rx="14" fill="#dbeafe" stroke="#263238" stroke-width="2"></rect>
+      <rect x="580" y="75" width="100" height="55" rx="4" fill="#0f172a" stroke="#263238" stroke-width="2"></rect>
+      <text class="digital-readout" x="630" y="108" font-family="Cairo, sans-serif" font-size="20" font-weight="700" fill="#4ade80" text-anchor="middle" direction="ltr">45:30</text>
+      <text x="630" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقتات الكترونية - رقمية</text>
+
+      <g aria-hidden="true">
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.6s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .timer-types-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .dial-hand-group,
+  .motor-rotor-group {
+    transform-box: view-box;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dial-sweep {
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+      80% {
+        transform: rotate(300deg);
+      }
+    }
+
+    .playing .dial-hand-group {
+      animation: dial-sweep 2.2s ease-in-out 0.2s;
+    }
+
+    @keyframes rotor-spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .playing .motor-rotor-group {
+      animation: rotor-spin 1.6s linear 0.2s 1;
+    }
+
+    @keyframes readout-pulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      25%,
+      75% {
+        opacity: 0.35;
+      }
+    }
+
+    .playing .digital-readout {
+      animation: readout-pulse 0.6s ease-in-out 0.2s 3;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".timer-types-diagram");
+</script>

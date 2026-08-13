@@ -8,12 +8,31 @@ import ListBlock from "./ListBlock.astro";
 import DiagramBlock from "./DiagramBlock.astro";
 import QuestionCard from "./QuestionCard.astro";
 import XraySystemBlockDiagram from "./diagrams/XraySystemBlockDiagram.astro";
+import AnimatedTubeCrossSection from "./diagrams/AnimatedTubeCrossSection.astro";
+import AnimatedKvControl from "./diagrams/AnimatedKvControl.astro";
+import AnimatedMaControl from "./diagrams/AnimatedMaControl.astro";
+import AnimatedTimerCircuit from "./diagrams/AnimatedTimerCircuit.astro";
+import AnimatedTimerTypes from "./diagrams/AnimatedTimerTypes.astro";
+import PulseGeneratorDiagram from "./diagrams/PulseGeneratorDiagram.astro";
+import AnimatedFilmProcessor from "./diagrams/AnimatedFilmProcessor.astro";
 
 interface Props {
   block: any;
 }
 
 const { block } = Astro.props;
+
+// Every scientific diagram in the book (Figures 1-1 through 1-11) has an
+// animated, hand-authored replacement for the plain static <img> render —
+// see docs/design/DIAGRAM_ANIMATION_AUDIT.md for the per-diagram
+// rationale. Diagrams not listed here (none currently) fall back to the
+// generic DiagramBlock.
+const pulseGeneratorVariantByDiagramId: Record<string, string> = {
+  "diagram-07": "one-pulse",
+  "diagram-08": "two-pulse",
+  "diagram-09": "six-pulse",
+  "diagram-10": "twelve-pulse",
+};
 ---
 
 {block.type === "paragraph" && <IntroCard content={block.content.ar} />}
@@ -50,9 +69,42 @@ const { block } = Astro.props;
   <XraySystemBlockDiagram caption={block.caption?.ar} />
 )}
 
-{block.type === "diagram" && block.id !== "diagram-01" && (
-  <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
+{block.type === "diagram" && block.id === "diagram-02" && (
+  <AnimatedTubeCrossSection caption={block.caption?.ar} />
 )}
+
+{block.type === "diagram" && block.id === "diagram-03" && (
+  <AnimatedKvControl caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" && block.id === "diagram-04" && (
+  <AnimatedMaControl caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" && block.id === "diagram-05" && (
+  <AnimatedTimerCircuit caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" && block.id === "diagram-06" && (
+  <AnimatedTimerTypes caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" && block.id in pulseGeneratorVariantByDiagramId && (
+  <PulseGeneratorDiagram
+    variant={pulseGeneratorVariantByDiagramId[block.id]}
+    caption={block.caption?.ar}
+  />
+)}
+
+{block.type === "diagram" && block.id === "diagram-11" && (
+  <AnimatedFilmProcessor caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" &&
+  !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
+  !(block.id in pulseGeneratorVariantByDiagramId) && (
+    <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
+  )}
 
 {block.type === "question" && (
   <QuestionCard number={block.number} questionAr={block.question.ar} parts={block.parts} />

@@ -1,0 +1,151 @@
+---
+// Animated version of Figure 1-2 (أنبوبة الاشعة السينية). The markup is
+// byte-for-byte the approved static diagram (public/assets/diagrams/
+// chapter-01/diagram-02-tube-cross-section.svg) — same viewBox, box/shape
+// positions, colors, labels, arrows. Only additive class hooks (inert at
+// rest) and a script-driven "playing" state were added, matching the
+// pattern already validated on Figure 1-1.
+//
+// Teaches: electrons travel cathode -> anode (the existing dashed line,
+// animated via stroke-dashoffset — no new path drawn), the impact at the
+// anode is what produces the X-ray beam that exits through the window
+// (the existing arrow line + window rect briefly glow). Level 2 —
+// restrained, single pass, no card/leader-line interaction needed.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram tube-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="tube-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="820"
+      height="420"
+      viewBox="0 0 820 420"
+      role="img"
+      aria-label="أنبوبة الاشعة السينية"
+    >
+      <defs>
+        <marker id="arrow-tube" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="820" height="420" fill="none"></rect>
+      <rect x="60" y="60" width="700" height="220" rx="40" fill="#cbd5e1" stroke="#263238" stroke-width="2"></rect>
+      <rect x="110" y="100" width="600" height="140" rx="60" fill="#e0f2fe" stroke="#1d4ed8" stroke-width="2"></rect>
+      <polygon class="flow-highlight anode-shape" points="170,170 230,130 230,210" fill="#94a3b8" stroke="#263238" stroke-width="2"></polygon>
+      <line x1="140" y1="170" x2="170" y2="170" stroke="#263238" stroke-width="2"></line>
+      <rect class="flow-highlight cathode-shape" x="560" y="150" width="40" height="40" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
+      <line x1="600" y1="170" x2="660" y2="170" stroke="#263238" stroke-width="2"></line>
+      <line class="electron-beam" x1="560" y1="170" x2="230" y2="170" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 4"></line>
+      <line class="flow-highlight xray-beam" x1="210" y1="165" x2="210" y2="320" stroke="#c2410c" stroke-width="3" marker-end="url(#arrow-tube)"></line>
+      <rect class="flow-highlight window-shape" x="190" y="235" width="40" height="30" rx="6" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"></rect>
+      <text x="200" y="130" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الانود</text>
+      <text x="200" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Anode</text>
+      <text x="620" y="130" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الكاثود</text>
+      <text x="620" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Cathode</text>
+      <text x="410" y="45" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف الزجاجي  Glass Envelope</text>
+      <line x1="410" y1="55" x2="410" y2="100" stroke="#263238" stroke-width="2"></line>
+      <text x="410" y="400" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف المعدني  Metal Envelope</text>
+      <line x1="410" y1="390" x2="410" y2="280" stroke="#263238" stroke-width="2"></line>
+      <text x="210" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">النافذة</text>
+      <text x="210" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Window</text>
+      <text x="680" y="300" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الزيت</text>
+      <text x="680" y="318" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Oil</text>
+      <line x1="660" y1="290" x2="640" y2="260" stroke="#263238" stroke-width="2"></line>
+
+      <g aria-hidden="true">
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.9s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tube-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .cathode-shape {
+    --highlight-delay: 0.1s;
+    --highlight-duration: 0.7s;
+  }
+
+  .anode-shape {
+    --highlight-delay: 2.5s;
+    --highlight-duration: 0.6s;
+  }
+
+  .xray-beam {
+    --highlight-delay: 2.9s;
+    --highlight-duration: 0.9s;
+  }
+
+  .window-shape {
+    --highlight-delay: 3.1s;
+    --highlight-duration: 0.7s;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes electron-flow {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -32;
+      }
+    }
+
+    .playing .electron-beam {
+      animation: electron-flow 0.5s linear 4;
+      animation-delay: 0.6s;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".tube-diagram");
+</script>
