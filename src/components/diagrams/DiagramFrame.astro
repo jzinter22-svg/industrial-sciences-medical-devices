@@ -52,19 +52,29 @@ const { ariaLabel } = Astro.props;
 </div>
 
 <style>
-  /* width: 100% is load-bearing here, not decoration: this element also
-     has horizontal auto margins (below) to center it when its parent is
-     wider than max-width. A flex/block item with auto side margins but no
-     explicit width sizes to its own content's min-content width instead
-     of its parent's — measured to be 464px (the stage grid's column
+  /* An explicit width (not "auto") is load-bearing here, not decoration:
+     this element also has horizontal auto margins (below) to center it.
+     A flex/block item with auto side margins but no explicit width sizes
+     to its own content's min-content width instead of its parent's —
+     measured, at width:100%, to be 464px (the stage grid's column
      floors), which overflowed the actual device card (as narrow as
-     ~275px in the 3-column device grid at 1024px) by up to ~190px. width:
-     100% forces sizing from the parent's actual available width first,
-     with max-width only capping the rare case where a parent is wider
-     than 480px (none of this project's device cards currently are). */
+     ~275px in the 3-column device grid at 1024px) by up to ~190px. An
+     explicit percentage forces sizing from the parent's actual available
+     width first.
+     92%, not 100%: measured to otherwise fill its parent card's content
+     box exactly, edge to edge, at every breakpoint — no breathing room,
+     nothing for the auto side margins to actually center against. 92%
+     leaves ~4% clear on each side. This is the ONLY size/scale change in
+     this pass: the stage grid, the illustration SVG, and every leader-
+     line/anchor position inside are all percentages of THIS box, so they
+     shrink together in the same proportion as this box does — none of
+     their own rules changed, and nothing here is smaller relative to
+     anything else than it was before. max-width kept as a defensive
+     ceiling (still never the binding constraint against any of this
+     project's device cards, at any width). */
   .diagram-frame {
-    width: 100%;
-    max-width: 480px;
+    width: 92%;
+    max-width: 440px;
     margin: var(--neo-space-sm) auto 0;
     padding: var(--neo-space-xs) var(--neo-space-sm);
     display: flex;
