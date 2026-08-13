@@ -107,5 +107,10 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
   )}
 
 {block.type === "question" && (
-  <QuestionCard number={block.number} questionAr={block.question.ar} parts={block.parts} />
+  <QuestionCard
+    number={block.number}
+    questionAr={block.question.ar}
+    parts={block.parts}
+    answerAr={block.answer?.ar}
+  />
 )}
