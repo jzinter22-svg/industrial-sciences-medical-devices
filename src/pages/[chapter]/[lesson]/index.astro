@@ -1,0 +1,133 @@
+---
+// Lesson page — one dynamic route generates every chapter/lesson pair in
+// chapters.json. Chapter 1 / Lesson 1 renders the existing, unchanged
+// lesson content (moved here from the old "/" route, not rebuilt: same
+// LessonRenderer, same 15 page-XX.json files, same components, same
+// animated diagrams). Every other lesson — no real content exists for it
+// yet — renders a simple "coming soon" placeholder instead of a 404, so
+// the chapter/lesson structure is already navigable end to end.
+import PageLayout from "../../../layouts/PageLayout.astro";
+import Breadcrumb from "../../../components/book/Breadcrumb.astro";
+import LessonRenderer from "../../../components/LessonRenderer.astro";
+import bookData from "../../../data/book/chapters.json";
+
+import page00 from "../../../data/chapter-01/page-00.json";
+import page01 from "../../../data/chapter-01/page-01.json";
+import page02 from "../../../data/chapter-01/page-02.json";
+import page03 from "../../../data/chapter-01/page-03.json";
+import page04 from "../../../data/chapter-01/page-04.json";
+import page05 from "../../../data/chapter-01/page-05.json";
+import page06 from "../../../data/chapter-01/page-06.json";
+import page07 from "../../../data/chapter-01/page-07.json";
+import page08 from "../../../data/chapter-01/page-08.json";
+import page09 from "../../../data/chapter-01/page-09.json";
+import page10 from "../../../data/chapter-01/page-10.json";
+import page11 from "../../../data/chapter-01/page-11.json";
+import page12 from "../../../data/chapter-01/page-12.json";
+import page13 from "../../../data/chapter-01/page-13.json";
+import page14 from "../../../data/chapter-01/page-14.json";
+
+const chapter01Lesson01Pages = [
+  page00, page01, page02, page03, page04,
+  page05, page06, page07, page08, page09,
+  page10, page11, page12, page13, page14,
+];
+
+export function getStaticPaths() {
+  return bookData.chapters.flatMap((chapter) =>
+    chapter.lessons.map((lesson) => ({
+      params: { chapter: chapter.id, lesson: lesson.id },
+      props: { chapter, lesson },
+    }))
+  );
+}
+
+const { chapter, lesson } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson-01";
+---
+
+<PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>
+  {isChapter01Lesson01 ? (
+    <Fragment>
+      <div class="lesson-breadcrumb-bar">
+        <Breadcrumb
+          crumbs={[
+            { label: "الرئيسية", href: `${base}/` },
+            { label: chapter.title.ar, href: `${base}/${chapter.id}/` },
+            { label: lesson.title.ar },
+          ]}
+        />
+      </div>
+      <LessonRenderer pages={chapter01Lesson01Pages} />
+    </Fragment>
+  ) : (
+    <main class="lesson-placeholder-page">
+      <Breadcrumb
+        crumbs={[
+          { label: "الرئيسية", href: `${base}/` },
+          { label: chapter.title.ar, href: `${base}/${chapter.id}/` },
+          { label: lesson.title.ar },
+        ]}
+      />
+      <div class="lesson-placeholder neo-surface-soft">
+        <h1 class="lesson-placeholder-title">{lesson.title.ar}</h1>
+        {lesson.title.en && <p class="lesson-placeholder-title-en" dir="ltr">{lesson.title.en}</p>}
+        <p class="lesson-placeholder-status">هذا الدرس قيد الإعداد وسيُضاف قريبًا.</p>
+      </div>
+    </main>
+  )}
+</PageLayout>
+
+<style>
+  .lesson-placeholder-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--neo-space-lg) var(--neo-space-md) var(--neo-space-xl);
+  }
+
+  .lesson-placeholder {
+    text-align: center;
+    padding: var(--neo-space-xl) var(--neo-space-lg);
+  }
+
+  .lesson-placeholder-title {
+    margin: 0;
+    font-size: var(--neo-font-size-h2);
+    font-weight: 800;
+    color: var(--neo-text);
+  }
+
+  .lesson-placeholder-title-en {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--neo-primary);
+    unicode-bidi: isolate;
+  }
+
+  .lesson-placeholder-status {
+    margin: var(--neo-space-md) 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+  }
+
+  @media (max-width: 640px) {
+    .lesson-placeholder-page {
+      padding: var(--neo-space-md) var(--neo-space-sm) var(--neo-space-lg);
+    }
+  }
+
+  .lesson-breadcrumb-bar {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--neo-space-md) var(--neo-space-md) 0;
+  }
+
+  @media (max-width: 640px) {
+    .lesson-breadcrumb-bar {
+      padding: var(--neo-space-md) var(--neo-space-sm) 0;
+    }
+  }
+</style>

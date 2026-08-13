@@ -1,0 +1,114 @@
+---
+// A chapter entry on the book home page. Reuses the project's existing
+// neumorphic card language (neo-surface-soft, the same badge/title/
+// subtitle pattern already used by DeviceCard and SectionHeader) rather
+// than introducing a new visual style — per the "reuse it, don't rebuild
+// it" rule for this pass.
+interface Props {
+  href: string;
+  number: number;
+  titleAr: string;
+  titleEn?: string;
+  lessonCount: number;
+  available: boolean;
+}
+
+const { href, number, titleAr, titleEn, lessonCount, available } = Astro.props;
+---
+
+<a href={href} class="chapter-card neo-surface-soft" class:list={{ "is-coming-soon": !available }}>
+  <div class="chapter-card-header">
+    <span class="chapter-card-badge" dir="ltr">{number}</span>
+    <span class:list={["chapter-card-status", available ? "status-available" : "status-soon"]}>
+      {available ? "متوفر" : "قيد الإعداد"}
+    </span>
+  </div>
+  <h3 class="chapter-card-title">{titleAr}</h3>
+  {titleEn && <p class="chapter-card-title-en" dir="ltr">{titleEn}</p>}
+  <p class="chapter-card-meta">{lessonCount} {lessonCount === 1 ? "درس" : "دروس"}</p>
+</a>
+
+<style>
+  .chapter-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: var(--neo-space-md);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease;
+  }
+
+  .chapter-card:hover,
+  .chapter-card:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .chapter-card:focus-visible {
+    outline: 2px solid var(--neo-primary);
+    outline-offset: 3px;
+  }
+
+  .chapter-card.is-coming-soon {
+    opacity: 0.8;
+  }
+
+  .chapter-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .chapter-card-badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .chapter-card-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--neo-radius-sm);
+  }
+
+  .status-available {
+    color: #15803d;
+    background: color-mix(in srgb, #15803d 12%, var(--neo-surface));
+  }
+
+  .status-soon {
+    color: var(--neo-muted);
+    background: color-mix(in srgb, var(--neo-muted) 12%, var(--neo-surface));
+  }
+
+  .chapter-card-title {
+    margin: 0.2rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--neo-text);
+  }
+
+  .chapter-card-title-en {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--neo-primary);
+    unicode-bidi: isolate;
+  }
+
+  .chapter-card-meta {
+    margin: 0.2rem 0 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+  }
+</style>

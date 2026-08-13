@@ -1,0 +1,75 @@
+---
+// RTL breadcrumb trail for the chapter/lesson hierarchy. `separator` is
+// rendered as "‹" (not the LTR-conventional "›") since the trail reads
+// right-to-left with Arabic text; every crumb but the last is a link.
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="مسار التصفح">
+  <ol class="breadcrumb-list">
+    {crumbs.map((crumb, index) => (
+      <li class="breadcrumb-item">
+        {crumb.href && index < crumbs.length - 1 ? (
+          <a href={crumb.href} class="breadcrumb-link">{crumb.label}</a>
+        ) : (
+          <span class="breadcrumb-current" aria-current="page">{crumb.label}</span>
+        )}
+        {index < crumbs.length - 1 && <span class="breadcrumb-separator" aria-hidden="true">‹</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb {
+    margin: 0 0 var(--neo-space-sm);
+  }
+
+  .breadcrumb-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .breadcrumb-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--neo-primary);
+    text-decoration: none;
+  }
+
+  .breadcrumb-link:hover,
+  .breadcrumb-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-current {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--neo-muted);
+  }
+
+  .breadcrumb-separator {
+    color: var(--neo-muted);
+    font-size: 0.85rem;
+  }
+</style>

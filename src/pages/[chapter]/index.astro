@@ -1,0 +1,72 @@
+---
+// Chapter page — lists the lessons within one chapter. One dynamic route
+// generates all 12 chapter pages from chapters.json rather than hand-
+// duplicating markup per chapter, so a newly-built chapter's page exists
+// automatically once its entry's lessons gain real content.
+import PageLayout from "../../layouts/PageLayout.astro";
+import ChapterHeader from "../../components/ChapterHeader.astro";
+import Breadcrumb from "../../components/book/Breadcrumb.astro";
+import LessonCard from "../../components/book/LessonCard.astro";
+import bookData from "../../data/book/chapters.json";
+
+export function getStaticPaths() {
+  return bookData.chapters.map((chapter) => ({
+    params: { chapter: chapter.id },
+    props: { chapter },
+  }));
+}
+
+const { chapter } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<PageLayout title={`${chapter.title.ar} — ${bookData.book.ar}`}>
+  <main class="chapter-page">
+    <Breadcrumb
+      crumbs={[
+        { label: "الرئيسية", href: `${base}/` },
+        { label: chapter.title.ar },
+      ]}
+    />
+
+    <ChapterHeader
+      chapterNumber={chapter.number}
+      chapterLabel={chapter.label}
+      titleAr={chapter.title.ar}
+      titleEn={chapter.title.en ?? ""}
+    />
+
+    <section class="lesson-list">
+      {chapter.lessons.map((lesson) => (
+        <LessonCard
+          href={`${base}/${chapter.id}/${lesson.id}/`}
+          number={lesson.number}
+          titleAr={lesson.title.ar}
+          titleEn={lesson.title.en}
+          available={lesson.status === "available"}
+        />
+      ))}
+    </section>
+  </main>
+</PageLayout>
+
+<style>
+  .chapter-page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--neo-space-lg) var(--neo-space-md) var(--neo-space-xl);
+  }
+
+  .lesson-list {
+    margin-top: var(--neo-space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-sm);
+  }
+
+  @media (max-width: 640px) {
+    .chapter-page {
+      padding: var(--neo-space-md) var(--neo-space-sm) var(--neo-space-lg);
+    }
+  }
+</style>

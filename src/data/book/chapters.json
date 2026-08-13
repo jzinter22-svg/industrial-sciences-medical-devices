@@ -1,0 +1,202 @@
+{
+  "book": {
+    "ar": "العلوم الصناعية - الأجهزة الطبية",
+    "printedPageStart": 8,
+    "printedPageEnd": 220
+  },
+
+  "chapters": [
+    {
+      "number": 1,
+      "id": "chapter-01",
+      "label": "الفصل الاول",
+      "title": { "ar": "جهاز الاشعة السينية", "en": "X-ray equipment" },
+      "printedPageStart": 8,
+      "printedPageEnd": 22,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز الاشعة السينية", "en": "X-ray equipment" },
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "chapter-02",
+      "label": "الفصل الثاني",
+      "title": { "ar": "الأجهزة الطبية الفوق صوتية", "en": "Ultrasound Medical Devices" },
+      "printedPageStart": 23,
+      "printedPageEnd": 50,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "الأجهزة الطبية الفوق صوتية", "en": "Ultrasound Medical Devices" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "chapter-03",
+      "label": "الفصل الثالث",
+      "title": { "ar": "جهاز تخطيط القلب", "en": "E.C.G" },
+      "printedPageStart": 51,
+      "printedPageEnd": 73,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز تخطيط القلب", "en": "E.C.G" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "chapter-04",
+      "label": "الفصل الرابع",
+      "title": { "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية" },
+      "printedPageStart": 74,
+      "printedPageEnd": 89,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "chapter-05",
+      "label": "الفصل الخامس",
+      "title": { "ar": "جهاز تخطيط العضلات", "en": "ElectroMyoGraphy (EMG)" },
+      "printedPageStart": 90,
+      "printedPageEnd": 99,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز تخطيط العضلات", "en": "ElectroMyoGraphy (EMG)" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "chapter-06",
+      "label": "الفصل السادس",
+      "title": { "ar": "حاضنة الأطفال", "en": "Infant Incubator" },
+      "printedPageStart": 100,
+      "printedPageEnd": 111,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "حاضنة الأطفال", "en": "Infant Incubator" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "chapter-07",
+      "label": "الفصل السابع",
+      "title": { "ar": "جهاز الأسنان", "en": "Dental Device" },
+      "printedPageStart": 112,
+      "printedPageEnd": 139,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز الأسنان", "en": "Dental Device" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "chapter-08",
+      "label": "الفصل الثامن",
+      "title": { "ar": "أجهزة الجراحة الكهربائية", "en": "Electrosurgical Instruments" },
+      "printedPageStart": 140,
+      "printedPageEnd": 153,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "أجهزة الجراحة الكهربائية", "en": "Electrosurgical Instruments" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "chapter-09",
+      "label": "الفصل التاسع",
+      "title": { "ar": "جهاز التخدير", "en": "Anesthesia Ventilator" },
+      "printedPageStart": 154,
+      "printedPageEnd": 174,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز التخدير", "en": "Anesthesia Ventilator" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "chapter-10",
+      "label": "الفصل العاشر",
+      "title": { "ar": "أجهزة مراقبة المريض", "en": "Patient Monitor" },
+      "printedPageStart": 175,
+      "printedPageEnd": 187,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "أجهزة مراقبة المريض", "en": "Patient Monitor" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "chapter-11",
+      "label": "الفصل الحادي عشر",
+      "title": { "ar": "الليزر وتطبيقاته الطبية" },
+      "printedPageStart": 188,
+      "printedPageEnd": 198,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "الليزر وتطبيقاته الطبية" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "chapter-12",
+      "label": "الفصل الثاني عشر",
+      "title": { "ar": "جهاز الكلية الاصطناعية", "en": "Hemodialysis Equipment" },
+      "printedPageStart": 199,
+      "printedPageEnd": 220,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز الكلية الاصطناعية", "en": "Hemodialysis Equipment" },
+          "status": "coming-soon"
+        }
+      ]
+    }
+  ]
+}

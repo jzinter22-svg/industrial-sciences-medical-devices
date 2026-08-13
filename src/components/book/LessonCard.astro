@@ -1,0 +1,107 @@
+---
+// A lesson entry on a chapter page. Same card language as ChapterCard —
+// intentionally simpler (no lesson count / it IS the leaf of the
+// hierarchy) so the two never look interchangeable.
+interface Props {
+  href: string;
+  number: number;
+  titleAr: string;
+  titleEn?: string;
+  available: boolean;
+}
+
+const { href, number, titleAr, titleEn, available } = Astro.props;
+---
+
+<a
+  href={available ? href : undefined}
+  class="lesson-card neo-surface-soft"
+  class:list={{ "is-coming-soon": !available }}
+  aria-disabled={available ? undefined : "true"}
+>
+  <span class="lesson-card-badge" dir="ltr">{number}</span>
+  <span class="lesson-card-titles">
+    <span class="lesson-card-title">{titleAr}</span>
+    {titleEn && <span class="lesson-card-title-en" dir="ltr">{titleEn}</span>}
+  </span>
+  <span class:list={["lesson-card-status", available ? "status-available" : "status-soon"]}>
+    {available ? "متوفر" : "قيد الإعداد"}
+  </span>
+</a>
+
+<style>
+  .lesson-card {
+    display: flex;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    padding: var(--neo-space-sm) var(--neo-space-md);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .lesson-card:not(.is-coming-soon):hover,
+  .lesson-card:not(.is-coming-soon):focus-visible {
+    transform: translateY(-1px);
+  }
+
+  .lesson-card:focus-visible {
+    outline: 2px solid var(--neo-primary);
+    outline-offset: 3px;
+  }
+
+  .lesson-card.is-coming-soon {
+    opacity: 0.75;
+    cursor: default;
+  }
+
+  .lesson-card-badge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .lesson-card-titles {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lesson-card-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--neo-text);
+  }
+
+  .lesson-card-title-en {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--neo-primary);
+    unicode-bidi: isolate;
+  }
+
+  .lesson-card-status {
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--neo-radius-sm);
+  }
+
+  .status-available {
+    color: #15803d;
+    background: color-mix(in srgb, #15803d 12%, var(--neo-surface));
+  }
+
+  .status-soon {
+    color: var(--neo-muted);
+    background: color-mix(in srgb, var(--neo-muted) 12%, var(--neo-surface));
+  }
+</style>

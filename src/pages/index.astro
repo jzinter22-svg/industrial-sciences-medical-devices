@@ -1,29 +1,88 @@
 ---
+// Book home — the Chapter -> Lesson navigation hub. Previously this page
+// rendered Chapter 1 / Lesson 1 directly; that content now lives at its
+// own route (chapter-01/lesson-01, unchanged) and this page becomes the
+// top of the navigation structure instead, per the chapter-system task.
 import PageLayout from "../layouts/PageLayout.astro";
-import LessonRenderer from "../components/LessonRenderer.astro";
-import page00 from "../data/chapter-01/page-00.json";
-import page01 from "../data/chapter-01/page-01.json";
-import page02 from "../data/chapter-01/page-02.json";
-import page03 from "../data/chapter-01/page-03.json";
-import page04 from "../data/chapter-01/page-04.json";
-import page05 from "../data/chapter-01/page-05.json";
-import page06 from "../data/chapter-01/page-06.json";
-import page07 from "../data/chapter-01/page-07.json";
-import page08 from "../data/chapter-01/page-08.json";
-import page09 from "../data/chapter-01/page-09.json";
-import page10 from "../data/chapter-01/page-10.json";
-import page11 from "../data/chapter-01/page-11.json";
-import page12 from "../data/chapter-01/page-12.json";
-import page13 from "../data/chapter-01/page-13.json";
-import page14 from "../data/chapter-01/page-14.json";
+import ChapterCard from "../components/book/ChapterCard.astro";
+import bookData from "../data/book/chapters.json";
 
-const lessonPages = [
-  page00, page01, page02, page03, page04,
-  page05, page06, page07, page08, page09,
-  page10, page11, page12, page13, page14,
-];
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<PageLayout title={`${page01.title.ar} — ${page01.source.book}`}>
-  <LessonRenderer pages={lessonPages} />
+<PageLayout title={`${bookData.book.ar}`}>
+  <main class="book-home">
+    <header class="book-header neo-surface-soft">
+      <h1 class="book-title">{bookData.book.ar}</h1>
+      <p class="book-subtitle">فهرس الفصول والدروس</p>
+    </header>
+
+    <div class="chapter-grid">
+      {bookData.chapters.map((chapter) => {
+        const available = chapter.lessons.some((l) => l.status === "available");
+        return (
+          <ChapterCard
+            href={`${base}/${chapter.id}/`}
+            number={chapter.number}
+            titleAr={chapter.title.ar}
+            titleEn={chapter.title.en}
+            lessonCount={chapter.lessons.length}
+            available={available}
+          />
+        );
+      })}
+    </div>
+  </main>
 </PageLayout>
+
+<style>
+  .book-home {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--neo-space-lg) var(--neo-space-md) var(--neo-space-xl);
+  }
+
+  .book-header {
+    text-align: center;
+    padding: var(--neo-space-md) var(--neo-space-lg);
+    margin-bottom: var(--neo-space-lg);
+  }
+
+  .book-title {
+    margin: 0;
+    font-size: var(--neo-font-size-h1);
+    font-weight: 800;
+    color: var(--neo-text);
+  }
+
+  .book-subtitle {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+  }
+
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--neo-space-md);
+  }
+
+  @media (min-width: 640px) {
+    .chapter-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .chapter-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .book-home {
+      padding: var(--neo-space-md) var(--neo-space-sm) var(--neo-space-lg);
+    }
+  }
+</style>
