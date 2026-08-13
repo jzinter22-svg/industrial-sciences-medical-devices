@@ -93,13 +93,17 @@ const { ariaLabel } = Astro.props;
      track-sizing algorithm's leftover space beyond their floor at any
      tested width) — so cards' floor is effectively their actual rendered
      width, and illustration's floor is a starting point it then grows
-     from. Raising illustration's floor and lowering cards' floor here is
-     therefore the direct, predictable way to rebalance the two: cards
-     ~10px narrower, illustration ~15px+ wider before any fr growth. */
+     from. This pass leaves cards' floor essentially alone (refinement
+     came from tighter card padding instead, see DiagramCard.astro) and
+     takes the illustration's further growth from the minor column, whose
+     floor shrank too — its labels are now spaced by real proportional
+     gaps (see the diagram's own "minor" slot) instead of even
+     space-around distribution, so it no longer needs as much height/width
+     to stay uncrowded. */
   .diagram-stage {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(28px, 0.42fr) minmax(94px, 1.6fr) minmax(106px, 1.2fr);
+    grid-template-columns: minmax(20px, 0.3fr) minmax(116px, 1.9fr) minmax(104px, 1.1fr);
     gap: var(--neo-space-xs);
     align-items: stretch;
     min-width: 0;
@@ -110,14 +114,20 @@ const { ariaLabel } = Astro.props;
      letting the browser lay them out top-to-bottom is what actually
      guarantees no overlap. space-between lets a short column (e.g. two
      minor labels) spread across the full row height, which is set by
-     whichever zone (illustration or cards) is naturally tallest. */
+     whichever zone (illustration or cards) is naturally tallest.
+     No justify-content here (unlike .diagram-cards below): the minor
+     column's own flex-grow spacers — rendered by the diagram alongside
+     each label, sized proportionally to that label's real anatomical
+     anchor position — already control the vertical distribution, so an
+     even space-around/space-between would fight them. Even distribution
+     previously put each label at a fixed fraction of the row regardless
+     of where its actual anchor sat, which is what made some connector
+     lines noticeably longer/more diagonal than necessary. */
   .diagram-minor {
     grid-row: 1;
     grid-column: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    gap: var(--neo-space-sm);
     min-width: 0;
   }
 
@@ -139,7 +149,7 @@ const { ariaLabel } = Astro.props;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--neo-space-xs);
+    gap: 0.4rem;
     min-width: 0;
   }
 
@@ -180,7 +190,7 @@ const { ariaLabel } = Astro.props;
          overlap — text is the one thing here that must never be
          compressed — re-verified per card, individually, after this
          rebalance toward the illustration. */
-      grid-template-columns: minmax(30px, 0.42fr) minmax(98px, 1.6fr) minmax(108px, 1.2fr);
+      grid-template-columns: minmax(22px, 0.3fr) minmax(122px, 1.9fr) minmax(106px, 1.1fr);
     }
   }
 </style>

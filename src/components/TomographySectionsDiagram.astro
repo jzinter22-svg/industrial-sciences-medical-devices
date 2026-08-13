@@ -153,14 +153,34 @@ const minorAnnotations = [
 // a real anatomical structure in its own right — running from the base of
 // the neck to the base of the pelvis, part of the illustration itself.
 const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
+
+// Minor labels used to be distributed with an even space-around, which
+// placed each one at a fixed fraction of the column's height regardless
+// of where its real anchor sat in the illustration — measured to leave
+// some connector lines noticeably longer/more diagonal than necessary.
+// These flex-grow ratios instead come directly from the real vertical
+// gaps between anchors (in the SVG's own viewBox units), rendered as
+// spacer elements before/between/after the labels below, so each label
+// settles close to its true anatomical height at any column height.
+const viewBoxHeight = 420;
+const minorAnchorYs = minorAnnotations.map((m) => m.anchorY);
+const minorGaps = [
+  minorAnchorYs[0],
+  ...minorAnchorYs.slice(1).map((y, i) => y - minorAnchorYs[i]),
+  viewBoxHeight - minorAnchorYs[minorAnchorYs.length - 1],
+];
 ---
 
 <DiagramFrame ariaLabel="مخطط توضيحي: مكونات تصوير مقاطع الجسم">
   <Fragment slot="minor">
-    {minorAnnotations.map((m) => (
-      <div class="diagram-minor-item" data-leader-target={m.id} title={m.description}>
-        <span class="diagram-minor-label">{m.label}</span>
-      </div>
+    <div class="diagram-minor-spacer" style={`flex-grow: ${minorGaps[0]}`} />
+    {minorAnnotations.map((m, i) => (
+      <>
+        <div class="diagram-minor-item" data-leader-target={m.id} title={m.description}>
+          <span class="diagram-minor-label">{m.label}</span>
+        </div>
+        <div class="diagram-minor-spacer" style={`flex-grow: ${minorGaps[i + 1]}`} />
+      </>
     ))}
   </Fragment>
 
@@ -314,20 +334,20 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 </DiagramFrame>
 
 <style>
-  /* 90% of the illustration column's own actual rendered width (not a
+  /* 97% of the illustration column's own actual rendered width (not a
      hard-coded pixel value) — proportional at every breakpoint since the
      SVG's viewBox scales all of its internal coordinates (anchors, paths,
      everything) together automatically; nothing here needs recomputing
      per screen size. Paired with DiagramFrame's rebalanced column floors
-     (illustration up, cards down) to land the illustration ~10-15% larger
-     than its previous rendered size while cards get modestly narrower —
+     (illustration up further, minor column down) to land the
+     illustration ~15-20% larger than its previous rendered size —
      measured per breakpoint, not assumed. Vertically centered within the
      row, which DiagramFrame's grid may make taller than the illustration
      alone (e.g. a taller card column); preserveAspectRatio="xMidYMid
      meet" keeps the artwork itself undistorted. */
   .tomography-svg {
     display: block;
-    width: 90%;
+    width: 97%;
     height: auto;
     aspect-ratio: 260 / 420;
     margin-inline: auto;
@@ -442,7 +462,18 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
     }
   }
 
+  /* flex-grow is set per-instance via inline style (computed from real
+     anchor gaps in the component frontmatter) — this class only fixes
+     shrink/basis so each spacer's rendered size comes from that flex-grow
+     alone, not from any content of its own (it has none). */
+  .diagram-minor-spacer {
+    flex-shrink: 0;
+    flex-basis: 0;
+    min-height: 0;
+  }
+
   .diagram-minor-item {
+    flex: 0 0 auto;
     text-align: end;
     padding-inline-end: 0.4rem;
   }

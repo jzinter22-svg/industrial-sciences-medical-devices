@@ -50,16 +50,16 @@ const { number, title, description, leaderId, color, icon } = Astro.props;
   .diagram-card {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.15rem;
     background: color-mix(in srgb, var(--card-color) 10%, var(--neo-surface));
     border-radius: var(--neo-radius-sm);
-    padding: 0.5rem 0.65rem;
+    padding: 0.35rem 0.5rem;
   }
 
   .diagram-card-header {
     display: flex;
     align-items: center;
-    gap: var(--neo-space-xs);
+    gap: 0.35rem;
     min-width: 0;
   }
 
@@ -116,8 +116,8 @@ const { number, title, description, leaderId, color, icon } = Astro.props;
 
   @media (min-width: 640px) {
     .diagram-card {
-      padding: 0.65rem 0.85rem;
-      gap: var(--neo-space-sm);
+      padding: 0.5rem 0.65rem;
+      gap: 0.2rem;
     }
 
     .diagram-card-title {
