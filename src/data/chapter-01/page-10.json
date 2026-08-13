@@ -1,0 +1,197 @@
+{
+  "id": "page-10",
+  "pageNumber": 18,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 18
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-3-p10",
+      "number": "1-3",
+      "title": {
+        "ar": "الأجزاء الرئيسة لجهاز الاشعة السينية",
+        "en": "The Major Sections of the X-ray Machine"
+      },
+      "blocks": [
+
+        {
+          "type": "subsection",
+          "id": "subsection-1-3-6",
+          "number": "1-3-6",
+          "title": {
+            "ar": "المنضدة والبكي",
+            "en": "Tables and Bucky"
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "tables-bucky-intro",
+          "content": {
+            "ar": "توجد أنواع مختلفة من المناضد تعطي كافة الاحتياجات الطبية الشعاعية منها :"
+          }
+        },
+
+        {
+          "type": "list",
+          "id": "list-tables-bucky",
+          "items": [
+            {
+              "id": "table-a",
+              "number": "أ",
+              "content": {
+                "ar": "طاولة أشعة تتحرك بالاتجاهات الأربعة وتتحمل وزن مريض لغاية 150 kg ومزودة ببكي يقبل كافة قياسات الأفلام مع فرامل كهرومغناطيسية."
+              }
+            },
+            {
+              "id": "table-b",
+              "number": "ب",
+              "content": {
+                "ar": "منضدة أشعة متنوعة التحكم بها عن بعد (18⁰-90⁰)، (20⁰-90⁰)، (90⁰-90⁰) قابلة للتحكم من لوحة السيطرة وتتحمل وزن مريض لغاية 150 kg."
+              }
+            },
+            {
+              "id": "table-c",
+              "number": "ج",
+              "content": {
+                "ar": "منضدة أشعة أساسية مع منضدة متحركة مزودة ببكي يقبل كافة قياسات الأفلام الشعاعية."
+              }
+            },
+            {
+              "id": "table-d",
+              "number": "د",
+              "content": {
+                "ar": "بكي قائم لتصوير الصور قابل للتحكم بالارتفاع من 40 لغاية 170 cm مع فرامل كهرومغناطيسية."
+              }
+            }
+          ]
+        }
+
+      ]
+    },
+
+    {
+      "id": "section-1-4-p10",
+      "number": "1-4",
+      "title": {
+        "ar": "جهاز معالجة الأفلام الشعاعية (التحميض)",
+        "en": "Film Processor"
+      },
+      "blocks": [
+
+        {
+          "type": "subsection",
+          "id": "subsection-1-4-1",
+          "number": "1-4-1",
+          "title": {
+            "ar": "جهاز معالجة الافلام الشعاعية اليدوي",
+            "en": "Manual Film Processor"
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "manual-processor-intro",
+          "content": {
+            "ar": "يتكون الجهاز من ثلاثة احواض اساسية:-"
+          }
+        },
+
+        {
+          "type": "list",
+          "id": "list-manual-processor-tanks",
+          "items": [
+            {
+              "id": "tank-developer",
+              "number": "1",
+              "content": {
+                "ar": "المحلول المظهر (Developer): مادة تستخدم لتحميض او أظهار الأفلام الفوتوغرافية."
+              }
+            },
+            {
+              "id": "tank-fixer",
+              "number": "2",
+              "content": {
+                "ar": "المحلول المثبت (Fixer): تزال المواد الماسة التي لم تتعرض للضوء عن طبقات الفلم."
+              }
+            },
+            {
+              "id": "tank-wash",
+              "number": "3",
+              "content": {
+                "ar": "الغسل (Wash): غسل الفلم بالماء للتخلص من المواد غير المرغوبة والمتبقية على سطح الفلم."
+              }
+            }
+          ]
+        },
+
+        {
+          "type": "paragraph",
+          "id": "manual-processor-cycle",
+          "content": {
+            "ar": "ويضاف اليها جهاز التجفيف بالهواء المسخن بعد ان يسخن المظهر تبدأ عملية التحميض (سخان في حوض المظهر ويجب ان يسخن المظهر قبل ان تبدأ عملية التحميض) يعمل المظهر على إظهار المناطق السوداء في الفلم التي تحسست للأشعة، ثم يقوم المثبت بإظهار المناطق الزرقاء السماوية التي لم تتحسس للاشعة، وبعد ذلك يقوم الماء بغسل الفلم وازالة الاحماض العالقة على الفلم (المثبت والمظهر)، ويليه المجفف الذي يطلق هواء ساخن لتجفيف الفلم."
+          }
+        },
+
+        {
+          "type": "subsection",
+          "id": "subsection-1-4-2",
+          "number": "1-4-2",
+          "title": {
+            "ar": "جهاز معالجة الأفلام الشعاعية الآلي",
+            "en": "Automatic Film Processor"
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "automatic-processor-intro",
+          "content": {
+            "ar": "يتم ادخال الفلم في الجهاز من جهة ويستقبل جافا من الجهة الاخرى:- الوحدات الرئيسة لجهاز معالجة الافلام الشعاعية الالي هي :-"
+          }
+        },
+
+        {
+          "type": "numbered-list",
+          "id": "list-automatic-processor-units",
+          "items": [
+            { "id": "unit-transport", "content": { "ar": "وحدة نقل الفلم", "en": "Film Transport Section" } },
+            { "id": "unit-developer", "content": { "ar": "وحدة الاظهار", "en": "Developer Section" } },
+            { "id": "unit-fixer", "content": { "ar": "وحدة التثبيت", "en": "Fixer Section" } },
+            { "id": "unit-wash", "content": { "ar": "وحدة الغسيل", "en": "Wash Section" } },
+            { "id": "unit-dryer", "content": { "ar": "وحدة التجفيف", "en": "Dryer Section" } }
+          ]
+        },
+
+        {
+          "type": "paragraph",
+          "id": "figure-11-reference",
+          "content": {
+            "ar": "والشكل (1-11) يوضح الاجزاء الرئيسة لجهاز معالجة الافلام الشعاعية الالي."
+          }
+        }
+
+      ]
+    }
+  ],
+
+  "assets": []
+}

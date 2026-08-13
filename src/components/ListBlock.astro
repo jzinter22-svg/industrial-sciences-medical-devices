@@ -1,0 +1,80 @@
+---
+// Renders both "list" and "numbered-list" schema block types — they share
+// the same items shape ({id, number?, content}), differing only in the
+// marker: an explicit source label when the item carries one (e.g. أ/ب/ج/د,
+// or a table-of-contents entry's own "1-2"), otherwise a bullet for "list"
+// or a sequential digit for "numbered-list". Kept as one component instead
+// of two because the only real difference is marker choice, not layout.
+interface ListItem {
+  id: string;
+  number?: string;
+  content: { ar: string; en?: string };
+}
+
+interface Props {
+  items: ListItem[];
+  ordered?: boolean;
+}
+
+const { items, ordered = false } = Astro.props;
+---
+
+<ul class="content-list neo-surface-soft" dir="rtl">
+  {items.map((item, index) => (
+    <li class="content-list-item">
+      <span class="content-list-marker" dir="ltr">
+        {item.number ?? (ordered ? index + 1 : "•")}
+      </span>
+      <span class="content-list-text">
+        {item.content.ar}
+        {item.content.en && <span class="content-list-text-en" dir="ltr"> ({item.content.en})</span>}
+      </span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .content-list {
+    margin: 0;
+    padding: var(--neo-space-md);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .content-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--neo-space-sm);
+  }
+
+  .content-list-marker {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.3rem;
+    border-radius: var(--neo-radius-sm);
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  .content-list-text {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.98rem;
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+  }
+
+  .content-list-text-en {
+    color: var(--neo-muted);
+    font-weight: 600;
+    unicode-bidi: isolate;
+  }
+</style>

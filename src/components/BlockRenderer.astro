@@ -2,6 +2,11 @@
 import IntroCard from "./IntroCard.astro";
 import DeviceCard from "./DeviceCard.astro";
 import TomographySectionsDiagram from "./TomographySectionsDiagram.astro";
+import DefinitionCard from "./DefinitionCard.astro";
+import SubsectionHeading from "./SubsectionHeading.astro";
+import ListBlock from "./ListBlock.astro";
+import DiagramBlock from "./DiagramBlock.astro";
+import QuestionCard from "./QuestionCard.astro";
 
 interface Props {
   block: any;
@@ -21,4 +26,29 @@ const { block } = Astro.props;
   >
     {block.id === "device-05" && <TomographySectionsDiagram slot="visualization" />}
   </DeviceCard>
+)}
+
+{block.type === "subsection" && (
+  <SubsectionHeading number={block.number} titleAr={block.title.ar} titleEn={block.title.en} />
+)}
+
+{block.type === "definition" && (
+  <DefinitionCard
+    number={block.number}
+    termAr={block.term.ar}
+    termEn={block.term.en}
+    content={block.definition.ar}
+  />
+)}
+
+{(block.type === "list" || block.type === "numbered-list") && (
+  <ListBlock items={block.items} ordered={block.type === "numbered-list"} />
+)}
+
+{block.type === "diagram" && (
+  <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
+)}
+
+{block.type === "question" && (
+  <QuestionCard number={block.number} questionAr={block.question.ar} parts={block.parts} />
 )}

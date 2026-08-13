@@ -1,0 +1,103 @@
+---
+// End-of-chapter exercise ("question" block) — per the Constitution,
+// questions must remain visually identifiable as questions, distinct from
+// explanatory prose. Some source questions (س4, س5) are split into
+// lettered/numbered parts ("ما وظيفة كل من: أ- ... ب- ..."); the optional
+// `parts` list preserves that structure instead of flattening it into one
+// run-on sentence.
+interface QuestionPart {
+  id: string;
+  label: string;
+  content: { ar: string };
+}
+
+interface Props {
+  number: number;
+  questionAr: string;
+  parts?: QuestionPart[];
+}
+
+const { number, questionAr, parts } = Astro.props;
+---
+
+<article class="question-card neo-surface-soft">
+  <div class="question-header">
+    <span class="question-badge" dir="ltr">{number}</span>
+    <p class="question-text">{questionAr}</p>
+  </div>
+  {parts && parts.length > 0 && (
+    <ul class="question-parts">
+      {parts.map((part) => (
+        <li class="question-part">
+          <span class="question-part-label" dir="ltr">{part.label}</span>
+          <span class="question-part-text">{part.content.ar}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</article>
+
+<style>
+  .question-card {
+    padding: var(--neo-space-sm) var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-xs);
+    box-sizing: border-box;
+  }
+
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--neo-space-sm);
+  }
+
+  .question-badge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .question-text {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+  }
+
+  .question-parts {
+    margin: 0;
+    padding-inline-start: 2.5rem;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .question-part {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .question-part-label {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: var(--neo-primary);
+  }
+
+  .question-part-text {
+    font-size: 0.92rem;
+    color: var(--neo-text);
+  }
+</style>

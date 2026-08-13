@@ -10,7 +10,7 @@ const { number, titleAr, titleEn } = Astro.props;
 
 <div class="section-header neo-surface-soft">
   <h2 class="section-title">
-    <span class="section-badge" dir="ltr">{number}</span>
+    {number && <span class="section-badge" dir="ltr">{number}</span>}
     <span class="section-title-ar">{titleAr}</span>
   </h2>
   {titleEn && <p class="section-title-en" dir="ltr">{titleEn}</p>}

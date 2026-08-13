@@ -1,0 +1,173 @@
+{
+  "id": "page-14",
+  "pageNumber": 22,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 22
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-5-p14",
+      "number": "1-5",
+      "title": {
+        "ar": "الوقاية من الإشعاع",
+        "en": "X-Ray Protection"
+      },
+      "blocks": [
+
+        {
+          "type": "numbered-list",
+          "id": "list-environment-protection-2",
+          "items": [
+            {
+              "id": "environment-protection-02",
+              "content": {
+                "ar": "يفضل وضع قسم الاشعة في الطابق تحت الأرضي للإقلال من تعرض المحيط للإشعاع."
+              }
+            },
+            {
+              "id": "environment-protection-03",
+              "content": {
+                "ar": "استخدام الجدران الحاوية على صفائح الرصاص."
+              }
+            },
+            {
+              "id": "environment-protection-04",
+              "content": {
+                "ar": "الالتزام بمبادئ حماية العاملين والمريض والإقلال قدر الإمكان من أخطاء التصوير ومعالجة الأفلام."
+              }
+            }
+          ]
+        }
+
+      ]
+    },
+
+    {
+      "id": "section-chapter-questions",
+      "number": "",
+      "title": {
+        "ar": "أسئلة الفصل الأول"
+      },
+      "blocks": [
+
+        {
+          "type": "question",
+          "id": "question-01",
+          "number": 1,
+          "question": { "ar": "عدد انواع اجهزة الاشعة السينية ومجال استخدام كل من هذه الانواع." }
+        },
+        {
+          "type": "question",
+          "id": "question-02",
+          "number": 2,
+          "question": { "ar": "عدد مكونات انبوبة الاشعة السينية." }
+        },
+        {
+          "type": "question",
+          "id": "question-03",
+          "number": 3,
+          "question": { "ar": "ارسم المخطط الكتلوي لجهاز الاشعة السينية." }
+        },
+        {
+          "type": "question",
+          "id": "question-04",
+          "number": 4,
+          "question": { "ar": "ما وظيفة كل من:-" },
+          "parts": [
+            { "id": "q4-a", "label": "أ", "content": { "ar": "الكاثود" } },
+            { "id": "q4-b", "label": "ب", "content": { "ar": "الانود" } },
+            { "id": "q4-c", "label": "ج", "content": { "ar": "الغلاف الزجاجي" } },
+            { "id": "q4-d", "label": "د", "content": { "ar": "الغلاف المعدني" } }
+          ]
+        },
+        {
+          "type": "question",
+          "id": "question-05",
+          "number": 5,
+          "question": { "ar": "علل مايلي :-" },
+          "parts": [
+            { "id": "q5-1", "label": "1", "content": { "ar": "وضع زيت بين الغلاف الزجاجي والغلاف المعدني." } },
+            { "id": "q5-2", "label": "2", "content": { "ar": "تفريغ أنبوبة الاشعة السينية من الهواء وأية غازات أخرى." } },
+            { "id": "q5-3", "label": "3", "content": { "ar": "استبدال الانود الثابت بانود دوار." } },
+            { "id": "q5-4", "label": "4", "content": { "ar": "وجود مقياس mAs في وحدة السيطرة." } }
+          ]
+        },
+        {
+          "type": "question",
+          "id": "question-06",
+          "number": 6,
+          "question": { "ar": "اشرح وظيفة المؤقت في جهاز الاشعة السينية مع رسم الدائرة الكهربائية." }
+        },
+        {
+          "type": "question",
+          "id": "question-07",
+          "number": 7,
+          "question": { "ar": "عدد أهم أنواع أجهزة التوقيت المستعملة اجهزة الاشعة السينية." }
+        },
+        {
+          "type": "question",
+          "id": "question-08",
+          "number": 8,
+          "question": { "ar": "عدد محاسن مولدة الضغط العالي ثلاثية الأطوار." }
+        },
+        {
+          "type": "question",
+          "id": "question-09",
+          "number": 9,
+          "question": { "ar": "عدد أنواع مولدة الضغط العالي المستخدمة في جهاز الاشعة السينية." }
+        },
+        {
+          "type": "question",
+          "id": "question-10",
+          "number": 10,
+          "question": { "ar": "عدد مساوئ مولدة الضغط العالي ثلاثية الأطوار." }
+        },
+        {
+          "type": "question",
+          "id": "question-11",
+          "number": 11,
+          "question": { "ar": "عدد مراحل تحميض الأفلام الشعاعية." }
+        },
+        {
+          "type": "question",
+          "id": "question-12",
+          "number": 12,
+          "question": { "ar": "عدد وسائل الحماية من الإشعاع للعاملين في مجال الاشعة السينية." }
+        },
+        {
+          "type": "question",
+          "id": "question-13",
+          "number": 13,
+          "question": { "ar": "عدد وسائل حماية المريض من الاشعة." }
+        },
+        {
+          "type": "question",
+          "id": "question-14",
+          "number": 14,
+          "question": { "ar": "عدد وسائل حماية المحيط الموجودة فيه أجهزة الاشعة السينية." }
+        }
+
+      ]
+    }
+  ],
+
+  "assets": []
+}

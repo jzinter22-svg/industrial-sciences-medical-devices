@@ -1,0 +1,73 @@
+{
+  "id": "page-05",
+  "pageNumber": 13,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 13
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-3-p05",
+      "number": "1-3",
+      "title": {
+        "ar": "الأجزاء الرئيسة لجهاز الاشعة السينية",
+        "en": "The Major Sections of the X-ray Machine"
+      },
+      "blocks": [
+
+        {
+          "type": "diagram",
+          "id": "diagram-04",
+          "src": "/assets/diagrams/chapter-01/diagram-04-ma-control.svg",
+          "alt": "شكل 1-4: السيطرة على تيار أنبوب الأشعة",
+          "caption": {
+            "ar": "شكل 1-4 السيطرة على تيار أنبوب الأشعة، أ- دائرة أساسية بمقاومة واحدة، ب- دائرة عملية بمقاومة متعددة التفرعات ومفتاح اختيار mA"
+          }
+        },
+
+        {
+          "type": "definition",
+          "id": "definition-exposure-time-control",
+          "number": "ج",
+          "term": {
+            "ar": "السيطرة على زمن الاشعاع",
+            "en": "The Control Of Exposure Time"
+          },
+          "definition": {
+            "ar": "يتم السيطرة على فترة اشعاع الاشعة السينية بواسطة دائرة كهربائية تحدد بداية الاشعاع ونهايته والفترة الزمنية للاشعاع. والشكل (1-5) يوضح مخطط دائرة المؤقت المتكون من جهاز التوقيت (Timing Device) وموصل هوائي (Contactor) وتحصل دائرة المؤقت قدرتها من الخط الرئيسي عبر المفتاح (Switch) والمصهرات (Fuses) ويمكن اعتبار مفتاح المؤقت ضاغط (Push Button) مع ميكانيكية تؤقيت آلية لقطع التيار بعد زمن محدد، وعندها تنغلق نقاط الموصل الهوائي المفتوحة ليتم تطبيق الضغط العالي (H.P) الى ملف الابتدائي لمحولة الضغط العالي وتتولد الاشعة السينية فقط عندما يمر التيار خلال المؤقت."
+          }
+        },
+
+        {
+          "type": "diagram",
+          "id": "diagram-05",
+          "src": "/assets/diagrams/chapter-01/diagram-05-timer-circuit.svg",
+          "alt": "الشكل 1-5: مخطط دائرة المؤقت",
+          "caption": {
+            "ar": "الشكل 1-5 يوضح مخطط لدائرة المؤقت"
+          }
+        }
+
+      ]
+    }
+  ],
+
+  "assets": []
+}

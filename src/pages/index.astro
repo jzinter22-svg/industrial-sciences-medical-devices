@@ -1,9 +1,29 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import PageRenderer from "../components/PageRenderer.astro";
-import pageData from "../data/chapter-01/page-01.json";
+import LessonRenderer from "../components/LessonRenderer.astro";
+import page00 from "../data/chapter-01/page-00.json";
+import page01 from "../data/chapter-01/page-01.json";
+import page02 from "../data/chapter-01/page-02.json";
+import page03 from "../data/chapter-01/page-03.json";
+import page04 from "../data/chapter-01/page-04.json";
+import page05 from "../data/chapter-01/page-05.json";
+import page06 from "../data/chapter-01/page-06.json";
+import page07 from "../data/chapter-01/page-07.json";
+import page08 from "../data/chapter-01/page-08.json";
+import page09 from "../data/chapter-01/page-09.json";
+import page10 from "../data/chapter-01/page-10.json";
+import page11 from "../data/chapter-01/page-11.json";
+import page12 from "../data/chapter-01/page-12.json";
+import page13 from "../data/chapter-01/page-13.json";
+import page14 from "../data/chapter-01/page-14.json";
+
+const lessonPages = [
+  page00, page01, page02, page03, page04,
+  page05, page06, page07, page08, page09,
+  page10, page11, page12, page13, page14,
+];
 ---
 
-<PageLayout title={`${pageData.title.ar} — ${pageData.source.book}`}>
-  <PageRenderer page={pageData} />
+<PageLayout title={`${page01.title.ar} — ${page01.source.book}`}>
+  <LessonRenderer pages={lessonPages} />
 </PageLayout>

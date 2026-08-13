@@ -1,0 +1,161 @@
+{
+  "id": "page-13",
+  "pageNumber": 21,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 21
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-1-5-p13",
+      "number": "1-5",
+      "title": {
+        "ar": "الوقاية من الإشعاع",
+        "en": "X-Ray Protection"
+      },
+      "blocks": [
+
+        {
+          "type": "numbered-list",
+          "id": "list-operators-protection-2",
+          "items": [
+            {
+              "id": "operator-protection-04",
+              "content": {
+                "ar": "المكان: يجب اختيار مكان بحيث يشكل زاوية قائمة مع مصدر الاشعة وخلف المريض، وبهذا الوضع لا يتعرض المصور الشعاعي للاشعاع."
+              }
+            },
+            {
+              "id": "operator-protection-05",
+              "content": {
+                "ar": "الابتعاد عن رأس الجهاز: يجب عدم مسك انبوبة الاشعة بهدف تثبيته ومنعه من الحركة اذ كل الاجهزة تسرب جزء من الاشعه السينية."
+              }
+            },
+            {
+              "id": "operator-protection-06",
+              "content": {
+                "ar": "عدم السماح للعاملات من الحوامل من العمل في قسم الاشعة طيلة فترة الحمل."
+              }
+            },
+            {
+              "id": "operator-protection-07",
+              "content": {
+                "ar": "يجب مراقبة الاشعاع في الجسم وأخذ الاستراحة عند زيادتها عن الحد المقرر."
+              }
+            }
+          ]
+        },
+
+        {
+          "type": "subsection",
+          "id": "subsection-patient-protection",
+          "number": "",
+          "title": {
+            "ar": "ثانيا : حماية المريض",
+            "en": "Patient Protection"
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "patient-protection-intro",
+          "content": {
+            "ar": "المبدأ هو اقلال كمية الاشعاع ما أمكن وذلك كما يلي :-"
+          }
+        },
+
+        {
+          "type": "numbered-list",
+          "id": "list-patient-protection",
+          "items": [
+            {
+              "id": "patient-protection-01",
+              "content": {
+                "ar": "استخدام الأفلام السريعة : كانت تستلزم الافلام القديمة زمن يصل الى أربعة ثوان، أما اليوم فيمكن استخدام 0.75 ثانية فقط بسبب جودة الاجهزة وحساسية الافلام العالية للاشعه وبالتالي سرعتها."
+              }
+            },
+            {
+              "id": "patient-protection-02",
+              "content": {
+                "ar": "الترشيح الجيد : يجب التخلص من الاشعة الضعيفة التي لا تصل للفلم وذلك بواسطة الترشيح."
+              }
+            },
+            {
+              "id": "patient-protection-03",
+              "content": {
+                "ar": "استخدام حاميات الغدد التناسلية (الواقيات)."
+              }
+            },
+            {
+              "id": "patient-protection-04",
+              "content": {
+                "ar": "المعاملة والتصوير الجيد للفلم : ان معالجة الفلم السيئة تعني اعادته وبالتالي زيادة تعرض المريض للاشعاع كما ان التعرض السيء للفلم عند التصوير يعني اعادة التصوير."
+              }
+            },
+            {
+              "id": "patient-protection-05",
+              "content": {
+                "ar": "استخدام اقماع مفتوحة النهاية : حيث تساهم في عدم نشر الاشعة وبالتالي تقلل من تعرض المريض للاشعة. (في حالة اشعة الاسنان)"
+              }
+            },
+            {
+              "id": "patient-protection-06",
+              "content": {
+                "ar": "يجب ان لاتزيد قيمة الاشعاع عن الحد المسموح به أو المطلوب."
+              }
+            },
+            {
+              "id": "patient-protection-07",
+              "content": {
+                "ar": "يجب عدم اخذ الصور الشعاعية في اثناء فترة الحمل."
+              }
+            }
+          ]
+        },
+
+        {
+          "type": "subsection",
+          "id": "subsection-environment-protection",
+          "number": "",
+          "title": {
+            "ar": "ثالثا : حماية المحيط",
+            "en": "Environment Protection"
+          }
+        },
+
+        {
+          "type": "numbered-list",
+          "id": "list-environment-protection-1",
+          "items": [
+            {
+              "id": "environment-protection-01",
+              "content": {
+                "ar": "يجب توجيه حزمة الاشعة فقط على المريض ثم تصطدم بالجدار دون ان تمر أو تخرج من باب أو نافذة لإشعاع مكان أخر."
+              }
+            }
+          ]
+        }
+
+      ]
+    }
+  ],
+
+  "assets": []
+}

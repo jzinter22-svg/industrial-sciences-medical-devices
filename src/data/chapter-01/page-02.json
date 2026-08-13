@@ -106,13 +106,18 @@
         },
 
         {
-          "type": "paragraph",
-          "id": "intro-xray-tube",
-          "number": "2-3-1",
+          "type": "subsection",
+          "id": "subsection-1-3-2",
+          "number": "1-3-2",
           "title": {
             "ar": "أنبوبة الاشعة السينية",
             "en": "X-Ray Tube"
-          },
+          }
+        },
+
+        {
+          "type": "paragraph",
+          "id": "intro-xray-tube",
           "content": {
             "ar": "لاحظ مكونات انبوبة الاشعة السينية في الشكل (1-2):-"
           }

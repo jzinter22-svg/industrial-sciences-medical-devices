@@ -1,0 +1,151 @@
+{
+  "id": "page-00",
+  "pageNumber": 8,
+  "chapterNumber": 1,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الاول",
+    "printedPage": 8
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الاشعة السينية",
+    "en": "X-ray equipment"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "بعد أن يكتمل الفصل يستطيع الطالب أن: -"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "يعرف جهاز الاشعة السينية وأنواعه ومجال أستخدام كل نوع."
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "يعدد مكونات أنبوبة الاشعة السينية ووظيفة كل مكون."
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "يعدد أنواع مولدة الضغط العالي المستخدمة في جهاز الاشعة السينية."
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "يرسم المخطط الكتلوي لجهاز الاشعة السينية."
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "يعرف مراحل تحميض الأفلام الشعاعية."
+              }
+            },
+            {
+              "id": "objective-06",
+              "content": {
+                "ar": "يعدد وسائل الحماية من الإشعاع للعاملين في مجال الاشعة السينية."
+              }
+            },
+            {
+              "id": "objective-07",
+              "content": {
+                "ar": "يعدد وسائل حماية المريض من الاشعة."
+              }
+            },
+            {
+              "id": "objective-08",
+              "content": {
+                "ar": "يعدد وسائل حماية المحيط من أجهزة الاشعة السينية."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل الاول"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            {
+              "id": "toc-1-1",
+              "number": "1-1",
+              "content": {
+                "ar": "تمهيد"
+              }
+            },
+            {
+              "id": "toc-1-2",
+              "number": "1-2",
+              "content": {
+                "ar": "انواع واستخدامات جهاز الاشعة السينية"
+              }
+            },
+            {
+              "id": "toc-1-3",
+              "number": "1-3",
+              "content": {
+                "ar": "الاجزاء الرئيسة لجهاز الاشعة السينية"
+              }
+            },
+            {
+              "id": "toc-1-4",
+              "number": "1-4",
+              "content": {
+                "ar": "جهاز معالجة الافلام الشعاعية (التحميض)",
+                "en": "Film Processor"
+              }
+            },
+            {
+              "id": "toc-1-5",
+              "number": "1-5",
+              "content": {
+                "ar": "الوقاية من الاشعاع"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

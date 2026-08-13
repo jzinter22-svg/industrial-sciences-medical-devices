@@ -1,0 +1,58 @@
+---
+// Renders a full lesson made of multiple printed-page JSON files (one file
+// per printed page, per the project's established page-XX.json convention).
+// A single textbook section (e.g. "1-3 الأجزاء الرئيسة...") legitimately
+// spans many printed pages, so adjacent flattened sections that share the
+// same non-empty section number are merged into one — otherwise every page
+// boundary would render a redundant duplicate SectionHeader banner in the
+// middle of one continuous topic. Sections with no number (chapter-opener
+// objectives/contents, the unnumbered protection subsections-as-sections,
+// end-of-chapter questions) are never merged with each other since they
+// each appear exactly once.
+import ChapterHeader from "./ChapterHeader.astro";
+import SectionRenderer from "./SectionRenderer.astro";
+
+interface Props {
+  pages: any[];
+}
+
+const { pages } = Astro.props;
+const firstPage = pages[0];
+
+const flatSections: any[] = [];
+for (const page of pages) {
+  for (const section of page.sections) {
+    const prev = flatSections[flatSections.length - 1];
+    if (prev && section.number && prev.number === section.number) {
+      prev.blocks = [...prev.blocks, ...section.blocks];
+    } else {
+      flatSections.push({ ...section, blocks: [...section.blocks] });
+    }
+  }
+}
+---
+
+<main class="page-content">
+  <ChapterHeader
+    chapterNumber={firstPage.chapterNumber}
+    chapterLabel={firstPage.source.chapter}
+    titleAr={firstPage.title.ar}
+    titleEn={firstPage.title.en}
+  />
+
+  {flatSections.map((section: any) => <SectionRenderer section={section} />)}
+</main>
+
+<style>
+  .page-content {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--neo-space-lg) var(--neo-space-md) var(--neo-space-xl);
+  }
+
+  @media (max-width: 640px) {
+    .page-content {
+      padding: var(--neo-space-md) var(--neo-space-sm) var(--neo-space-lg);
+    }
+  }
+</style>

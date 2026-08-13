@@ -1,0 +1,64 @@
+---
+// Non-interactive scientific diagram ("diagram" block type) — a
+// project-owned SVG schematic (block diagrams, circuit diagrams,
+// waveforms) plus its source caption. Unlike TomographySectionsDiagram,
+// these figures don't need leader-line/card interaction: the source
+// figures themselves are already self-labeled schematics, so a plain
+// scaled SVG with its caption underneath is the simplest accurate
+// representation (per the "simplest accurate visualization" rule).
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+
+// Data stores root-relative paths ("/assets/diagrams/..."), but this site
+// deploys under a base path (astro.config.mjs: base: "/industrial-sciences-
+// medical-devices") for GitHub Pages. Astro only rewrites asset URLs it
+// processes itself (imports, <Image>); a plain string interpolated into
+// <img src> needs the base prefixed by hand or it 404s once deployed.
+const resolvedSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + src;
+---
+
+<figure class="diagram-block neo-surface-soft">
+  <div class="diagram-block-image">
+    <img src={resolvedSrc} alt={alt} />
+  </div>
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .diagram-block-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>

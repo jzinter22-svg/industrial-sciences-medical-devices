@@ -1,0 +1,24 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='640' height='340' viewBox='0 0 640 340' role='img' aria-label='السيطرة على kV'>
+<defs>
+<marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#263238'/></marker>
+</defs>
+<rect x='0' y='0' width='640' height='340' fill='none'/>
+<text x='90' y='150' font-family='Cairo, sans-serif' font-size='15' font-weight='700' fill='#263238' text-anchor='middle' direction='rtl' >مجهز القدرة</text>
+<text x='90' y='170' font-family='Cairo, sans-serif' font-size='13' font-weight='600' fill='#57606f' text-anchor='middle' direction='ltr' >AC</text>
+<line x1='60' y1='200' x2='140' y2='200' stroke='#263238' stroke-width='2' marker-end='url(#arrow)'/>
+<line x1='60' y1='260' x2='140' y2='260' stroke='#263238' stroke-width='2'/>
+<line x1='140' y1='120' x2='140' y2='280' stroke='#263238' stroke-width='2'/>
+<path d='M 140,120 a 10,10 0 1 1 0,20 M 140,140 a 10,10 0 1 1 0,20 M 140,160 a 10,10 0 1 1 0,20 M 140,180 a 10,10 0 1 1 0,20 M 140,200 a 10,10 0 1 1 0,20 M 140,220 a 10,10 0 1 1 0,20 M 140,240 a 10,10 0 1 1 0,20 M 140,260 a 10,10 0 1 1 0,20' fill='none' stroke='#263238' stroke-width='2.2'/>
+<line x1='140' y1='280' x2='200' y2='280' stroke='#263238' stroke-width='2'/>
+<line x1='140' y1='120' x2='200' y2='120' stroke='#263238' stroke-width='2'/>
+<path d='M 145,150 L 230,180' stroke='#1d4ed8' stroke-width='3' marker-end='url(#arrow)'/>
+<circle cx='230' cy='180' r='7' fill='#1d4ed8'/>
+<text x='300' y='165' font-family='Cairo, sans-serif' font-size='14' font-weight='700' fill='#1d4ed8' text-anchor='middle' direction='rtl' >السيطرة</text>
+<text x='300' y='185' font-family='Cairo, sans-serif' font-size='14' font-weight='700' fill='#1d4ed8' text-anchor='middle' direction='rtl' >على kV</text>
+<text x='140' y='100' font-family='Cairo, sans-serif' font-size='13' font-weight='700' fill='#263238' text-anchor='middle' direction='rtl' >الابتدائي</text>
+<line x1='230' y1='180' x2='420' y2='180' stroke='#263238' stroke-width='2'/>
+<line x1='420' y1='120' x2='420' y2='280' stroke='#263238' stroke-width='2'/>
+<line x1='420' y1='120' x2='470' y2='120' stroke='#263238' stroke-width='2' marker-end='url(#arrow)'/>
+<line x1='420' y1='280' x2='470' y2='280' stroke='#263238' stroke-width='2'/>
+<text x='430' y='100' font-family='Cairo, sans-serif' font-size='13' font-weight='700' fill='#263238' text-anchor='middle' direction='rtl' >الثانوي</text>
+</svg>

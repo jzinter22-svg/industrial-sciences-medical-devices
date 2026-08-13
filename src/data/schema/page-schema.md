@@ -834,3 +834,57 @@ INTERACTION
 
 QA
 → determines acceptance
+
+---
+
+# 39. PROJECT EXTENSIONS (Lesson 1 build)
+
+Added while implementing Chapter 1 / Lesson 1, to represent structure that
+appears in the source but had no exact slot above. Each extension follows
+the schema's own spirit (represent the source faithfully; do not invent).
+
+## 39.1 SUBSECTION BLOCK
+
+The source numbers headings three levels deep (e.g. "1-3-2 أنبوبة الاشعة
+السينية" under section "1-3"). A "subsection" block represents this
+mid-level heading, sitting between a section title and its body content:
+
+{
+  "type": "subsection",
+  "id": "subsection-1-3-2",
+  "number": "1-3-2",
+  "title": { "ar": "...", "en": "..." }
+}
+
+`number` may be an empty string for a source heading that groups content
+without a formal "N-N-N" label (e.g. "انواع مولدات الضغط العالي احادية
+الطور"). An empty number renders without a numbered badge.
+
+## 39.2 LIST / NUMBERED-LIST ITEM NUMBER
+
+A list item may carry an explicit `number` label distinct from its array
+position, when the source itself labels items with letters or its own
+numbering (e.g. أ/ب/ج/د, or a printed section number in a table of
+contents):
+
+{
+  "id": "table-a",
+  "number": "أ",
+  "content": { "ar": "..." }
+}
+
+## 39.3 QUESTION PARTS
+
+An end-of-chapter question that the source itself splits into lettered or
+numbered parts (e.g. "س4: ما وظيفة كل من: أ- ... ب- ...") keeps that
+structure via an optional `parts` array:
+
+{
+  "type": "question",
+  "id": "question-04",
+  "number": 4,
+  "question": { "ar": "ما وظيفة كل من:-" },
+  "parts": [
+    { "id": "q4-a", "label": "أ", "content": { "ar": "الكاثود" } }
+  ]
+}
