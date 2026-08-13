@@ -122,7 +122,6 @@ const regions = [
 // "even the tiniest parts"). Independent HTML labels (DiagramFrame's
 // "minor" slot), each connected to its own SVG anchor circle below —
 // never part of a flattened image.
-const spineColor = "#d97706";
 // Sorted top-to-bottom by anchorY: the minor column renders in this array
 // order via normal document flow, and the non-crossing proof requires the
 // anchor sequence and the on-page target sequence to be sorted the same way.
@@ -173,10 +172,48 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
     preserveAspectRatio="xMidYMid meet"
     data-playable
   >
+    <defs>
+      <linearGradient id="brainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#f6cec4" />
+        <stop offset="100%" stop-color="#dfa494" />
+      </linearGradient>
+      <linearGradient id="cerebellumGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#c88f68" />
+        <stop offset="100%" stop-color="#a06a45" />
+      </linearGradient>
+      <linearGradient id="boneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#f2e0bd" />
+        <stop offset="100%" stop-color="#d3ab7c" />
+      </linearGradient>
+    </defs>
+
     <!-- Layer 1: central anatomical illustration only — organic,
-         recognizable linework, no cards/text/captions of any kind. -->
+         recognizable linework, no cards/text/captions of any kind.
+         Brain: gyri texture (folded-cortex line pairs) + a distinct
+         scalloped cerebellum at its base, not a plain filled outline —
+         the outline itself is unchanged (same headPath the region
+         overlay below reuses), only the linework drawn on top of it. -->
     <g class="body-illustration">
-      <path d={headPath} class="body-outline" />
+      <path d={headPath} class="brain-shape" />
+      <g class="gyri">
+        <path d="M108 26 Q118 20 128 25" />
+        <path d="M132 25 Q142 20 152 26" />
+        <path d="M98 40 Q112 33 126 39" />
+        <path d="M134 39 Q148 33 162 40" />
+        <path d="M92 54 Q107 46 123 53" />
+        <path d="M137 53 Q153 46 168 54" />
+        <path d="M90 68 Q106 60 122 67" />
+        <path d="M138 67 Q154 60 170 68" />
+        <path d="M94 82 Q108 75 123 81" />
+        <path d="M137 81 Q152 75 166 82" />
+        <path d="M100 94 Q112 88 124 93" />
+        <path d="M136 93 Q148 88 160 94" />
+        <path d="M130 20 C129 40 130 60 130 80 C130 88 130 96 130 104" class="fissure" />
+      </g>
+      <path
+        d="M104 106 C104 116 111 124 121 125 C126 126 129 123 130 119 C131 123 134 126 139 125 C149 124 156 116 156 106 C152 111 146 113 140 111 C136 108 133 106 130 110 C127 106 124 108 120 111 C114 113 108 111 104 106 Z"
+        class="cerebellum"
+      />
       <path d="M84 62c-6 0-9 5-9 10c0 5 3 9 9 9" class="body-outline" />
       <path d="M176 62c6 0 9 5 9 10c0 5-3 9-9 9" class="body-outline" />
       <path d={neckPath} class="body-outline" />
@@ -202,10 +239,18 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 
     <!-- vertebral column: a real anatomical structure, drawn on top of
          the bands so it stays legible; part of the illustration, not a
-         numbered region of its own -->
-    <g class="vertebral-column" style={`--spine-color: ${spineColor}`}>
+         numbered region of its own. Each segment is shaped like an actual
+         vertebra — a central body, two transverse processes (the lateral
+         "wings" bone grows on either side), and a small foramen (the
+         canal the spinal cord passes through) — not a plain rectangle. -->
+    <g class="vertebral-column">
       {vertebraYs.map((y) => (
-        <rect x="122" y={y} width="16" height="8" rx="3" class="vertebra" />
+        <g class="vertebra-unit">
+          <ellipse cx="130" cy={y + 4} rx="9" ry="4.5" class="vertebra-body" />
+          <ellipse cx="117" cy={y + 4} rx="4" ry="2.2" class="vertebra-wing" />
+          <ellipse cx="143" cy={y + 4} rx="4" ry="2.2" class="vertebra-wing" />
+          <circle cx="130" cy={y + 4} r="1.2" class="vertebra-foramen" />
+        </g>
       ))}
     </g>
 
@@ -315,8 +360,50 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
     pointer-events: none;
   }
 
-  .vertebra {
-    fill: var(--spine-color);
+  /* Brain: gradient-filled outline (not a flat neutral tone, unlike the
+     rest of the body outline) plus gyri texture drawn on top — a handful
+     of bold folded-cortex strokes rather than many fine ones, since dense
+     detail turns to visual noise at this illustration's small rendered
+     size (see the SVG's own comment on why it stays compact). */
+  .brain-shape {
+    fill: url(#brainGrad);
+    stroke: #c17a68;
+    stroke-width: 1.4;
+    pointer-events: none;
+  }
+
+  .gyri path {
+    fill: none;
+    stroke: #c17a68;
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .gyri .fissure {
+    stroke-width: 1;
+    stroke-dasharray: none;
+    opacity: 0.55;
+  }
+
+  .cerebellum {
+    fill: url(#cerebellumGrad);
+    stroke: #8a5a3a;
+    stroke-width: 1;
+    pointer-events: none;
+  }
+
+  .vertebra-body,
+  .vertebra-wing {
+    fill: url(#boneGrad);
+    stroke: #a5793f;
+    stroke-width: 0.6;
+    pointer-events: none;
+  }
+
+  .vertebra-foramen {
+    fill: #7a5230;
     pointer-events: none;
   }
 
