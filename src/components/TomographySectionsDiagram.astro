@@ -269,19 +269,22 @@ const vertebraYs = Array.from({ length: 22 }, (_, i) => 132 + i * 12);
 </DiagramFrame>
 
 <style>
-  /* 57% of the illustration column's own actual rendered width (not a
+  /* 88% of the illustration column's own actual rendered width (not a
      hard-coded pixel value) — proportional at every breakpoint since the
      SVG's viewBox scales all of its internal coordinates (anchors, paths,
      everything) together automatically; nothing here needs recomputing
-     per screen size. Reduced from a full-width illustration so it reads
-     as supporting the cards rather than competing with them. Vertically
-     centered within the row, which DiagramFrame's grid may make taller
-     than the illustration alone (e.g. a taller card column);
-     preserveAspectRatio="xMidYMid meet" keeps the artwork itself
+     per screen size. A prior 57% was measured to render as small as 48px
+     wide at 1024px (the tightest breakpoint, where the illustration
+     column itself is narrowest) — illegible in real page context, not
+     "medium." 88% keeps the illustration a supporting element rather than
+     one competing with the cards, while staying clearly readable at every
+     breakpoint. Vertically centered within the row, which DiagramFrame's
+     grid may make taller than the illustration alone (e.g. a taller card
+     column); preserveAspectRatio="xMidYMid meet" keeps the artwork itself
      undistorted. */
   .tomography-svg {
     display: block;
-    width: 57%;
+    width: 88%;
     height: auto;
     aspect-ratio: 260 / 420;
     margin-inline: auto;
