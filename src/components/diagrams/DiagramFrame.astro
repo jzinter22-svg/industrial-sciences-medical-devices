@@ -64,22 +64,28 @@ const { ariaLabel } = Astro.props;
      92%, not 100%: measured to otherwise fill its parent card's content
      box exactly, edge to edge, at every breakpoint — no breathing room,
      nothing for the auto side margins to actually center against. 92%
-     leaves ~4% clear on each side. This is the ONLY size/scale change in
-     this pass: the stage grid, the illustration SVG, and every leader-
-     line/anchor position inside are all percentages of THIS box, so they
-     shrink together in the same proportion as this box does — none of
-     their own rules changed, and nothing here is smaller relative to
-     anything else than it was before. max-width kept as a defensive
+     leaves ~4% clear on each side. Width is intentionally NOT reduced
+     further in this pass — the illustration's own rendered size is a
+     percentage of this same box (see TomographySectionsDiagram.astro),
+     so any further width cut would shrink the illustration too, which is
+     explicitly out of scope here. Only the frame's own vertical margin/
+     padding/gap were tightened (below), to fit the whole diagram — all
+     five cards plus the complete illustration — inside one mobile
+     viewport height with a safety margin: measured at 375×667px (the
+     smallest common modern phone, no browser chrome subtracted) the
+     total was already 634px against a 667px viewport before this change
+     — technically fitting, but only by 33px, too thin a margin against
+     any real device's address-bar chrome. max-width kept as a defensive
      ceiling (still never the binding constraint against any of this
      project's device cards, at any width). */
   .diagram-frame {
     width: 92%;
     max-width: 440px;
-    margin: var(--neo-space-sm) auto 0;
-    padding: var(--neo-space-xs) var(--neo-space-sm);
+    margin: var(--neo-space-xs) auto 0;
+    padding: 0.4rem var(--neo-space-sm);
     display: flex;
     flex-direction: column;
-    gap: var(--neo-space-sm);
+    gap: var(--neo-space-xs);
     min-width: 0;
     box-sizing: border-box;
   }
@@ -159,7 +165,7 @@ const { ariaLabel } = Astro.props;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.4rem;
+    gap: 0.3rem;
     min-width: 0;
   }
 
