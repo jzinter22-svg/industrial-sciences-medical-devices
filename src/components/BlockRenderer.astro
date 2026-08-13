@@ -7,6 +7,7 @@ import SubsectionHeading from "./SubsectionHeading.astro";
 import ListBlock from "./ListBlock.astro";
 import DiagramBlock from "./DiagramBlock.astro";
 import QuestionCard from "./QuestionCard.astro";
+import XraySystemBlockDiagram from "./diagrams/XraySystemBlockDiagram.astro";
 
 interface Props {
   block: any;
@@ -45,7 +46,11 @@ const { block } = Astro.props;
   <ListBlock items={block.items} ordered={block.type === "numbered-list"} />
 )}
 
-{block.type === "diagram" && (
+{block.type === "diagram" && block.id === "diagram-01" && (
+  <XraySystemBlockDiagram caption={block.caption?.ar} />
+)}
+
+{block.type === "diagram" && block.id !== "diagram-01" && (
   <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
 )}
 
