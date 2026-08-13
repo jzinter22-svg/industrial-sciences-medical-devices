@@ -1,22 +1,25 @@
 ---
 // Animated version of Figure 1-1 (المخطط الكتلوي لجهاز الاشعة السينية).
 //
-// The SVG markup below is byte-for-byte the same figure as
-// public/assets/diagrams/chapter-01/diagram-01-block-diagram.svg — same
-// viewBox, same box positions/sizes/colors, same arrows, same Arabic
-// labels, same caption. Nothing about the approved diagram was
-// redesigned. Two additive-only changes make it animatable:
-//   1. `class` hooks on the existing boxes/meters (KV control, HV
-//      generator, X-ray tube, the two auxiliary control boxes, the two
-//      meters) — inert in the resting state, they only matter once
-//      `.playing` is toggled on the wrapper.
-//   2. A new <g class="flow-layer"> appended AFTER all existing content,
-//      holding the moving particles and the tube's glow — purely additive,
-//      so it never displaces or hides any original element.
+// Rebuilt against the original textbook page (page 10 / PDF index 9) for
+// fidelity: exact box fill #FFCC00, exact green fill #CCFFCC, boxes made
+// taller (portrait, matching the original's proportions) instead of the
+// previous flat/wide rectangles, the KV/mA indicators rebuilt as an
+// actual gauge-dial icon (circle + needle) with the red "مبين KV"/"مبين
+// mA" label placed beside it exactly as in the source instead of plain
+// text inside a ring, and the مجهز القدرة feed lines' arrowheads pointing
+// outward (left) as drawn in the original rather than inward.
 //
-// Every particle travels along coordinates taken directly from the
-// existing <line> elements it visually follows (see the coordinates
-// inline below) rather than a redrawn/approximated path.
+// The topology (which block connects to which — power -> KV control ->
+// HV generator -> tube as the main chain, with the exposure-time-control
+// and mA/filament-control boxes each branching to two points of that
+// chain) matches the original and is unchanged from the previous build.
+//
+// class hooks on the boxes/meters and the additive <g class="flow-layer">
+// (particles + tube glow) work exactly as before — only the *coordinates*
+// they reference were shifted to match the boxes' new height (170-310
+// instead of 190-290), not the animation's timing, sequence, or trigger
+// model.
 interface Props {
   caption: string;
 }
@@ -49,31 +52,39 @@ const { caption } = Astro.props;
       <text x="115.0" y="241.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
       <text x="115.0" y="261.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
 
-      <rect class="flow-box flow-box-kv" x="240" y="190" width="130" height="100" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
+      <rect class="flow-box flow-box-kv" x="240" y="170" width="130" height="140" rx="6" fill="#FFCC00" stroke="#263238" stroke-width="2"></rect>
       <text x="305.0" y="236.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">السيطرة</text>
       <text x="305.0" y="256.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">على KV</text>
 
-      <rect class="flow-box flow-box-generator" x="560" y="190" width="130" height="100" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
+      <rect class="flow-box flow-box-generator" x="560" y="170" width="130" height="140" rx="6" fill="#FFCC00" stroke="#263238" stroke-width="2"></rect>
       <text x="625.0" y="236.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مولدة</text>
       <text x="625.0" y="256.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الضغط العالي</text>
 
-      <rect class="flow-box flow-box-tube" x="760" y="190" width="130" height="100" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
+      <rect class="flow-box flow-box-tube" x="760" y="170" width="130" height="140" rx="6" fill="#FFCC00" stroke="#263238" stroke-width="2"></rect>
       <text x="825.0" y="236.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
       <text x="825.0" y="256.0" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة السينية</text>
 
-      <rect class="flow-box flow-box-exposure" x="330" y="40" width="220" height="70" rx="6" fill="#bbf7d0" stroke="#263238" stroke-width="2"></rect>
+      <rect class="flow-box flow-box-exposure" x="330" y="40" width="220" height="70" rx="6" fill="#CCFFCC" stroke="#263238" stroke-width="2"></rect>
       <text x="440" y="68" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">السيطرة على</text>
       <text x="440" y="90" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">زمن الاشعاع</text>
 
-      <rect class="flow-box flow-box-ma-circuit" x="420" y="350" width="240" height="70" rx="6" fill="#bbf7d0" stroke="#263238" stroke-width="2"></rect>
+      <rect class="flow-box flow-box-ma-circuit" x="420" y="350" width="240" height="70" rx="6" fill="#CCFFCC" stroke="#263238" stroke-width="2"></rect>
       <text x="540" y="378" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">دائرة السيطرة mA</text>
       <text x="540" y="400" font-family="Cairo, sans-serif" font-size="13" font-weight="600" fill="#263238" text-anchor="middle" direction="rtl">(دائرة الفتيل)</text>
 
-      <circle class="flow-meter flow-meter-kv" cx="430" cy="240" r="20" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
-      <text x="430" y="245" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">KV</text>
+      <g class="flow-meter flow-meter-kv">
+        <circle cx="430" cy="240" r="16" fill="#FFFF00" stroke="#263238" stroke-width="2"></circle>
+        <line x1="430" y1="240" x2="439" y2="228" stroke="#263238" stroke-width="2" stroke-linecap="round"></line>
+        <circle cx="430" cy="240" r="2.2" fill="#263238"></circle>
+      </g>
+      <text x="430" y="280" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">مبين KV</text>
 
-      <circle class="flow-meter flow-meter-ma" cx="710" cy="240" r="20" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
-      <text x="710" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">mA</text>
+      <g class="flow-meter flow-meter-ma">
+        <circle cx="710" cy="240" r="16" fill="#FFFF00" stroke="#263238" stroke-width="2"></circle>
+        <line x1="710" y1="240" x2="719" y2="228" stroke="#263238" stroke-width="2" stroke-linecap="round"></line>
+        <circle cx="710" cy="240" r="2.2" fill="#263238"></circle>
+      </g>
+      <text x="710" y="280" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">مبين mA</text>
 
       <line x1="170" y1="225" x2="240" y2="225" stroke="#263238" stroke-width="2"></line>
       <line x1="170" y1="255" x2="240" y2="255" stroke="#263238" stroke-width="2"></line>
@@ -84,15 +95,15 @@ const { caption } = Astro.props;
       <line x1="690" y1="255" x2="730" y2="255" stroke="#263238" stroke-width="2"></line>
       <line x1="730" y1="225" x2="760" y2="225" stroke="#263238" stroke-width="2"></line>
       <line x1="690" y1="240" x2="760" y2="240" stroke="#263238" stroke-width="2"></line>
-      <line x1="60" y1="225" x2="170" y2="225" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
-      <line x1="60" y1="255" x2="170" y2="255" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
-      <line x1="370" y1="110" x2="370" y2="190" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
+      <line x1="60" y1="225" x2="170" y2="225" stroke="#263238" stroke-width="2" marker-start="url(#arrow)"></line>
+      <line x1="60" y1="255" x2="170" y2="255" stroke="#263238" stroke-width="2" marker-start="url(#arrow)"></line>
+      <line x1="370" y1="110" x2="370" y2="170" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
       <line x1="440" y1="110" x2="440" y2="40" stroke="#263238" stroke-width="2"></line>
-      <line x1="300" y1="190" x2="300" y2="130" stroke="#263238" stroke-width="2"></line>
+      <line x1="300" y1="170" x2="300" y2="130" stroke="#263238" stroke-width="2"></line>
       <line x1="300" y1="130" x2="625" y2="130" stroke="#263238" stroke-width="2"></line>
-      <line x1="625" y1="130" x2="625" y2="190" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
-      <line x1="495" y1="350" x2="495" y2="290" stroke="#263238" stroke-width="2"></line>
-      <line x1="305" y1="290" x2="825" y2="290" stroke="#263238" stroke-width="2"></line>
+      <line x1="625" y1="130" x2="625" y2="170" stroke="#263238" stroke-width="2" marker-end="url(#arrow)"></line>
+      <line x1="495" y1="350" x2="495" y2="310" stroke="#263238" stroke-width="2"></line>
+      <line x1="305" y1="310" x2="825" y2="310" stroke="#263238" stroke-width="2"></line>
 
       <!-- Additive animation layer — every element below is new; nothing
            above this comment was altered. aria-hidden because the flow is
@@ -100,7 +111,7 @@ const { caption } = Astro.props;
            in the surrounding text; the diagram's own labels remain the
            accessible content. -->
       <g class="flow-layer" aria-hidden="true">
-        <rect class="tube-glow" x="760" y="190" width="130" height="100" rx="10" fill="#1d4ed8" filter="url(#tubeGlowBlur)"></rect>
+        <rect class="tube-glow" x="760" y="170" width="130" height="140" rx="10" fill="#1d4ed8" filter="url(#tubeGlowBlur)"></rect>
 
         <circle class="particle p-power-top" cx="60" cy="225" r="5"></circle>
         <circle class="particle p-power-bottom" cx="60" cy="255" r="5"></circle>
@@ -112,11 +123,11 @@ const { caption } = Astro.props;
         <circle class="particle p-gen-out-bottom" cx="690" cy="255" r="5"></circle>
 
         <circle class="particle p-ma-rise" cx="495" cy="350" r="5"></circle>
-        <circle class="particle p-ma-left" cx="495" cy="290" r="5"></circle>
-        <circle class="particle p-ma-right" cx="495" cy="290" r="5"></circle>
+        <circle class="particle p-ma-left" cx="495" cy="310" r="5"></circle>
+        <circle class="particle p-ma-right" cx="495" cy="310" r="5"></circle>
 
         <circle class="particle p-exposure-direct" cx="370" cy="110" r="5"></circle>
-        <circle class="particle p-exposure-bus" cx="300" cy="190" r="5"></circle>
+        <circle class="particle p-exposure-bus" cx="300" cy="170" r="5"></circle>
 
         <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none"></rect>
       </g>
@@ -233,8 +244,8 @@ const { caption } = Astro.props;
     }
 
     @keyframes meter-pulse {
-      0%, 100% { filter: none; stroke: #c2410c; }
-      50% { filter: drop-shadow(0 0 8px rgba(194, 65, 12, 0.9)); stroke: #ea580c; }
+      0%, 100% { filter: none; }
+      50% { filter: drop-shadow(0 0 8px rgba(194, 65, 12, 0.9)); }
     }
 
     @keyframes tube-glow-pulse {
@@ -303,19 +314,19 @@ const { caption } = Astro.props;
     .playing .p-gen-out-top { animation: move-gen-out-top 1.2s ease-in-out 3.1s; }
     .playing .p-gen-out-bottom { animation: move-gen-out-bottom 1.2s ease-in-out 3.1s; }
 
-    @keyframes move-ma-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(0, -60px); opacity: 0; } }
+    @keyframes move-ma-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(0, -40px); opacity: 0; } }
     @keyframes move-ma-left { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-190px, 0); opacity: 0; } }
     @keyframes move-ma-right { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(330px, 0); opacity: 0; } }
     .playing .p-ma-rise { animation: move-ma-rise 0.3s linear 5.4s; }
     .playing .p-ma-left { animation: move-ma-left 1.2s ease-out 5.7s; fill: #c2410c; }
     .playing .p-ma-right { animation: move-ma-right 1.2s ease-out 5.7s; fill: #c2410c; }
 
-    @keyframes move-exposure-direct { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(0, 80px); opacity: 0; } }
+    @keyframes move-exposure-direct { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(0, 60px); opacity: 0; } }
     @keyframes move-exposure-bus {
       0% { transform: translate(0, 0); opacity: 0; }
       10% { opacity: 1; }
-      35% { transform: translate(0, -60px); }
-      75% { transform: translate(325px, -60px); }
+      35% { transform: translate(0, -40px); }
+      75% { transform: translate(325px, -40px); }
       90% { opacity: 1; }
       100% { transform: translate(325px, 0); opacity: 0; }
     }

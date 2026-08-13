@@ -1,16 +1,24 @@
 ---
-// Animated version of Figure 1-2 (أنبوبة الاشعة السينية). The markup is
-// byte-for-byte the approved static diagram (public/assets/diagrams/
-// chapter-01/diagram-02-tube-cross-section.svg) — same viewBox, box/shape
-// positions, colors, labels, arrows. Only additive class hooks (inert at
-// rest) and a script-driven "playing" state were added, matching the
-// pattern already validated on Figure 1-1.
+// Animated version of Figure 1-2 (أنبوبة الاشعة السينية).
 //
-// Teaches: electrons travel cathode -> anode (the existing dashed line,
-// animated via stroke-dashoffset — no new path drawn), the impact at the
-// anode is what produces the X-ray beam that exits through the window
-// (the existing arrow line + window rect briefly glow). Level 2 —
-// restrained, single pass, no card/leader-line interaction needed.
+// Rebuilt against the original textbook page (page 11 / PDF index 10) for
+// fidelity: the tube is a three-layer capsule — an outer teal metal
+// envelope (#8DC2BE), an inset light-gray oil layer, and an octagonal
+// (chamfered) glass-envelope wall drawn in light blue — instead of the
+// previous plain single rounded rectangle. The anode is a wheat-colored
+// rod ending in an angled beveled target wedge (not a filled triangle);
+// the cathode is a small nook of the same glass-envelope wall holding a
+// coiled-filament icon with two lead wires, not a plain yellow square.
+// The window is a stepped channel with ridge/seal lines that pierces
+// through the oil and metal layers at the bottom-center, matching the
+// original's tiered plug shape, instead of a small floating rounded rect.
+//
+// class hooks (.anode-shape / .cathode-shape / .xray-beam / .window-shape)
+// and the electron-beam dashed line are kept on the equivalent rebuilt
+// elements so the existing highlight-pulse / stroke-dashoffset animation
+// timing (see cathode -> electron flow -> anode -> x-ray -> window, total
+// ~3.9s cycle) is unchanged — only the shapes being animated were made
+// faithful to the source figure.
 import "../../styles/diagram-animations.css";
 
 interface Props {
@@ -25,9 +33,9 @@ const { caption } = Astro.props;
     <svg
       class="tube-svg"
       xmlns="http://www.w3.org/2000/svg"
-      width="820"
+      width="900"
       height="420"
-      viewBox="0 0 820 420"
+      viewBox="0 0 900 420"
       role="img"
       aria-label="أنبوبة الاشعة السينية"
     >
@@ -37,29 +45,75 @@ const { caption } = Astro.props;
         </marker>
       </defs>
 
-      <rect x="0" y="0" width="820" height="420" fill="none"></rect>
-      <rect x="60" y="60" width="700" height="220" rx="40" fill="#cbd5e1" stroke="#263238" stroke-width="2"></rect>
-      <rect x="110" y="100" width="600" height="140" rx="60" fill="#e0f2fe" stroke="#1d4ed8" stroke-width="2"></rect>
-      <polygon class="flow-highlight anode-shape" points="170,170 230,130 230,210" fill="#94a3b8" stroke="#263238" stroke-width="2"></polygon>
-      <line x1="140" y1="170" x2="170" y2="170" stroke="#263238" stroke-width="2"></line>
-      <rect class="flow-highlight cathode-shape" x="560" y="150" width="40" height="40" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
-      <line x1="600" y1="170" x2="660" y2="170" stroke="#263238" stroke-width="2"></line>
-      <line class="electron-beam" x1="560" y1="170" x2="230" y2="170" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 4"></line>
-      <line class="flow-highlight xray-beam" x1="210" y1="165" x2="210" y2="320" stroke="#c2410c" stroke-width="3" marker-end="url(#arrow-tube)"></line>
-      <rect class="flow-highlight window-shape" x="190" y="235" width="40" height="30" rx="6" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"></rect>
-      <text x="200" y="130" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الانود</text>
-      <text x="200" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Anode</text>
-      <text x="620" y="130" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الكاثود</text>
-      <text x="620" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Cathode</text>
-      <text x="410" y="45" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف الزجاجي  Glass Envelope</text>
-      <line x1="410" y1="55" x2="410" y2="100" stroke="#263238" stroke-width="2"></line>
-      <text x="410" y="400" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف المعدني  Metal Envelope</text>
-      <line x1="410" y1="390" x2="410" y2="280" stroke="#263238" stroke-width="2"></line>
-      <text x="210" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">النافذة</text>
-      <text x="210" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Window</text>
-      <text x="680" y="300" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الزيت</text>
-      <text x="680" y="318" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Oil</text>
-      <line x1="660" y1="290" x2="640" y2="260" stroke="#263238" stroke-width="2"></line>
+      <rect x="0" y="0" width="900" height="420" fill="none"></rect>
+
+      <!-- Metal envelope (outer teal shell) -->
+      <rect x="30" y="40" width="840" height="280" rx="55" fill="#8DC2BE" stroke="#263238" stroke-width="3"></rect>
+      <!-- Oil layer (inset gray band) -->
+      <rect x="55" y="63" width="790" height="234" rx="45" fill="#D6DCD3" stroke="#263238" stroke-width="2"></rect>
+
+      <!-- Glass envelope (octagonal capsule wall) -->
+      <polygon points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
+        fill="#ffffff" stroke="#C6E6FB" stroke-width="10"></polygon>
+      <polygon points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
+        fill="none" stroke="#263238" stroke-width="1.5"></polygon>
+
+      <!-- Window channel: pierces the oil + metal layers at bottom-center -->
+      <rect x="395" y="255" width="110" height="24" fill="#ffffff" stroke="#263238" stroke-width="2"></rect>
+      <rect x="415" y="279" width="70" height="42" fill="#ffffff" stroke="#263238" stroke-width="2"></rect>
+      <g class="flow-highlight window-shape">
+        <line x1="415" y1="292" x2="485" y2="292" stroke="#263238" stroke-width="2"></line>
+        <line x1="415" y1="300" x2="485" y2="300" stroke="#263238" stroke-width="2"></line>
+        <line x1="415" y1="308" x2="485" y2="308" stroke="#263238" stroke-width="2"></line>
+        <line x1="415" y1="316" x2="485" y2="316" stroke="#263238" stroke-width="2"></line>
+      </g>
+
+      <!-- Anode: wheat rod entering from the left, ending in a beveled wedge target -->
+      <line x1="0" y1="165" x2="130" y2="165" stroke="#F9E0A9" stroke-width="30"></line>
+      <g class="flow-highlight anode-shape">
+        <rect x="130" y="150" width="330" height="30" fill="#F9E0A9" stroke="#263238" stroke-width="2"></rect>
+        <polygon points="460,150 500,150 470,180 430,180" fill="#EBC988" stroke="#263238" stroke-width="2"></polygon>
+      </g>
+
+      <!-- Cathode: a nook of the glass-envelope wall holding the filament coil + two leads -->
+      <g class="flow-highlight cathode-shape">
+        <rect x="590" y="140" width="90" height="60" fill="#C6E6FB" stroke="#263238" stroke-width="2"></rect>
+        <path d="M 610,160 q 6,-8 12,0 q 6,8 12,0 q 6,-8 12,0" fill="none" stroke="#263238" stroke-width="2"></path>
+        <line x1="622" y1="155" x2="622" y2="185" stroke="#263238" stroke-width="1.5"></line>
+      </g>
+      <line x1="640" y1="155" x2="900" y2="155" stroke="#F9E0A9" stroke-width="10"></line>
+      <line x1="640" y1="185" x2="900" y2="185" stroke="#F9E0A9" stroke-width="10"></line>
+
+      <!-- Electron beam: cathode -> anode target -->
+      <line class="electron-beam" x1="620" y1="170" x2="470" y2="165" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 4"></line>
+
+      <!-- X-ray beam exiting through the window -->
+      <line class="flow-highlight xray-beam" x1="450" y1="255" x2="450" y2="380" stroke="#c2410c" stroke-width="3" marker-end="url(#arrow-tube)"></line>
+
+      <!-- Labels + leader lines -->
+      <text x="330" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الأنود</text>
+      <text x="330" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Anode</text>
+      <line x1="370" y1="115" x2="400" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#arrow-tube)"></line>
+
+      <text x="630" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الكاثود</text>
+      <text x="630" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Cathode</text>
+      <line x1="640" y1="127" x2="630" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#arrow-tube)"></line>
+
+      <text x="230" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف الزجاجي</text>
+      <text x="230" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Glass Envelope</text>
+      <line x1="270" y1="340" x2="330" y2="255" stroke="#263238" stroke-width="1.5"></line>
+
+      <text x="450" y="398" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">النافذة</text>
+      <text x="450" y="415" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Window</text>
+      <line x1="450" y1="388" x2="450" y2="321" stroke="#263238" stroke-width="1.5"></line>
+
+      <text x="640" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الزيت</text>
+      <text x="640" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Oil</text>
+      <line x1="620" y1="340" x2="560" y2="270" stroke="#263238" stroke-width="1.5"></line>
+
+      <text x="790" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف المعدني</text>
+      <text x="790" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Metal Envelope</text>
+      <line x1="790" y1="340" x2="760" y2="230" stroke="#263238" stroke-width="1.5"></line>
 
       <g aria-hidden="true">
         <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.9s"></rect>

@@ -1,11 +1,22 @@
 ---
-// Animated Figure 1-3 (السيطرة على kV). Markup matches
-// diagram-03-kv-control.svg exactly (same viewBox/positions/colors/
-// labels); only class hooks + an additive particle/marker layer were
-// added. Teaches: current enters the autotransformer's single winding,
-// the kV-select tap draws off a variable point on that winding, and the
-// tapped voltage feeds the secondary output rails. Level 2 — one clear
-// pass, no card interaction.
+// Animated Figure 1-3 (السيطرة على kV — autotransformer voltage selector).
+//
+// Rebuilt against the original textbook page (page 12 / PDF index 11) for
+// fidelity: the original circuit is an autotransformer with SIX tap
+// contacts along the winding and a wiper (green arrow) that selects one
+// of them — the previous build only ever drew a single fixed tap point,
+// which erased the actual "selector" concept the figure is teaching.
+// Also added: the shared bottom common rail (autotransformer primary and
+// secondary share one return line — the original draws it as a single
+// line to a secondary terminal, not two separate circuits), and the
+// stepped wiper-to-secondary-terminal wire matching the source's
+// right-angle routing instead of a single diagonal line.
+//
+// Teaches (unchanged sequence): current enters the winding from the AC
+// supply, travels down through the coil, is drawn off at the selected
+// tap by the wiper, and rises through the stepped wire to the secondary
+// output — same class-hook / highlight-pulse pattern as before, just
+// applied to the more accurate shapes.
 import "../../styles/diagram-animations.css";
 
 interface Props {
@@ -20,9 +31,9 @@ const { caption } = Astro.props;
     <svg
       class="kv-svg"
       xmlns="http://www.w3.org/2000/svg"
-      width="640"
+      width="720"
       height="340"
-      viewBox="0 0 640 340"
+      viewBox="0 0 720 340"
       role="img"
       aria-label="السيطرة على kV"
     >
@@ -30,35 +41,73 @@ const { caption } = Astro.props;
         <marker id="arrow-kv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
         </marker>
+        <marker id="arrow-kv-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#15803d"></path>
+        </marker>
       </defs>
 
-      <rect x="0" y="0" width="640" height="340" fill="none"></rect>
-      <text x="90" y="150" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز القدرة</text>
-      <text x="90" y="170" font-family="Cairo, sans-serif" font-size="13" font-weight="600" fill="#57606f" text-anchor="middle" direction="ltr">AC</text>
-      <line x1="60" y1="200" x2="140" y2="200" stroke="#263238" stroke-width="2" marker-end="url(#arrow-kv)"></line>
-      <line x1="60" y1="260" x2="140" y2="260" stroke="#263238" stroke-width="2"></line>
-      <line x1="140" y1="120" x2="140" y2="280" stroke="#263238" stroke-width="2"></line>
-      <path class="flow-highlight coil-path" d="M 140,120 a 10,10 0 1 1 0,20 M 140,140 a 10,10 0 1 1 0,20 M 140,160 a 10,10 0 1 1 0,20 M 140,180 a 10,10 0 1 1 0,20 M 140,200 a 10,10 0 1 1 0,20 M 140,220 a 10,10 0 1 1 0,20 M 140,240 a 10,10 0 1 1 0,20 M 140,260 a 10,10 0 1 1 0,20" fill="none" stroke="#263238" stroke-width="2.2"></path>
-      <line x1="140" y1="280" x2="200" y2="280" stroke="#263238" stroke-width="2"></line>
-      <line x1="140" y1="120" x2="200" y2="120" stroke="#263238" stroke-width="2"></line>
-      <path d="M 145,150 L 230,180" stroke="#1d4ed8" stroke-width="3" marker-end="url(#arrow-kv)"></path>
-      <circle class="flow-highlight tap-dot" cx="230" cy="180" r="7" fill="#1d4ed8"></circle>
-      <text x="300" y="165" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">السيطرة</text>
-      <text x="300" y="185" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">على kV</text>
-      <text x="140" y="100" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الابتدائي</text>
-      <line x1="230" y1="180" x2="420" y2="180" stroke="#263238" stroke-width="2"></line>
-      <line class="flow-highlight secondary-bus" x1="420" y1="120" x2="420" y2="280" stroke="#263238" stroke-width="2"></line>
-      <line x1="420" y1="120" x2="470" y2="120" stroke="#263238" stroke-width="2" marker-end="url(#arrow-kv)"></line>
-      <line x1="420" y1="280" x2="470" y2="280" stroke="#263238" stroke-width="2"></line>
-      <text x="430" y="100" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الثانوي</text>
+      <rect x="0" y="0" width="720" height="340" fill="none"></rect>
+
+      <!-- AC supply rails -->
+      <line x1="170" y1="70" x2="60" y2="70" stroke="#263238" stroke-width="2" marker-end="url(#arrow-kv)"></line>
+      <line x1="170" y1="270" x2="60" y2="270" stroke="#263238" stroke-width="2" marker-end="url(#arrow-kv)"></line>
+      <text x="110" y="160" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز القدرة</text>
+      <text x="110" y="178" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#57606f" text-anchor="middle" direction="ltr">AC</text>
+
+      <!-- Primary span -->
+      <line x1="230" y1="82" x2="230" y2="258" stroke="#263238" stroke-width="2" marker-start="url(#arrow-kv)" marker-end="url(#arrow-kv)"></line>
+      <text x="230" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الابتدائي</text>
+
+      <!-- Autotransformer winding -->
+      <line x1="280" y1="60" x2="280" y2="70" stroke="#263238" stroke-width="2"></line>
+      <path class="flow-highlight coil-path" d="M 280,70 a8,10 0 1 1 0,20 M 280,90 a8,10 0 1 1 0,20 M 280,110 a8,10 0 1 1 0,20 M 280,130 a8,10 0 1 1 0,20 M 280,150 a8,10 0 1 1 0,20 M 280,170 a8,10 0 1 1 0,20 M 280,190 a8,10 0 1 1 0,20 M 280,210 a8,10 0 1 1 0,20 M 280,230 a8,10 0 1 1 0,20 M 280,250 a8,10 0 1 1 0,20" fill="none" stroke="#263238" stroke-width="2.2"></path>
+      <line x1="280" y1="270" x2="280" y2="280" stroke="#263238" stroke-width="2"></line>
+      <line x1="170" y1="70" x2="280" y2="70" stroke="#263238" stroke-width="2"></line>
+      <line x1="170" y1="270" x2="280" y2="270" stroke="#263238" stroke-width="2"></line>
+
+      <!-- Six tap contacts -->
+      <g class="taps">
+        <line x1="280" y1="95" x2="330" y2="95" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="330" cy="95" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+        <line x1="280" y1="115" x2="330" y2="115" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="330" cy="115" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+        <line x1="280" y1="135" x2="330" y2="135" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="330" cy="135" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+        <line x1="280" y1="155" x2="330" y2="155" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="330" cy="155" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+        <line x1="280" y1="175" x2="330" y2="175" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="330" cy="175" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+        <line x1="280" y1="195" x2="330" y2="195" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle class="flow-highlight tap-dot" cx="330" cy="195" r="5" fill="#1d4ed8" stroke="#263238" stroke-width="1.5"></circle>
+      </g>
+
+      <!-- Wiper: pivot selects the lowest tap, as in the source figure -->
+      <circle cx="400" cy="135" r="6" fill="#ffffff" stroke="#263238" stroke-width="2"></circle>
+      <path d="M 394,140 L 335,192" stroke="#15803d" stroke-width="3" marker-end="url(#arrow-kv-green)"></path>
+
+      <!-- Stepped wire: pivot -> up -> secondary terminal -->
+      <path class="flow-highlight secondary-bus" d="M 406,135 L 450,135 L 450,70 L 620,70" fill="none" stroke="#263238" stroke-width="2"></path>
+      <circle cx="620" cy="70" r="5" fill="#ffffff" stroke="#263238" stroke-width="2"></circle>
+
+      <!-- Shared bottom common rail -->
+      <line x1="280" y1="270" x2="620" y2="270" stroke="#263238" stroke-width="2"></line>
+      <circle cx="620" cy="270" r="5" fill="#ffffff" stroke="#263238" stroke-width="2"></circle>
+
+      <!-- Secondary span -->
+      <line x1="520" y1="82" x2="520" y2="258" stroke="#263238" stroke-width="2" marker-start="url(#arrow-kv)" marker-end="url(#arrow-kv)"></line>
+      <text x="520" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الثانوي</text>
+
+      <text x="400" y="228" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#15803d" text-anchor="middle" direction="rtl">السيطرة على</text>
+      <text x="400" y="246" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#15803d" text-anchor="middle" direction="rtl">kV</text>
 
       <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p1" cx="60" cy="200" r="5" style="--tx:80px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.6s"></circle>
-        <circle class="flow-particle p2" cx="145" cy="150" r="5" style="--tx:85px; --ty:30px; --particle-delay:1.1s; --particle-duration:0.6s"></circle>
-        <circle class="flow-particle p3" cx="230" cy="180" r="5" style="--tx:190px; --ty:0px; --particle-delay:1.7s; --particle-duration:0.9s"></circle>
-        <circle class="flow-particle p4" cx="420" cy="120" r="5" style="--tx:50px; --ty:0px; --particle-delay:2.6s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p5" cx="420" cy="280" r="5" style="--tx:50px; --ty:0px; --particle-delay:2.6s; --particle-duration:0.5s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.2s"></rect>
+        <circle class="flow-particle p1" cx="60" cy="70" r="5" style="--tx:110px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.6s"></circle>
+        <circle class="flow-particle p2" cx="330" cy="195" r="5" style="--tx:70px; --ty:-60px; --particle-delay:1.1s; --particle-duration:0.7s"></circle>
+        <circle class="flow-particle p3" cx="406" cy="135" r="5" style="--tx:44px; --ty:0px; --particle-delay:1.9s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p4" cx="450" cy="135" r="5" style="--tx:0px; --ty:-65px; --particle-delay:2.4s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p5" cx="450" cy="70" r="5" style="--tx:170px; --ty:0px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
+        <circle class="flow-particle p6" cx="280" cy="270" r="5" style="--tx:340px; --ty:0px; --particle-delay:2.6s; --particle-duration:0.7s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.6s"></rect>
       </g>
     </svg>
   </div>

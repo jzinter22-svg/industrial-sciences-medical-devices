@@ -1,20 +1,35 @@
 ---
 // Shared animated component for Figures 1-7 .. 1-10 (one/two/six/twelve
-// -pulse generators). These four static diagrams share one identical
-// circuit layout (bridge rectifier, meter, tube, coil position) and
-// differ only in their waveform traces and a couple of labels — verified
-// by diffing the four source SVGs before building this. Rather than
-// duplicating ~150 lines of markup four times, the shared geometry lives
-// here once and the per-variant differences (exact waveform <path d>
-// strings copied verbatim from the approved SVGs, label text, three-phase
-// coil) come from pulseGeneratorData.ts — content kept separate from
-// presentation, reused across all four call sites.
+// -pulse generators).
 //
-// Teaches: the input AC trace "draws" itself, then the rectified output
-// trace draws itself below it (showing what the bridge does to the
-// waveform), then a current particle flows from the transformer through
-// the bridge to the tube. Level 1 — this is the core rectification
-// concept the whole figure exists to explain.
+// Rebuilt against the original textbook pages (pages 16-17 / PDF index
+// 15-16) for fidelity. The previous build reused ONE circuit shape (a
+// single-phase 4-diode bridge) for all four figures — but the source
+// shows FOUR genuinely different circuits:
+//   - one-pulse (فig 1-7 جـ):  no rectifier at all — just the transformer
+//     feeding an mA meter and the tube directly. Drawing a 4-diode bridge
+//     here (as the previous build did) invented a component the source
+//     does not have.
+//   - two-pulse (fig 1-8 جـ): a single-phase full-wave bridge — 4 diodes
+//     (B1..B4) in a diamond, vertices labelled X/Y/A/D. This one the
+//     previous build already matched reasonably well.
+//   - six-pulse (fig 1-9 جـ): a 3-phase transformer (delta primary, TWO
+//     star/Y secondaries) feeding TWO 3-diode banks (6 diodes total)
+//     whose DC outputs join at a common ground.
+//   - twelve-pulse (fig 1-10 جـ): a 3-phase transformer with FOUR
+//     secondaries (2 star/Y + 2 delta/Δ, per the book's own "Y-Y" /
+//     "Δ-Y" description) feeding FOUR 3-diode banks (12 diodes total),
+//     again joined at a common ground.
+//
+// The waveform panels (أ/ب) are untouched — those <path d> traces were
+// already extracted verbatim from the approved artwork and are correct.
+// Only the circuit (جـ) geometry is rebuilt here, per variant, still
+// data-driven from pulseGeneratorData.ts so nothing is duplicated.
+//
+// Teaches (same idea, retargeted at the correct circuit): the input AC
+// trace "draws" itself, the rectified output trace draws itself below,
+// then a current particle flows from the transformer through the
+// (correct number of) rectifier stage(s) to the tube.
 import "../../styles/diagram-animations.css";
 import { pulseGeneratorVariants } from "./pulseGeneratorData";
 
@@ -25,6 +40,16 @@ interface Props {
 
 const { variant, caption } = Astro.props;
 const v = pulseGeneratorVariants[variant];
+const arrowId = `arrow-pulse-${variant}`;
+
+const bankCount = variant === "twelve-pulse" ? 4 : variant === "six-pulse" ? 2 : 0;
+const bankSpacing = 130;
+const banks = Array.from({ length: bankCount }, (_, i) => ({
+  x: 480 + i * bankSpacing,
+  isDelta: variant === "twelve-pulse" && i % 2 === 1,
+}));
+const busY = 260;
+const groundX = bankCount > 0 ? banks[0].x + ((bankCount - 1) * bankSpacing) / 2 : 460;
 ---
 
 <figure class={`diagram-block neo-surface-soft animated-diagram pulse-diagram pulse-diagram-${variant}`}>
@@ -32,19 +57,19 @@ const v = pulseGeneratorVariants[variant];
     <svg
       class="pulse-svg"
       xmlns="http://www.w3.org/2000/svg"
-      width="900"
+      width={bankCount > 2 ? 980 : 900}
       height="340"
-      viewBox="0 0 900 340"
+      viewBox={`0 0 ${bankCount > 2 ? 980 : 900} 340`}
       role="img"
       aria-label={v.circuitLabel}
     >
       <defs>
-        <marker id={`arrow-pulse-${variant}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
         </marker>
       </defs>
 
-      <rect x="0" y="0" width="900" height="340" fill="none"></rect>
+      <rect x="0" y="0" width="980" height="340" fill="none"></rect>
 
       <rect x="30" y="20" width="220" height="130" rx="8" fill="#f8fafc" stroke="#57606f" stroke-width="2"></rect>
       <line x1="40" y1="85" x2="240" y2="85" stroke="#57606f" stroke-width="1"></line>
@@ -56,33 +81,145 @@ const v = pulseGeneratorVariants[variant];
       <path class="wave-path output-wave" d={v.outputWave} fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
       <text x="140" y="297" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">ب- الإشارة الخارجة</text>
 
-      <g class="flow-highlight bridge-outline">
-        <line x1="430" y1="70" x2="530" y2="150" stroke="#263238" stroke-width="2"></line>
-        <line x1="530" y1="150" x2="430" y2="230" stroke="#263238" stroke-width="2"></line>
-        <line x1="430" y1="230" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
-        <line x1="330" y1="150" x2="430" y2="70" stroke="#263238" stroke-width="2"></line>
-      </g>
-      <path d="M 369.0,100.0 L 369.0,120.0 L 391.0,110.0 z" fill="#263238" stroke="#263238"></path>
-      <line x1="391.0" y1="98.0" x2="391.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
-      <path d="M 491.0,100.0 L 491.0,120.0 L 469.0,110.0 z" fill="#263238" stroke="#263238"></path>
-      <line x1="469.0" y1="98.0" x2="469.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
-      <path d="M 391.0,180.0 L 391.0,200.0 L 369.0,190.0 z" fill="#263238" stroke="#263238"></path>
-      <line x1="369.0" y1="178.0" x2="369.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
-      <path d="M 469.0,180.0 L 469.0,200.0 L 491.0,190.0 z" fill="#263238" stroke="#263238"></path>
-      <line x1="491.0" y1="178.0" x2="491.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
-      <circle class="flow-highlight ma-meter" cx="430" cy="150" r="16" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
-      <text x="430" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">mA</text>
-      <line x1="530" y1="150" x2="570" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#arrow-pulse-${variant})`}></line>
-      <text x="620" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
-      <text x="620" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة</text>
-      <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
-      <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
-      <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
-      <text x="430" y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">{v.circuitLabel}</text>
+      <text x={bankCount > 0 ? groundX : 430} y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">{v.circuitLabel}</text>
+
+      {variant === "one-pulse" && (
+        <>
+          <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
+          <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
+          <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
+
+          <line x1="330" y1="150" x2="400" y2="150" stroke="#263238" stroke-width="2"></line>
+          <circle class="flow-highlight ma-meter" cx="430" cy="150" r="20" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
+          <circle cx="422" cy="150" r="3" fill="#1d4ed8"></circle>
+          <circle cx="438" cy="150" r="3" fill="#1d4ed8"></circle>
+          <text x="430" y="185" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#c2410c" text-anchor="middle" direction="ltr">mA</text>
+          <line x1="430" y1="170" x2="430" y2="195" stroke="#15803d" stroke-width="2"></line>
+          <line x1="416" y1="195" x2="444" y2="195" stroke="#15803d" stroke-width="2"></line>
+          <line x1="421" y1="201" x2="439" y2="201" stroke="#15803d" stroke-width="2"></line>
+          <line x1="426" y1="207" x2="434" y2="207" stroke="#15803d" stroke-width="2"></line>
+
+          <line x1="450" y1="150" x2="560" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#${arrowId})`}></line>
+          <circle cx="590" cy="150" r="18" fill="#fff" stroke="#1d4ed8" stroke-width="2"></circle>
+          <line x1="583" y1="157" x2="598" y2="142" stroke="#1d4ed8" stroke-width="2.5"></line>
+          <text x="590" y="190" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة الاشعة</text>
+        </>
+      )}
+
+      {variant === "two-pulse" && (
+        <>
+          <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
+          <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
+          <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
+
+          <g class="flow-highlight bridge-outline">
+            <line x1="430" y1="70" x2="530" y2="150" stroke="#263238" stroke-width="2"></line>
+            <line x1="530" y1="150" x2="430" y2="230" stroke="#263238" stroke-width="2"></line>
+            <line x1="430" y1="230" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
+            <line x1="330" y1="150" x2="430" y2="70" stroke="#263238" stroke-width="2"></line>
+          </g>
+          <text x="430" y="60" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">X</text>
+          <text x="430" y="252" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Y</text>
+          <text x="315" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">A</text>
+          <text x="545" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">D</text>
+          <path d="M 369.0,100.0 L 369.0,120.0 L 391.0,110.0 z" fill="#263238" stroke="#263238"></path>
+          <line x1="391.0" y1="98.0" x2="391.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
+          <text x="360" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B1</text>
+          <path d="M 491.0,100.0 L 491.0,120.0 L 469.0,110.0 z" fill="#263238" stroke="#263238"></path>
+          <line x1="469.0" y1="98.0" x2="469.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
+          <text x="500" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B4</text>
+          <path d="M 391.0,180.0 L 391.0,200.0 L 369.0,190.0 z" fill="#263238" stroke="#263238"></path>
+          <line x1="369.0" y1="178.0" x2="369.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
+          <text x="360" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B2</text>
+          <path d="M 469.0,180.0 L 469.0,200.0 L 491.0,190.0 z" fill="#263238" stroke="#263238"></path>
+          <line x1="491.0" y1="178.0" x2="491.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
+          <text x="500" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B3</text>
+          <circle class="flow-highlight ma-meter" cx="430" cy="150" r="16" fill="#fde047" stroke="#c2410c" stroke-width="2"></circle>
+          <circle cx="424" cy="150" r="2.5" fill="#1d4ed8"></circle>
+          <circle cx="436" cy="150" r="2.5" fill="#1d4ed8"></circle>
+          <text x="430" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">mA</text>
+
+          <line x1="530" y1="150" x2="570" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#${arrowId})`}></line>
+          <text x="620" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
+          <text x="620" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة</text>
+        </>
+      )}
+
+      {bankCount > 0 && (
+        <>
+          {/* Delta primary */}
+          <g stroke="#263238" stroke-width="2" fill="none">
+            <path d={`M ${groundX},70 L ${groundX - 60},130 L ${groundX + 60},130 Z`}></path>
+          </g>
+          <path d={`M ${groundX - 40},112 a5,5 0 1 1 0,10 M ${groundX - 28},112 a5,5 0 1 1 0,10 M ${groundX - 16},112 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
+          <path d={`M ${groundX + 16},112 a5,5 0 1 1 0,10 M ${groundX + 28},112 a5,5 0 1 1 0,10 M ${groundX + 40},112 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
+          <path d={`M ${groundX - 15},130 a5,5 0 1 1 0,10 M ${groundX - 3},130 a5,5 0 1 1 0,10 M ${groundX + 9},130 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
+
+          {banks.map((bank) => (
+            <g>
+              {bank.isDelta ? (
+                <g stroke="#263238" stroke-width="2" fill="none">
+                  <path d={`M ${bank.x},150 L ${bank.x - 34},188 L ${bank.x + 34},188 Z`}></path>
+                  <circle cx={bank.x} cy="150" r="3" fill="#263238"></circle>
+                </g>
+              ) : (
+                <g stroke="#263238" stroke-width="2" fill="none">
+                  <line x1={bank.x} y1="150" x2={bank.x - 30} y2="188"></line>
+                  <line x1={bank.x} y1="150" x2={bank.x + 30} y2="188"></line>
+                  <line x1={bank.x} y1="150" x2={bank.x} y2="188"></line>
+                  <circle cx={bank.x} cy="150" r="3" fill="#263238"></circle>
+                </g>
+              )}
+
+              <line x1={bank.x - 30} y1="188" x2={bank.x - 30} y2="205" stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x} y1="188" x2={bank.x} y2="205" stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x + 30} y1="188" x2={bank.x + 30} y2="205" stroke="#263238" stroke-width="2"></line>
+
+              <g class="flow-highlight diode-bank">
+                <path d={`M ${bank.x - 38},205 L ${bank.x - 22},205 L ${bank.x - 22},225 Z`} fill="#263238"></path>
+                <line x1={bank.x - 22} y1="203" x2={bank.x - 22} y2="227" stroke="#263238" stroke-width="2.5"></line>
+                <path d={`M ${bank.x - 8},205 L ${bank.x + 8},205 L ${bank.x + 8},225 Z`} fill="#263238"></path>
+                <line x1={bank.x + 8} y1="203" x2={bank.x + 8} y2="227" stroke="#263238" stroke-width="2.5"></line>
+                <path d={`M ${bank.x + 22},205 L ${bank.x + 38},205 L ${bank.x + 38},225 Z`} fill="#263238"></path>
+                <line x1={bank.x + 38} y1="203" x2={bank.x + 38} y2="227" stroke="#263238" stroke-width="2.5"></line>
+              </g>
+
+              <line x1={bank.x - 30} y1="205" x2={bank.x - 22} y2="205" stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x} y1="205" x2={bank.x + 8} y2="205" stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x + 30} y1="205" x2={bank.x + 22} y2="205" stroke="#263238" stroke-width="2"></line>
+
+              <line x1={bank.x - 22} y1="227" x2={bank.x} y2={busY}></line>
+              <line x1={bank.x + 8} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x + 38} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
+              <line x1={bank.x - 22} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
+            </g>
+          ))}
+
+          <line x1={banks[0].x} y1={busY} x2={banks[bankCount - 1].x} y2={busY} stroke="#263238" stroke-width="2.5"></line>
+          <line x1={groundX} y1={busY} x2={groundX} y2={busY + 20} stroke="#15803d" stroke-width="2"></line>
+          <line x1={groundX - 14} y1={busY + 20} x2={groundX + 14} y2={busY + 20} stroke="#15803d" stroke-width="2"></line>
+          <line x1={groundX - 8} y1={busY + 26} x2={groundX + 8} y2={busY + 26} stroke="#15803d" stroke-width="2"></line>
+          <line x1={groundX - 3} y1={busY + 32} x2={groundX + 3} y2={busY + 32} stroke="#15803d" stroke-width="2"></line>
+
+          <line x1={groundX} y1={busY} x2={groundX} y2="310" stroke="#263238" stroke-width="2"></line>
+          <circle cx={groundX} cy="322" r="14" fill="#fff" stroke="#1d4ed8" stroke-width="2"></circle>
+          <line x1={groundX - 6} y1="328" x2={groundX + 7} y2="315" stroke="#1d4ed8" stroke-width="2.5"></line>
+          <text x={groundX + 30} y="326" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">انبوبة الاشعة</text>
+        </>
+      )}
 
       <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p-in" cx="290" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-out" cx="530" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
+        {bankCount === 0 ? (
+          <>
+            <circle class="flow-particle p-in" cx="290" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-out" cx={variant === "one-pulse" ? "450" : "530"} cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
+          </>
+        ) : (
+          <>
+            <circle class="flow-particle p-in" cx={groundX} cy="70" r="5" style="--tx:0px; --ty:60px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-out" cx={groundX} cy={busY} r="5" style="--tx:0px; --ty:50px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
+          </>
+        )}
         <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
       </g>
     </svg>
@@ -109,7 +246,7 @@ const v = pulseGeneratorVariants[variant];
 
   .diagram-block-image {
     width: 100%;
-    max-width: 520px;
+    max-width: 560px;
     display: flex;
     justify-content: center;
   }
@@ -134,7 +271,8 @@ const v = pulseGeneratorVariants[variant];
     --highlight-duration: 0.6s;
   }
 
-  .bridge-outline {
+  .bridge-outline,
+  .diode-bank {
     --highlight-delay: 2.5s;
     --highlight-duration: 0.6s;
   }
