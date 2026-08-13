@@ -87,11 +87,19 @@ const { ariaLabel } = Astro.props;
      that (1024px is "desktop" by viewport but yields a narrower card than
      768px's 2-column layout), so both this and the breakpoint below use
      floors proven to fit the tightest real case, and let each column's fr
-     weight (illustration highest) claim any real extra space instead. */
+     weight (illustration highest) claim any real extra space instead.
+     Cards' floor was measured to be a *frozen* minimum in this grid (with
+     illustration's much higher fr weight, cards receive none of the
+     track-sizing algorithm's leftover space beyond their floor at any
+     tested width) — so cards' floor is effectively their actual rendered
+     width, and illustration's floor is a starting point it then grows
+     from. Raising illustration's floor and lowering cards' floor here is
+     therefore the direct, predictable way to rebalance the two: cards
+     ~10px narrower, illustration ~15px+ wider before any fr growth. */
   .diagram-stage {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(28px, 0.42fr) minmax(78px, 1.6fr) minmax(118px, 1.2fr);
+    grid-template-columns: minmax(28px, 0.42fr) minmax(94px, 1.6fr) minmax(106px, 1.2fr);
     gap: var(--neo-space-xs);
     align-items: stretch;
     min-width: 0;
@@ -167,11 +175,12 @@ const { ariaLabel } = Astro.props;
          a viewport ≥640px implies a wide container, but this component's
          real container is a device card, which is only ~250-315px wide
          across every breakpoint that matters here (see comment above).
-         Cards keep the largest floor of the three (over illustration's,
-         despite its higher fr weight): a card's header (badge+title+icon)
-         measurably collapsed and visually overlapped at anything narrower
-         — text is the one thing here that must never be compressed. */
-      grid-template-columns: minmax(30px, 0.42fr) minmax(82px, 1.6fr) minmax(120px, 1.2fr);
+         Cards' floor stays well above the point where a card's header
+         (badge+title+icon) was measured to collapse and visually
+         overlap — text is the one thing here that must never be
+         compressed — re-verified per card, individually, after this
+         rebalance toward the illustration. */
+      grid-template-columns: minmax(30px, 0.42fr) minmax(98px, 1.6fr) minmax(108px, 1.2fr);
     }
   }
 </style>
