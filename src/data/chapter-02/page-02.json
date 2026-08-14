@@ -1,0 +1,114 @@
+{
+  "id": "page-02",
+  "pageNumber": 26,
+  "chapterNumber": 2,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثاني",
+    "printedPage": 26
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "الأجهزة الطبية الفوق صوتية",
+    "en": "Ultrasound Medical Devices"
+  },
+
+  "sections": [
+    {
+      "id": "section-2-2",
+      "number": "2-2",
+      "title": {
+        "ar": "قوانين الموجات الفوق صوتية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-2-2-velocity",
+          "number": "1",
+          "title": {
+            "ar": "السرعة",
+            "en": "Velocity"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "velocity-intro",
+          "content": {
+            "ar": "اذا سلطت حزمة من الموجات الفوق صوتية على جسم ما والتي هي طاقة صوتية ذات تضاغط (Compression) وتخلخل (Rarefaction) وتسير بسرع مختلفة في الهواء أو الماء او أنسجة الجسم فإنها تتبع نفس قوانين الضوء في الانعكاس (Reflection) والانكسار (Refraction) والشكل (2-3) يوضح ذلك."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c2-fig-2-3",
+          "src": "/assets/diagrams/chapter-02/fig-03-reflection-refraction.svg",
+          "alt": "مخطط الضوء في السقوط والانعكاس والانكسار",
+          "caption": {
+            "ar": "الشكل 3-2 مخطط الضوء في السقوط والانعكاس والانكسار"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "velocity-p2",
+          "content": {
+            "ar": "كما ان العلاقة بين السرعة والطول الموجي للموجات الفوق صوتية تتبع نفس قوانين الاشعة الكهرومغناطيسية وهي:"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation-1-2",
+          "formula": "V = Fλ",
+          "equationNumber": "1-2",
+          "legend": [
+            { "symbol": "V", "meaning": "سرعة الموجات بوحدات المتر على الثانية (m/s)." },
+            { "symbol": "F", "meaning": "التردد بوحدات الهرتز (Hz)." },
+            { "symbol": "λ", "meaning": "الطول الموجي بوحدات المتر (m)." }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "velocity-p3",
+          "content": {
+            "ar": "ويمكن اعادة كتابة المعادلة بدلالة الزمن (T) بوحدات الثانية (S) فتصبح كما في المعادلة (2-2):"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation-2-2",
+          "formula": "V = λ/T",
+          "equationNumber": "2-2"
+        },
+        {
+          "type": "paragraph",
+          "id": "velocity-p4",
+          "content": {
+            "ar": "والجدول ( 2-1) يوضح سرع الموجات الفوق صوتية في بعض المواد وخاصة جسم الانسان ونظراً لتقارب قيم سرعة الصوت في أعضاء وأنسجة الجسم يستخدم سرعة ثابتة وهي ( 1540 m/s ) في تصميم أجهزة التصوير الفوق صوتي :-"
+          }
+        },
+        {
+          "type": "table",
+          "id": "table-2-1",
+          "caption": { "ar": "جدول 1-2 سرعة الموجات الفوق صوتية في المواد" },
+          "headers": ["المادة", "السرعة ( m/s )"],
+          "rows": [
+            ["هواء", "1330"],
+            ["نسيج عضلي", "1.061570"],
+            ["دهن أو شحم", "0.931480"],
+            ["دم", "11560"],
+            ["عظم", "1.853360"]
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

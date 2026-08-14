@@ -6,7 +6,7 @@
 
   "source": {
     "book": "العلوم الصناعية",
-    "chapter": "الفصل الاول",
+    "chapter": "الفصل الأول",
     "printedPage": 8
   },
 
@@ -98,7 +98,7 @@
       "id": "section-contents",
       "number": "",
       "title": {
-        "ar": "محتويات الفصل الاول"
+        "ar": "محتويات الفصل الأول"
       },
       "blocks": [
         {

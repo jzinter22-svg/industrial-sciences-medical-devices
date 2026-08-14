@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380" role="img" aria-label="الاثر الذي تخلفه الانواع الثلاثة للتصوير فوق الصوتي">
+  <rect x="0" y="0" width="700" height="380" fill="none"></rect>
+  <rect x="30" y="20" width="640" height="230" fill="#fef9c3" stroke="#263238" stroke-width="2"></rect>
+
+  <!-- transmitted pulse: solid black bar -->
+  <rect x="90" y="40" width="14" height="190" fill="#111827"></rect>
+  <text x="97" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Transmitted pulse</text>
+
+  <!-- echo from moving target: wavy vertical line -->
+  <path d="M 350,40 q 20,20 0,40 t 0,40 t 0,40 t 0,40 t 0,30"
+        fill="none" stroke="#263238" stroke-width="3"></path>
+  <text x="350" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Echo, moving target</text>
+
+  <!-- echo from stationary target: straight vertical line -->
+  <line x1="560" y1="40" x2="560" y2="230" stroke="#263238" stroke-width="3"></line>
+  <text x="560" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Echo, stationary target</text>
+
+  <text x="220" y="30" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">M-scan</text>
+
+  <!-- corresponding A-scan trace at bottom -->
+  <line x1="60" y1="330" x2="640" y2="330" stroke="#263238" stroke-width="2"></line>
+  <path d="M 90,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
+  <path d="M 343,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
+  <path d="M 553,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
+  <line x1="104" y1="330" x2="350" y2="330" stroke="#263238" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
+  <line x1="350" y1="330" x2="560" y2="330" stroke="#263238" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
+  <text x="360" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Corresponding A-scan</text>
+
+  <defs>
+    <marker id="s18-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+    </marker>
+  </defs>
+</svg>

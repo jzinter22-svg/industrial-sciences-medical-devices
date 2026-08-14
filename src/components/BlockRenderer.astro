@@ -7,6 +7,9 @@ import SubsectionHeading from "./SubsectionHeading.astro";
 import ListBlock from "./ListBlock.astro";
 import DiagramBlock from "./DiagramBlock.astro";
 import QuestionCard from "./QuestionCard.astro";
+import EquationBlock from "./EquationBlock.astro";
+import ExampleCard from "./ExampleCard.astro";
+import TableBlock from "./TableBlock.astro";
 import XraySystemBlockDiagram from "./diagrams/XraySystemBlockDiagram.astro";
 import AnimatedTubeCrossSection from "./diagrams/AnimatedTubeCrossSection.astro";
 import AnimatedKvControl from "./diagrams/AnimatedKvControl.astro";
@@ -15,6 +18,26 @@ import AnimatedTimerCircuit from "./diagrams/AnimatedTimerCircuit.astro";
 import AnimatedTimerTypes from "./diagrams/AnimatedTimerTypes.astro";
 import PulseGeneratorDiagram from "./diagrams/PulseGeneratorDiagram.astro";
 import AnimatedFilmProcessor from "./diagrams/AnimatedFilmProcessor.astro";
+import AScanBlockDiagram from "./diagrams/AScanBlockDiagram.astro";
+import BScanBlockDiagram from "./diagrams/BScanBlockDiagram.astro";
+import UltrasoundSystemDiagram from "./diagrams/UltrasoundSystemDiagram.astro";
+import EchoSounderBlockDiagram from "./diagrams/EchoSounderBlockDiagram.astro";
+import FetalPulseBlockDiagram from "./diagrams/FetalPulseBlockDiagram.astro";
+import DeliveryMonitorBlockDiagram from "./diagrams/DeliveryMonitorBlockDiagram.astro";
+
+// Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
+// replacement, same rationale as the Chapter 1 table above — the rest
+// fall back to the generic DiagramBlock (static SVG or photographic
+// figure, per docs/design/DIAGRAM_ANIMATION_AUDIT.md's "use the
+// appropriate representation" rule).
+const chapter2AnimatedDiagrams: Record<string, any> = {
+  "c2-fig-2-13": AScanBlockDiagram,
+  "c2-fig-2-15": BScanBlockDiagram,
+  "c2-fig-2-21": UltrasoundSystemDiagram,
+  "c2-fig-2-23": EchoSounderBlockDiagram,
+  "c2-fig-2-26": FetalPulseBlockDiagram,
+  "c2-fig-2-29b": DeliveryMonitorBlockDiagram,
+};
 
 interface Props {
   block: any;
@@ -33,6 +56,8 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
   "diagram-09": "six-pulse",
   "diagram-10": "twelve-pulse",
 };
+
+const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[block.id] : undefined;
 ---
 
 {block.type === "paragraph" && <IntroCard content={block.content.ar} />}
@@ -100,9 +125,14 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
   <AnimatedFilmProcessor caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter2Diagram && (
+  <Chapter2Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
-  !(block.id in pulseGeneratorVariantByDiagramId) && (
+  !(block.id in pulseGeneratorVariantByDiagramId) &&
+  !Chapter2Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 
@@ -113,4 +143,16 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
     parts={block.parts}
     answerAr={block.answer?.ar}
   />
+)}
+
+{block.type === "equation" && (
+  <EquationBlock formula={block.formula} equationNumber={block.equationNumber} legend={block.legend} />
+)}
+
+{block.type === "example" && (
+  <ExampleCard number={block.number} problemAr={block.problem.ar} solutionSteps={block.solutionSteps} />
+)}
+
+{block.type === "table" && (
+  <TableBlock captionAr={block.caption.ar} headers={block.headers} rows={block.rows} />
 )}

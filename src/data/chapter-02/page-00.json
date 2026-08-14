@@ -1,0 +1,201 @@
+{
+  "id": "page-00",
+  "pageNumber": 23,
+  "chapterNumber": 2,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثاني",
+    "printedPage": 23
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "الأجهزة الطبية الفوق صوتية",
+    "en": "Ultrasound Medical Devices"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objective-general",
+          "content": {
+            "ar": "الهدف العام: دراسة الأمواج الفوق صوتية ومعرفة استخداماتها الطبية المختلفة."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "الأهداف الخاصة: يستطيع الطالب بعد الانتهاء من دراسة وفهم الفصل أن:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "يعرف : الموجات الفوق صوتية- المجس- البلورة- الظاهرة الكهروضوئية – تأثير دوبلر."
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "يعدد ويكتب القوانين الثلاثة للصوت مع فهم الأمثلة."
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "يعدد فوائد استخدام الأجهزة الفوق صوتية ويعدد أنماط إرسال الموجات."
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "يعدد الأجزاء التي تتكون منها الأجهزة الفوق صوتية الحديثة."
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "يعدد ويشرح أنواع العرض الصوري للأجهزة الصوتية."
+              }
+            },
+            {
+              "id": "objective-06",
+              "content": {
+                "ar": "يفهم ويحل جميع التمارين والأسئلة الموجودة في نهاية الفصل."
+              }
+            },
+            {
+              "id": "objective-07",
+              "content": {
+                "ar": "يرسم المخططات الكتلوية للأجهزة ويؤشر عليها باللغتين العربية والانكليزية."
+              }
+            },
+            {
+              "id": "objective-08",
+              "content": {
+                "ar": "يعدد اهم استخدامات الأمواج الفوق صوتية صوتية للعلاج."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل الثاني"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            {
+              "id": "toc-2-1",
+              "number": "2-1",
+              "content": {
+                "ar": "تمهيد"
+              }
+            },
+            {
+              "id": "toc-2-2",
+              "number": "2-2",
+              "content": {
+                "ar": "قوانين الموجات الفوق صوتية"
+              }
+            },
+            {
+              "id": "toc-2-3",
+              "number": "2-3",
+              "content": {
+                "ar": "امتصاص الموجات الفوق صوتية"
+              }
+            },
+            {
+              "id": "toc-2-4",
+              "number": "2-4",
+              "content": {
+                "ar": "تأثير دوبلر"
+              }
+            },
+            {
+              "id": "toc-2-5",
+              "number": "2-5",
+              "content": {
+                "ar": "الظاهرة الكهروضوئية"
+              }
+            },
+            {
+              "id": "toc-2-6",
+              "number": "2-6",
+              "content": {
+                "ar": "أنماط إرسال الموجات الفوق صوتية"
+              }
+            },
+            {
+              "id": "toc-2-7",
+              "number": "2-7",
+              "content": {
+                "ar": "التصوير بواسطة الأمواج فوق الصوتية"
+              }
+            },
+            {
+              "id": "toc-2-8",
+              "number": "2-8",
+              "content": {
+                "ar": "الأجزاء الاساسية لأجهزة التصوير الفوق صوتي"
+              }
+            },
+            {
+              "id": "toc-2-9",
+              "number": "2-9",
+              "content": {
+                "ar": "الأجهزة الفوق صوتية المختبرية"
+              }
+            },
+            {
+              "id": "toc-2-10",
+              "number": "2-10",
+              "content": {
+                "ar": "استخدام الموجات الفوق صوتية للعلاج"
+              }
+            }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "figure-opener",
+          "src": "/assets/diagrams/chapter-02/fig-00-opener-mobile-device.jpg",
+          "alt": "جهاز الفوق صوتي من النوع الصغير (المحمول)",
+          "caption": {
+            "ar": "جهاز الفوق صوتي من النوع الصغير (المحمول) (Mobil-Ultrasonography)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

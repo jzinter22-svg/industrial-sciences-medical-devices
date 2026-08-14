@@ -9,7 +9,7 @@
     {
       "number": 1,
       "id": "chapter-01",
-      "label": "الفصل الاول",
+      "label": "الفصل الأول",
       "title": { "ar": "جهاز الاشعة السينية", "en": "X-ray equipment" },
       "printedPageStart": 8,
       "printedPageEnd": 22,
@@ -34,7 +34,7 @@
           "number": 1,
           "id": "lesson-01",
           "title": { "ar": "الأجهزة الطبية الفوق صوتية", "en": "Ultrasound Medical Devices" },
-          "status": "coming-soon"
+          "status": "available"
         }
       ]
     },

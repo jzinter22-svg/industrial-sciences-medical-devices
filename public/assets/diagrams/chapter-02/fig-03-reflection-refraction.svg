@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="460" viewBox="0 0 700 460" role="img" aria-label="مخطط الضوء في السقوط والانعكاس والانكسار">
+  <defs>
+    <marker id="rr-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="460" fill="none"></rect>
+
+  <!-- boundary: air above, water below -->
+  <rect x="60" y="190" width="580" height="200" fill="#bfdbfe"></rect>
+  <line x1="60" y1="190" x2="640" y2="190" stroke="#263238" stroke-width="2"></line>
+  <text x="120" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Air</text>
+
+  <!-- normal -->
+  <line x1="350" y1="60" x2="350" y2="420" stroke="#57606f" stroke-width="1.5"></line>
+
+  <!-- incident ray -->
+  <line x1="180" y1="90" x2="350" y2="190" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
+  <text x="185" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">I</text>
+  <rect x="120" y="105" width="90" height="26" fill="#fde047"></rect>
+  <text x="165" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع ساقط</text>
+
+  <!-- reflected ray -->
+  <line x1="350" y1="190" x2="520" y2="90" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
+  <text x="530" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">R¹</text>
+  <rect x="490" y="105" width="100" height="26" fill="#fde047"></rect>
+  <text x="540" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع منعكس</text>
+
+  <!-- refracted ray (bent toward normal in water) -->
+  <line x1="350" y1="190" x2="420" y2="400" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
+  <text x="430" y="415" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">R</text>
+  <rect x="200" y="235" width="100" height="26" fill="#fde047"></rect>
+  <text x="250" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع منكسر</text>
+
+  <!-- angle arcs -->
+  <path d="M 320,190 A 30,30 0 0 1 335,163" fill="none" stroke="#ea580c" stroke-width="2"></path>
+  <text x="315" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">i</text>
+  <path d="M 365,163 A 30,30 0 0 1 380,190" fill="none" stroke="#ea580c" stroke-width="2"></path>
+  <text x="378" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">r¹</text>
+  <path d="M 350,225 A 35,35 0 0 0 373,213" fill="none" stroke="#ea580c" stroke-width="2"></path>
+  <text x="375" y="235" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">r</text>
+
+  <circle cx="350" cy="190" r="3" fill="#263238"></circle>
+  <text x="360" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">O</text>
+</svg>

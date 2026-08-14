@@ -1,0 +1,155 @@
+---
+// Animated Figure 2-23 (المخطط الكتلوي لجهاز الصدى الصوتي / Echo sounder)
+// — printed page 41. Teaches the four-step cause/effect chain spelled out
+// in the source's own numbered explanation: the crystal oscillator feeds
+// both the detector and the probe's crystal (fi); the probe sends that
+// frequency into the fetus and receives it back doppler-shifted
+// (fi±Δf); the HF amplifier boosts the weak returned signal before the
+// detector extracts the audible difference frequency (±Δf); and the
+// filter + audio amplifier condition it for the speaker/earphone. Same
+// flow-particle / highlight-pulse conventions as Chapter 1.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram echo-sounder-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="echo-sounder-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="920"
+      height="360"
+      viewBox="0 0 920 360"
+      role="img"
+      aria-label="المخطط الكتلوي لجهاز الصدى الصوتي"
+    >
+      <defs>
+        <marker id="es-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="920" height="360" fill="none"></rect>
+
+      <rect class="flow-highlight box-osc" x="40" y="150" width="110" height="60" rx="6" fill="#a5f3fc" stroke="#263238" stroke-width="2"></rect>
+      <text x="95" y="175" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مذبذب فوق صوتي</text>
+      <text x="95" y="192" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Oscillator 2.25MHz</text>
+
+      <path class="flow-highlight amp-hf" d="M 210,100 L 210,140 L 250,120 Z" fill="#fca5a5" stroke="#263238" stroke-width="2"></path>
+      <text x="230" y="90" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد عالي</text>
+
+      <rect class="flow-highlight box-detector" x="290" y="150" width="110" height="60" rx="6" fill="#86efac" stroke="#263238" stroke-width="2"></rect>
+      <text x="345" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">كاشف</text>
+      <text x="345" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Detector</text>
+
+      <rect class="flow-highlight box-filter" x="440" y="150" width="110" height="60" rx="6" fill="#fdba74" stroke="#263238" stroke-width="2"></rect>
+      <text x="495" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مرشح سمعي</text>
+      <text x="495" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Filter</text>
+
+      <path class="flow-highlight amp-lf" d="M 600,150 L 600,210 L 650,180 Z" fill="#fca5a5" stroke="#263238" stroke-width="2"></path>
+      <text x="622" y="140" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد سمعي</text>
+
+      <circle class="flow-highlight speaker" cx="720" cy="150" r="16" fill="#fde047" stroke="#263238" stroke-width="2"></circle>
+      <path d="M 700,150 l -20,-10 v20 z" fill="#fde047" stroke="#263238" stroke-width="1.5"></path>
+      <text x="720" y="125" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Earphone</text>
+
+      <path class="flow-highlight loudspeaker" d="M 790,190 l -24,14 v30 l 24,14 z" fill="#fde047" stroke="#263238" stroke-width="1.5"></path>
+      <path d="M 790,175 a 40,40 0 0 1 0,80" fill="none" stroke="#263238" stroke-width="2"></path>
+      <text x="815" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Load Speaker</text>
+
+      <!-- crystal probe on fetus -->
+      <rect class="flow-highlight box-crystal" x="70" y="270" width="60" height="18" fill="#38bdf8" stroke="#263238" stroke-width="2"></rect>
+      <text x="100" y="264" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">بلورة</text>
+      <ellipse cx="100" cy="325" rx="70" ry="24" fill="#f9a8d4" stroke="#263238" stroke-width="2"></ellipse>
+      <text x="100" y="331" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">جنين أو وعاء دموي</text>
+
+      <!-- connections -->
+      <line x1="150" y1="165" x2="210" y2="130" stroke="#263238" stroke-width="2"></line>
+      <line x1="250" y1="120" x2="345" y2="120" stroke="#263238" stroke-width="2"></line>
+      <line x1="345" y1="120" x2="345" y2="150" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="150" y1="185" x2="290" y2="185" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <text x="215" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">fi</text>
+      <text x="270" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">f=fi±Δf</text>
+
+      <line x1="100" y1="210" x2="100" y2="270" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="115" y1="270" x2="115" y2="185" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="115" y1="185" x2="150" y2="185" stroke="#263238" stroke-width="2"></line>
+
+      <line x1="400" y1="180" x2="440" y2="180" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="550" y1="180" x2="600" y2="180" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="650" y1="180" x2="704" y2="155" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+      <line x1="650" y1="180" x2="766" y2="200" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-osc-crystal" cx="100" cy="210" r="5" style="--tx:0px; --ty:60px; --particle-delay:0.3s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-osc-detector" cx="150" cy="185" r="5" style="--tx:140px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.6s"></circle>
+        <circle class="flow-particle p-echo" cx="115" cy="270" r="5" style="--tx:0px; --ty:-85px; --particle-delay:1.4s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-echo-amp" cx="115" cy="185" r="5" style="--tx:95px; --ty:-55px; --particle-delay:1.9s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-amp-detector" cx="250" cy="120" r="5" style="--tx:95px; --ty:30px; --particle-delay:2.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-detector-filter" cx="400" cy="180" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.1s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-filter-amp" cx="550" cy="180" r="5" style="--tx:50px; --ty:0px; --particle-delay:3.6s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-amp-speaker" cx="650" cy="180" r="5" style="--tx:60px; --ty:-25px; --particle-delay:4.1s; --particle-duration:0.4s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 4.7s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .echo-sounder-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .box-osc { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
+  .box-crystal { --highlight-delay: 0.6s; --highlight-duration: 0.5s; }
+  .amp-hf { --highlight-delay: 2.2s; --highlight-duration: 0.6s; }
+  .box-detector { --highlight-delay: 2.9s; --highlight-duration: 0.6s; }
+  .box-filter { --highlight-delay: 3.5s; --highlight-duration: 0.5s; }
+  .amp-lf { --highlight-delay: 4.0s; --highlight-duration: 0.5s; }
+  .speaker,
+  .loudspeaker { --highlight-delay: 4.4s; --highlight-duration: 0.6s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".echo-sounder-diagram");
+</script>

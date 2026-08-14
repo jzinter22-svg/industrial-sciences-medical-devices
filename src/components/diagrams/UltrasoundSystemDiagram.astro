@@ -1,0 +1,133 @@
+---
+// Animated Figure 2-21 (مخطط لاجزاء جهاز التصوير الفوق صوتي الحديث) —
+// printed page 39. Teaches the hub-and-spoke architecture described in
+// section 2-8: the CPU is the "brain" that every other unit (display,
+// disk storage, keyboard/cursor, printer, transducer pulse controls)
+// connects through, with the transducer itself sending pulses into the
+// fetus and receiving the echo back. Same flow-particle / highlight-pulse
+// conventions as Chapter 1's hub diagrams.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram ultrasound-system-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="us-system-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="900"
+      height="460"
+      viewBox="0 0 900 460"
+      role="img"
+      aria-label="مخطط لاجزاء جهاز التصوير الفوق صوتي الحديث"
+    >
+      <rect x="0" y="0" width="900" height="460" fill="none"></rect>
+
+      <rect x="380" y="40" width="140" height="60" rx="6" fill="#f8fafc" stroke="#263238" stroke-width="2"></rect>
+      <text x="450" y="65" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شاشة العرض</text>
+      <text x="450" y="83" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Display</text>
+
+      <rect x="120" y="130" width="140" height="60" rx="6" fill="#bae6fd" stroke="#263238" stroke-width="2"></rect>
+      <text x="190" y="155" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">وحدة التخزين</text>
+      <text x="190" y="173" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Disk Storage</text>
+
+      <rect x="640" y="130" width="140" height="60" rx="6" fill="#bae6fd" stroke="#263238" stroke-width="2"></rect>
+      <text x="710" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">لوحة المفاتيح</text>
+      <text x="710" y="166" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Keyboard/Cursor</text>
+
+      <rect class="flow-highlight box-cpu" x="380" y="150" width="140" height="70" rx="8" fill="#fed7aa" stroke="#263238" stroke-width="2.5"></rect>
+      <text x="450" y="190" font-family="Cairo, sans-serif" font-size="16" font-weight="800" fill="#263238" text-anchor="middle" direction="ltr">CPU</text>
+
+      <rect x="120" y="250" width="140" height="55" rx="6" fill="#e9d5ff" stroke="#263238" stroke-width="2"></rect>
+      <text x="190" y="273" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الطابعة</text>
+      <text x="190" y="291" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Printer</text>
+
+      <rect class="flow-highlight box-pulse-controls" x="345" y="250" width="210" height="70" rx="6" fill="#bbf7d0" stroke="#263238" stroke-width="2"></rect>
+      <text x="450" y="272" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">وحدة السيطرة على النبضات</text>
+      <text x="450" y="288" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Transducer Pulse Controls</text>
+      <text x="450" y="305" font-family="Cairo, sans-serif" font-size="9" font-weight="600" fill="#57606f" text-anchor="middle" direction="ltr">Frequency · Duration · Scan mode</text>
+
+      <rect class="flow-highlight box-transducer" x="660" y="250" width="120" height="55" rx="6" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
+      <text x="720" y="273" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المجس</text>
+      <text x="720" y="291" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Transducer</text>
+
+      <ellipse cx="720" cy="390" rx="90" ry="45" fill="#f9a8d4" stroke="#263238" stroke-width="2"></ellipse>
+      <text x="720" y="395" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الجنين</text>
+
+      <!-- connections (CPU as hub) -->
+      <line x1="450" y1="100" x2="450" y2="150" stroke="#263238" stroke-width="2"></line>
+      <line x1="260" y1="160" x2="380" y2="170" stroke="#263238" stroke-width="2"></line>
+      <line x1="640" y1="160" x2="520" y2="170" stroke="#263238" stroke-width="2"></line>
+      <line x1="260" y1="277" x2="345" y2="270" stroke="#263238" stroke-width="2"></line>
+      <line x1="450" y1="220" x2="450" y2="250" stroke="#263238" stroke-width="2"></line>
+      <line x1="555" y1="280" x2="660" y2="277" stroke="#263238" stroke-width="2"></line>
+      <line x1="720" y1="305" x2="720" y2="345" stroke="#263238" stroke-width="2"></line>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-cpu-display" cx="450" cy="150" r="5" style="--tx:0px; --ty:-50px; --particle-delay:0.6s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-cpu-storage" cx="380" cy="170" r="5" style="--tx:-120px; --ty:-10px; --particle-delay:1.2s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-cpu-keyboard" cx="520" cy="170" r="5" style="--tx:120px; --ty:-10px; --particle-delay:1.2s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-cpu-printer" cx="345" cy="270" r="5" style="--tx:-85px; --ty:7px; --particle-delay:1.8s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-cpu-pulse" cx="450" cy="220" r="5" style="--tx:0px; --ty:30px; --particle-delay:2.4s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-pulse-transducer" cx="555" cy="280" r="5" style="--tx:105px; --ty:-3px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-transducer-fetus" cx="720" cy="305" r="5" style="--tx:0px; --ty:40px; --particle-delay:3.6s; --particle-duration:0.4s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 4.2s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .us-system-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .box-cpu { --highlight-delay: 0.1s; --highlight-duration: 2.2s; }
+  .box-pulse-controls { --highlight-delay: 2.4s; --highlight-duration: 0.6s; }
+  .box-transducer { --highlight-delay: 3.0s; --highlight-duration: 1.0s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".ultrasound-system-diagram");
+</script>

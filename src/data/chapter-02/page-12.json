@@ -1,0 +1,57 @@
+{
+  "id": "page-12",
+  "pageNumber": 36,
+  "chapterNumber": 2,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثاني",
+    "printedPage": 36
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "الأجهزة الطبية الفوق صوتية",
+    "en": "Ultrasound Medical Devices"
+  },
+
+  "sections": [
+    {
+      "id": "section-2-7-comparison",
+      "number": "2-7",
+      "title": {
+        "ar": "التصوير بواسطة الأمواج الفوق صوتية",
+        "en": "Ultrasonic Imaging"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c2-fig-2-16",
+          "src": "/assets/diagrams/chapter-02/fig-16-a-b-comparison.svg",
+          "alt": "صور عرض شاشة الاوسيليسكوب للنوعين",
+          "caption": {
+            "ar": "الشكل 16-2 صور عرض شاشة الاوسيليسكوب للنوعين: أ- عرض للنوع (A) الشكل العلوي، ب- عرض للنوع (B) والشكل السفلي"
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c2-fig-2-17",
+          "src": "/assets/diagrams/chapter-02/fig-17-fetus-scan-images.jpg",
+          "alt": "صوره لجنين بالابيض والاسود لون العظام ابيض والسوائل كمناطق سوداء و الكتل مختلفة الكثافة تظهر باللون الرمادي",
+          "caption": {
+            "ar": "الشكل 17-2 صوره لجنين بالابيض والاسود لون العظام ابيض والسوائل كمناطق سوداء و الكتل مختلفة الكثافة تظهر بالالوان الرمادي، ونفس الصورة يمكن تلوينها بالحاسوب على اليمين"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

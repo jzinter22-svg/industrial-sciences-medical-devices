@@ -1,0 +1,116 @@
+---
+// A worked example ("مثال") card — distinct from QuestionCard's
+// end-of-chapter exercises, which are unsolved-until-asked. Every "مثال"
+// in Chapter 2 is solved immediately in the source text, so this card
+// always shows problem + solution together. Visually related to
+// QuestionCard (same "label: content" pattern, same card language) but
+// with its own accent color and "مثال"/"الحل" labels so a reader can tell
+// at a glance which kind of card they're looking at.
+interface Props {
+  number: string;
+  problemAr: string;
+  solutionSteps: string[];
+}
+
+const { number, problemAr, solutionSteps } = Astro.props;
+---
+
+<article class="example-card neo-surface-soft">
+  <div class="example-header">
+    <span class="example-badge" dir="ltr">{number}</span>
+    <div class="example-body">
+      <span class="example-eyebrow">مثال</span>
+      <p class="example-text">{problemAr}</p>
+    </div>
+  </div>
+  <div class="example-solution">
+    <span class="solution-eyebrow">الحل:</span>
+    <ol class="solution-steps">
+      {solutionSteps.map((step) => (
+        <li class="solution-step" dir="ltr">{step}</li>
+      ))}
+    </ol>
+  </div>
+</article>
+
+<style>
+  .example-card {
+    padding: var(--neo-space-sm) var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-xs);
+    box-sizing: border-box;
+  }
+
+  .example-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--neo-space-sm);
+  }
+
+  .example-badge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background: #0891b2;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .example-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .example-eyebrow {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0891b2;
+  }
+
+  .example-text {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+  }
+
+  .example-solution {
+    margin-inline-start: calc(1.9rem + var(--neo-space-sm));
+    padding-top: 0.3rem;
+    border-top: 1px dashed var(--neo-shadow-dark);
+  }
+
+  .solution-eyebrow {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #15803d;
+  }
+
+  .solution-steps {
+    margin: 0;
+    padding-inline-start: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .solution-step {
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: var(--neo-line-height);
+    color: var(--neo-text);
+    text-align: left;
+    unicode-bidi: isolate;
+  }
+</style>

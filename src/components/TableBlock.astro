@@ -1,0 +1,78 @@
+---
+// A data table block (e.g. Table 2-1, ultrasound speed per material) —
+// introduced because Chapter 1 had no tabular data. RTL, matches the
+// established card language so a table reads as part of the same book
+// as the definition/list cards around it.
+interface Props {
+  captionAr: string;
+  headers: string[];
+  rows: string[][];
+}
+
+const { captionAr, headers, rows } = Astro.props;
+---
+
+<figure class="table-block neo-surface-soft">
+  <div class="table-scroll">
+    <table class="data-table" dir="rtl">
+      <thead>
+        <tr>
+          {headers.map((h) => <th>{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr>
+            {row.map((cell) => <td dir="ltr">{cell}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <figcaption class="table-caption">{captionAr}</figcaption>
+</figure>
+
+<style>
+  .table-block {
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--neo-shadow-dark);
+    text-align: center;
+  }
+
+  .data-table th {
+    background: var(--neo-primary);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .data-table td {
+    color: var(--neo-text);
+  }
+
+  .table-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--neo-muted);
+  }
+</style>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="280" viewBox="0 0 700 280" role="img" aria-label="النمط النبضي للامواج الفوق صوتية">
+  <defs>
+    <marker id="pu-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="280" fill="none"></rect>
+
+  <line x1="60" y1="140" x2="660" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#pu-arrow)"></line>
+  <line x1="60" y1="230" x2="60" y2="50" stroke="#263238" stroke-width="2" marker-end="url(#pu-arrow)"></line>
+  <text x="30" y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">السعة</text>
+  <text x="640" y="160" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">الزمن</text>
+
+  <!-- three short pulse bursts separated by gaps -->
+  <g fill="none" stroke="#1d4ed8" stroke-width="2.5">
+    <path d="M 100,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
+    <path d="M 270,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
+    <path d="M 440,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
+  </g>
+
+  <line x1="100" y1="185" x2="164" y2="185" stroke="#263238" stroke-width="1.5" marker-end="url(#pu-arrow)" marker-start="url(#pu-arrow)"></line>
+  <text x="132" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">1 μsec.</text>
+
+  <line x1="164" y1="60" x2="270" y2="60" stroke="#263238" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <text x="480" y="65" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">f=1KHz-12KHz</text>
+</svg>

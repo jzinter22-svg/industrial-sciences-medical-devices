@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220" role="img" aria-label="موجة نمط دوبلر المستمر">
+  <defs>
+    <marker id="cd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="220" fill="none"></rect>
+
+  <line x1="60" y1="110" x2="660" y2="110" stroke="#263238" stroke-width="2" marker-end="url(#cd-arrow)"></line>
+  <line x1="60" y1="190" x2="60" y2="30" stroke="#263238" stroke-width="2" marker-end="url(#cd-arrow)"></line>
+  <text x="30" y="40" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">السعة</text>
+  <text x="640" y="130" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">الزمن</text>
+
+  <!-- one continuous, unbroken wave -->
+  <path d="M 90,110 q 12,-40 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0"
+        fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+</svg>

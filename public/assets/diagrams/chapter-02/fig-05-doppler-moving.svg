@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-label="المراقب واقف والعربة تتحرك بسرعة">
+  <defs>
+    <marker id="dm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="360" fill="none"></rect>
+
+  <!-- concentric rings emitted from progressively shifted positions (source moving right): compressed ahead, spread behind -->
+  <g fill="none" stroke="#263238" stroke-width="2">
+    <circle cx="410" cy="170" r="40"></circle>
+    <circle cx="390" cy="170" r="75"></circle>
+    <circle cx="360" cy="170" r="112"></circle>
+    <circle cx="320" cy="170" r="152"></circle>
+  </g>
+
+  <!-- truck moving right -->
+  <g>
+    <rect x="370" y="150" width="80" height="35" rx="4" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
+    <rect x="380" y="130" width="35" height="24" rx="3" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
+    <circle cx="385" cy="188" r="9" fill="#263238"></circle>
+    <circle cx="435" cy="188" r="9" fill="#263238"></circle>
+  </g>
+  <text x="410" y="220" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">V m/s</text>
+  <line x1="450" y1="167" x2="500" y2="167" stroke="#dc2626" stroke-width="3" marker-end="url(#dm-arrow)"></line>
+
+  <text x="60" y="175" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">λ</text>
+
+  <!-- sine wave: compressed on the right, stretched on the left -->
+  <path d="M 130,270 q 25,-25 50,0 t 50,0 t 45,-25 35,0 t 30,-25 25,0 t 22,-25 20,0" fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+
+  <!-- stationary listener -->
+  <rect x="620" y="145" width="120" height="55" fill="#22c55e" stroke="#263238" stroke-width="2"></rect>
+  <text x="680" y="168" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المستمع ساكن</text>
+  <text x="680" y="188" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">والعربة تتحرك</text>
+  <line x1="680" y1="135" x2="680" y2="105" stroke="#dc2626" stroke-width="3" marker-end="url(#dm-arrow)"></line>
+</svg>

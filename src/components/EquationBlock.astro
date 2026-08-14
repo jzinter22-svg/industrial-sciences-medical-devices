@@ -1,0 +1,102 @@
+---
+// A dedicated card for a numbered physics equation (e.g. "V=Fλ ....(1-2)"
+// as printed in Chapter 2), introduced because Chapter 1 had no standalone
+// formulas to render — every equation in the source carries its own
+// reference number in parentheses, used later in worked examples and
+// questions, so the number must stay visually attached to its formula
+// rather than folded into a paragraph.
+interface EquationSymbol {
+  symbol: string;
+  meaning: string;
+}
+
+interface Props {
+  formula: string;
+  equationNumber?: string;
+  legend?: EquationSymbol[];
+}
+
+const { formula, equationNumber, legend } = Astro.props;
+---
+
+<figure class="equation-card neo-surface-soft">
+  <div class="equation-row">
+    {equationNumber && <span class="equation-number" dir="ltr">({equationNumber})</span>}
+    <p class="equation-formula" dir="ltr">{formula}</p>
+  </div>
+  {legend && legend.length > 0 && (
+    <ul class="equation-legend">
+      {legend.map((item) => (
+        <li class="equation-legend-item">
+          <span class="equation-legend-symbol" dir="ltr">{item.symbol}</span>
+          <span class="equation-legend-meaning">{item.meaning}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</figure>
+
+<style>
+  .equation-card {
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .equation-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--neo-space-md);
+    flex-wrap: wrap;
+  }
+
+  .equation-formula {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--neo-primary);
+    font-family: "Cambria Math", "Cairo", serif;
+    unicode-bidi: isolate;
+  }
+
+  .equation-number {
+    flex: 0 0 auto;
+    color: var(--neo-muted);
+    font-weight: 700;
+    font-size: 0.9rem;
+    unicode-bidi: isolate;
+  }
+
+  .equation-legend {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border-top: 1px dashed var(--neo-shadow-dark);
+    padding-top: var(--neo-space-sm);
+  }
+
+  .equation-legend-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .equation-legend-symbol {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: var(--neo-text);
+    unicode-bidi: isolate;
+  }
+
+  .equation-legend-meaning {
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>

@@ -1,0 +1,162 @@
+---
+// Animated Figure 2-15 (مخطط لعرض صورة نوع B) — printed page 35.
+// Teaches the B-scan signal path: the pulse generator triggers the
+// oscilloscope's beam AND the transmitter at once; the transmitter drives
+// the probe (mounted on a mechanical scanning arm) into the target body;
+// the probe's echo returns through the receiver to brighten the
+// oscilloscope beam, while the arm's own position feeds a second signal
+// that sets the beam's horizontal deflection — the two signals together
+// are what turn the amplitude-only A-scan into a two-dimensional B-scan
+// image. Same flow-particle / highlight-pulse conventions as Chapter 1.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram b-scan-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="b-scan-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="900"
+      height="420"
+      viewBox="0 0 900 420"
+      role="img"
+      aria-label="مخطط لعرض صورة نوع (B)"
+    >
+      <defs>
+        <marker id="bs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="900" height="420" fill="none"></rect>
+
+      <rect class="flow-highlight box-gen" x="60" y="40" width="130" height="55" rx="6" fill="#a5f3fc" stroke="#263238" stroke-width="2"></rect>
+      <text x="125" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مولد النبضات</text>
+      <text x="125" y="80" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Generator</text>
+
+      <rect class="flow-highlight box-trigger" x="270" y="40" width="140" height="55" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
+      <text x="340" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">محفز الاسلوسكوب</text>
+
+      <rect class="flow-highlight box-tx" x="60" y="140" width="130" height="55" rx="6" fill="#e2e8f0" stroke="#263238" stroke-width="2"></rect>
+      <text x="125" y="163" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المرسلة</text>
+
+      <rect class="flow-highlight box-rx" x="270" y="230" width="130" height="55" rx="6" fill="#bbf7d0" stroke="#263238" stroke-width="2"></rect>
+      <text x="335" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المستقبل</text>
+
+      <rect class="flow-highlight box-position" x="470" y="290" width="180" height="55" rx="6" fill="#f9a8d4" stroke="#263238" stroke-width="2"></rect>
+      <text x="560" y="313" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تحديد موقع المجس</text>
+
+      <rect class="flow-highlight box-probe" x="60" y="270" width="140" height="90" rx="8" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
+      <text x="130" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المجس</text>
+      <rect x="80" y="330" width="100" height="16" fill="#dc2626"></rect>
+      <text x="130" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الجسم المستهدف</text>
+
+      <rect x="660" y="60" width="220" height="220" rx="8" fill="#f8fafc" stroke="#263238" stroke-width="2"></rect>
+      <text x="770" y="45" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Oscilloscope</text>
+      <circle class="flow-highlight scope-screen" cx="770" cy="140" r="55" fill="#0f172a" stroke="#57606f" stroke-width="3"></circle>
+      <circle class="scope-dot" cx="770" cy="140" r="7" fill="#4ade80"></circle>
+      <text x="720" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">V</text>
+      <text x="795" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">H</text>
+      <text x="825" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Z</text>
+
+      <!-- connections -->
+      <line x1="190" y1="67" x2="270" y2="67" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+      <path d="M 410,67 L 770,67 L 770,85" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+      <line x1="125" y1="95" x2="125" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+      <path d="M 125,195 L 125,270" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+      <line x1="130" y1="330" x2="130" y2="360" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+      <path d="M 200,320 L 335,320 L 335,285" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+      <path d="M 400,257 L 720,257 L 720,195" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+      <path d="M 200,300 L 560,300 L 560,290" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+      <path d="M 650,317 L 825,317 L 825,195" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-gen-trigger" cx="190" cy="67" r="5" style="--tx:80px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-trigger-scope" cx="410" cy="67" r="5" style="--tx:360px; --ty:0px; --particle-delay:0.7s; --particle-duration:0.6s"></circle>
+        <circle class="flow-particle p-gen-tx" cx="125" cy="95" r="5" style="--tx:0px; --ty:45px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-tx-probe" cx="125" cy="195" r="5" style="--tx:0px; --ty:75px; --particle-delay:0.9s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-probe-body" cx="130" cy="330" r="5" style="--tx:0px; --ty:30px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-probe-rx" cx="200" cy="320" r="5" style="--tx:135px; --ty:-35px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-rx-scope" cx="400" cy="257" r="5" style="--tx:320px; --ty:-62px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
+        <circle class="flow-particle p-probe-pos" cx="200" cy="300" r="5" style="--tx:360px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
+        <circle class="flow-particle p-pos-scope" cx="650" cy="317" r="5" style="--tx:175px; --ty:-122px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .b-scan-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .box-gen { --highlight-delay: 0.1s; --highlight-duration: 0.4s; }
+  .box-trigger { --highlight-delay: 0.6s; --highlight-duration: 0.5s; }
+  .box-tx { --highlight-delay: 0.1s; --highlight-duration: 0.4s; }
+  .box-probe { --highlight-delay: 0.9s; --highlight-duration: 1.1s; }
+  .box-rx { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
+  .box-position { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
+  .scope-screen { --highlight-delay: 2.8s; --highlight-duration: 0.7s; }
+
+  .scope-dot {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dot-appear {
+      0%, 100% { opacity: 0; }
+      20%, 80% { opacity: 1; }
+    }
+
+    .playing .scope-dot {
+      animation: dot-appear 1.0s ease-in-out 2.8s;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".b-scan-diagram");
+</script>

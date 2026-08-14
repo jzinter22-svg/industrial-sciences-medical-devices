@@ -33,6 +33,42 @@ const chapter01Lesson01Pages = [
   page10, page11, page12, page13, page14,
 ];
 
+import c2page00 from "../../../data/chapter-02/page-00.json";
+import c2page01 from "../../../data/chapter-02/page-01.json";
+import c2page02 from "../../../data/chapter-02/page-02.json";
+import c2page03 from "../../../data/chapter-02/page-03.json";
+import c2page04 from "../../../data/chapter-02/page-04.json";
+import c2page05 from "../../../data/chapter-02/page-05.json";
+import c2page06 from "../../../data/chapter-02/page-06.json";
+import c2page07 from "../../../data/chapter-02/page-07.json";
+import c2page08 from "../../../data/chapter-02/page-08.json";
+import c2page09 from "../../../data/chapter-02/page-09.json";
+import c2page10 from "../../../data/chapter-02/page-10.json";
+import c2page11 from "../../../data/chapter-02/page-11.json";
+import c2page12 from "../../../data/chapter-02/page-12.json";
+import c2page13 from "../../../data/chapter-02/page-13.json";
+import c2page14 from "../../../data/chapter-02/page-14.json";
+import c2page15 from "../../../data/chapter-02/page-15.json";
+import c2page16 from "../../../data/chapter-02/page-16.json";
+import c2page17 from "../../../data/chapter-02/page-17.json";
+import c2page18 from "../../../data/chapter-02/page-18.json";
+import c2page19 from "../../../data/chapter-02/page-19.json";
+import c2page20 from "../../../data/chapter-02/page-20.json";
+import c2page21 from "../../../data/chapter-02/page-21.json";
+import c2page22 from "../../../data/chapter-02/page-22.json";
+import c2page23 from "../../../data/chapter-02/page-23.json";
+import c2page24 from "../../../data/chapter-02/page-24.json";
+import c2page25 from "../../../data/chapter-02/page-25.json";
+
+const chapter02Lesson01Pages = [
+  c2page00, c2page01, c2page02, c2page03, c2page04,
+  c2page05, c2page06, c2page07, c2page08, c2page09,
+  c2page10, c2page11, c2page12, c2page13, c2page14,
+  c2page15, c2page16, c2page17, c2page18, c2page19,
+  c2page20, c2page21, c2page22, c2page23, c2page24,
+  c2page25,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -45,10 +81,13 @@ export function getStaticPaths() {
 const { chapter, lesson } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson-01";
+const isChapter02Lesson01 = chapter.id === "chapter-02" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01;
+const lessonPages = isChapter01Lesson01 ? chapter01Lesson01Pages : chapter02Lesson01Pages;
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>
-  {isChapter01Lesson01 ? (
+  {hasContent ? (
     <Fragment>
       <div class="lesson-breadcrumb-bar">
         <Breadcrumb
@@ -59,7 +98,7 @@ const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson
           ]}
         />
       </div>
-      <LessonRenderer pages={chapter01Lesson01Pages} />
+      <LessonRenderer pages={lessonPages} />
     </Fragment>
   ) : (
     <main class="lesson-placeholder-page">

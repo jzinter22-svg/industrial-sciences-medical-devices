@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="480" viewBox="0 0 820 480" role="img" aria-label="الدائرة الالكترونية لمجهز قدرة جهاز نبض الجنين">
+  <defs>
+    <marker id="ps-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="820" height="480" fill="none"></rect>
+  <g fill="none" stroke="#263238" stroke-width="2">
+
+    <!-- AC input + rectifier diodes D1 D2 -->
+    <text x="35" y="235" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">AC</text>
+    <circle cx="60" cy="215" r="3" fill="#263238"></circle>
+    <circle cx="60" cy="255" r="3" fill="#263238"></circle>
+    <line x1="60" y1="215" x2="60" y2="255"></line>
+    <line x1="60" y1="215" x2="100" y2="215"></line>
+    <line x1="60" y1="255" x2="100" y2="255"></line>
+    <path d="M 100,205 L 100,225 L 118,215 Z" fill="#263238"></path>
+    <line x1="118" y1="203" x2="118" y2="227" stroke-width="3"></line>
+    <text x="80" y="200" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">D1</text>
+    <path d="M 100,245 L 100,265 L 118,255 Z" fill="#263238"></path>
+    <line x1="118" y1="243" x2="118" y2="267" stroke-width="3"></line>
+    <text x="80" y="280" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">D2</text>
+
+    <!-- C1 -->
+    <line x1="118" y1="215" x2="150" y2="215"></line>
+    <line x1="118" y1="255" x2="150" y2="255"></line>
+    <line x1="150" y1="205" x2="150" y2="265"></line>
+    <line x1="158" y1="205" x2="158" y2="265"></line>
+    <text x="130" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C1</text>
+    <text x="90" y="190" font-family="Cairo, sans-serif" font-size="10" fill="#263238">+</text>
+
+    <line x1="60" y1="215" x2="60" y2="410" stroke-width="2"></line>
+    <line x1="60" y1="410" x2="820" y2="410" stroke-width="2"></line>
+    <text x="30" y="425" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238">E</text>
+    <circle cx="60" cy="410" r="3" fill="#263238"></circle>
+
+    <!-- Q1 Q2 regulator transistors -->
+    <line x1="158" y1="215" x2="230" y2="215"></line>
+    <circle cx="255" cy="185" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
+    <text x="255" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q1</text>
+    <line x1="230" y1="215" x2="230" y2="330"></line>
+
+    <circle cx="255" cy="330" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
+    <text x="255" y="365" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q2</text>
+
+    <!-- R1 R2 -->
+    <path d="M 190,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke-width="2"></path>
+    <text x="165" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R1</text>
+    <path d="M 215,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke-width="2"></path>
+    <text x="200" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R2</text>
+
+    <!-- Q3 with zener -->
+    <circle cx="330" cy="260" r="22" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
+    <text x="330" y="290" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q3</text>
+    <line x1="279" y1="185" x2="500" y2="185"></line>
+    <path d="M 460,175 v10 l8,6 -16,6 16,6 -16,6 8,6 v10" stroke-width="2"></path>
+    <text x="440" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R3</text>
+    <path d="M 500,175 L 512,185 L 500,195 Z" fill="#263238"></path>
+    <line x1="512" y1="173" x2="512" y2="197" stroke-width="3"></line>
+    <line x1="500" y1="200" x2="500" y2="238" stroke-width="1.5" stroke-dasharray="3 3"></line>
+    <text x="475" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR1</text>
+
+    <!-- C2 -->
+    <line x1="279" y1="260" x2="300" y2="260"></line>
+    <line x1="300" y1="250" x2="300" y2="270"></line>
+    <line x1="308" y1="250" x2="308" y2="270"></line>
+    <text x="290" y="290" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C2</text>
+
+    <!-- R4 / VR2 -->
+    <path d="M 330,282 v20 l8,6 -16,6 16,6 -16,6 8,6 v20" stroke-width="2"></path>
+    <text x="345" y="330" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R4</text>
+    <text x="345" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR2</text>
+
+    <!-- D3 D4 -->
+    <path d="M 255,354 L 255,374 L 275,364 Z" fill="none" stroke="#263238" stroke-width="1.5"></path>
+    <text x="220" y="370" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D3</text>
+    <path d="M 300,364 L 320,354 L 320,374 Z" fill="none" stroke="#263238" stroke-width="1.5"></path>
+    <text x="330" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D4</text>
+
+    <!-- R5 to bottom rail -->
+    <path d="M 330,340 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke-width="2"></path>
+    <line x1="330" y1="392" x2="330" y2="410"></line>
+    <text x="345" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R5</text>
+
+    <!-- D5 to switch -->
+    <line x1="500" y1="185" x2="560" y2="185"></line>
+    <path d="M 560,175 L 580,185 L 560,195 Z" fill="#263238"></path>
+    <text x="565" y="170" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D5</text>
+    <line x1="580" y1="185" x2="610" y2="185"></line>
+    <circle cx="610" cy="185" r="3" fill="#263238"></circle>
+    <line x1="610" y1="185" x2="640" y2="165"></line>
+    <circle cx="650" cy="160" r="3" fill="#263238"></circle>
+    <text x="615" y="160" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">SW</text>
+    <line x1="650" y1="160" x2="760" y2="160"></line>
+    <circle cx="760" cy="160" r="3" fill="#263238"></circle>
+    <text x="770" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238">P</text>
+
+    <!-- battery -->
+    <line x1="500" y1="238" x2="500" y2="280"></line>
+    <g stroke-width="2">
+      <line x1="480" y1="250" x2="520" y2="250"></line>
+      <line x1="486" y1="256" x2="514" y2="256"></line>
+      <line x1="480" y1="264" x2="520" y2="264"></line>
+      <line x1="486" y1="270" x2="514" y2="270"></line>
+      <line x1="480" y1="278" x2="520" y2="278"></line>
+    </g>
+    <line x1="500" y1="290" x2="500" y2="410"></line>
+    <text x="470" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">B</text>
+    <text x="470" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">E</text>
+
+    <!-- R6 / VR3 + meter M -->
+    <line x1="760" y1="160" x2="760" y2="185"></line>
+    <path d="M 760,185 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke-width="2"></path>
+    <text x="775" y="215" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R6</text>
+    <text x="775" y="250" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR3</text>
+    <circle cx="720" cy="290" r="26" fill="#fff" stroke="#263238" stroke-width="2"></circle>
+    <line x1="712" y1="300" x2="726" y2="278" stroke="#1d4ed8" stroke-width="2"></line>
+    <text x="720" y="330" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">M</text>
+
+    <!-- C3 -->
+    <line x1="760" y1="255" x2="760" y2="270"></line>
+    <line x1="750" y1="270" x2="770" y2="270"></line>
+    <line x1="750" y1="278" x2="770" y2="278"></line>
+    <line x1="760" y1="278" x2="760" y2="410"></line>
+    <text x="775" y="285" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C3</text>
+
+    <line x1="720" y1="316" x2="720" y2="410"></line>
+    <text x="700" y="335" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">E</text>
+  </g>
+</svg>

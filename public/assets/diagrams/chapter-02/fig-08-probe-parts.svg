@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="520" viewBox="0 0 640 520" role="img" aria-label="الأجزاء الداخلية لمجس الأمواج الفوق صوتية">
+  <rect x="0" y="0" width="640" height="520" fill="none"></rect>
+
+  <!-- coaxial cable -->
+  <path d="M 240,20 C 235,60 245,90 250,120" fill="none" stroke="#92400e" stroke-width="10" stroke-linecap="round"></path>
+  <rect x="225" y="115" width="50" height="22" fill="#fde047" stroke="#263238" stroke-width="2"></rect>
+
+  <!-- outer plastic housing (dome) -->
+  <path d="M 150,340 L 150,220 A 100,100 0 0 1 350,220 L 350,340 Z" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></path>
+
+  <!-- acoustic insulator (green, inner dome) -->
+  <path d="M 185,320 L 185,225 A 65,65 0 0 1 315,225 L 315,320 Z" fill="#86efac" stroke="#263238" stroke-width="2"></path>
+
+  <!-- backing block (hatched) -->
+  <rect x="205" y="245" width="45" height="90" fill="#94a3b8" stroke="#263238" stroke-width="1.5"></rect>
+  <rect x="250" y="245" width="45" height="90" fill="#cbd5e1" stroke="#263238" stroke-width="1.5"></rect>
+  <g stroke="#57606f" stroke-width="1">
+    <line x1="210" y1="245" x2="210" y2="335"></line>
+    <line x1="220" y1="245" x2="220" y2="335"></line>
+    <line x1="230" y1="245" x2="230" y2="335"></line>
+    <line x1="240" y1="245" x2="240" y2="335"></line>
+    <line x1="255" y1="245" x2="255" y2="335"></line>
+    <line x1="265" y1="245" x2="265" y2="335"></line>
+    <line x1="275" y1="245" x2="275" y2="335"></line>
+    <line x1="285" y1="245" x2="285" y2="335"></line>
+  </g>
+
+  <!-- crystal element (yellow strip at the contact face) -->
+  <rect x="200" y="335" width="100" height="14" fill="#facc15" stroke="#263238" stroke-width="2"></rect>
+  <!-- insulated cover -->
+  <path d="M 150,340 L 350,340 L 340,352 L 160,352 Z" fill="#e2e8f0" stroke="#263238" stroke-width="2"></path>
+
+  <!-- leader lines + labels -->
+  <line x1="270" y1="70" x2="380" y2="60" stroke="#263238" stroke-width="1.2"></line>
+  <text x="385" y="55" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Coaxial Cable</text>
+  <text x="385" y="72" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">سلك توصيل</text>
+
+  <line x1="330" y1="235" x2="420" y2="120" stroke="#263238" stroke-width="1.2"></line>
+  <text x="425" y="115" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Plastic Housing</text>
+  <text x="425" y="132" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الغلاف الخارجي</text>
+
+  <line x1="310" y1="260" x2="420" y2="195" stroke="#263238" stroke-width="1.2"></line>
+  <text x="425" y="190" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Acoustic Insulator</text>
+  <text x="425" y="207" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عازل صوتي</text>
+
+  <line x1="290" y1="280" x2="420" y2="255" stroke="#263238" stroke-width="1.2"></line>
+  <text x="425" y="250" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Backing Block</text>
+  <text x="425" y="267" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">طبقات ساندة</text>
+
+  <line x1="270" y1="335" x2="420" y2="335" stroke="#263238" stroke-width="1.2"></line>
+  <text x="425" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Crystal Element</text>
+  <text x="425" y="347" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عنصر البلورة</text>
+
+  <line x1="230" y1="342" x2="420" y2="375" stroke="#263238" stroke-width="1.2"></line>
+  <text x="425" y="370" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">"Ground" Electrode</text>
+  <text x="425" y="387" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الارضي</text>
+
+  <line x1="200" y1="348" x2="130" y2="400" stroke="#263238" stroke-width="1.2"></line>
+  <text x="125" y="418" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Insulated Cover</text>
+  <text x="125" y="435" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end" direction="rtl">غلاف خارجي عازل</text>
+</svg>

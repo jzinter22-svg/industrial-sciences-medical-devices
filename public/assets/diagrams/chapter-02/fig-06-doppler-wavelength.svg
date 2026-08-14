@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-label="تاثير دوبلر على الجسم المتحرك وعلاقته بالطول الموجي">
+  <defs>
+    <marker id="dw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="300" fill="none"></rect>
+
+  <!-- concentric rings around a small arrow representing the moving object's rings -->
+  <g stroke="#8a8f98" stroke-width="6" fill="none">
+    <path d="M 40,150 A 100,100 0 0 1 40,300"></path>
+    <path d="M 40,80 A 170,170 0 0 1 40,370"></path>
+    <path d="M 40,20 A 230,230 0 0 1 40,430"></path>
+  </g>
+  <g stroke="#8a8f98" stroke-width="6" fill="none">
+    <path d="M 40,150 A 60,60 0 0 0 40,270" transform="translate(0,-100)"></path>
+  </g>
+
+  <!-- wavy trace with visibly compressed loops on the right (direction of travel), stretched on the left -->
+  <path d="M 60,150 q 22,-45 44,0 t 40,0 t 36,-45 32,0 t 26,-45 22,0 t 16,-45 14,0 t 10,-45 8,0"
+        fill="none" stroke="#1d4ed8" stroke-width="4"></path>
+
+  <circle cx="590" cy="150" r="16" fill="#dc2626" stroke="#263238" stroke-width="2"></circle>
+  <line x1="610" y1="150" x2="660" y2="150" stroke="#dc2626" stroke-width="4" marker-end="url(#dw-arrow)"></line>
+
+  <text x="700" y="120" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تردد اعلى</text>
+  <text x="700" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">(طول موجي اقصر)</text>
+
+  <text x="90" y="90" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تردد اقل</text>
+  <text x="90" y="70" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">(طول موجي اطول)</text>
+</svg>

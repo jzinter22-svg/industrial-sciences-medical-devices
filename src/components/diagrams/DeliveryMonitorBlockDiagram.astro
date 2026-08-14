@@ -1,0 +1,202 @@
+---
+// Animated Figure 2-29 (المخطط الكتلوي لجهاز مراقبة الولادة / Delivery
+// Monitor) — printed page 46. The source's own numbered explanation
+// (parts 1-10) describes two parallel, symmetric channels sharing one
+// crystal oscillator: the upper channel measures uterine contractions,
+// the lower measures fetal heart-rate, and each runs
+// detector -> filter -> mixer -> integral set -> power amplifier -> a
+// dedicated writing pen on the shared paper roll, with the fetal channel
+// additionally splitting off to a loudspeaker so the heartbeat can be
+// heard directly. Reuses the same flow-particle / highlight-pulse
+// conventions as Chapter 1's block diagrams.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram delivery-monitor-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="delivery-monitor-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1000"
+      height="480"
+      viewBox="0 0 1000 480"
+      role="img"
+      aria-label="المخطط الكتلوي لجهاز مراقبة الولادة"
+    >
+      <defs>
+        <marker id="dv-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="1000" height="480" fill="none"></rect>
+
+      <!-- shared oscillator + probes -->
+      <rect x="20" y="210" width="100" height="60" rx="6" fill="#a5f3fc" stroke="#263238" stroke-width="2"></rect>
+      <text x="70" y="235" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المذبذب البلوري</text>
+      <text x="70" y="252" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">2.3MHz</text>
+
+      <rect class="flow-highlight box-probe-1" x="150" y="90" width="80" height="45" rx="6" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
+      <text x="190" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجس 1</text>
+
+      <rect class="flow-highlight box-probe-2" x="150" y="335" width="80" height="45" rx="6" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
+      <text x="190" y="363" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجس 2</text>
+
+      <!-- top channel: contractions -->
+      <g>
+        <rect class="flow-highlight box-amp1-top" x="270" y="90" width="80" height="45" rx="6" fill="#fca5a5" stroke="#263238" stroke-width="2"></rect>
+        <text x="310" y="117" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد عالي</text>
+
+        <rect class="flow-highlight box-detector-top" x="380" y="90" width="80" height="45" rx="6" fill="#86efac" stroke="#263238" stroke-width="2"></rect>
+        <text x="420" y="117" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">كاشف</text>
+
+        <rect class="flow-highlight box-filter-top" x="490" y="90" width="80" height="45" rx="6" fill="#fdba74" stroke="#263238" stroke-width="2"></rect>
+        <text x="530" y="117" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مرشح</text>
+
+        <rect class="flow-highlight box-mixer-top" x="600" y="90" width="80" height="45" rx="6" fill="#c4b5fd" stroke="#263238" stroke-width="2"></rect>
+        <text x="640" y="117" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مازج</text>
+
+        <rect class="flow-highlight box-integral-top" x="710" y="90" width="90" height="45" rx="6" fill="#7dd3fc" stroke="#263238" stroke-width="2"></rect>
+        <text x="755" y="117" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجموعة المكامل</text>
+
+        <rect class="flow-highlight box-power-top" x="830" y="90" width="80" height="45" rx="6" fill="#fca5a5" stroke="#263238" stroke-width="2"></rect>
+        <text x="870" y="117" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر قدرة</text>
+
+        <line x1="230" y1="112" x2="270" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="350" y1="112" x2="380" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="460" y1="112" x2="490" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="570" y1="112" x2="600" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="680" y1="112" x2="710" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="800" y1="112" x2="830" y2="112" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+      </g>
+
+      <!-- bottom channel: fetal heart rate -->
+      <g>
+        <rect class="flow-highlight box-amp1-bottom" x="270" y="335" width="80" height="45" rx="6" fill="#fca5a5" stroke="#263238" stroke-width="2"></rect>
+        <text x="310" y="362" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد عالي</text>
+
+        <rect class="flow-highlight box-detector-bottom" x="380" y="335" width="80" height="45" rx="6" fill="#86efac" stroke="#263238" stroke-width="2"></rect>
+        <text x="420" y="362" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">كاشف</text>
+
+        <rect class="flow-highlight box-filter-bottom" x="490" y="335" width="80" height="45" rx="6" fill="#fdba74" stroke="#263238" stroke-width="2"></rect>
+        <text x="530" y="362" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مرشح</text>
+
+        <path class="flow-highlight amp-speaker" d="M 490,410 L 490,450 L 530,430 Z" fill="#fca5a5" stroke="#263238" stroke-width="2"></path>
+        <path class="flow-highlight loudspeaker" d="M 560,420 l -20,10 v20 l 20,10 z" fill="#fde047" stroke="#263238" stroke-width="1.5"></path>
+        <text x="530" y="475" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">سماعة / مجهر</text>
+
+        <rect class="flow-highlight box-mixer-bottom" x="600" y="335" width="80" height="45" rx="6" fill="#c4b5fd" stroke="#263238" stroke-width="2"></rect>
+        <text x="640" y="362" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مازج</text>
+
+        <rect class="flow-highlight box-integral-bottom" x="710" y="335" width="90" height="45" rx="6" fill="#7dd3fc" stroke="#263238" stroke-width="2"></rect>
+        <text x="755" y="362" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجموعة المكامل</text>
+
+        <rect class="flow-highlight box-power-bottom" x="830" y="335" width="80" height="45" rx="6" fill="#fca5a5" stroke="#263238" stroke-width="2"></rect>
+        <text x="870" y="362" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر قدرة</text>
+
+        <line x1="230" y1="357" x2="270" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="350" y1="357" x2="380" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="460" y1="357" x2="490" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="510" y1="380" x2="510" y2="410" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="570" y1="357" x2="600" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="680" y1="357" x2="710" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+        <line x1="800" y1="357" x2="830" y2="357" stroke="#263238" stroke-width="2" marker-end="url(#dv-arrow)"></line>
+      </g>
+
+      <!-- oscillator to both probes and both detectors -->
+      <line x1="120" y1="230" x2="190" y2="230" stroke="#263238" stroke-width="1.5"></line>
+      <line x1="190" y1="230" x2="190" y2="135" stroke="#263238" stroke-width="1.5" marker-end="url(#dv-arrow)"></line>
+      <line x1="190" y1="230" x2="190" y2="335" stroke="#263238" stroke-width="1.5" marker-end="url(#dv-arrow)"></line>
+      <line x1="120" y1="240" x2="420" y2="240" stroke="#263238" stroke-width="1.2" stroke-dasharray="3 3"></line>
+      <line x1="420" y1="240" x2="420" y2="90" stroke="#263238" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#dv-arrow)"></line>
+      <line x1="420" y1="240" x2="420" y2="335" stroke="#263238" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#dv-arrow)"></line>
+
+      <!-- pens + paper roll + motor -->
+      <rect x="920" y="200" width="18" height="80" fill="#fff" stroke="#263238" stroke-width="2"></rect>
+      <text x="929" y="195" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">ورق</text>
+      <line x1="870" y1="135" x2="929" y2="200" stroke="#263238" stroke-width="1.5" marker-end="url(#dv-arrow)"></line>
+      <line x1="870" y1="380" x2="929" y2="280" stroke="#263238" stroke-width="1.5" marker-end="url(#dv-arrow)"></line>
+      <circle class="flow-highlight motor" cx="960" cy="240" r="20" fill="#fde047" stroke="#263238" stroke-width="2"></circle>
+      <text x="960" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="800" fill="#263238" text-anchor="middle" direction="ltr">M</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-t1" cx="230" cy="112" r="5" style="--tx:40px; --ty:0px; --particle-delay:0.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-t2" cx="350" cy="112" r="5" style="--tx:30px; --ty:0px; --particle-delay:1.0s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-t3" cx="460" cy="112" r="5" style="--tx:30px; --ty:0px; --particle-delay:1.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-t4" cx="570" cy="112" r="5" style="--tx:30px; --ty:0px; --particle-delay:2.0s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-t5" cx="680" cy="112" r="5" style="--tx:30px; --ty:0px; --particle-delay:2.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-t6" cx="800" cy="112" r="5" style="--tx:30px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.4s"></circle>
+
+        <circle class="flow-particle p-b1" cx="230" cy="357" r="5" style="--tx:40px; --ty:0px; --particle-delay:0.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-b2" cx="350" cy="357" r="5" style="--tx:30px; --ty:0px; --particle-delay:1.0s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-b3" cx="460" cy="357" r="5" style="--tx:30px; --ty:0px; --particle-delay:1.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-b4" cx="570" cy="357" r="5" style="--tx:30px; --ty:0px; --particle-delay:2.0s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-b5" cx="680" cy="357" r="5" style="--tx:30px; --ty:0px; --particle-delay:2.5s; --particle-duration:0.4s"></circle>
+        <circle class="flow-particle p-b6" cx="800" cy="357" r="5" style="--tx:30px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.4s"></circle>
+
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .delivery-monitor-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .box-probe-1, .box-probe-2 { --highlight-delay: 0.1s; --highlight-duration: 0.4s; }
+  .box-amp1-top, .box-amp1-bottom { --highlight-delay: 0.6s; --highlight-duration: 0.5s; }
+  .box-detector-top, .box-detector-bottom { --highlight-delay: 1.1s; --highlight-duration: 0.5s; }
+  .box-filter-top, .box-filter-bottom { --highlight-delay: 1.6s; --highlight-duration: 0.5s; }
+  .amp-speaker, .loudspeaker { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
+  .box-mixer-top, .box-mixer-bottom { --highlight-delay: 2.1s; --highlight-duration: 0.5s; }
+  .box-integral-top, .box-integral-bottom { --highlight-delay: 2.6s; --highlight-duration: 0.5s; }
+  .box-power-top, .box-power-bottom { --highlight-delay: 3.1s; --highlight-duration: 0.5s; }
+  .motor { --highlight-delay: 3.5s; --highlight-duration: 0.6s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".delivery-monitor-diagram");
+</script>
