@@ -1,0 +1,97 @@
+---
+// Animated Figure 2-12 (موجة نمط دوبلر المستمر) — printed page 33.
+// Static artwork kept pixel-identical (same unbroken sine trace, axes).
+// Unlike the pulsed-mode figure, this signal never turns off, so the
+// animation is a single continuous particle tracing the full unbroken
+// waveform left to right — visually contrasting "continuous wave" with
+// the burst-and-silence pattern of Figure 2-11.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram continuous-doppler-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="cd-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="700"
+      height="220"
+      viewBox="0 0 700 220"
+      role="img"
+      aria-label="موجة نمط دوبلر المستمر"
+    >
+      <defs>
+        <marker id="cd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="700" height="220" fill="none"></rect>
+
+      <line x1="60" y1="110" x2="660" y2="110" stroke="#263238" stroke-width="2" marker-end="url(#cd-arrow)"></line>
+      <line x1="60" y1="190" x2="60" y2="30" stroke="#263238" stroke-width="2" marker-end="url(#cd-arrow)"></line>
+      <text x="30" y="40" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">السعة</text>
+      <text x="640" y="130" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">الزمن</text>
+
+      <path class="flow-highlight continuous-wave" d="M 90,110 q 12,-40 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0 t 24,0"
+            fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle" cx="60" cy="110" r="5" style="--tx:600px; --ty:0px; --particle-delay:0.1s; --particle-duration:2.0s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.3s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cd-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .continuous-wave { --highlight-delay: 0.1s; --highlight-duration: 2.0s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".continuous-doppler-diagram");
+</script>

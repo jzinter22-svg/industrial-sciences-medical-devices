@@ -7,18 +7,22 @@
 interface Props {
   href: string;
   number: number;
+  label: string;
   titleAr: string;
   titleEn?: string;
   lessonCount: number;
   available: boolean;
 }
 
-const { href, number, titleAr, titleEn, lessonCount, available } = Astro.props;
+const { href, number, label, titleAr, titleEn, lessonCount, available } = Astro.props;
 ---
 
 <a href={href} class="chapter-card neo-surface-soft" class:list={{ "is-coming-soon": !available }}>
   <div class="chapter-card-header">
-    <span class="chapter-card-badge" dir="ltr">{number}</span>
+    <span class="chapter-card-eyebrow">
+      <span class="chapter-card-badge" dir="ltr">{number}</span>
+      <span class="chapter-card-label">{label}</span>
+    </span>
     <span class:list={["chapter-card-status", available ? "status-available" : "status-soon"]}>
       {available ? "متوفر" : "قيد الإعداد"}
     </span>
@@ -57,9 +61,18 @@ const { href, number, titleAr, titleEn, lessonCount, available } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--neo-space-sm);
+  }
+
+  .chapter-card-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--neo-space-xs);
+    min-width: 0;
   }
 
   .chapter-card-badge {
+    flex: 0 0 auto;
     display: inline-grid;
     place-items: center;
     min-width: 2rem;
@@ -70,6 +83,15 @@ const { href, number, titleAr, titleEn, lessonCount, available } = Astro.props;
     color: #ffffff;
     font-weight: 700;
     font-size: 0.95rem;
+  }
+
+  .chapter-card-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--neo-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .chapter-card-status {

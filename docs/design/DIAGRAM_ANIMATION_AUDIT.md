@@ -3,6 +3,12 @@
 Status: Complete
 Scope: every scientific diagram/illustration currently in the project.
 
+> **Chapter 2 addendum:** see [Section 8](#8-chapter-2-animation-pass-addendum)
+> for the second animation pass, which extends this same architecture to
+> every suitable Chapter 2 diagram (including the radar diagram, Figure
+> 2-2) and fixes the chapter-heading display bug. Sections 1-7 below
+> describe the original Chapter 1 pass and are unchanged.
+
 This document is the audit required before the global animation pass
 (animate every existing scientific diagram without redesigning the book,
 rebuilding pages, or changing scientific content). It inventories every
@@ -158,3 +164,84 @@ Untouched (verified via `git diff --stat`):
   throughout, so this holds for all of them.
 - Mobile (375px): the widest diagrams (film processor, pulse generators,
   mA control) were checked individually for clipping — none found.
+
+---
+
+## 8. Chapter 2 animation pass (addendum)
+
+Status: Complete
+Scope: every Chapter 2 scientific diagram that was still a plain static
+`<img>` render, plus the chapter-heading display bug.
+
+### 8.1 Chapter-heading fix
+
+The book home page (`src/pages/index.astro` → `ChapterCard.astro`) showed
+only a bare numeral badge ("1", "2", "3"...) with no Arabic ordinal label
+anywhere on the card — `chapters.json` already had correct `label` fields
+(e.g. `"الفصل الأول"`) from an earlier pass, but `ChapterCard.astro` never
+received or rendered that prop. Fixed by adding `label` to `ChapterCard`'s
+props/template (numeral badge + Arabic label shown together) and passing
+`label={chapter.label}` from `index.astro`. `ChapterHeader.astro` (used on
+chapter/lesson pages) already displayed the label correctly and was not
+touched.
+
+### 8.2 Inventory and per-diagram decision
+
+Six Chapter 2 diagrams (A-scan, B-scan, ultrasound system, echo sounder,
+fetal pulse, delivery monitor block diagrams) were already animated in
+the prior Chapter 2 build pass and needed no further work. The following
+15 were still static `<img>` renders and were converted to animated
+components using the exact same shared utilities
+(`diagram-animations.css`, `diagramPlayback.js`) as Chapter 1:
+
+| # | Figure | Component | Subject | Animation |
+|---|---|---|---|---|
+| 1 | 2-2 | `RadarDiagram.astro` | Radar sender→object→receiver | Full 8-step sequence: sender activates, outgoing wave ripples toward the object, wave reaches/reflects off the object, reflected wave ripples back, receiver box highlights, distance line emphasized last, cycle repeats |
+| 2 | 2-1 | `SpectrumDiagram.astro` | Infrasound/acoustic/ultrasound frequency spectrum | A particle sweeps left→right along the frequency axis while each band and its label lights up in turn |
+| 3 | 2-3 | `ReflectionRefractionDiagram.astro` | Light/sound incident, reflected, refracted rays | Incident ray travels to the boundary point O, then reflected and refracted rays (with their angle arcs) leave simultaneously, matching the physics of partial reflection/partial transmission |
+| 4 | 2-4 | `DopplerStationaryDiagram.astro` | Stationary source, evenly-spaced wavefronts | The four existing concentric rings ripple outward in order, then the sine trace and stationary listener highlight |
+| 5 | 2-5 | `DopplerMovingDiagram.astro` | Moving source, compressed/spread wavefronts | Rings ripple in true emission order (oldest/largest first, newest/smallest last), then the source and velocity arrow, sine trace, and listener highlight |
+| 6 | 2-6 | `DopplerWavelengthDiagram.astro` | Doppler shift vs. wavelength | Trailing (stretched) arcs pulse first, then the moving object/velocity arrow, then the leading (compressed) arcs — matching the higher/lower frequency labels already on the figure |
+| 7 | 2-8 | `ProbeStructureDiagram.astro` | Probe internal parts | Each labeled part (cable → crystal → backing block → insulator → housing → ground/cover) highlights in physical signal-path order |
+| 8 | 2-11 | `PulsedUltrasoundDiagram.astro` | Pulsed-mode waveform | The three pulse bursts reveal in left-to-right time order; a particle sweeps the time axis |
+| 9 | 2-12 | `ContinuousDopplerDiagram.astro` | Continuous-wave waveform | A single particle traces the entire unbroken wave, contrasting with the pulsed figure's burst-and-silence pattern |
+| 10 | 2-14 | `AScanTraceDiagram.astro` | Transmitted pulse + echo spikes | Transmitted pulse highlights first, then the five echo spikes together, as the returning signals they represent |
+| 11 | 2-16 | `ScanComparisonDiagram.astro` | A-scan vs. B-scan display | Each A-scan spike and its corresponding B-scan brightness dot highlight together, left to right |
+| 12 | 2-18 | `ScanTypesTraceDiagram.astro` | M-scan + corresponding A-scan | Transmitted pulse → moving-target trace → stationary-target trace → the three corresponding A-scan spikes, in that order |
+| 13 | 2-27 | `PowerSupplyCircuitDiagram.astro` | Fetal-pulse device power supply circuit | Six stages highlight in electrical-flow order: AC/rectifier → filter → series-pass regulator → zener reference → battery → switch/meter output |
+| 14 | 2-28 | `TransmitterCircuitDiagram.astro` | Ultrasound transmitter circuit | Crystal oscillator stage → amplifier transistor → output-coupling stage, plus a particle riding the signal out to the detector |
+| 15 | 2-29 (a) | `ReceiverCircuitDiagram.astro` | Ultrasound receiver/detector circuit | Input transformer → first amplifier → detector stage → filter network → output, in signal-flow order |
+
+Photographic figures (probe photos, machine photos, scan images, device
+photos — 18 images total) were deliberately left as static `<img>`
+renders; they are real photographs, not process diagrams, so animating
+them would have no scientific meaning and was explicitly out of scope.
+
+### 8.3 What was not changed
+
+Same guarantees as Section 3 above, verified for all 15 newly-animated
+Chapter 2 diagrams: no `viewBox`/proportions/sizing changes, no color or
+label changes, no removed content, no rasterization — every static SVG's
+markup was reproduced exactly and animation was added purely additively
+(class hooks + an appended `flow-layer`/particle group).
+
+### 8.4 Validation performed
+
+- `npm run build` — clean after every wiring step.
+- Playwright at 375/768/1024/1440px on the home page, Chapter 1 lesson
+  page, and Chapter 2 lesson page: 0 horizontal overflow, 0 broken
+  images, 0 console/page errors at every breakpoint.
+- Radar diagram (the explicit reference example) spot-checked frame by
+  frame: rest state matches the static source exactly, the play button
+  disables mid-animation, and re-enables automatically once the
+  `cycle-end-marker` fires — confirming the play → auto-stop →
+  replay-forces-restart wiring works identically to Chapter 1.
+- `chapter2AnimatedDiagrams` in `BlockRenderer.astro` now maps 21
+  `c2-fig-2-XX` ids (6 from the prior pass + 15 new), one per diagram
+  block id confirmed against the corresponding `src/data/chapter-02/*.json`
+  file — no id typos, no diagram silently left on the generic static
+  fallback.
+- Chapter 1 diff-checked: only `ChapterCard.astro` (label prop) and
+  `index.astro` (passing `label`) were touched outside `BlockRenderer.astro`
+  and the new `src/components/diagrams/*.astro` files — no Chapter 1 data,
+  diagram, or layout file was modified.

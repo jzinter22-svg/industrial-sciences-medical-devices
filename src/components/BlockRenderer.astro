@@ -24,6 +24,21 @@ import UltrasoundSystemDiagram from "./diagrams/UltrasoundSystemDiagram.astro";
 import EchoSounderBlockDiagram from "./diagrams/EchoSounderBlockDiagram.astro";
 import FetalPulseBlockDiagram from "./diagrams/FetalPulseBlockDiagram.astro";
 import DeliveryMonitorBlockDiagram from "./diagrams/DeliveryMonitorBlockDiagram.astro";
+import RadarDiagram from "./diagrams/RadarDiagram.astro";
+import SpectrumDiagram from "./diagrams/SpectrumDiagram.astro";
+import ReflectionRefractionDiagram from "./diagrams/ReflectionRefractionDiagram.astro";
+import DopplerStationaryDiagram from "./diagrams/DopplerStationaryDiagram.astro";
+import DopplerMovingDiagram from "./diagrams/DopplerMovingDiagram.astro";
+import DopplerWavelengthDiagram from "./diagrams/DopplerWavelengthDiagram.astro";
+import ProbeStructureDiagram from "./diagrams/ProbeStructureDiagram.astro";
+import PulsedUltrasoundDiagram from "./diagrams/PulsedUltrasoundDiagram.astro";
+import ContinuousDopplerDiagram from "./diagrams/ContinuousDopplerDiagram.astro";
+import AScanTraceDiagram from "./diagrams/AScanTraceDiagram.astro";
+import ScanComparisonDiagram from "./diagrams/ScanComparisonDiagram.astro";
+import ScanTypesTraceDiagram from "./diagrams/ScanTypesTraceDiagram.astro";
+import PowerSupplyCircuitDiagram from "./diagrams/PowerSupplyCircuitDiagram.astro";
+import TransmitterCircuitDiagram from "./diagrams/TransmitterCircuitDiagram.astro";
+import ReceiverCircuitDiagram from "./diagrams/ReceiverCircuitDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -31,11 +46,26 @@ import DeliveryMonitorBlockDiagram from "./diagrams/DeliveryMonitorBlockDiagram.
 // figure, per docs/design/DIAGRAM_ANIMATION_AUDIT.md's "use the
 // appropriate representation" rule).
 const chapter2AnimatedDiagrams: Record<string, any> = {
+  "c2-fig-2-1": SpectrumDiagram,
+  "c2-fig-2-2": RadarDiagram,
+  "c2-fig-2-3": ReflectionRefractionDiagram,
+  "c2-fig-2-4": DopplerStationaryDiagram,
+  "c2-fig-2-5": DopplerMovingDiagram,
+  "c2-fig-2-6": DopplerWavelengthDiagram,
+  "c2-fig-2-8": ProbeStructureDiagram,
+  "c2-fig-2-11": PulsedUltrasoundDiagram,
+  "c2-fig-2-12": ContinuousDopplerDiagram,
   "c2-fig-2-13": AScanBlockDiagram,
+  "c2-fig-2-14": AScanTraceDiagram,
   "c2-fig-2-15": BScanBlockDiagram,
+  "c2-fig-2-16": ScanComparisonDiagram,
+  "c2-fig-2-18": ScanTypesTraceDiagram,
   "c2-fig-2-21": UltrasoundSystemDiagram,
   "c2-fig-2-23": EchoSounderBlockDiagram,
   "c2-fig-2-26": FetalPulseBlockDiagram,
+  "c2-fig-2-27": PowerSupplyCircuitDiagram,
+  "c2-fig-2-28": TransmitterCircuitDiagram,
+  "c2-fig-2-29a": ReceiverCircuitDiagram,
   "c2-fig-2-29b": DeliveryMonitorBlockDiagram,
 };
 

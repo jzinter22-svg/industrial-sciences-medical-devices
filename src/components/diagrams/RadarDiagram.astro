@@ -1,0 +1,154 @@
+---
+// Animated Figure 2-2 (مخطط عمل الرادار) — printed page 24/25. The static
+// concentric-arc artwork is kept pixel-identical (same paths, same
+// viewBox, same proportions — nothing was resized or cropped); animation
+// is purely additive, matching Chapter 1's "reproduce the static SVG,
+// add class hooks + a flow-layer" convention.
+//
+// Teaches the radar sequence described in the source text: the
+// sender/receiver emits a pulse (the red arcs ripple outward and a
+// particle travels along "موجه مرسله" toward the target), the wave
+// reaches the object (highlight), the object reflects it (the green
+// arcs ripple back and a particle travels along "موجه منعكسه" back
+// toward the sender), the receiver detects the return, and the
+// distance line is emphasized last since the round-trip is what the
+// distance measurement is actually derived from.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram radar-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="radar-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="760"
+      height="380"
+      viewBox="0 0 760 380"
+      role="img"
+      aria-label="مخطط عمل الرادار"
+    >
+      <defs>
+        <marker id="rd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="760" height="380" fill="none"></rect>
+
+      <!-- outgoing wave arcs (ripple outward when playing) -->
+      <g fill="none" stroke="#dc2626" stroke-width="3">
+        <path class="ripple-out ripple-out-1" d="M 120,180 A 60,60 0 0 1 120,220"></path>
+        <path class="ripple-out ripple-out-2" d="M 120,150 A 90,90 0 0 1 120,250"></path>
+        <path class="ripple-out ripple-out-3" d="M 120,120 A 120,120 0 0 1 120,280"></path>
+        <path class="ripple-out ripple-out-4" d="M 120,90 A 150,150 0 0 1 120,290"></path>
+      </g>
+      <!-- reflected wave arcs (ripple back toward sender when playing) -->
+      <g fill="none" stroke="#15803d" stroke-width="2.5" stroke-dasharray="6 5">
+        <path class="ripple-back ripple-back-1" d="M 120,160 A 75,75 0 0 1 120,240"></path>
+        <path class="ripple-back ripple-back-2" d="M 120,105 A 135,135 0 0 1 120,275"></path>
+        <path class="ripple-back ripple-back-3" d="M 120,75 A 165,165 0 0 1 120,290"></path>
+      </g>
+
+      <g class="flow-highlight sender-box">
+        <line x1="80" y1="200" x2="120" y2="170" stroke="#263238" stroke-width="2"></line>
+        <line x1="80" y1="200" x2="120" y2="230" stroke="#263238" stroke-width="2"></line>
+        <line x1="80" y1="170" x2="80" y2="230" stroke="#263238" stroke-width="2"></line>
+      </g>
+      <text x="65" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">مرسله</text>
+      <text x="65" y="248" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Sender/Receiver</text>
+
+      <circle class="flow-highlight object-circle" cx="620" cy="200" r="18" fill="#1d4ed8" stroke="#263238" stroke-width="2"></circle>
+      <text x="655" y="195" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">الهدف</text>
+      <text x="655" y="213" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Object</text>
+
+      <line class="flow-highlight reflected-label-line" x1="740" y1="130" x2="600" y2="130" stroke="#15803d" stroke-width="3" marker-end="url(#rd-arrow)"></line>
+      <text x="670" y="115" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#15803d" text-anchor="middle" direction="rtl">موجه منعكسه</text>
+      <text x="670" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle" direction="ltr">reflected wave</text>
+
+      <line class="flow-highlight sent-label-line" x1="150" y1="310" x2="500" y2="310" stroke="#dc2626" stroke-width="3" marker-end="url(#rd-arrow)"></line>
+      <text x="300" y="335" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">موجه مرسله</text>
+
+      <line class="flow-highlight distance-line" x1="120" y1="345" x2="620" y2="345" stroke="#263238" stroke-width="1.5" marker-end="url(#rd-arrow)" marker-start="url(#rd-arrow)"></line>
+      <text x="370" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">distance r</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle p-out" cx="120" cy="215" r="6" style="--tx:500px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.9s"></circle>
+        <circle class="flow-particle p-back" cx="620" cy="185" r="6" style="--tx:-500px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.9s" fill="#15803d"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.6s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .radar-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .sender-box { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
+  .sent-label-line { --highlight-delay: 0.3s; --highlight-duration: 0.9s; }
+  .object-circle { --highlight-delay: 1.2s; --highlight-duration: 0.6s; }
+  .reflected-label-line { --highlight-delay: 1.6s; --highlight-duration: 0.9s; }
+  .distance-line { --highlight-delay: 2.9s; --highlight-duration: 0.7s; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ripple-fade {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    .playing .ripple-out-1 { animation: ripple-fade 0.5s ease-in-out 0.3s; }
+    .playing .ripple-out-2 { animation: ripple-fade 0.5s ease-in-out 0.5s; }
+    .playing .ripple-out-3 { animation: ripple-fade 0.5s ease-in-out 0.7s; }
+    .playing .ripple-out-4 { animation: ripple-fade 0.5s ease-in-out 0.9s; }
+
+    .playing .ripple-back-3 { animation: ripple-fade 0.5s ease-in-out 1.6s; }
+    .playing .ripple-back-2 { animation: ripple-fade 0.5s ease-in-out 1.85s; }
+    .playing .ripple-back-1 { animation: ripple-fade 0.5s ease-in-out 2.1s; }
+  }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".radar-diagram");
+</script>

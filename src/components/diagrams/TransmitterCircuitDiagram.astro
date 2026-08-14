@@ -1,0 +1,166 @@
+---
+// Animated Figure 2-28 (الدائرة الالكترونية لمرسلة الموجات الفوق
+// الصوتية) — printed page 47. Static schematic kept pixel-identical.
+// Animation highlights the signal path in order: the crystal-controlled
+// oscillator (L1/crystal/C1/C2, biased by R1/R2) generates the
+// 2.25 MHz drive signal, the transistor amplifies it, and C4/R/C5/C6
+// couple the amplified signal out to the detector stage — the same
+// "current particle through the circuit" treatment as Chapter 1's kV
+// control diagram, adapted to a signal-generation circuit.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram transmitter-circuit-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="tc-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="820"
+      height="360"
+      viewBox="0 0 820 360"
+      role="img"
+      aria-label="الدائرة الالكترونية لمرسلة الموجات الفوق الصوتية"
+    >
+      <rect x="0" y="0" width="820" height="360" fill="none"></rect>
+      <g fill="none" stroke="#263238" stroke-width="2">
+
+        <line x1="80" y1="80" x2="780" y2="80"></line>
+        <line x1="80" y1="80" x2="80" y2="280"></line>
+        <line x1="80" y1="280" x2="780" y2="280"></line>
+        <line x1="780" y1="80" x2="780" y2="280"></line>
+
+        <text x="20" y="175" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">المرسلة</text>
+        <text x="20" y="192" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Transmitter</text>
+
+        <g class="flow-highlight stage-oscillator">
+          <line x1="150" y1="80" x2="150" y2="130"></line>
+          <line x1="140" y1="130" x2="160" y2="130"></line>
+          <line x1="140" y1="138" x2="160" y2="138"></line>
+          <line x1="150" y1="138" x2="150" y2="175"></line>
+          <text x="165" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C1</text>
+
+          <line x1="150" y1="175" x2="220" y2="175"></line>
+          <line x1="220" y1="165" x2="220" y2="185"></line>
+          <line x1="228" y1="165" x2="228" y2="185"></line>
+          <text x="200" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C2</text>
+
+          <line x1="228" y1="175" x2="280" y2="175"></line>
+          <path d="M 280,175 v-15 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 v-45" stroke-width="2"></path>
+          <text x="300" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">L1</text>
+          <text x="290" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">2.25MHZ</text>
+          <rect x="273" y="205" width="14" height="26" fill="#f87171" stroke="#263238" stroke-width="1.5"></rect>
+          <text x="245" y="222" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">البلورة</text>
+
+          <line x1="228" y1="80" x2="228" y2="100"></line>
+          <path d="M 228,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
+          <line x1="228" y1="130" x2="228" y2="175"></line>
+          <text x="240" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R2</text>
+
+          <line x1="330" y1="80" x2="330" y2="100"></line>
+          <path d="M 330,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
+          <line x1="330" y1="130" x2="330" y2="175"></line>
+          <text x="342" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R1</text>
+          <line x1="280" y1="175" x2="330" y2="175"></line>
+        </g>
+
+        <g class="flow-highlight stage-amplifier">
+          <circle cx="330" cy="230" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
+          <line x1="330" y1="175" x2="330" y2="206"></line>
+          <line x1="330" y1="254" x2="330" y2="280"></line>
+
+          <line x1="306" y1="230" x2="270" y2="230"></line>
+          <line x1="260" y1="220" x2="260" y2="240"></line>
+          <line x1="252" y1="220" x2="252" y2="240"></line>
+          <line x1="252" y1="230" x2="228" y2="230"></line>
+          <line x1="228" y1="175" x2="228" y2="230"></line>
+          <text x="248" y="255" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C3</text>
+        </g>
+
+        <g class="flow-highlight stage-output">
+          <line x1="330" y1="175" x2="440" y2="175"></line>
+          <line x1="440" y1="165" x2="440" y2="185"></line>
+          <line x1="448" y1="165" x2="448" y2="185"></line>
+          <text x="435" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C4</text>
+
+          <line x1="448" y1="175" x2="520" y2="175"></line>
+          <path d="M 500,80 v75" stroke-width="2"></path>
+          <path d="M 500,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
+          <text x="512" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R₂</text>
+          <line x1="500" y1="175" x2="520" y2="175"></line>
+          <line x1="600" y1="80" x2="600" y2="280"></line>
+          <line x1="590" y1="165" x2="610" y2="165"></line>
+          <line x1="590" y1="173" x2="610" y2="173"></line>
+          <text x="615" y="175" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C5</text>
+
+          <line x1="600" y1="130" x2="780" y2="130"></line>
+          <line x1="700" y1="120" x2="720" y2="120"></line>
+          <line x1="700" y1="128" x2="720" y2="128"></line>
+          <text x="705" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C6</text>
+        </g>
+      </g>
+      <text x="800" y="120" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end" direction="rtl">الى الكاشف</text>
+      <text x="800" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="end" direction="ltr">To Detector</text>
+
+      <g class="flow-layer" aria-hidden="true">
+        <circle class="flow-particle" cx="150" cy="80" r="5" style="--tx:630px; --ty:50px; --particle-delay:2.2s; --particle-duration:1.0s"></circle>
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.3s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 620px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tc-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .stage-oscillator { --highlight-delay: 0.1s; --highlight-duration: 0.7s; }
+  .stage-amplifier { --highlight-delay: 1.0s; --highlight-duration: 0.6s; }
+  .stage-output { --highlight-delay: 1.8s; --highlight-duration: 0.7s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".transmitter-circuit-diagram");
+</script>

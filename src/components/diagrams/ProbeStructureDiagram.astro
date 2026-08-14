@@ -1,0 +1,170 @@
+---
+// Animated Figure 2-8 (الأجزاء الداخلية لمجس الأمواج الفوق صوتية) —
+// printed page 30. Static artwork kept pixel-identical (same housing,
+// insulator, backing block, crystal, cover shapes/positions). Animation
+// walks the electrical/acoustic signal path in physical order — the
+// coaxial cable feeds the crystal element, the backing block damps the
+// pulse behind it, the acoustic insulator and plastic housing contain
+// it, and the ground electrode/insulated cover complete the circuit —
+// highlighting each part and its leader line in that sequence, the same
+// "identify each labeled part in turn" treatment used for Chapter 1's
+// timer-types comparison figure.
+import "../../styles/diagram-animations.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft animated-diagram probe-structure-diagram">
+  <div class="diagram-block-image">
+    <svg
+      class="ps-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="640"
+      height="520"
+      viewBox="0 0 640 520"
+      role="img"
+      aria-label="الأجزاء الداخلية لمجس الأمواج الفوق صوتية"
+    >
+      <rect x="0" y="0" width="640" height="520" fill="none"></rect>
+
+      <g class="flow-highlight part-cable">
+        <path d="M 240,20 C 235,60 245,90 250,120" fill="none" stroke="#92400e" stroke-width="10" stroke-linecap="round"></path>
+        <rect x="225" y="115" width="50" height="22" fill="#fde047" stroke="#263238" stroke-width="2"></rect>
+      </g>
+
+      <g class="flow-highlight part-housing">
+        <path d="M 150,340 L 150,220 A 100,100 0 0 1 350,220 L 350,340 Z" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></path>
+      </g>
+
+      <g class="flow-highlight part-insulator">
+        <path d="M 185,320 L 185,225 A 65,65 0 0 1 315,225 L 315,320 Z" fill="#86efac" stroke="#263238" stroke-width="2"></path>
+      </g>
+
+      <g class="flow-highlight part-backing">
+        <rect x="205" y="245" width="45" height="90" fill="#94a3b8" stroke="#263238" stroke-width="1.5"></rect>
+        <rect x="250" y="245" width="45" height="90" fill="#cbd5e1" stroke="#263238" stroke-width="1.5"></rect>
+        <g stroke="#57606f" stroke-width="1">
+          <line x1="210" y1="245" x2="210" y2="335"></line>
+          <line x1="220" y1="245" x2="220" y2="335"></line>
+          <line x1="230" y1="245" x2="230" y2="335"></line>
+          <line x1="240" y1="245" x2="240" y2="335"></line>
+          <line x1="255" y1="245" x2="255" y2="335"></line>
+          <line x1="265" y1="245" x2="265" y2="335"></line>
+          <line x1="275" y1="245" x2="275" y2="335"></line>
+          <line x1="285" y1="245" x2="285" y2="335"></line>
+        </g>
+      </g>
+
+      <g class="flow-highlight part-crystal">
+        <rect x="200" y="335" width="100" height="14" fill="#facc15" stroke="#263238" stroke-width="2"></rect>
+      </g>
+      <g class="flow-highlight part-ground">
+        <path d="M 150,340 L 350,340 L 340,352 L 160,352 Z" fill="#e2e8f0" stroke="#263238" stroke-width="2"></path>
+      </g>
+
+      <g class="flow-highlight part-cable">
+        <line x1="270" y1="70" x2="380" y2="60" stroke="#263238" stroke-width="1.2"></line>
+        <text x="385" y="55" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Coaxial Cable</text>
+        <text x="385" y="72" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">سلك توصيل</text>
+      </g>
+
+      <g class="flow-highlight part-housing">
+        <line x1="330" y1="235" x2="420" y2="120" stroke="#263238" stroke-width="1.2"></line>
+        <text x="425" y="115" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Plastic Housing</text>
+        <text x="425" y="132" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الغلاف الخارجي</text>
+      </g>
+
+      <g class="flow-highlight part-insulator">
+        <line x1="310" y1="260" x2="420" y2="195" stroke="#263238" stroke-width="1.2"></line>
+        <text x="425" y="190" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Acoustic Insulator</text>
+        <text x="425" y="207" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عازل صوتي</text>
+      </g>
+
+      <g class="flow-highlight part-backing">
+        <line x1="290" y1="280" x2="420" y2="255" stroke="#263238" stroke-width="1.2"></line>
+        <text x="425" y="250" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Backing Block</text>
+        <text x="425" y="267" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">طبقات ساندة</text>
+      </g>
+
+      <g class="flow-highlight part-crystal">
+        <line x1="270" y1="335" x2="420" y2="335" stroke="#263238" stroke-width="1.2"></line>
+        <text x="425" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Crystal Element</text>
+        <text x="425" y="347" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عنصر البلورة</text>
+      </g>
+
+      <g class="flow-highlight part-ground">
+        <line x1="230" y1="342" x2="420" y2="375" stroke="#263238" stroke-width="1.2"></line>
+        <text x="425" y="370" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">"Ground" Electrode</text>
+        <text x="425" y="387" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الارضي</text>
+      </g>
+
+      <g class="flow-highlight part-cover">
+        <line x1="200" y1="348" x2="130" y2="400" stroke="#263238" stroke-width="1.2"></line>
+        <text x="125" y="418" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Insulated Cover</text>
+        <text x="125" y="435" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end" direction="rtl">غلاف خارجي عازل</text>
+      </g>
+
+      <g class="flow-layer" aria-hidden="true">
+        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.6s"></rect>
+      </g>
+    </svg>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+  </div>
+</figure>
+
+<style>
+  .diagram-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .diagram-block-image {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ps-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .part-cable { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
+  .part-crystal { --highlight-delay: 0.7s; --highlight-duration: 0.5s; }
+  .part-backing { --highlight-delay: 1.3s; --highlight-duration: 0.5s; }
+  .part-insulator { --highlight-delay: 1.9s; --highlight-duration: 0.5s; }
+  .part-housing { --highlight-delay: 2.5s; --highlight-duration: 0.5s; }
+  .part-ground { --highlight-delay: 3.1s; --highlight-duration: 0.4s; }
+  .part-cover { --highlight-delay: 3.1s; --highlight-duration: 0.4s; }
+</style>
+
+<script>
+  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
+  wireDiagramPlayback(".probe-structure-diagram");
+</script>
