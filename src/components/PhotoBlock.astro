@@ -1,0 +1,96 @@
+---
+// Supplementary real-world scientific photograph ("photo" block type) —
+// distinct from "diagram" (project-owned schematics) and the PDF-extracted
+// figure photos already in public/assets/diagrams/chapter-XX/. These are
+// openly-licensed reference photographs sourced from outside the textbook
+// (Wikimedia Commons, NOAA, NIH, etc.) to give students a real-world
+// anchor for a device or phenomenon the PDF only shows as a diagram.
+// Because these aren't the textbook's own figures, every one carries a
+// visible source/license attribution line beneath the caption — required
+// by open-license terms and kept for academic transparency either way.
+interface Credit {
+  source: string;
+  sourceUrl?: string;
+  license: string;
+  licenseUrl?: string;
+}
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  credit: Credit;
+}
+
+const { src, alt, caption, credit } = Astro.props;
+const resolvedSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + src;
+---
+
+<figure class="photo-block neo-surface-soft">
+  <div class="photo-block-image">
+    <img src={resolvedSrc} alt={alt} loading="lazy" />
+  </div>
+  {caption && <figcaption class="photo-block-caption">{caption}</figcaption>}
+  <p class="photo-block-credit">
+    المصدر:
+    {credit.sourceUrl ? <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">{credit.source}</a> : <span>{credit.source}</span>}
+    {" · "}الترخيص:
+    {credit.licenseUrl ? <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a> : <span>{credit.license}</span>}
+  </p>
+</figure>
+
+<style>
+  .photo-block {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+    box-sizing: border-box;
+  }
+
+  .photo-block-image {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: center;
+    border-radius: var(--neo-radius-sm);
+    overflow: hidden;
+  }
+
+  .photo-block-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .photo-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+
+  .photo-block-credit {
+    margin: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    opacity: 0.8;
+    direction: rtl;
+  }
+
+  .photo-block-credit a {
+    color: var(--neo-primary);
+    text-decoration: none;
+  }
+
+  .photo-block-credit a:hover,
+  .photo-block-credit a:focus-visible {
+    text-decoration: underline;
+  }
+</style>

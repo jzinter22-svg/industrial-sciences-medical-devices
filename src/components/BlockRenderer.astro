@@ -6,6 +6,7 @@ import DefinitionCard from "./DefinitionCard.astro";
 import SubsectionHeading from "./SubsectionHeading.astro";
 import ListBlock from "./ListBlock.astro";
 import DiagramBlock from "./DiagramBlock.astro";
+import PhotoBlock from "./PhotoBlock.astro";
 import QuestionCard from "./QuestionCard.astro";
 import EquationBlock from "./EquationBlock.astro";
 import ExampleCard from "./ExampleCard.astro";
@@ -165,6 +166,10 @@ const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[bloc
   !Chapter2Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
+
+{block.type === "photo" && (
+  <PhotoBlock src={block.src} alt={block.alt} caption={block.caption?.ar} credit={block.credit} />
+)}
 
 {block.type === "question" && (
   <QuestionCard
