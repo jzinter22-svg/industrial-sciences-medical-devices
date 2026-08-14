@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" role="img" aria-label="جهاز الاشعة السينية ذات الصورة المستمرة (فلوروسكوبي)">
+  <!-- floor base / pedestal -->
+  <path d="M 100,232 L 172,232 L 160,246 L 112,246 Z" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></path>
+  <line x1="136" y1="232" x2="136" y2="185" stroke="#263238" stroke-width="3"></line>
+
+  <!-- C-arm: explicit bezier curve bulging left for a clearly legible "C" -->
+  <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
+  <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
+
+  <!-- image intensifier (top of C) -->
+  <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
+
+  <!-- x-ray tube (bottom of C) -->
+  <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+
+  <!-- beam between the two ends, through the table -->
+  <g stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
+    <line x1="178" y1="122" x2="178" y2="203"></line>
+  </g>
+
+  <!-- patient table passing through the C -->
+  <rect x="150" y="153" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
+  <line x1="170" y1="169" x2="170" y2="204" stroke="#263238" stroke-width="3"></line>
+  <line x1="390" y1="169" x2="390" y2="204" stroke="#263238" stroke-width="3"></line>
+
+  <!-- simplified patient outline on table -->
+  <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
+    <ellipse cx="232" cy="147" rx="12" ry="9"></ellipse>
+    <rect x="249" y="140" width="115" height="15" rx="7"></rect>
+  </g>
+
+  <!-- live monitor stand -->
+  <g stroke="#263238" stroke-width="2">
+    <line x1="424" y1="230" x2="424" y2="110" fill="none"></line>
+    <rect x="392" y="70" width="64" height="46" rx="4" fill="#e2e8f0"></rect>
+  </g>
+  <rect x="398" y="76" width="52" height="34" rx="2" fill="#1d4ed8"></rect>
+  <g stroke="#93c5fd" stroke-width="1.2" opacity="0.8">
+    <line x1="400" y1="84" x2="448" y2="84"></line>
+    <line x1="400" y1="92" x2="448" y2="92"></line>
+    <line x1="400" y1="100" x2="448" y2="100"></line>
+  </g>
+</svg>
