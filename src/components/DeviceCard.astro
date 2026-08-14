@@ -1,12 +1,27 @@
 ---
+interface DeviceImageCredit {
+  source: string;
+  sourceUrl?: string;
+  license: string;
+  licenseUrl?: string;
+}
+
+interface DeviceImage {
+  src: string;
+  alt: string;
+  credit?: DeviceImageCredit;
+}
+
 interface Props {
   number: number;
   nameAr: string;
   nameEn: string;
   description: string;
+  image?: DeviceImage;
 }
 
-const { number, nameAr, nameEn, description } = Astro.props;
+const { number, nameAr, nameEn, description, image } = Astro.props;
+const resolvedImageSrc = image ? import.meta.env.BASE_URL.replace(/\/$/, "") + image.src : undefined;
 ---
 
 <article class="device-card neo-surface-soft">
@@ -18,9 +33,24 @@ const { number, nameAr, nameEn, description } = Astro.props;
     </div>
   </div>
 
-  <div class="device-image-placeholder neo-inset">
-    <span class="placeholder-text">سيتم إضافة الصورة لاحقًا</span>
-  </div>
+  {image ? (
+    <div class="device-image">
+      <img src={resolvedImageSrc} alt={image.alt} loading="lazy" />
+    </div>
+  ) : (
+    <div class="device-image-placeholder neo-inset">
+      <span class="placeholder-text">سيتم إضافة الصورة لاحقًا</span>
+    </div>
+  )}
+
+  {image?.credit && (
+    <p class="device-image-credit">
+      المصدر:
+      {image.credit.sourceUrl ? <a href={image.credit.sourceUrl} target="_blank" rel="noopener noreferrer">{image.credit.source}</a> : <span>{image.credit.source}</span>}
+      {" · "}الترخيص:
+      {image.credit.licenseUrl ? <a href={image.credit.licenseUrl} target="_blank" rel="noopener noreferrer">{image.credit.license}</a> : <span>{image.credit.license}</span>}
+    </p>
+  )}
 
   <p class="device-description">{description}</p>
 
@@ -83,6 +113,44 @@ const { number, nameAr, nameEn, description } = Astro.props;
     place-items: center;
     padding: var(--neo-space-sm);
     text-align: center;
+  }
+
+  .device-image {
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    padding: var(--neo-space-sm);
+    border-radius: var(--neo-radius-sm);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .device-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+
+  .device-image-credit {
+    margin: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    opacity: 0.8;
+    direction: rtl;
+  }
+
+  .device-image-credit a {
+    color: var(--neo-primary);
+    text-decoration: none;
+  }
+
+  .device-image-credit a:hover,
+  .device-image-credit a:focus-visible {
+    text-decoration: underline;
   }
 
   .placeholder-text {

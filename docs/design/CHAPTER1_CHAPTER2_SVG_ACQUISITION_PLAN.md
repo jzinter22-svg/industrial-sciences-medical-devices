@@ -1,7 +1,15 @@
 # Chapter 1 & Chapter 2 — Open-License SVG Acquisition Plan
 
-Status: **Research and comparison complete. No files downloaded, no
-code modified, no diagrams replaced.**
+Status: **Research and comparison complete. `DeviceCard.astro` now has
+the reusable `image` prop infrastructure described in §5, wired through
+`BlockRenderer.astro`. Zero of the five candidate SVGs are actually
+integrated — this session's network egress still cannot reach any
+candidate's source domain (re-confirmed again in the integration pass),
+so no file could be downloaded. All five device cards continue rendering
+their original placeholder, per the standing rule that an unverified or
+unobtainable asset must never be substituted just to fill a card. See
+`public/assets/svg/chapter-01/README.md` for the exact drop-in steps
+once a human downloads a file.**
 
 Same network constraint as the prior image-acquisition pass applies here:
 this session's egress cannot reach `commons.wikimedia.org`,
@@ -199,34 +207,36 @@ No Chapter 2 files are proposed for modification in this plan.
 
 ---
 
-## 5. Code integration plan (described, not implemented)
+## 5. Code integration — implemented
 
-Chapter 1's `device-01` through `device-04` blocks currently have no
-`image` field at all, and `DeviceCard.astro` always renders its
-placeholder unconditionally
-(`src/components/DeviceCard.astro:21-23`). Once specific assets are
-downloaded and their licenses confirmed, integration would require:
+Done in the follow-up integration pass (no longer just described):
 
-1. Add an optional `image` field to the relevant `device` blocks in
-   `page-01.json` (object: `{ src, alt, credit: { source, sourceUrl,
-   license, licenseUrl } }`, mirroring the `credit` schema already used
-   by `PhotoBlock.astro` for consistency).
-2. Extend `DeviceCard.astro`'s `Props` with an optional `image` prop;
-   render the SVG/photo in place of the placeholder only when `image` is
-   present, falling back to the current placeholder text for any device
-   that still has none (so devices 2 and 3, currently UNVERIFIED, keep
-   working exactly as they do today).
-3. Add a small attribution line under the image, reusing the same visual
-   treatment as `PhotoBlock.astro`'s credit line for consistency across
-   both chapters.
-4. No changes to `BlockRenderer.astro`, any SVG diagram component, or
-   the animation system are needed — `device` blocks are rendered by
-   `DeviceCard.astro` directly, a separate path from the `diagram` block
-   type all the animated components use.
+1. `DeviceCard.astro` now accepts an optional `image` prop — `{ src,
+   alt, credit?: { source, sourceUrl, license, licenseUrl } }` — mirroring
+   the `credit` schema `PhotoBlock.astro` already uses, for consistency.
+   When `image` is present it renders the asset (with a visible
+   source/license credit line, same visual treatment as
+   `PhotoBlock.astro`'s); when absent it falls back to the original
+   "سيتم إضافة الصورة لاحقًا" placeholder — unchanged from before.
+2. `BlockRenderer.astro` passes `image={block.image}` straight through
+   from each `device` content block — one extra line, no other change.
+3. No changes were needed to any SVG diagram component or the animation
+   system — `device` blocks render through `DeviceCard.astro`, a
+   separate path from the `diagram` block type the animated components
+   use.
+4. **No `device` block in `page-01.json` currently sets `image`** —
+   zero of the five candidate assets could be downloaded (network
+   egress to every candidate's source domain is still blocked, re-tested
+   at the start of the integration pass), so all five cards keep
+   rendering their placeholder. This is the correct, rule-compliant
+   outcome, not a partial failure: "if an asset is unavailable, keep the
+   existing placeholder" was an explicit instruction.
 
-This is a description of the minimal, additive change that would be
-needed — **not implemented in this pass**, per the instruction to stop
-after producing the acquisition plan.
+Verified via `npm run build` (clean) and Playwright at 375/768/1024/
+1440px: 5 device cards, 5 placeholders (all five, confirming zero visual
+change), 10 animated Chapter 1 diagrams and 21 animated Chapter 2
+diagrams (both counts unchanged from before this pass), 0 overflow, 0
+broken assets, 0 console errors.
 
 ## 6. Filename / path plan
 
