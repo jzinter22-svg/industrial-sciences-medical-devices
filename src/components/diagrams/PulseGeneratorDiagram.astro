@@ -1,36 +1,28 @@
 ---
 // Shared animated component for Figures 1-7 .. 1-10 (one/two/six/twelve
-// -pulse generators).
+// -pulse generators), redesigned to the dark neumorphic simulator system
+// established for diagrams 01-06. Reuses diagram-simulator.css +
+// diagramSimulator.js like diagrams 03-06; unlike those, THIS component
+// renders four times on one page (one per variant) with different
+// circuit topology, so every SVG filter/gradient/arrow-marker id is
+// suffixed with the variant name to stay unique across instances, and
+// every hotspot/link id is likewise suffixed so COMPONENT_INFO (shared
+// across all four instances in one <script> block) never collides.
 //
-// Rebuilt against the original textbook pages (pages 16-17 / PDF index
-// 15-16) for fidelity. The previous build reused ONE circuit shape (a
-// single-phase 4-diode bridge) for all four figures — but the source
-// shows FOUR genuinely different circuits:
-//   - one-pulse (فig 1-7 جـ):  no rectifier at all — just the transformer
-//     feeding an mA meter and the tube directly. Drawing a 4-diode bridge
-//     here (as the previous build did) invented a component the source
-//     does not have.
-//   - two-pulse (fig 1-8 جـ): a single-phase full-wave bridge — 4 diodes
-//     (B1..B4) in a diamond, vertices labelled X/Y/A/D. This one the
-//     previous build already matched reasonably well.
-//   - six-pulse (fig 1-9 جـ): a 3-phase transformer (delta primary, TWO
-//     star/Y secondaries) feeding TWO 3-diode banks (6 diodes total)
-//     whose DC outputs join at a common ground.
-//   - twelve-pulse (fig 1-10 جـ): a 3-phase transformer with FOUR
-//     secondaries (2 star/Y + 2 delta/Δ, per the book's own "Y-Y" /
-//     "Δ-Y" description) feeding FOUR 3-diode banks (12 diodes total),
-//     again joined at a common ground.
+// Geometry is untouched from the prior build (every coordinate, path
+// and label identical) — only fill/stroke treatment, the hotspot/link/
+// status-panel/legend/controls layer, and the animation timeline are
+// new. Circuit differences between variants (one-pulse has no
+// rectifier; two-pulse has a single 4-diode bridge; six/twelve-pulse
+// have 3-phase primaries + 2/4 diode banks) are preserved exactly as
+// before — see pulseGeneratorData.ts and the page-08/09 definitions for
+// the source text.
 //
-// The waveform panels (أ/ب) are untouched — those <path d> traces were
-// already extracted verbatim from the approved artwork and are correct.
-// Only the circuit (جـ) geometry is rebuilt here, per variant, still
-// data-driven from pulseGeneratorData.ts so nothing is duplicated.
-//
-// Teaches (same idea, retargeted at the correct circuit): the input AC
-// trace "draws" itself, the rectified output trace draws itself below,
-// then a current particle flows from the transformer through the
-// (correct number of) rectifier stage(s) to the tube.
-import "../../styles/diagram-animations.css";
+// Color mapping: transformer/meter/current path = blue (matches
+// diagram-01's meters); rectifier (bridge or diode banks) = orange
+// (matches diagram-01's generator, the HV-transformation stage); tube
+// = purple (radiation), matching every prior diagram.
+import "../../styles/diagram-simulator.css";
 import { pulseGeneratorVariants } from "./pulseGeneratorData";
 
 interface Props {
@@ -40,271 +32,612 @@ interface Props {
 
 const { variant, caption } = Astro.props;
 const v = pulseGeneratorVariants[variant];
-const arrowId = `arrow-pulse-${variant}`;
 
 const bankCount = variant === "twelve-pulse" ? 4 : variant === "six-pulse" ? 2 : 0;
 const bankSpacing = 130;
+const bankOrdinals = ["الأولى", "الثانية", "الثالثة", "الرابعة"];
 const banks = Array.from({ length: bankCount }, (_, i) => ({
   x: 480 + i * bankSpacing,
   isDelta: variant === "twelve-pulse" && i % 2 === 1,
+  id: `bank-${variant}-${i}`,
+  ordinal: bankOrdinals[i],
 }));
 const busY = 260;
 const groundX = bankCount > 0 ? banks[0].x + ((bankCount - 1) * bankSpacing) / 2 : 460;
+const svgWidth = bankCount > 2 ? 980 : 900;
+
+const uid = (base: string) => `${base}-${variant}`;
+const elevateId = uid("pulseElevate");
+const lineGlowId = uid("pulseLineGlow");
+const bgGradId = uid("pulseBgGrad");
+const gridId = uid("pulseGrid");
+const panelGradId = uid("pulsePanelGrad");
+const meterGradId = uid("pulseMeterGrad");
+const tubeGradId = uid("pulseTubeGrad");
+const arrowGrayId = uid("arrow-pulse-gray");
+const arrowBlueId = uid("arrow-pulse-blue");
+const arrowOrangeId = uid("arrow-pulse-orange");
+
+const titles: Record<string, string> = {
+  "one-pulse": "محاكاة مولد نبضة واحدة",
+  "two-pulse": "محاكاة مولد نبضتين",
+  "six-pulse": "محاكاة مولدة ستة نبضات",
+  "twelve-pulse": "محاكاة مولد اثنتي عشر نبضة",
+};
+
+const cycleMsByVariant: Record<string, number> = {
+  "one-pulse": 3800,
+  "two-pulse": 4000,
+  "six-pulse": 4600,
+  "twelve-pulse": 5000,
+};
 ---
 
-<figure class={`diagram-block neo-surface-soft animated-diagram pulse-diagram pulse-diagram-${variant}`}>
-  <div class="diagram-block-image">
-    <svg
-      class="pulse-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width={bankCount > 2 ? 980 : 900}
-      height="340"
-      viewBox={`0 0 ${bankCount > 2 ? 980 : 900} 340`}
-      role="img"
-      aria-label={v.circuitLabel}
-    >
-      <defs>
-        <marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+<figure class={`diagram-block neo-surface-soft pulse-diagram pulse-diagram-${variant}`}>
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">{titles[variant]}</span>
+      <span class="simulator-subtitle">{v.circuitLabel}</span>
+    </div>
 
-      <rect x="0" y="0" width="980" height="340" fill="none"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pulse-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width={svgWidth}
+          height="340"
+          viewBox={`0 0 ${svgWidth} 340`}
+          role="img"
+          aria-label={v.circuitLabel}
+        >
+          <defs>
+            <marker id={arrowGrayId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <marker id={arrowBlueId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#38BDF8"></path>
+            </marker>
+            <marker id={arrowOrangeId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#FB923C"></path>
+            </marker>
 
-      <rect x="30" y="20" width="220" height="130" rx="8" fill="#f8fafc" stroke="#57606f" stroke-width="2"></rect>
-      <line x1="40" y1="85" x2="240" y2="85" stroke="#57606f" stroke-width="1"></line>
-      <path class="wave-path input-wave" d={v.inputWave} fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
-      <text x="140" y="172" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">أ- الإشارة الداخلة</text>
+            <linearGradient id={bgGradId} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id={gridId} width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id={panelGradId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
+            <radialGradient id={meterGradId} cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#1a2436"></stop>
+              <stop offset="100%" stop-color="#0b111c"></stop>
+            </radialGradient>
+            <radialGradient id={tubeGradId} cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </radialGradient>
 
-      <rect x="30" y="185" width="220" height="90" rx="8" fill="#f8fafc" stroke="#57606f" stroke-width="2"></rect>
-      <line x1="40" y1="230" x2="240" y2="230" stroke="#57606f" stroke-width="1"></line>
-      <path class="wave-path output-wave" d={v.outputWave} fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
-      <text x="140" y="297" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">ب- الإشارة الخارجة</text>
+            <filter id={elevateId} x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id={lineGlowId} x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <text x={bankCount > 0 ? groundX : 430} y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">{v.circuitLabel}</text>
+          <rect x="0" y="0" width={svgWidth} height="340" rx="20" fill={`url(#${bgGradId})`}></rect>
+          <rect x="0" y="0" width={svgWidth} height="340" rx="20" fill={`url(#${gridId})`}></rect>
 
-      {variant === "one-pulse" && (
-        <>
-          <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
-          <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
-          <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
+          <!-- ===== Waveform panels (أ/ب) — verbatim traces, dark reskin ===== -->
+          <rect x="30" y="20" width="220" height="130" rx="10" fill={`url(#${panelGradId})`} stroke="#2a3550" stroke-width="1.5"></rect>
+          <line x1="40" y1="85" x2="240" y2="85" stroke="#2a3550" stroke-width="1"></line>
+          <path class="wave-path input-wave" d={v.inputWave} fill="none" stroke="#38BDF8" stroke-width="2.5" filter={`url(#${lineGlowId})`}></path>
+          <text x="140" y="172" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">أ- الإشارة الداخلة</text>
 
-          <line x1="330" y1="150" x2="400" y2="150" stroke="#263238" stroke-width="2"></line>
-          <circle class="flow-highlight ma-meter" cx="430" cy="150" r="20" fill="#fff" stroke="#c2410c" stroke-width="2"></circle>
-          <circle cx="422" cy="150" r="3" fill="#1d4ed8"></circle>
-          <circle cx="438" cy="150" r="3" fill="#1d4ed8"></circle>
-          <text x="430" y="185" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#c2410c" text-anchor="middle" direction="ltr">mA</text>
-          <line x1="430" y1="170" x2="430" y2="195" stroke="#15803d" stroke-width="2"></line>
-          <line x1="416" y1="195" x2="444" y2="195" stroke="#15803d" stroke-width="2"></line>
-          <line x1="421" y1="201" x2="439" y2="201" stroke="#15803d" stroke-width="2"></line>
-          <line x1="426" y1="207" x2="434" y2="207" stroke="#15803d" stroke-width="2"></line>
+          <rect x="30" y="185" width="220" height="90" rx="10" fill={`url(#${panelGradId})`} stroke="#2a3550" stroke-width="1.5"></rect>
+          <line x1="40" y1="230" x2="240" y2="230" stroke="#2a3550" stroke-width="1"></line>
+          <path class="wave-path output-wave" d={v.outputWave} fill="none" stroke="#38BDF8" stroke-width="2.5" filter={`url(#${lineGlowId})`}></path>
+          <text x="140" y="297" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">ب- الإشارة الخارجة</text>
 
-          <line x1="450" y1="150" x2="560" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#${arrowId})`}></line>
-          <circle cx="590" cy="150" r="18" fill="#fff" stroke="#1d4ed8" stroke-width="2"></circle>
-          <line x1="583" y1="157" x2="598" y2="142" stroke="#1d4ed8" stroke-width="2.5"></line>
-          <text x="590" y="190" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة الاشعة</text>
-        </>
-      )}
+          <text x={bankCount > 0 ? groundX : 430} y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">{v.circuitLabel}</text>
 
-      {variant === "two-pulse" && (
-        <>
-          <line x1="290" y1="150" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
-          <path class="flow-highlight coil-path" d={v.coilPath} fill="none" stroke="#263238" stroke-width="2.2"></path>
-          <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">من المحولة</text>
-
-          <g class="flow-highlight bridge-outline">
-            <line x1="430" y1="70" x2="530" y2="150" stroke="#263238" stroke-width="2"></line>
-            <line x1="530" y1="150" x2="430" y2="230" stroke="#263238" stroke-width="2"></line>
-            <line x1="430" y1="230" x2="330" y2="150" stroke="#263238" stroke-width="2"></line>
-            <line x1="330" y1="150" x2="430" y2="70" stroke="#263238" stroke-width="2"></line>
-          </g>
-          <text x="430" y="60" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">X</text>
-          <text x="430" y="252" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Y</text>
-          <text x="315" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">A</text>
-          <text x="545" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">D</text>
-          <path d="M 369.0,100.0 L 369.0,120.0 L 391.0,110.0 z" fill="#263238" stroke="#263238"></path>
-          <line x1="391.0" y1="98.0" x2="391.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
-          <text x="360" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B1</text>
-          <path d="M 491.0,100.0 L 491.0,120.0 L 469.0,110.0 z" fill="#263238" stroke="#263238"></path>
-          <line x1="469.0" y1="98.0" x2="469.0" y2="122.0" stroke="#263238" stroke-width="3"></line>
-          <text x="500" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B4</text>
-          <path d="M 391.0,180.0 L 391.0,200.0 L 369.0,190.0 z" fill="#263238" stroke="#263238"></path>
-          <line x1="369.0" y1="178.0" x2="369.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
-          <text x="360" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B2</text>
-          <path d="M 469.0,180.0 L 469.0,200.0 L 491.0,190.0 z" fill="#263238" stroke="#263238"></path>
-          <line x1="491.0" y1="178.0" x2="491.0" y2="202.0" stroke="#263238" stroke-width="3"></line>
-          <text x="500" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">B3</text>
-          <circle class="flow-highlight ma-meter" cx="430" cy="150" r="16" fill="#fde047" stroke="#c2410c" stroke-width="2"></circle>
-          <circle cx="424" cy="150" r="2.5" fill="#1d4ed8"></circle>
-          <circle cx="436" cy="150" r="2.5" fill="#1d4ed8"></circle>
-          <text x="430" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#c2410c" text-anchor="middle" direction="rtl">mA</text>
-
-          <line x1="530" y1="150" x2="570" y2="150" stroke="#263238" stroke-width="2" marker-end={`url(#${arrowId})`}></line>
-          <text x="620" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
-          <text x="620" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة</text>
-        </>
-      )}
-
-      {bankCount > 0 && (
-        <>
-          {/* Delta primary */}
-          <g stroke="#263238" stroke-width="2" fill="none">
-            <path d={`M ${groundX},70 L ${groundX - 60},130 L ${groundX + 60},130 Z`}></path>
-          </g>
-          <path d={`M ${groundX - 40},112 a5,5 0 1 1 0,10 M ${groundX - 28},112 a5,5 0 1 1 0,10 M ${groundX - 16},112 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
-          <path d={`M ${groundX + 16},112 a5,5 0 1 1 0,10 M ${groundX + 28},112 a5,5 0 1 1 0,10 M ${groundX + 40},112 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
-          <path d={`M ${groundX - 15},130 a5,5 0 1 1 0,10 M ${groundX - 3},130 a5,5 0 1 1 0,10 M ${groundX + 9},130 a5,5 0 1 1 0,10`} fill="none" stroke="#263238" stroke-width="1.5"></path>
-
-          {banks.map((bank) => (
-            <g>
-              {bank.isDelta ? (
-                <g stroke="#263238" stroke-width="2" fill="none">
-                  <path d={`M ${bank.x},150 L ${bank.x - 34},188 L ${bank.x + 34},188 Z`}></path>
-                  <circle cx={bank.x} cy="150" r="3" fill="#263238"></circle>
-                </g>
-              ) : (
-                <g stroke="#263238" stroke-width="2" fill="none">
-                  <line x1={bank.x} y1="150" x2={bank.x - 30} y2="188"></line>
-                  <line x1={bank.x} y1="150" x2={bank.x + 30} y2="188"></line>
-                  <line x1={bank.x} y1="150" x2={bank.x} y2="188"></line>
-                  <circle cx={bank.x} cy="150" r="3" fill="#263238"></circle>
-                </g>
-              )}
-
-              <line x1={bank.x - 30} y1="188" x2={bank.x - 30} y2="205" stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x} y1="188" x2={bank.x} y2="205" stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x + 30} y1="188" x2={bank.x + 30} y2="205" stroke="#263238" stroke-width="2"></line>
-
-              <g class="flow-highlight diode-bank">
-                <path d={`M ${bank.x - 38},205 L ${bank.x - 22},205 L ${bank.x - 22},225 Z`} fill="#263238"></path>
-                <line x1={bank.x - 22} y1="203" x2={bank.x - 22} y2="227" stroke="#263238" stroke-width="2.5"></line>
-                <path d={`M ${bank.x - 8},205 L ${bank.x + 8},205 L ${bank.x + 8},225 Z`} fill="#263238"></path>
-                <line x1={bank.x + 8} y1="203" x2={bank.x + 8} y2="227" stroke="#263238" stroke-width="2.5"></line>
-                <path d={`M ${bank.x + 22},205 L ${bank.x + 38},205 L ${bank.x + 38},225 Z`} fill="#263238"></path>
-                <line x1={bank.x + 38} y1="203" x2={bank.x + 38} y2="227" stroke="#263238" stroke-width="2.5"></line>
+          {variant === "one-pulse" && (
+            <>
+              <g class="hotspot" data-component={uid("transformer")} tabindex="0" role="button" aria-label="الملف الثانوي لمحولة الضغط العالي">
+                <rect class="hit-area" x="270" y="90" width="90" height="90" fill="#000" fill-opacity="0"></rect>
+                <line x1="290" y1="150" x2="330" y2="150" stroke="#5b6478" stroke-width="2"></line>
+                <path class="box-shape" d={v.coilPath} fill="none" stroke="#38BDF8" stroke-width="2.2" filter={`url(#${elevateId})`}></path>
+                <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">من المحولة</text>
               </g>
 
-              <line x1={bank.x - 30} y1="205" x2={bank.x - 22} y2="205" stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x} y1="205" x2={bank.x + 8} y2="205" stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x + 30} y1="205" x2={bank.x + 22} y2="205" stroke="#263238" stroke-width="2"></line>
+              <g class="link" data-link={uid("transformer")} data-link-to={uid("meter")}>
+                <line x1="330" y1="150" x2="400" y2="150" stroke="#5b6478" stroke-width="2"></line>
+                <line class="trail trail-blue" x1="330" y1="150" x2="400" y2="150" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="7 9"></line>
+              </g>
 
-              <line x1={bank.x - 22} y1="227" x2={bank.x} y2={busY}></line>
-              <line x1={bank.x + 8} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x + 38} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
-              <line x1={bank.x - 22} y1="227" x2={bank.x} y2={busY} stroke="#263238" stroke-width="2"></line>
-            </g>
+              <g class="hotspot" data-component={uid("meter")} tabindex="0" role="button" aria-label="مبين mA">
+                <circle class="box-shape" cx="430" cy="150" r="20" fill={`url(#${meterGradId})`} stroke="#38BDF8" stroke-width="2" filter={`url(#${elevateId})`}></circle>
+                <circle cx="422" cy="150" r="3" fill="#eef1f8"></circle>
+                <circle cx="438" cy="150" r="3" fill="#eef1f8"></circle>
+                <text x="430" y="185" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">mA</text>
+                <line x1="430" y1="170" x2="430" y2="195" stroke="#8b94aa" stroke-width="2"></line>
+                <line x1="416" y1="195" x2="444" y2="195" stroke="#8b94aa" stroke-width="2"></line>
+                <line x1="421" y1="201" x2="439" y2="201" stroke="#8b94aa" stroke-width="2"></line>
+                <line x1="426" y1="207" x2="434" y2="207" stroke="#8b94aa" stroke-width="2"></line>
+              </g>
+
+              <g class="link" data-link={uid("meter")} data-link-to={uid("tube")}>
+                <line x1="450" y1="150" x2="560" y2="150" stroke="#5b6478" stroke-width="2" marker-end={`url(#${arrowBlueId})`}></line>
+                <line class="trail trail-blue" x1="450" y1="150" x2="555" y2="150" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="7 9"></line>
+              </g>
+
+              <g class="hotspot" data-component={uid("tube")} tabindex="0" role="button" aria-label="انبوبة الاشعة السينية">
+                <circle class="box-shape" cx="590" cy="150" r="18" fill={`url(#${tubeGradId})`} stroke="#C084FC" stroke-width="2" filter={`url(#${elevateId})`}></circle>
+                <line x1="583" y1="157" x2="598" y2="142" stroke="#C084FC" stroke-width="2.5"></line>
+                <text x="590" y="190" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انبوبة الاشعة</text>
+              </g>
+            </>
+          )}
+
+          {variant === "two-pulse" && (
+            <>
+              <g class="hotspot" data-component={uid("transformer")} tabindex="0" role="button" aria-label="الملف الثانوي لمحولة الضغط العالي">
+                <rect class="hit-area" x="270" y="90" width="90" height="90" fill="#000" fill-opacity="0"></rect>
+                <line x1="290" y1="150" x2="330" y2="150" stroke="#5b6478" stroke-width="2"></line>
+                <path class="box-shape" d={v.coilPath} fill="none" stroke="#38BDF8" stroke-width="2.2" filter={`url(#${elevateId})`}></path>
+                <text x={v.maLabelX} y="100" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">من المحولة</text>
+              </g>
+
+              <g class="hotspot" data-component={uid("bridge")} tabindex="0" role="button" aria-label="دائرة التوحيد (قنطرة)">
+                <rect class="hit-area" x="325" y="55" width="210" height="205" fill="#000" fill-opacity="0"></rect>
+                <g class="box-shape" filter={`url(#${elevateId})`}>
+                  <line x1="430" y1="70" x2="530" y2="150" stroke="#FB923C" stroke-width="2.2"></line>
+                  <line x1="530" y1="150" x2="430" y2="230" stroke="#FB923C" stroke-width="2.2"></line>
+                  <line x1="430" y1="230" x2="330" y2="150" stroke="#FB923C" stroke-width="2.2"></line>
+                  <line x1="330" y1="150" x2="430" y2="70" stroke="#FB923C" stroke-width="2.2"></line>
+                </g>
+                <text x="430" y="60" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">X</text>
+                <text x="430" y="252" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">Y</text>
+                <text x="315" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="end" direction="ltr">A</text>
+                <text x="545" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">D</text>
+                <path d="M 369.0,100.0 L 369.0,120.0 L 391.0,110.0 z" fill="#FB923C"></path>
+                <line x1="391.0" y1="98.0" x2="391.0" y2="122.0" stroke="#FB923C" stroke-width="3"></line>
+                <text x="360" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">B1</text>
+                <path d="M 491.0,100.0 L 491.0,120.0 L 469.0,110.0 z" fill="#FB923C"></path>
+                <line x1="469.0" y1="98.0" x2="469.0" y2="122.0" stroke="#FB923C" stroke-width="3"></line>
+                <text x="500" y="92" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">B4</text>
+                <path d="M 391.0,180.0 L 391.0,200.0 L 369.0,190.0 z" fill="#FB923C"></path>
+                <line x1="369.0" y1="178.0" x2="369.0" y2="202.0" stroke="#FB923C" stroke-width="3"></line>
+                <text x="360" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">B2</text>
+                <path d="M 469.0,180.0 L 469.0,200.0 L 491.0,190.0 z" fill="#FB923C"></path>
+                <line x1="491.0" y1="178.0" x2="491.0" y2="202.0" stroke="#FB923C" stroke-width="3"></line>
+                <text x="500" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">B3</text>
+              </g>
+
+              <g class="hotspot" data-component={uid("meter")} tabindex="0" role="button" aria-label="مبين mA">
+                <circle class="box-shape" cx="430" cy="150" r="16" fill={`url(#${meterGradId})`} stroke="#38BDF8" stroke-width="2" filter={`url(#${elevateId})`}></circle>
+                <circle cx="424" cy="150" r="2.5" fill="#eef1f8"></circle>
+                <circle cx="436" cy="150" r="2.5" fill="#eef1f8"></circle>
+                <text x="430" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">mA</text>
+              </g>
+
+              <g class="hotspot" data-component={uid("tube")} tabindex="0" role="button" aria-label="انبوبة الاشعة السينية">
+                <rect class="hit-area" x="525" y="120" width="120" height="60" fill="#000" fill-opacity="0"></rect>
+                <line class="box-shape" x1="530" y1="150" x2="570" y2="150" stroke="#C084FC" stroke-width="2.4" marker-end={`url(#${arrowOrangeId})`} filter={`url(#${elevateId})`}></line>
+                <text x="620" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انبوبة</text>
+                <text x="620" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الاشعة</text>
+              </g>
+            </>
+          )}
+
+          {bankCount > 0 && (
+            <>
+              <g class="hotspot" data-component={uid("primary")} tabindex="0" role="button" aria-label="الملف الابتدائي ثلاثي الطور">
+                <rect class="hit-area" x={groundX - 65} y="60" width="130" height="90" fill="#000" fill-opacity="0"></rect>
+                <path class="box-shape" d={`M ${groundX},70 L ${groundX - 60},130 L ${groundX + 60},130 Z`} fill="none" stroke="#38BDF8" stroke-width="2.2" filter={`url(#${elevateId})`}></path>
+                <path d={`M ${groundX - 40},112 a5,5 0 1 1 0,10 M ${groundX - 28},112 a5,5 0 1 1 0,10 M ${groundX - 16},112 a5,5 0 1 1 0,10`} fill="none" stroke="#38BDF8" stroke-width="1.5"></path>
+                <path d={`M ${groundX + 16},112 a5,5 0 1 1 0,10 M ${groundX + 28},112 a5,5 0 1 1 0,10 M ${groundX + 40},112 a5,5 0 1 1 0,10`} fill="none" stroke="#38BDF8" stroke-width="1.5"></path>
+                <path d={`M ${groundX - 15},130 a5,5 0 1 1 0,10 M ${groundX - 3},130 a5,5 0 1 1 0,10 M ${groundX + 9},130 a5,5 0 1 1 0,10`} fill="none" stroke="#38BDF8" stroke-width="1.5"></path>
+              </g>
+
+              {banks.map((bank, i) => (
+                <>
+                  <g class="link" data-link={uid("primary")} data-link-to={bank.id}>
+                    <line x1={bank.x} y1="130" x2={bank.x} y2="150" stroke="#5b6478" stroke-width="2"></line>
+                    <line class="trail trail-blue" x1={bank.x} y1="130" x2={bank.x} y2="150" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+                  </g>
+
+                  <g class="hotspot" data-component={bank.id} tabindex="0" role="button" aria-label={`مجموعة صمامات التقويم ${bank.ordinal}`}>
+                    <rect class="hit-area" x={bank.x - 45} y="140" width="90" height="95" fill="#000" fill-opacity="0"></rect>
+                    {bank.isDelta ? (
+                      <g class="box-shape" filter={`url(#${elevateId})`}>
+                        <path d={`M ${bank.x},150 L ${bank.x - 34},188 L ${bank.x + 34},188 Z`} fill="none" stroke="#38BDF8" stroke-width="2"></path>
+                        <circle cx={bank.x} cy="150" r="3" fill="#38BDF8"></circle>
+                      </g>
+                    ) : (
+                      <g class="box-shape" filter={`url(#${elevateId})`}>
+                        <line x1={bank.x} y1="150" x2={bank.x - 30} y2="188" stroke="#38BDF8" stroke-width="2"></line>
+                        <line x1={bank.x} y1="150" x2={bank.x + 30} y2="188" stroke="#38BDF8" stroke-width="2"></line>
+                        <line x1={bank.x} y1="150" x2={bank.x} y2="188" stroke="#38BDF8" stroke-width="2"></line>
+                        <circle cx={bank.x} cy="150" r="3" fill="#38BDF8"></circle>
+                      </g>
+                    )}
+
+                    <line x1={bank.x - 30} y1="188" x2={bank.x - 30} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x} y1="188" x2={bank.x} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x + 30} y1="188" x2={bank.x + 30} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+
+                    <g class="diode-shape" filter={`url(#${elevateId})`}>
+                      <path d={`M ${bank.x - 38},205 L ${bank.x - 22},205 L ${bank.x - 22},225 Z`} fill="#FB923C"></path>
+                      <line x1={bank.x - 22} y1="203" x2={bank.x - 22} y2="227" stroke="#FB923C" stroke-width="2.5"></line>
+                      <path d={`M ${bank.x - 8},205 L ${bank.x + 8},205 L ${bank.x + 8},225 Z`} fill="#FB923C"></path>
+                      <line x1={bank.x + 8} y1="203" x2={bank.x + 8} y2="227" stroke="#FB923C" stroke-width="2.5"></line>
+                      <path d={`M ${bank.x + 22},205 L ${bank.x + 38},205 L ${bank.x + 38},225 Z`} fill="#FB923C"></path>
+                      <line x1={bank.x + 38} y1="203" x2={bank.x + 38} y2="227" stroke="#FB923C" stroke-width="2.5"></line>
+                    </g>
+
+                    <line x1={bank.x - 30} y1="205" x2={bank.x - 22} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x} y1="205" x2={bank.x + 8} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x + 30} y1="205" x2={bank.x + 22} y2="205" stroke="#8b94aa" stroke-width="2"></line>
+
+                    <line x1={bank.x - 22} y1="227" x2={bank.x} y2={busY} stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x + 8} y1="227" x2={bank.x} y2={busY} stroke="#8b94aa" stroke-width="2"></line>
+                    <line x1={bank.x + 38} y1="227" x2={bank.x} y2={busY} stroke="#8b94aa" stroke-width="2"></line>
+                  </g>
+
+                  <g class="link" data-link={bank.id} data-link-to={uid("tube")}>
+                    <line class="trail trail-orange" x1={bank.x} y1="227" x2={bank.x} y2={busY} stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+                  </g>
+                </>
+              ))}
+
+              <line x1={banks[0].x} y1={busY} x2={banks[bankCount - 1].x} y2={busY} stroke="#8b94aa" stroke-width="2.5"></line>
+              <line x1={groundX} y1={busY} x2={groundX} y2={busY + 20} stroke="#4ADE80" stroke-width="2"></line>
+              <line x1={groundX - 14} y1={busY + 20} x2={groundX + 14} y2={busY + 20} stroke="#4ADE80" stroke-width="2"></line>
+              <line x1={groundX - 8} y1={busY + 26} x2={groundX + 8} y2={busY + 26} stroke="#4ADE80" stroke-width="2"></line>
+              <line x1={groundX - 3} y1={busY + 32} x2={groundX + 3} y2={busY + 32} stroke="#4ADE80" stroke-width="2"></line>
+
+              <g class="hotspot" data-component={uid("tube")} tabindex="0" role="button" aria-label="انبوبة الاشعة السينية">
+                <rect class="hit-area" x={groundX - 40} y={busY} width="80" height="80" fill="#000" fill-opacity="0"></rect>
+                <line x1={groundX} y1={busY} x2={groundX} y2="310" stroke="#5b6478" stroke-width="2"></line>
+                <line class="trail trail-orange" x1={groundX} y1={busY + 34} x2={groundX} y2="308" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+                <circle class="box-shape" cx={groundX} cy="322" r="14" fill={`url(#${tubeGradId})`} stroke="#C084FC" stroke-width="2" filter={`url(#${elevateId})`}></circle>
+                <line x1={groundX - 6} y1="328" x2={groundX + 7} y2="315" stroke="#C084FC" stroke-width="2.5"></line>
+                <text x={groundX + 30} y="326" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">انبوبة الاشعة</text>
+              </g>
+            </>
+          )}
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          {bankCount === 0 && (
+            <li class="status-row" data-status={uid("transformer")}><span class="status-dot dot-blue"></span><span class="status-label">المحولة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          )}
+
+          {bankCount > 0 && (
+            <li class="status-row" data-status={uid("primary")}><span class="status-dot dot-blue"></span><span class="status-label">الملف الابتدائي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          )}
+
+          {variant === "two-pulse" && (
+            <li class="status-row" data-status={uid("bridge")}><span class="status-dot dot-orange"></span><span class="status-label">دائرة التوحيد</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          )}
+
+          {(variant === "one-pulse" || variant === "two-pulse") && (
+            <li class="status-row" data-status={uid("meter")}><span class="status-dot dot-blue"></span><span class="status-label">مبين mA</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          )}
+
+          {bankCount > 0 && banks.map((bank) => (
+            <li class="status-row" data-status={bank.id}><span class="status-dot dot-orange"></span><span class="status-label">مجموعة الصمامات {bank.ordinal}</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
           ))}
 
-          <line x1={banks[0].x} y1={busY} x2={banks[bankCount - 1].x} y2={busY} stroke="#263238" stroke-width="2.5"></line>
-          <line x1={groundX} y1={busY} x2={groundX} y2={busY + 20} stroke="#15803d" stroke-width="2"></line>
-          <line x1={groundX - 14} y1={busY + 20} x2={groundX + 14} y2={busY + 20} stroke="#15803d" stroke-width="2"></line>
-          <line x1={groundX - 8} y1={busY + 26} x2={groundX + 8} y2={busY + 26} stroke="#15803d" stroke-width="2"></line>
-          <line x1={groundX - 3} y1={busY + 32} x2={groundX + 3} y2={busY + 32} stroke="#15803d" stroke-width="2"></line>
+          <li class="status-row" data-status={uid("tube")}><span class="status-dot dot-purple"></span><span class="status-label">انبوبة الاشعة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
 
-          <line x1={groundX} y1={busY} x2={groundX} y2="310" stroke="#263238" stroke-width="2"></line>
-          <circle cx={groundX} cy="322" r="14" fill="#fff" stroke="#1d4ed8" stroke-width="2"></circle>
-          <line x1={groundX - 6} y1="328" x2={groundX + 7} y2="315" stroke="#1d4ed8" stroke-width="2.5"></line>
-          <text x={groundX + 30} y="326" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">انبوبة الاشعة</text>
-        </>
-      )}
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
 
-      <g class="flow-layer" aria-hidden="true">
-        {bankCount === 0 ? (
-          <>
-            <circle class="flow-particle p-in" cx="290" cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
-            <circle class="flow-particle p-out" cx={variant === "one-pulse" ? "450" : "530"} cy="150" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
-          </>
-        ) : (
-          <>
-            <circle class="flow-particle p-in" cx={groundX} cy="70" r="5" style="--tx:0px; --ty:60px; --particle-delay:2.2s; --particle-duration:0.4s"></circle>
-            <circle class="flow-particle p-out" cx={groundX} cy={busY} r="5" style="--tx:0px; --ty:50px; --particle-delay:3.0s; --particle-duration:0.5s"></circle>
-          </>
-        )}
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
-      </g>
-    </svg>
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التيار</li>
+      {bankCount > 0 || variant === "two-pulse" ? (
+        <li class="legend-item"><span class="legend-swatch legend-orange"></span>التوحيد (Rectification)</li>
+      ) : null}
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الاشعة الصادرة</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
-<style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+<style define:vars={{ elevateUrl: `url(#${elevateId})`, glowUrl: `url(#${lineGlowId})` }}>
+  .hotspot .box-shape,
+  .hotspot .diode-shape {
+    filter: var(--elevateUrl) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 560px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:hover .diode-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot:focus-visible .diode-shape,
+  .hotspot.is-selected .box-shape,
+  .hotspot.is-selected .diode-shape {
+    filter: var(--elevateUrl) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.015);
   }
 
-  .pulse-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .coil-path {
-    --highlight-delay: 1.4s;
-    --highlight-duration: 0.6s;
-  }
-
-  .bridge-outline,
-  .diode-bank {
-    --highlight-delay: 2.5s;
-    --highlight-duration: 0.6s;
-  }
-
-  .ma-meter {
-    --highlight-delay: 2.6s;
-    --highlight-duration: 0.6s;
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: var(--glowUrl);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes wave-draw {
-      from {
-        stroke-dashoffset: 1000;
-      }
-      to {
-        stroke-dashoffset: 0;
-      }
+    @keyframes pulse-wave-draw {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
     }
+    .playing .input-wave { stroke-dasharray: 1000; animation: pulse-wave-draw 1s ease-out 0.2s forwards; }
+    .playing .output-wave { stroke-dasharray: 1000; animation: pulse-wave-draw 0.8s ease-out 1.1s forwards; }
 
-    .playing .input-wave {
-      stroke-dasharray: 1000;
-      animation: wave-draw 1s ease-out 0.2s forwards;
-    }
+    @keyframes pulse-shape-activate { to { filter: var(--elevateUrl) saturate(1.35) brightness(1.4); } }
+    @keyframes pulse-reveal-trail { to { opacity: 0.85; } }
+    @keyframes pulse-status-value-on { to { opacity: 1; } }
+    @keyframes pulse-status-value-off { to { opacity: 0; } }
+    @keyframes pulse-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes pulse-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pulse-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
 
-    .playing .output-wave {
-      stroke-dasharray: 1000;
-      animation: wave-draw 0.8s ease-out 1.3s forwards;
-    }
+    /* ===== one-pulse: transformer -> meter -> tube ===== */
+    .playing [data-component="transformer-one-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-one-pulse"] .status-dot { animation: pulse-dot-on-blue 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-one-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-one-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.0s forwards; }
+    .playing [data-link="transformer-one-pulse"] .trail { animation: pulse-reveal-trail 0.35s ease-out 1.3s forwards; }
+
+    .playing [data-component="meter-one-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-status="meter-one-pulse"] .status-dot { animation: pulse-dot-on-blue 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="meter-one-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="meter-one-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.7s forwards; }
+    .playing [data-link="meter-one-pulse"] .trail { animation: pulse-reveal-trail 0.35s ease-out 2.0s forwards; }
+
+    .playing [data-component="tube-one-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.4s forwards; }
+    .playing [data-status="tube-one-pulse"] .status-dot { animation: pulse-dot-on-purple 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="tube-one-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="tube-one-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.4s forwards; }
+
+    /* ===== two-pulse: transformer -> bridge -> meter + tube ===== */
+    .playing [data-component="transformer-two-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-two-pulse"] .status-dot { animation: pulse-dot-on-blue 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-two-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="transformer-two-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.0s forwards; }
+
+    .playing [data-component="bridge-two-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.6s forwards; }
+    .playing [data-status="bridge-two-pulse"] .status-dot { animation: pulse-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="bridge-two-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="bridge-two-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-component="meter-two-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.2s forwards; }
+    .playing [data-status="meter-two-pulse"] .status-dot { animation: pulse-dot-on-blue 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="meter-two-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="meter-two-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.2s forwards; }
+
+    .playing [data-component="tube-two-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.7s forwards; }
+    .playing [data-status="tube-two-pulse"] .status-dot { animation: pulse-dot-on-purple 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="tube-two-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="tube-two-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.7s forwards; }
+
+    /* ===== six/twelve-pulse: primary -> bank0..N -> tube ===== */
+    .playing [data-component="primary-six-pulse"] .box-shape,
+    .playing [data-component="primary-twelve-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.0s forwards; }
+    .playing [data-status="primary-six-pulse"] .status-dot,
+    .playing [data-status="primary-twelve-pulse"] .status-dot { animation: pulse-dot-on-blue 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="primary-six-pulse"] .value-on,
+    .playing [data-status="primary-twelve-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="primary-six-pulse"] .value-off,
+    .playing [data-status="primary-twelve-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.0s forwards; }
+
+    .playing [data-link="primary-six-pulse"] .trail,
+    .playing [data-link="primary-twelve-pulse"] .trail { animation: pulse-reveal-trail 0.3s ease-out 1.3s forwards; }
+
+    .playing [data-component="bank-six-pulse-0"] .box-shape,
+    .playing [data-component="bank-twelve-pulse-0"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-status="bank-six-pulse-0"] .status-dot,
+    .playing [data-status="bank-twelve-pulse-0"] .status-dot { animation: pulse-dot-on-orange 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="bank-six-pulse-0"] .value-on,
+    .playing [data-status="bank-twelve-pulse-0"] .value-on { animation: pulse-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="bank-six-pulse-0"] .value-off,
+    .playing [data-status="bank-twelve-pulse-0"] .value-off { animation: pulse-status-value-off 0.4s ease-out 1.7s forwards; }
+    .playing [data-link="bank-six-pulse-0"] .trail,
+    .playing [data-link="bank-twelve-pulse-0"] .trail { animation: pulse-reveal-trail 0.3s ease-out 2.1s forwards; }
+
+    .playing [data-component="bank-six-pulse-1"] .box-shape,
+    .playing [data-component="bank-twelve-pulse-1"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.1s forwards; }
+    .playing [data-status="bank-six-pulse-1"] .status-dot,
+    .playing [data-status="bank-twelve-pulse-1"] .status-dot { animation: pulse-dot-on-orange 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="bank-six-pulse-1"] .value-on,
+    .playing [data-status="bank-twelve-pulse-1"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="bank-six-pulse-1"] .value-off,
+    .playing [data-status="bank-twelve-pulse-1"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="bank-six-pulse-1"] .trail,
+    .playing [data-link="bank-twelve-pulse-1"] .trail { animation: pulse-reveal-trail 0.3s ease-out 2.5s forwards; }
+
+    .playing [data-component="bank-twelve-pulse-2"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.5s forwards; }
+    .playing [data-status="bank-twelve-pulse-2"] .status-dot { animation: pulse-dot-on-orange 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="bank-twelve-pulse-2"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="bank-twelve-pulse-2"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.5s forwards; }
+    .playing [data-link="bank-twelve-pulse-2"] .trail { animation: pulse-reveal-trail 0.3s ease-out 2.9s forwards; }
+
+    .playing [data-component="bank-twelve-pulse-3"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.9s forwards; }
+    .playing [data-status="bank-twelve-pulse-3"] .status-dot { animation: pulse-dot-on-orange 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="bank-twelve-pulse-3"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="bank-twelve-pulse-3"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="bank-twelve-pulse-3"] .trail { animation: pulse-reveal-trail 0.3s ease-out 3.3s forwards; }
+
+    .playing [data-component="tube-six-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 2.9s forwards; }
+    .playing [data-status="tube-six-pulse"] .status-dot { animation: pulse-dot-on-purple 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="tube-six-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="tube-six-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="bank-six-pulse-0"][data-link-to="tube-six-pulse"] .trail,
+    .playing [data-link="bank-six-pulse-1"][data-link-to="tube-six-pulse"] .trail { animation: pulse-reveal-trail 0.3s ease-out 2.6s forwards; }
+
+    .playing [data-component="tube-twelve-pulse"] .box-shape { animation: pulse-shape-activate 0.5s ease-out 3.7s forwards; }
+    .playing [data-status="tube-twelve-pulse"] .status-dot { animation: pulse-dot-on-purple 0.4s ease-out 3.7s forwards; }
+    .playing [data-status="tube-twelve-pulse"] .value-on { animation: pulse-status-value-on 0.4s ease-out 3.7s forwards; }
+    .playing [data-status="tube-twelve-pulse"] .value-off { animation: pulse-status-value-off 0.4s ease-out 3.7s forwards; }
+    .playing [data-link^="bank-twelve-pulse"][data-link-to="tube-twelve-pulse"] .trail { animation: pulse-reveal-trail 0.3s ease-out 3.4s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".pulse-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "transformer-one-pulse": {
+      title: "الملف الثانوي لمحولة الضغط العالي",
+      // src/data/chapter-01/page-07.json #definition-one-pulse-generator (excerpt)
+      text: "ان الفولتية التي تغذي محولة الضغط العالي هي فولتية متناوبة (AC) تتغير بالمقدار والاتجاه مع الزمن.",
+    },
+    "meter-one-pulse": {
+      title: "مبين mA",
+      // src/data/chapter-01/page-06.json #definition (mA-meter)
+      text: "وهو مقياس يبين قيمة التيار المار في انبوبة الاشعة، وبالنتيجة يقيس التيار المار في الدائرة الثانوية لمحولة الضغط العالي.",
+    },
+    "tube-one-pulse": {
+      title: "انبوبة الاشعة السينية",
+      // src/data/chapter-01/page-07.json #definition-one-pulse-generator (excerpt)
+      text: "خلال النصف الأول من الموجة يكون انود انبوبة الاشعة السينية متصل بالقطب الموجب فتنتقل الالكترونات باتجاه الانود ويتم توليد الاشعة السينية، أما خلال النصف الثاني فلا يتم توليد الاشعة، وعليه تتولد نبضة واحدة.",
+    },
+    "transformer-two-pulse": {
+      title: "الملف الثانوي لمحولة الضغط العالي",
+      // src/data/chapter-01/page-07.json #definition-one-pulse-generator (excerpt)
+      text: "ان الفولتية التي تغذي محولة الضغط العالي هي فولتية متناوبة (AC) تتغير بالمقدار والاتجاه مع الزمن.",
+    },
+    "bridge-two-pulse": {
+      title: "دائرة التوحيد (قنطرة)",
+      // src/data/chapter-01/page-08.json #definition-two-pulse-generator (excerpt)
+      text: "ان دائرة توحيد موجة كاملة نوع القنطرة تقوم بتوحيد النصف الأول من الموجة وكذلك النصف الثاني من الموجة، وبذلك نحصل على نبضتين خلال الموجة الواحدة.",
+    },
+    "meter-two-pulse": {
+      title: "مبين mA",
+      // src/data/chapter-01/page-06.json #definition (mA-meter)
+      text: "وهو مقياس يبين قيمة التيار المار في انبوبة الاشعة، وبالنتيجة يقيس التيار المار في الدائرة الثانوية لمحولة الضغط العالي.",
+    },
+    "tube-two-pulse": {
+      title: "انبوبة الاشعة السينية",
+      // src/data/chapter-01/page-03.json definition of the Anode (excerpt)
+      text: "الانود (المصعد) هو القطب الموجب لانبوبة الاشعة السينية، وهو هدف فلزي تصطدم به الالكترونات السريعة جدا والقادمة من الكاثود…",
+    },
+    "primary-six-pulse": {
+      title: "الملف الابتدائي (توصيل دلتا)",
+      // src/data/chapter-01/page-08.json #definition-six-pulse-generator (excerpt)
+      text: "الفولتية التي تغذي محولة الضغط العالي ثلاثية الطور (3-phase) هي فولتية متناوبة (AC)، ويكون الملف الابتدائي مربوطا على شكل دلتا (Δ) والملفات الثانوية مربوطة على شكل نجمي مضاعف (Y-Y).",
+    },
+    "bank-six-pulse-0": {
+      title: "مجموعة صمامات التقويم الأولى",
+      // src/data/chapter-01/page-08.json #definition-six-pulse-generator (excerpt)
+      text: "تتصل دائرة توحيد (قنطرة) مع الملفات الثانوية المربوطة على شكل نجمي (Y)، فتقوم كل مجموعة بتوحيد الفولتية القادمة من ملفها الثانوي.",
+    },
+    "bank-six-pulse-1": {
+      title: "مجموعة صمامات التقويم الثانية",
+      // src/data/chapter-01/page-08.json #definition-six-pulse-generator (excerpt)
+      text: "تتصل دائرة توحيد (قنطرة) مع الملفات الثانوية المربوطة على شكل نجمي (Y)، فتقوم كل مجموعة بتوحيد الفولتية القادمة من ملفها الثانوي.",
+    },
+    "tube-six-pulse": {
+      title: "انبوبة الاشعة السينية",
+      // src/data/chapter-01/page-03.json definition of the Anode (excerpt)
+      text: "الانود (المصعد) هو القطب الموجب لانبوبة الاشعة السينية، وهو هدف فلزي تصطدم به الالكترونات السريعة جدا والقادمة من الكاثود…",
+    },
+    "primary-twelve-pulse": {
+      title: "الملف الابتدائي ثلاثي الطور",
+      // src/data/chapter-01/page-09.json #definition-twelve-pulse-generator (excerpt)
+      text: "ان الفولتية التي تغذي محولة الضغط العالي ثلاثية الطور (3-phase) هي فولتية متناوبة (AC) تتغير بالمقدار والاتجاه مع الزمن.",
+    },
+    "bank-twelve-pulse-0": {
+      title: "مجموعة صمامات التقويم الأولى",
+      // src/data/chapter-01/page-09.json #definition-twelve-pulse-generator (excerpt)
+      text: "تكون الملفات الثانوية لمحولة الضغط العالي مربوطة على شكل (Δ-Y)، وتتصل دائرة توحيد (قنطرة) مع كل ملف ثانوي.",
+    },
+    "bank-twelve-pulse-1": {
+      title: "مجموعة صمامات التقويم الثانية",
+      // src/data/chapter-01/page-09.json #definition-twelve-pulse-generator (excerpt)
+      text: "تكون الملفات الثانوية لمحولة الضغط العالي مربوطة على شكل (Δ-Y)، وتتصل دائرة توحيد (قنطرة) مع كل ملف ثانوي.",
+    },
+    "bank-twelve-pulse-2": {
+      title: "مجموعة صمامات التقويم الثالثة",
+      // src/data/chapter-01/page-09.json #definition-twelve-pulse-generator (excerpt)
+      text: "تكون الملفات الثانوية لمحولة الضغط العالي مربوطة على شكل (Δ-Y)، وتتصل دائرة توحيد (قنطرة) مع كل ملف ثانوي.",
+    },
+    "bank-twelve-pulse-3": {
+      title: "مجموعة صمامات التقويم الرابعة",
+      // src/data/chapter-01/page-09.json #definition-twelve-pulse-generator (excerpt)
+      text: "تكون الملفات الثانوية لمحولة الضغط العالي مربوطة على شكل (Δ-Y)، وتتصل دائرة توحيد (قنطرة) مع كل ملف ثانوي.",
+    },
+    "tube-twelve-pulse": {
+      title: "انبوبة الاشعة السينية",
+      // src/data/chapter-01/page-03.json definition of the Anode (excerpt)
+      text: "الانود (المصعد) هو القطب الموجب لانبوبة الاشعة السينية، وهو هدف فلزي تصطدم به الالكترونات السريعة جدا والقادمة من الكاثود…",
+    },
+  };
+
+  wireDiagramSimulator(".pulse-diagram-one-pulse", { cycleMs: 3800, componentInfo: COMPONENT_INFO });
+  wireDiagramSimulator(".pulse-diagram-two-pulse", { cycleMs: 4000, componentInfo: COMPONENT_INFO });
+  wireDiagramSimulator(".pulse-diagram-six-pulse", { cycleMs: 4600, componentInfo: COMPONENT_INFO });
+  wireDiagramSimulator(".pulse-diagram-twelve-pulse", { cycleMs: 5000, componentInfo: COMPONENT_INFO });
 </script>
