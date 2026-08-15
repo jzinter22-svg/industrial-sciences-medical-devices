@@ -1,14 +1,20 @@
 ---
-// Animated Figure 2-23 (المخطط الكتلوي لجهاز الصدى الصوتي / Echo sounder)
-// — printed page 41. Teaches the four-step cause/effect chain spelled out
-// in the source's own numbered explanation: the crystal oscillator feeds
-// both the detector and the probe's crystal (fi); the probe sends that
-// frequency into the fetus and receives it back doppler-shifted
-// (fi±Δf); the HF amplifier boosts the weak returned signal before the
-// detector extracts the audible difference frequency (±Δf); and the
-// filter + audio amplifier condition it for the speaker/earphone. Same
-// flow-particle / highlight-pulse conventions as Chapter 1.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-23 (المخطط الكتلوي لجهاز الصدى الصوتي) using the
+// Chapter 1 dark neumorphic simulator system. Reuses the shared
+// shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (block positions/shapes, connection paths, all
+// labels identical to the prior build) — only fill/stroke treatment
+// and the interaction/animation layer changed.
+//
+// Color mapping: a signal-flow block diagram — green for the crystal
+// oscillator (the origin signal), yellow for the probe crystal (matches
+// the probe-structure convention), orange for both amplifier stages
+// (HF and LF, same family since both are "amplification"), blue for
+// the detector, purple for the audio filter, white/neutral for the
+// final output devices (earphone/loudspeaker).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,139 +23,357 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram echo-sounder-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="echo-sounder-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="920"
-      height="360"
-      viewBox="0 0 920 360"
-      role="img"
-      aria-label="المخطط الكتلوي لجهاز الصدى الصوتي"
-    >
-      <defs>
-        <marker id="es-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="920" height="360" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft echo-sounder-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة جهاز الصدى الصوتي</span>
+      <span class="simulator-subtitle">شكل 2-23 — من المذبذب الى سماعة الاذن</span>
+    </div>
 
-      <rect class="flow-highlight box-osc" x="40" y="150" width="110" height="60" rx="6" fill="#a5f3fc" stroke="#263238" stroke-width="2"></rect>
-      <text x="95" y="175" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مذبذب فوق صوتي</text>
-      <text x="95" y="192" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Oscillator 2.25MHz</text>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="echo-sounder-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="920"
+          height="360"
+          viewBox="0 0 920 360"
+          role="img"
+          aria-label="المخطط الكتلوي لجهاز الصدى الصوتي"
+        >
+          <defs>
+            <marker id="es-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
 
-      <path class="flow-highlight amp-hf" d="M 210,100 L 210,140 L 250,120 Z" fill="#fca5a5" stroke="#263238" stroke-width="2"></path>
-      <text x="230" y="90" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد عالي</text>
+            <linearGradient id="esBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="esGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="esGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="esGradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="esGradBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="esGradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
 
-      <rect class="flow-highlight box-detector" x="290" y="150" width="110" height="60" rx="6" fill="#86efac" stroke="#263238" stroke-width="2"></rect>
-      <text x="345" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">كاشف</text>
-      <text x="345" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Detector</text>
+            <filter id="esElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="esGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <rect class="flow-highlight box-filter" x="440" y="150" width="110" height="60" rx="6" fill="#fdba74" stroke="#263238" stroke-width="2"></rect>
-      <text x="495" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مرشح سمعي</text>
-      <text x="495" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Filter</text>
+          <rect x="0" y="0" width="920" height="360" rx="20" fill="url(#esBgGrad)"></rect>
+          <rect x="0" y="0" width="920" height="360" rx="20" fill="url(#esGrid)"></rect>
 
-      <path class="flow-highlight amp-lf" d="M 600,150 L 600,210 L 650,180 Z" fill="#fca5a5" stroke="#263238" stroke-width="2"></path>
-      <text x="622" y="140" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مكبر تردد سمعي</text>
+          <g class="hotspot" data-component="osc" tabindex="0" role="button" aria-label="مذبذب فوق صوتي">
+            <rect class="box-shape" x="40" y="150" width="110" height="60" rx="10" fill="url(#esGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#esElevate)"></rect>
+            <text x="95" y="175" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مذبذب فوق صوتي</text>
+            <text x="95" y="192" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Oscillator 2.25MHz</text>
+          </g>
 
-      <circle class="flow-highlight speaker" cx="720" cy="150" r="16" fill="#fde047" stroke="#263238" stroke-width="2"></circle>
-      <path d="M 700,150 l -20,-10 v20 z" fill="#fde047" stroke="#263238" stroke-width="1.5"></path>
-      <text x="720" y="125" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Earphone</text>
+          <g class="hotspot" data-component="ampHf" tabindex="0" role="button" aria-label="مكبر تردد عالي">
+            <rect class="hit-area" x="195" y="80" width="70" height="70" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 210,100 L 210,140 L 250,120 Z" fill="url(#esGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#esElevate)"></path>
+            <text x="230" y="90" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">مكبر تردد عالي</text>
+          </g>
 
-      <path class="flow-highlight loudspeaker" d="M 790,190 l -24,14 v30 l 24,14 z" fill="#fde047" stroke="#263238" stroke-width="1.5"></path>
-      <path d="M 790,175 a 40,40 0 0 1 0,80" fill="none" stroke="#263238" stroke-width="2"></path>
-      <text x="815" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Load Speaker</text>
+          <g class="hotspot" data-component="detector" tabindex="0" role="button" aria-label="كاشف">
+            <rect class="box-shape" x="290" y="150" width="110" height="60" rx="10" fill="url(#esGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#esElevate)"></rect>
+            <text x="345" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">كاشف</text>
+            <text x="345" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Detector</text>
+          </g>
 
-      <!-- crystal probe on fetus -->
-      <rect class="flow-highlight box-crystal" x="70" y="270" width="60" height="18" fill="#38bdf8" stroke="#263238" stroke-width="2"></rect>
-      <text x="100" y="264" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">بلورة</text>
-      <ellipse cx="100" cy="325" rx="70" ry="24" fill="#f9a8d4" stroke="#263238" stroke-width="2"></ellipse>
-      <text x="100" y="331" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">جنين أو وعاء دموي</text>
+          <g class="hotspot" data-component="filter" tabindex="0" role="button" aria-label="مرشح سمعي">
+            <rect class="box-shape" x="440" y="150" width="110" height="60" rx="10" fill="url(#esGradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#esElevate)"></rect>
+            <text x="495" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مرشح سمعي</text>
+            <text x="495" y="193" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Filter</text>
+          </g>
 
-      <!-- connections -->
-      <line x1="150" y1="165" x2="210" y2="130" stroke="#263238" stroke-width="2"></line>
-      <line x1="250" y1="120" x2="345" y2="120" stroke="#263238" stroke-width="2"></line>
-      <line x1="345" y1="120" x2="345" y2="150" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="150" y1="185" x2="290" y2="185" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <text x="215" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">fi</text>
-      <text x="270" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">f=fi±Δf</text>
+          <g class="hotspot" data-component="ampLf" tabindex="0" role="button" aria-label="مكبر تردد سمعي">
+            <rect class="hit-area" x="590" y="140" width="70" height="80" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 600,150 L 600,210 L 650,180 Z" fill="url(#esGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#esElevate)"></path>
+            <text x="622" y="140" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">مكبر تردد سمعي</text>
+          </g>
 
-      <line x1="100" y1="210" x2="100" y2="270" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="115" y1="270" x2="115" y2="185" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="115" y1="185" x2="150" y2="185" stroke="#263238" stroke-width="2"></line>
+          <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="سماعة الاذن والمجهر">
+            <rect class="hit-area" x="680" y="100" width="150" height="170" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="720" cy="150" r="16" fill="#332c10" stroke="#eef1f8" stroke-width="2" filter="url(#esElevate)"></circle>
+            <path d="M 700,150 l -20,-10 v20 z" fill="#332c10" stroke="#eef1f8" stroke-width="1.5"></path>
+            <text x="720" y="125" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">Earphone</text>
+            <path class="box-shape" d="M 790,190 l -24,14 v30 l 24,14 z" fill="#332c10" stroke="#eef1f8" stroke-width="1.5" filter="url(#esElevate)"></path>
+            <path d="M 790,175 a 40,40 0 0 1 0,80" fill="none" stroke="#8b94aa" stroke-width="2"></path>
+            <text x="815" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">Load Speaker</text>
+          </g>
 
-      <line x1="400" y1="180" x2="440" y2="180" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="550" y1="180" x2="600" y2="180" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="650" y1="180" x2="704" y2="155" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
-      <line x1="650" y1="180" x2="766" y2="200" stroke="#263238" stroke-width="2" marker-end="url(#es-arrow)"></line>
+          <!-- crystal probe on fetus -->
+          <g class="hotspot" data-component="crystal" tabindex="0" role="button" aria-label="بلورة المجس">
+            <rect class="hit-area" x="60" y="220" width="80" height="130" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="70" y="270" width="60" height="18" rx="3" fill="#FBBF24" stroke="#FBBF24" stroke-width="2" filter="url(#esElevate)"></rect>
+            <text x="100" y="264" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">بلورة</text>
+            <ellipse cx="100" cy="325" rx="70" ry="24" fill="#3a2530" stroke="#e879a8" stroke-width="2"></ellipse>
+            <text x="100" y="331" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#e879a8" text-anchor="middle" direction="rtl">جنين أو وعاء دموي</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p-osc-crystal" cx="100" cy="210" r="5" style="--tx:0px; --ty:60px; --particle-delay:0.3s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-osc-detector" cx="150" cy="185" r="5" style="--tx:140px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.6s"></circle>
-        <circle class="flow-particle p-echo" cx="115" cy="270" r="5" style="--tx:0px; --ty:-85px; --particle-delay:1.4s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-echo-amp" cx="115" cy="185" r="5" style="--tx:95px; --ty:-55px; --particle-delay:1.9s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-amp-detector" cx="250" cy="120" r="5" style="--tx:95px; --ty:30px; --particle-delay:2.5s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-detector-filter" cx="400" cy="180" r="5" style="--tx:40px; --ty:0px; --particle-delay:3.1s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-filter-amp" cx="550" cy="180" r="5" style="--tx:50px; --ty:0px; --particle-delay:3.6s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-amp-speaker" cx="650" cy="180" r="5" style="--tx:60px; --ty:-25px; --particle-delay:4.1s; --particle-duration:0.4s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 4.7s"></rect>
-      </g>
-    </svg>
+          <!-- connections -->
+          <g class="link" data-link="osc" data-link-to="ampHf">
+            <line x1="150" y1="165" x2="210" y2="130" stroke="#5b6478" stroke-width="2"></line>
+            <line class="trail trail-green" x1="150" y1="165" x2="208" y2="131" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <line x1="250" y1="120" x2="345" y2="120" stroke="#5b6478" stroke-width="2"></line>
+          <g class="link" data-link="ampHf" data-link-to="detector">
+            <line x1="345" y1="120" x2="345" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-orange" x1="345" y1="120" x2="345" y2="148" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="osc" data-link-to="detector">
+            <line x1="150" y1="185" x2="290" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-green" x1="150" y1="185" x2="288" y2="185" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <text x="215" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#f87171" text-anchor="middle" direction="ltr">fi</text>
+          <text x="270" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#f87171" text-anchor="middle" direction="ltr">f=fi±Δf</text>
+
+          <g class="link" data-link="osc" data-link-to="crystal">
+            <line x1="100" y1="210" x2="100" y2="270" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-green" x1="100" y1="210" x2="100" y2="268" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="crystal" data-link-to="ampHf">
+            <line x1="115" y1="270" x2="115" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line x1="115" y1="185" x2="150" y2="185" stroke="#5b6478" stroke-width="2"></line>
+            <line class="trail trail-blue" x1="115" y1="268" x2="115" y2="187" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="link" data-link="detector" data-link-to="filter">
+            <line x1="400" y1="180" x2="440" y2="180" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-blue" x1="400" y1="180" x2="438" y2="180" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="filter" data-link-to="ampLf">
+            <line x1="550" y1="180" x2="600" y2="180" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-purple" x1="550" y1="180" x2="598" y2="180" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="ampLf" data-link-to="output">
+            <line x1="650" y1="180" x2="704" y2="155" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line x1="650" y1="180" x2="766" y2="200" stroke="#5b6478" stroke-width="2" marker-end="url(#es-arrow)"></line>
+            <line class="trail trail-orange" x1="650" y1="180" x2="700" y2="157" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle p-osc-crystal" cx="100" cy="210" r="5" fill="#4ADE80" filter="url(#esGlow)" style="--tx:0px; --ty:60px; --particle-delay:0.3s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-osc-detector" cx="150" cy="185" r="5" fill="#4ADE80" filter="url(#esGlow)" style="--tx:140px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.6s"></circle>
+            <circle class="flow-particle p-echo" cx="115" cy="270" r="5" fill="#38BDF8" filter="url(#esGlow)" style="--tx:0px; --ty:-85px; --particle-delay:1.4s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-echo-amp" cx="115" cy="185" r="5" fill="#38BDF8" filter="url(#esGlow)" style="--tx:95px; --ty:-55px; --particle-delay:1.9s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-amp-detector" cx="250" cy="120" r="5" fill="#FB923C" filter="url(#esGlow)" style="--tx:95px; --ty:30px; --particle-delay:2.5s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-detector-filter" cx="400" cy="180" r="5" fill="#38BDF8" filter="url(#esGlow)" style="--tx:40px; --ty:0px; --particle-delay:3.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-filter-amp" cx="550" cy="180" r="5" fill="#C084FC" filter="url(#esGlow)" style="--tx:50px; --ty:0px; --particle-delay:3.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-amp-speaker" cx="650" cy="180" r="5" fill="#FB923C" filter="url(#esGlow)" style="--tx:60px; --ty:-25px; --particle-delay:4.1s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="osc"><span class="status-dot dot-green"></span><span class="status-label">المذبذب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="crystal"><span class="status-dot dot-yellow"></span><span class="status-label">البلورة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="ampHf"><span class="status-dot dot-orange"></span><span class="status-label">مكبر التردد العالي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="detector"><span class="status-dot dot-blue"></span><span class="status-label">الكاشف</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filter"><span class="status-dot dot-purple"></span><span class="status-label">المرشح</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="ampLf"><span class="status-dot dot-orange"></span><span class="status-label">مكبر التردد السمعي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="output"><span class="status-dot dot-white"></span><span class="status-label">سماعة/مجهر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المذبذب</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>البلورة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التكبير</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الكشف</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الترشيح</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#esElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 560px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#esElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.015);
   }
 
-  .echo-sounder-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#esGlow);
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es-shape-activate { to { filter: url(#esElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es-status-value-on { to { opacity: 1; } }
+    @keyframes es-status-value-off { to { opacity: 0; } }
+    @keyframes es-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes es-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes es-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes es-dot-on-white { to { background: #eef1f8; box-shadow: 0 0 8px 1px rgba(238, 241, 248, 0.8); } }
 
-  .box-osc { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .box-crystal { --highlight-delay: 0.6s; --highlight-duration: 0.5s; }
-  .amp-hf { --highlight-delay: 2.2s; --highlight-duration: 0.6s; }
-  .box-detector { --highlight-delay: 2.9s; --highlight-duration: 0.6s; }
-  .box-filter { --highlight-delay: 3.5s; --highlight-duration: 0.5s; }
-  .amp-lf { --highlight-delay: 4.0s; --highlight-duration: 0.5s; }
-  .speaker,
-  .loudspeaker { --highlight-delay: 4.4s; --highlight-duration: 0.6s; }
+    .playing [data-component="osc"] .box-shape { animation: es-shape-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="osc"] .status-dot { animation: es-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="osc"] .value-on { animation: es-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="osc"] .value-off { animation: es-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="crystal"] .box-shape { animation: es-shape-activate 0.5s ease-out 0.6s forwards; }
+    .playing [data-status="crystal"] .status-dot { animation: es-dot-on-yellow 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="crystal"] .value-on { animation: es-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="crystal"] .value-off { animation: es-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="osc"] .trail { animation: es-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="ampHf"] .box-shape { animation: es-shape-activate 0.5s ease-out 2.2s forwards; }
+    .playing [data-status="ampHf"] .status-dot { animation: es-dot-on-orange 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="ampHf"] .value-on { animation: es-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="ampHf"] .value-off { animation: es-status-value-off 0.4s ease-out 2.2s forwards; }
+    .playing [data-link="crystal"] .trail { animation: es-reveal-trail 0.3s ease-out 1.8s forwards; }
+
+    .playing [data-component="detector"] .box-shape { animation: es-shape-activate 0.5s ease-out 2.9s forwards; }
+    .playing [data-status="detector"] .status-dot { animation: es-dot-on-blue 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="detector"] .value-on { animation: es-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="detector"] .value-off { animation: es-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="ampHf"] .trail { animation: es-reveal-trail 0.3s ease-out 2.6s forwards; }
+
+    .playing [data-component="filter"] .box-shape { animation: es-shape-activate 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="filter"] .status-dot { animation: es-dot-on-purple 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="filter"] .value-on { animation: es-status-value-on 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="filter"] .value-off { animation: es-status-value-off 0.4s ease-out 3.5s forwards; }
+    .playing [data-link="detector"] .trail { animation: es-reveal-trail 0.3s ease-out 3.3s forwards; }
+
+    .playing [data-component="ampLf"] .box-shape { animation: es-shape-activate 0.4s ease-out 4.0s forwards; }
+    .playing [data-status="ampLf"] .status-dot { animation: es-dot-on-orange 0.4s ease-out 4.0s forwards; }
+    .playing [data-status="ampLf"] .value-on { animation: es-status-value-on 0.4s ease-out 4.0s forwards; }
+    .playing [data-status="ampLf"] .value-off { animation: es-status-value-off 0.4s ease-out 4.0s forwards; }
+    .playing [data-link="filter"] .trail { animation: es-reveal-trail 0.3s ease-out 3.8s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: es-shape-activate 0.5s ease-out 4.4s forwards; }
+    .playing [data-status="output"] .status-dot { animation: es-dot-on-white 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="output"] .value-on { animation: es-status-value-on 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="output"] .value-off { animation: es-status-value-off 0.4s ease-out 4.4s forwards; }
+    .playing [data-link="ampLf"] .trail { animation: es-reveal-trail 0.3s ease-out 4.3s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".echo-sounder-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    osc: {
+      title: "مذبذب فوق صوتي (Oscillator 2.25MHz)",
+      // src/data/chapter-02/page-16.json #echo-step-1 (excerpt)
+      text: "يقوم المذبذب البلوري (Oscillator) بأرسال اشارة كهربائية بتردد (2.25MHz) الى الكاشف والى بلورة المجس بنفس الوقت فتتحول الى موجات فوق صوتية بنفس التردد.",
+    },
+    crystal: {
+      title: "بلورة المجس",
+      // src/data/chapter-02/page-16.json #echo-step-2 (excerpt)
+      text: "ترسل الموجات الفوق صوتية بتردد (fi) من خلال المجس مخترقة الجلد الى الجنين فتنعكس بتردد (fi±Δf) كصدى صوتي بسبب حركة قلب الجنين وحسب تاثير دوبلر.",
+    },
+    ampHf: {
+      title: "مكبر تردد عالي",
+      // src/data/chapter-02/page-16.json #echo-step-3 (excerpt)
+      text: "يقوم مكبر التردد العالي بتكبير سعة الاشارة الضعيفة المستلمة بسبب انعكاسها عن الجنين.",
+    },
+    detector: {
+      title: "كاشف (Detector)",
+      // src/data/chapter-02/page-16.json #echo-step-3 (excerpt)
+      text: "يقوم الكاشف بالكشف عن تردد الموجة (±Δf) الحاوية على صوت نبض قلب الجنين، وذلك بطرح قيمتي الترددين المرسل والمنعكس.",
+    },
+    filter: {
+      title: "مرشح سمعي (Filter)",
+      // src/data/chapter-02/page-16.json #echo-step-4 (excerpt)
+      text: "يقوم المرشح بالتخلص من الترددات غير المرغوب بها بسبب الاصوات الاخرى المصاحبة من قلب الام او حركة اعضاء الجسم الاخرى.",
+    },
+    ampLf: {
+      title: "مكبر تردد سمعي",
+      // src/data/chapter-02/page-16.json #echo-step-4 (excerpt)
+      text: "يضخم مكبر التردد السمعي الاشارة المرشحة لنتمكن من سماع نبضات الجنين بواسطة المجهر او سماعة الاذن.",
+    },
+    output: {
+      title: "سماعة الاذن والمجهر (Earphone / Load Speaker)",
+      // src/data/chapter-02/page-16.json #echo-step-4 (excerpt)
+      text: "نتمكن من سماع نبضات الجنين بواسطة المجهر (Load Speaker) او من خلال سماعة الاذن (Ear Phone)، وبالتالي معرفة حالة الجنين الصحية.",
+    },
+  };
+
+  wireDiagramSimulator(".echo-sounder-diagram", { cycleMs: 4700, componentInfo: COMPONENT_INFO });
 </script>
