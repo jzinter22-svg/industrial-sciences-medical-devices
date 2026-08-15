@@ -1,10 +1,12 @@
 ---
 // Animated device-02 illustration (continuous picture X-ray / fluoroscopy).
 // Static artwork reproduced exactly from
-// public/assets/svg/chapter-01/devices/fluoroscopy.svg. The C-arm stays
-// mechanically stable per the task's own instruction; only the beam
-// (continuous pulse, never fully off — distinct from the still-X-ray's
-// discrete pulse) and the monitor's scan-line glow are animated.
+// public/assets/svg/chapter-01/devices/fluoroscopy.svg — the C-arm's own
+// shape/geometry is untouched, only wrapped in a group so it can sway a
+// few degrees around its pedestal mount point (a small, controlled,
+// scientifically plausible repositioning during live imaging), on top
+// of the continuous beam pulse (never fully off, distinct from the
+// still-X-ray's discrete pulse) and the monitor's scan-line glow.
 import "../../styles/device-illustration-animations.css";
 ---
 
@@ -20,12 +22,14 @@ import "../../styles/device-illustration-animations.css";
     <path d="M 100,232 L 172,232 L 160,246 L 112,246 Z" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></path>
     <line x1="136" y1="232" x2="136" y2="185" stroke="#263238" stroke-width="3"></line>
 
-    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
-    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
+    <g class="device-carm-group">
+      <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
+      <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
 
-    <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
+      <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
 
-    <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+      <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+    </g>
 
     <g class="device-beam-continuous" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
       <line x1="178" y1="122" x2="178" y2="203"></line>

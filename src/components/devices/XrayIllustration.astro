@@ -5,7 +5,10 @@
 // stroke widths — the tube head, arm, table, and console are all
 // mechanically stable. The only added behavior is a class hook on the
 // existing dashed beam lines: they already run tube -> table, so no
-// geometry needed to change, only a pulse-fade-pause loop.
+// geometry needed to change, only a pulse-fade-pause loop. One element
+// was added (not part of the approved static artwork): a soft glow
+// behind the patient/table, timed just after the beam pulse, as the
+// "detector receiving the exposure" cue requested for visibility.
 import "../../styles/device-illustration-animations.css";
 ---
 
@@ -43,6 +46,8 @@ import "../../styles/device-illustration-animations.css";
       <line x1="272" y1="168" x2="235" y2="205"></line>
       <line x1="288" y1="168" x2="325" y2="205"></line>
     </g>
+
+    <ellipse class="device-xray-exposure" cx="280" cy="205" rx="130" ry="22" fill="#1d4ed8" opacity="0"></ellipse>
 
     <rect x="150" y="205" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
     <line x1="170" y1="221" x2="170" y2="238" stroke="#263238" stroke-width="3"></line>

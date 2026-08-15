@@ -1,12 +1,17 @@
 ---
 // Animated device-05 illustration (CT / tomography). Static artwork
-// reproduced exactly from public/assets/svg/chapter-01/devices/ct.svg.
-// The already-present dashed detector-ring circle (centered at the same
-// point as the gantry bore, 220,125) is the rotation target — rotating a
-// circle around its own bounding-box center (transform-box: fill-box;
-// transform-origin: center) rotates it exactly around that point, so the
-// ring spins in place without touching the housing, bore, or table.
-// This card is shown alongside the existing interactive
+// reproduced exactly from public/assets/svg/chapter-01/devices/ct.svg —
+// the already-present dashed detector-ring circle is unchanged; it is
+// now wrapped in a <g> together with one added element, a small bright
+// dot fixed at the ring's own 12 o'clock point, so the rotation reads
+// immediately as a sweeping scan beam rather than a subtle dash-pattern
+// shift. Both rotate together around the gantry's authored center point
+// (220,125 in this illustration's own viewBox units) via an explicit
+// transform-origin — deliberately not `transform-box: fill-box`, since
+// that derives its center from the group's bounding box, which the
+// added off-center dot would skew; an explicit coordinate is exact
+// regardless of what's inside the group. Housing, bore, and table never
+// move. Shown alongside the existing interactive
 // TomographySectionsDiagram (wired separately in BlockRenderer via the
 // `visualization` slot) — a real-world equipment view next to the
 // anatomical cross-section view, not a replacement for it.
@@ -27,7 +32,10 @@ import "../../styles/device-illustration-animations.css";
     <circle cx="220" cy="125" r="68" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></circle>
     <circle cx="220" cy="125" r="40" fill="#e2e8f0" stroke="#263238" stroke-width="2.5"></circle>
 
-    <circle class="device-gantry-ring" cx="220" cy="125" r="54" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="6 5" opacity="0.7"></circle>
+    <g class="device-gantry-ring">
+      <circle cx="220" cy="125" r="54" fill="none" stroke="#1d4ed8" stroke-width="3" stroke-dasharray="6 5" opacity="0.85"></circle>
+      <circle cx="220" cy="71" r="6" fill="#60a5fa" stroke="#1d4ed8" stroke-width="1"></circle>
+    </g>
 
     <rect x="60" y="118" width="360" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
     <line x1="80" y1="134" x2="80" y2="216" stroke="#263238" stroke-width="3"></line>

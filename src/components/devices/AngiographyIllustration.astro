@@ -11,8 +11,10 @@
 //   2. A small travelling highlight dot riding the existing catheter
 //      path via a native CSS motion path (offset-path) — the path
 //      itself is untouched.
-// Both C-arms (frontal + biplane secondary) stay mechanically stable,
-// as instructed.
+// The frontal C-arm (same treatment as fluoroscopy's) sways a few
+// degrees around its pedestal mount point; the smaller biplane arm
+// stays stable so the added vascular-tree/catheter motion remains the
+// clearest difference from fluoroscopy, not a second moving arm.
 import "../../styles/device-illustration-animations.css";
 ---
 
@@ -28,10 +30,12 @@ import "../../styles/device-illustration-animations.css";
     <path d="M 100,232 L 172,232 L 160,246 L 112,246 Z" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></path>
     <line x1="136" y1="232" x2="136" y2="185" stroke="#263238" stroke-width="3"></line>
 
-    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
-    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
-    <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
-    <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+    <g class="device-carm-group">
+      <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
+      <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
+      <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
+      <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+    </g>
 
     <!-- beam: tube -> table (added — see header note) -->
     <g class="device-beam-continuous" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
@@ -57,8 +61,10 @@ import "../../styles/device-illustration-animations.css";
     <!-- travelling highlight along the catheter path (added — see header note) -->
     <circle
       class="device-catheter-dot"
-      r="2.6"
-      fill="#fca5a5"
+      r="3.6"
+      fill="#fecaca"
+      stroke="#dc2626"
+      stroke-width="1"
       style={`offset-path: path('M 264,147 q 14,-4 26,-2')`}
     ></circle>
 
