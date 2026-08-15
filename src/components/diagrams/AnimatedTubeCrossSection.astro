@@ -1,26 +1,30 @@
 ---
-// Animated version of Figure 1-2 (أنبوبة الاشعة السينية).
+// Redesigned Figure 1-2 (أنبوبة الاشعة السينية) using the visual/
+// interaction system established for diagram-01
+// (XraySystemBlockDiagram.astro): dark neumorphic "simulator" panel,
+// the same emboss/glow SVG filter recipe, energy-color semantics
+// (blue = current, purple = radiation — the only two of the five
+// meaningful here, since this diagram shows no mains power or control
+// circuitry), hover/click hotspots with a verbatim-sourced info card,
+// and Play/Pause/Restart/Speed controls. This is diagram 2 of 8
+// remaining Chapter 1 diagrams being converted one at a time per
+// explicit user approval between each.
 //
-// Rebuilt against the original textbook page (page 11 / PDF index 10) for
-// fidelity: the tube is a three-layer capsule — an outer teal metal
-// envelope (#8DC2BE), an inset light-gray oil layer, and an octagonal
-// (chamfered) glass-envelope wall drawn in light blue — instead of the
-// previous plain single rounded rectangle. The anode is a wheat-colored
-// rod ending in an angled beveled target wedge (not a filled triangle);
-// the cathode is a small nook of the same glass-envelope wall holding a
-// coiled-filament icon with two lead wires, not a plain yellow square.
-// The window is a stepped channel with ridge/seal lines that pierces
-// through the oil and metal layers at the bottom-center, matching the
-// original's tiered plug shape, instead of a small floating rounded rect.
+// Geometry is completely unchanged from the prior build (every rect/
+// polygon/line coordinate, every label's text and position) — only
+// corner styling, fill/stroke treatment, and the interaction/animation
+// layer changed. Self-contained like diagram-01 (no dependency on the
+// shared diagram-animations.css/diagramPlayback.js, which stay
+// untouched for the diagrams not yet converted).
 //
-// class hooks (.anode-shape / .cathode-shape / .xray-beam / .window-shape)
-// and the electron-beam dashed line are kept on the equivalent rebuilt
-// elements so the existing highlight-pulse / stroke-dashoffset animation
-// timing (see cathode -> electron flow -> anode -> x-ray -> window, total
-// ~3.9s cycle) is unchanged — only the shapes being animated were made
-// faithful to the source figure.
-import "../../styles/diagram-animations.css";
-
+// Color mapping: cathode/filament heating + the electron beam are the
+// tube's *current* path (blue, matching diagram-01's kV/mA meters).
+// The anode strike and the X-ray beam/window are where radiation
+// originates and exits (purple, matching diagram-01's tube/output).
+// The passive structural layers (metal envelope, oil, glass envelope)
+// keep their original distinguishing hues (teal/gray/glass-blue) as
+// dark neumorphic surfaces rather than being recolored into the energy
+// palette, since they don't carry energy themselves.
 interface Props {
   caption: string;
 }
@@ -28,104 +32,241 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram tube-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="tube-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="900"
-      height="420"
-      viewBox="0 0 900 420"
-      role="img"
-      aria-label="أنبوبة الاشعة السينية"
-    >
-      <defs>
-        <marker id="arrow-tube" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+<figure class="diagram-block neo-surface-soft tube-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة أنبوبة الاشعة السينية</span>
+      <span class="simulator-subtitle">شكل 1-2 — مقطع الأنبوبة</span>
+    </div>
 
-      <rect x="0" y="0" width="900" height="420" fill="none"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="tube-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="أنبوبة الاشعة السينية"
+        >
+          <defs>
+            <marker id="arrow-tube" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B9C3D6"></path>
+            </marker>
 
-      <!-- Metal envelope (outer teal shell) -->
-      <rect x="30" y="40" width="840" height="280" rx="55" fill="#8DC2BE" stroke="#263238" stroke-width="3"></rect>
-      <!-- Oil layer (inset gray band) -->
-      <rect x="55" y="63" width="790" height="234" rx="45" fill="#D6DCD3" stroke="#263238" stroke-width="2"></rect>
+            <linearGradient id="tubeBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="tubeGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-      <!-- Glass envelope (octagonal capsule wall) -->
-      <polygon points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
-        fill="#ffffff" stroke="#C6E6FB" stroke-width="10"></polygon>
-      <polygon points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
-        fill="none" stroke="#263238" stroke-width="1.5"></polygon>
+            <linearGradient id="gradMetal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2b4644"></stop>
+              <stop offset="100%" stop-color="#152624"></stop>
+            </linearGradient>
+            <linearGradient id="gradOil" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#33404a"></stop>
+              <stop offset="100%" stop-color="#1b2229"></stop>
+            </linearGradient>
+            <linearGradient id="gradGlass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1c3446"></stop>
+              <stop offset="100%" stop-color="#0f1e2a"></stop>
+            </linearGradient>
+            <linearGradient id="gradCurrent" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="gradRadiation" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2e2044"></stop>
+              <stop offset="100%" stop-color="#150e22"></stop>
+            </linearGradient>
 
-      <!-- Window channel: pierces the oil + metal layers at bottom-center -->
-      <rect x="395" y="255" width="110" height="24" fill="#ffffff" stroke="#263238" stroke-width="2"></rect>
-      <rect x="415" y="279" width="70" height="42" fill="#ffffff" stroke="#263238" stroke-width="2"></rect>
-      <g class="flow-highlight window-shape">
-        <line x1="415" y1="292" x2="485" y2="292" stroke="#263238" stroke-width="2"></line>
-        <line x1="415" y1="300" x2="485" y2="300" stroke="#263238" stroke-width="2"></line>
-        <line x1="415" y1="308" x2="485" y2="308" stroke="#263238" stroke-width="2"></line>
-        <line x1="415" y1="316" x2="485" y2="316" stroke="#263238" stroke-width="2"></line>
-      </g>
+            <filter id="tubeElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
 
-      <!-- Anode: wheat rod entering from the left, ending in a beveled wedge target -->
-      <line x1="0" y1="165" x2="130" y2="165" stroke="#F9E0A9" stroke-width="30"></line>
-      <g class="flow-highlight anode-shape">
-        <rect x="130" y="150" width="330" height="30" fill="#F9E0A9" stroke="#263238" stroke-width="2"></rect>
-        <polygon points="460,150 500,150 470,180 430,180" fill="#EBC988" stroke="#263238" stroke-width="2"></polygon>
-      </g>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
 
-      <!-- Cathode: a nook of the glass-envelope wall holding the filament coil + two leads -->
-      <g class="flow-highlight cathode-shape">
-        <rect x="590" y="140" width="90" height="60" fill="#C6E6FB" stroke="#263238" stroke-width="2"></rect>
-        <path d="M 610,160 q 6,-8 12,0 q 6,8 12,0 q 6,-8 12,0" fill="none" stroke="#263238" stroke-width="2"></path>
-        <line x1="622" y1="155" x2="622" y2="185" stroke="#263238" stroke-width="1.5"></line>
-      </g>
-      <line x1="640" y1="155" x2="900" y2="155" stroke="#F9E0A9" stroke-width="10"></line>
-      <line x1="640" y1="185" x2="900" y2="185" stroke="#F9E0A9" stroke-width="10"></line>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
 
-      <!-- Electron beam: cathode -> anode target -->
-      <line class="electron-beam" x1="620" y1="170" x2="470" y2="165" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 4"></line>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
 
-      <!-- X-ray beam exiting through the window -->
-      <line class="flow-highlight xray-beam" x1="450" y1="255" x2="450" y2="380" stroke="#c2410c" stroke-width="3" marker-end="url(#arrow-tube)"></line>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="tubeSoftGlow" x="-140%" y="-140%" width="380%" height="380%">
+              <feGaussianBlur stdDeviation="9"></feGaussianBlur>
+            </filter>
+            <filter id="tubeLineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="tubeBeamGlow" x="-80%" y="-170%" width="260%" height="440%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5.5" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <!-- Labels + leader lines -->
-      <text x="330" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الأنود</text>
-      <text x="330" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Anode</text>
-      <line x1="370" y1="115" x2="400" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#arrow-tube)"></line>
+          <rect x="0" y="0" width="900" height="420" rx="22" fill="url(#tubeBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="22" fill="url(#tubeGrid)"></rect>
 
-      <text x="630" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الكاثود</text>
-      <text x="630" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Cathode</text>
-      <line x1="640" y1="127" x2="630" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#arrow-tube)"></line>
+          <!-- ============ Metal envelope (structure) ============ -->
+          <g class="hotspot" data-component="metalEnvelope" tabindex="0" role="button" aria-label="الغلاف المعدني">
+            <rect class="box-shape" x="30" y="40" width="840" height="280" rx="55" fill="url(#gradMetal)" stroke="#7fb8b0" stroke-width="2" filter="url(#tubeElevate)"></rect>
+            <rect class="box-active-glow glow-metal" x="30" y="40" width="840" height="280" rx="55" fill="none" stroke="#7fb8b0" stroke-width="4"></rect>
+          </g>
 
-      <text x="230" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف الزجاجي</text>
-      <text x="230" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Glass Envelope</text>
-      <line x1="270" y1="340" x2="330" y2="255" stroke="#263238" stroke-width="1.5"></line>
+          <!-- ============ Oil layer (structure) ============ -->
+          <g class="hotspot" data-component="oil" tabindex="0" role="button" aria-label="الزيت">
+            <rect class="box-shape" x="55" y="63" width="790" height="234" rx="45" fill="url(#gradOil)" stroke="#8b96a3" stroke-width="1.6" filter="url(#tubeElevate)"></rect>
+            <rect class="box-active-glow glow-oil" x="55" y="63" width="790" height="234" rx="45" fill="none" stroke="#8b96a3" stroke-width="4"></rect>
+          </g>
 
-      <text x="450" y="398" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">النافذة</text>
-      <text x="450" y="415" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Window</text>
-      <line x1="450" y1="388" x2="450" y2="321" stroke="#263238" stroke-width="1.5"></line>
+          <!-- ============ Glass envelope (structure) ============ -->
+          <g class="hotspot" data-component="glassEnvelope" tabindex="0" role="button" aria-label="الغلاف الزجاجي">
+            <polygon class="box-shape" points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
+              fill="url(#gradGlass)" stroke="#7dd3fc" stroke-width="2.5" filter="url(#tubeElevate)"></polygon>
+            <polygon class="box-active-glow glow-glass" points="175,95 725,95 770,140 770,210 725,255 175,255 130,210 130,140"
+              fill="none" stroke="#7dd3fc" stroke-width="4"></polygon>
+          </g>
 
-      <text x="640" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الزيت</text>
-      <text x="640" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Oil</text>
-      <line x1="620" y1="340" x2="560" y2="270" stroke="#263238" stroke-width="1.5"></line>
+          <!-- ============ Window: X-ray exit channel ============ -->
+          <g class="hotspot" data-component="window" tabindex="0" role="button" aria-label="النافذة">
+            <rect class="box-shape" x="395" y="255" width="110" height="24" fill="url(#gradRadiation)" stroke="#C084FC" stroke-width="1.6" filter="url(#tubeElevate)"></rect>
+            <rect class="box-shape" x="415" y="279" width="70" height="42" fill="url(#gradRadiation)" stroke="#C084FC" stroke-width="1.6" filter="url(#tubeElevate)"></rect>
+            <rect class="box-active-glow glow-purple" x="395" y="255" width="110" height="66" rx="4" fill="none" stroke="#C084FC" stroke-width="4"></rect>
+            <g class="trail trail-purple">
+              <line x1="415" y1="292" x2="485" y2="292" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="415" y1="300" x2="485" y2="300" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="415" y1="308" x2="485" y2="308" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="415" y1="316" x2="485" y2="316" stroke="#C084FC" stroke-width="2"></line>
+            </g>
+          </g>
 
-      <text x="790" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الغلاف المعدني</text>
-      <text x="790" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle" direction="ltr">Metal Envelope</text>
-      <line x1="790" y1="340" x2="760" y2="230" stroke="#263238" stroke-width="1.5"></line>
+          <!-- ============ Anode ============ -->
+          <g class="hotspot" data-component="anode" tabindex="0" role="button" aria-label="الانود (المصعد)">
+            <line x1="0" y1="165" x2="130" y2="165" stroke="#5b6478" stroke-width="26"></line>
+            <rect class="box-shape" x="130" y="150" width="330" height="30" fill="url(#gradRadiation)" stroke="#C084FC" stroke-width="2" filter="url(#tubeElevate)"></rect>
+            <polygon class="box-shape" points="460,150 500,150 470,180 430,180" fill="url(#gradRadiation)" stroke="#C084FC" stroke-width="2" filter="url(#tubeElevate)"></polygon>
+            <rect class="box-active-glow glow-purple" x="130" y="150" width="370" height="30" rx="4" fill="none" stroke="#C084FC" stroke-width="4"></rect>
+          </g>
 
-      <g aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.9s"></rect>
-      </g>
-    </svg>
+          <!-- ============ Cathode ============ -->
+          <g class="hotspot" data-component="cathode" tabindex="0" role="button" aria-label="الكاثود (المهبط)">
+            <line x1="640" y1="155" x2="900" y2="155" stroke="#5b6478" stroke-width="8"></line>
+            <line x1="640" y1="185" x2="900" y2="185" stroke="#5b6478" stroke-width="8"></line>
+            <rect class="box-shape" x="590" y="140" width="90" height="60" fill="url(#gradCurrent)" stroke="#38BDF8" stroke-width="2" filter="url(#tubeElevate)"></rect>
+            <path d="M 610,160 q 6,-8 12,0 q 6,8 12,0 q 6,-8 12,0" fill="none" stroke="#38BDF8" stroke-width="2"></path>
+            <line x1="622" y1="155" x2="622" y2="185" stroke="#38BDF8" stroke-width="1.5"></line>
+            <rect class="box-active-glow glow-blue" x="590" y="140" width="90" height="60" rx="6" fill="none" stroke="#38BDF8" stroke-width="4"></rect>
+          </g>
+
+          <!-- ============ Electron beam: cathode -> anode ============ -->
+          <g class="link" data-link="cathode" data-link-to="anode">
+            <line x1="620" y1="170" x2="470" y2="165" stroke="#5b6478" stroke-width="2" stroke-dasharray="4 4"></line>
+            <line class="trail trail-blue" x1="620" y1="170" x2="470" y2="165" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="particle p-electron-a" cx="614" cy="169.5" r="4"></circle>
+            <circle class="particle p-electron-b" cx="614" cy="169.5" r="3"></circle>
+          </g>
+
+          <!-- ============ X-ray beam: window -> patient ============ -->
+          <g class="link" data-link="anode" data-link-to="window">
+            <line class="beam-ray beam-ray-center" x1="450" y1="255" x2="450" y2="380" stroke="#C084FC" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow-tube)" filter="url(#tubeBeamGlow)"></line>
+            <circle class="particle p-xray-a" cx="450" cy="261" r="4"></circle>
+            <circle class="particle p-xray-b" cx="450" cy="261" r="3"></circle>
+          </g>
+
+          <!-- Labels + leader lines (unchanged text/positions) -->
+          <text x="330" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الأنود</text>
+          <text x="330" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#C084FC" text-anchor="middle" direction="ltr">Anode</text>
+          <line x1="370" y1="115" x2="400" y2="140" stroke="#8b94aa" stroke-width="1.6" marker-end="url(#arrow-tube)"></line>
+
+          <text x="630" y="105" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الكاثود</text>
+          <text x="630" y="123" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#38BDF8" text-anchor="middle" direction="ltr">Cathode</text>
+          <line x1="640" y1="127" x2="630" y2="140" stroke="#8b94aa" stroke-width="1.6" marker-end="url(#arrow-tube)"></line>
+
+          <text x="230" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الغلاف الزجاجي</text>
+          <text x="230" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#7dd3fc" text-anchor="middle" direction="ltr">Glass Envelope</text>
+          <line x1="270" y1="340" x2="330" y2="255" stroke="#8b94aa" stroke-width="1.4"></line>
+
+          <text x="450" y="398" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">النافذة</text>
+          <text x="450" y="415" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#C084FC" text-anchor="middle" direction="ltr">Window</text>
+          <line x1="450" y1="388" x2="450" y2="321" stroke="#8b94aa" stroke-width="1.4"></line>
+
+          <text x="640" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الزيت</text>
+          <text x="640" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#8b96a3" text-anchor="middle" direction="ltr">Oil</text>
+          <line x1="620" y1="340" x2="560" y2="270" stroke="#8b94aa" stroke-width="1.4"></line>
+
+          <text x="790" y="350" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الغلاف المعدني</text>
+          <text x="790" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#7fb8b0" text-anchor="middle" direction="ltr">Metal Envelope</text>
+          <line x1="790" y1="340" x2="760" y2="230" stroke="#8b94aa" stroke-width="1.4"></line>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="heating"><span class="status-dot dot-blue"></span><span class="status-label">تسخين الفتيل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="electrons"><span class="status-dot dot-blue"></span><span class="status-label">تدفق الالكترونات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="anode"><span class="status-dot dot-purple"></span><span class="status-label">اصطدام الانود</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="xray"><span class="status-dot dot-purple"></span><span class="status-label">الاشعة السينية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التيار (تسخين الفتيل + الالكترونات)</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الاشعة السينية</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
@@ -140,11 +281,80 @@ const { caption } = Astro.props;
     box-sizing: border-box;
   }
 
-  .diagram-block-image {
+  .simulator-shell {
     width: 100%;
-    max-width: 480px;
+    max-width: 713px;
+    border-radius: 18px;
+    padding: 1rem;
+    box-sizing: border-box;
+    background: linear-gradient(155deg, #182236 0%, #0c1220 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 16px 34px rgba(8, 12, 22, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .simulator-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0 0.2rem;
+  }
+
+  .simulator-title {
+    font-family: "Cairo", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #eef1f8;
+  }
+
+  .simulator-subtitle {
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #8b94aa;
+  }
+
+  .simulator-main {
+    display: flex;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  @media (max-width: 480px) {
+    .simulator-main {
+      flex-direction: column;
+    }
+
+    .status-panel {
+      flex: 1 1 auto;
+    }
+
+    .status-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.3rem 0.6rem;
+    }
+
+    .status-row {
+      flex: 1 1 auto;
+      min-width: 44%;
+    }
+  }
+
+  .diagram-block-image {
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    overflow: hidden;
   }
 
   .tube-svg {
@@ -152,6 +362,148 @@ const { caption } = Astro.props;
     height: auto;
     display: block;
   }
+
+  .status-panel {
+    flex: 0 0 170px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 0.7rem 0.65rem;
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+  }
+
+  .status-title {
+    margin: 0 0 0.45rem;
+    font-family: "Cairo", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #9aa4ba;
+    text-align: center;
+  }
+
+  .status-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "Cairo", sans-serif;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+    background: #3a4258;
+  }
+
+  .status-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #dbe0ec;
+    flex: 1 1 auto;
+  }
+
+  .status-value {
+    position: relative;
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 2.6em;
+    height: 1em;
+  }
+
+  .status-value .value-off,
+  .status-value .value-on {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 0;
+  }
+
+  .status-value .value-off {
+    color: #6b7488;
+    opacity: 1;
+  }
+
+  .status-value .value-on {
+    color: #eef1f8;
+    opacity: 0;
+  }
+
+  .info-panel {
+    min-height: 2.4rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 0.55rem 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .info-hint {
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6b7488;
+    text-align: center;
+  }
+
+  .info-title {
+    margin: 0 0 0.15rem;
+    font-family: "Cairo", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #eef1f8;
+  }
+
+  .info-text {
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    font-size: 0.74rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: #b7bfd1;
+  }
+
+  .legend-panel {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 0.7rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: "Cairo", sans-serif;
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: #9aa4ba;
+  }
+
+  .legend-swatch {
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
+    flex: 0 0 auto;
+  }
+
+  .legend-blue { background: #38BDF8; }
+  .legend-purple { background: #C084FC; }
 
   .diagram-block-caption {
     margin: 0;
@@ -162,44 +514,377 @@ const { caption } = Astro.props;
     line-height: var(--neo-line-height);
   }
 
-  .cathode-shape {
-    --highlight-delay: 0.1s;
-    --highlight-duration: 0.7s;
+  .diagram-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--neo-space-sm);
+    flex-wrap: wrap;
   }
 
-  .anode-shape {
-    --highlight-delay: 2.5s;
-    --highlight-duration: 0.6s;
+  .diagram-replay-button {
+    border: none;
+    border-radius: var(--neo-radius-sm);
+    background: var(--neo-surface);
+    color: var(--neo-primary);
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+    box-shadow:
+      3px 3px 6px var(--neo-shadow-dark),
+      -3px -3px 6px var(--neo-shadow-light);
   }
 
-  .xray-beam {
-    --highlight-delay: 2.9s;
-    --highlight-duration: 0.9s;
+  .diagram-replay-button:focus-visible {
+    outline: 2px solid var(--neo-primary);
+    outline-offset: 2px;
   }
 
-  .window-shape {
-    --highlight-delay: 3.1s;
-    --highlight-duration: 0.7s;
+  .diagram-replay-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .hotspot {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .hotspot .box-shape {
+    filter: url(#tubeElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#tubeElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-4px) scale(1.015);
+  }
+
+  .hotspot:focus-visible .box-shape {
+    stroke-width: 3.2;
+  }
+
+  .simulator-shell.has-selection .hotspot:not(.is-selected) {
+    opacity: 0.4;
+    transition: opacity 0.25s ease;
+  }
+
+  .simulator-shell.has-selection .link:not(.is-related) {
+    opacity: 0.25;
+    transition: opacity 0.25s ease;
+  }
+
+  .box-active-glow {
+    opacity: 0;
+    stroke-width: 5px;
+    filter: url(#tubeSoftGlow);
+    transition: opacity 0.25s ease;
+  }
+
+  .hotspot:hover .box-active-glow,
+  .hotspot:focus-visible .box-active-glow,
+  .hotspot.is-selected .box-active-glow {
+    opacity: 1;
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 3px;
+    filter: url(#tubeLineGlow);
+  }
+
+  .particle {
+    fill: #eef1f8;
+    opacity: 0;
+    filter: url(#tubeLineGlow);
+  }
+
+  .p-xray-a,
+  .p-xray-b {
+    fill: #C084FC;
+  }
+
+  .p-electron-a,
+  .p-electron-b {
+    fill: #38BDF8;
+  }
+
+  .beam-ray {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .diagram-controls {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes electron-flow {
-      0% {
-        stroke-dashoffset: 0;
-      }
-      100% {
-        stroke-dashoffset: -32;
-      }
+    @keyframes tube-reveal-trail {
+      0% { opacity: 0; }
+      100% { opacity: 0.85; }
     }
+    @keyframes tube-scroll-dash {
+      to { stroke-dashoffset: -36; }
+    }
+    @keyframes tube-box-activate {
+      to { filter: url(#tubeElevate) saturate(1.35) brightness(1.45); }
+    }
+    @keyframes tube-glow-in {
+      to { opacity: 1; }
+    }
+    @keyframes tube-status-value-on {
+      to { opacity: 1; }
+    }
+    @keyframes tube-status-value-off {
+      to { opacity: 0; }
+    }
+    @keyframes tube-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes tube-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
 
-    .playing .electron-beam {
-      animation: electron-flow 0.5s linear 4;
-      animation-delay: 0.6s;
-    }
+    /* Stage 1 — filament heating (0.0s -> ~0.7s) */
+    .playing [data-component="cathode"] .box-shape { animation: tube-box-activate 0.5s ease-out 0s forwards; }
+    .playing [data-component="cathode"] .box-active-glow { animation: tube-glow-in 0.5s ease-out 0s forwards; }
+    .playing [data-status="heating"] .status-dot { animation: tube-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="heating"] .value-on { animation: tube-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="heating"] .value-off { animation: tube-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    /* Stage 2 — electron flow cathode -> anode (0.7s -> ~1.7s) */
+    .playing [data-link="cathode"] .trail-blue { animation: tube-reveal-trail 0.4s ease-out 0.7s forwards, tube-scroll-dash 0.7s linear 0.7s 3; }
+    .playing .p-electron-a { animation: tube-move-electron 0.7s ease-in-out 0.8s 3; }
+    .playing .p-electron-b { animation: tube-move-electron 0.7s ease-in-out 1.0s 3; }
+    @keyframes tube-move-electron { 0% { transform: translate(0,0); opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(-144px,-4.5px); opacity: 0; } }
+    .playing [data-status="electrons"] .status-dot { animation: tube-dot-on-blue 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="electrons"] .value-on { animation: tube-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="electrons"] .value-off { animation: tube-status-value-off 0.4s ease-out 0.8s forwards; }
+
+    /* Stage 3 — anode struck (1.7s -> ~2.5s) */
+    .playing [data-component="anode"] .box-shape { animation: tube-box-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-component="anode"] .box-active-glow { animation: tube-glow-in 0.5s ease-out 1.7s forwards; }
+    .playing [data-status="anode"] .status-dot { animation: tube-dot-on-purple 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="anode"] .value-on { animation: tube-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="anode"] .value-off { animation: tube-status-value-off 0.4s ease-out 1.8s forwards; }
+
+    /* Stage 4 — X-ray beam exits through the window (2.5s -> ~3.4s) */
+    .playing .beam-ray-center { animation: tube-reveal-trail 0.5s ease-out 2.5s forwards, tube-beam-pulse 0.9s ease-in-out 3.0s 2; }
+    @keyframes tube-beam-pulse { 0%, 100% { stroke-width: 3.5; opacity: 0.85; } 50% { stroke-width: 5.5; opacity: 1; } }
+    .playing .p-xray-a { animation: tube-move-xray 0.8s ease-in 2.6s 3; }
+    .playing .p-xray-b { animation: tube-move-xray 0.8s ease-in 2.9s 3; }
+    @keyframes tube-move-xray { 0% { transform: translate(0,0); opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(0,110px); opacity: 0; } }
+    .playing [data-component="window"] .box-shape { animation: tube-box-activate 0.5s ease-out 2.9s forwards; }
+    .playing [data-component="window"] .box-active-glow { animation: tube-glow-in 0.5s ease-out 2.9s forwards; }
+    .playing [data-link="anode"] .trail-purple { animation: tube-glow-in 0.5s ease-out 2.9s forwards; }
+    .playing [data-status="xray"] .status-dot { animation: tube-dot-on-purple 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="xray"] .value-on { animation: tube-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="xray"] .value-off { animation: tube-status-value-off 0.4s ease-out 2.9s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".tube-diagram");
+  interface ComponentInfo {
+    title: string;
+    text: string;
+  }
+
+  // Verbatim excerpts from this chapter's own definitions.
+  const COMPONENT_INFO: Record<string, ComponentInfo> = {
+    cathode: {
+      title: "الكاثود (المهبط)",
+      // src/data/chapter-01/page-02.json #definition-cathode
+      text: "وهو القطب السالب في انبوبة الاشعة السينية وهو عبارة عن فتيل (Filament) من مادة التنكستن (Tungsten) يتم امرار تيار فيه ويسبب هذا التيار تسخين الفتيل وتهيج ذراته واطلاق الكترونات…",
+    },
+    anode: {
+      title: "الانود (المصعد)",
+      // src/data/chapter-01/page-03.json #definition-anode
+      text: "وهو القطب الموجب لانبوبة الاشعة السينية وهو هدف فلزي تصطدم به الالكترونات السريعة جدا والقادمة من الكاثود…",
+    },
+    glassEnvelope: {
+      title: "الغلاف الزجاجي",
+      // src/data/chapter-01/page-03.json #definition-glass-envelope
+      text: "وهو عبارة عن انبوب مصنوع من زجاج ذي معامل تمدد منخفض ويتحمل الحرارة العالية وتوضع داخله اقطاب انبوبة الاشعة السينية ويكون مفرغا تفريغا عاليا من الهواء…",
+    },
+    metalEnvelope: {
+      title: "الغلاف المعدني",
+      // src/data/chapter-01/page-03.json #definition-metal-envelope
+      text: "يكون الغلاف المعدني اسطواني الشكل مصنوع من سبيكة الالمنيوم ومبطن من الداخل بالرصاص لامتصاص الاشعة الثانوية داخل انبوبة الاشعة…",
+    },
+    oil: {
+      title: "الزيت",
+      // src/data/chapter-01/page-03.json #definition-metal-envelope (excerpt)
+      text: "يوضع زيت بين الغلاف الزجاجي والغلاف المعدني لزيادة العزل الكهربائي وتبريد انبوبة الاشعة، حيث يقوم الزيت بامتصاص الحرارة من الغلاف الزجاجي وتوصيلها الى الغلاف المعدني…",
+    },
+    window: {
+      title: "النافذة",
+      // src/data/chapter-01/page-03.json #definition-glass-envelope (excerpt)
+      text: "يكون سمك جدار هذا الغلاف اقل عند مكان خروج الاشعة الى المريض وذلك للتخفيف من تخامدها.",
+    },
+  };
+
+  document.querySelectorAll(".tube-diagram").forEach((wrapper) => {
+    const shell = wrapper.querySelector(".simulator-shell");
+    const playButton = wrapper.querySelector(".play-button") as HTMLButtonElement | null;
+    const pauseButton = wrapper.querySelector(".pause-button") as HTMLButtonElement | null;
+    const resetButton = wrapper.querySelector(".reset-button") as HTMLButtonElement | null;
+    const speedUpButton = wrapper.querySelector(".speed-up-button") as HTMLButtonElement | null;
+    const speedDownButton = wrapper.querySelector(".speed-down-button") as HTMLButtonElement | null;
+    if (!shell || !playButton || !pauseButton || !resetButton) return;
+
+    const CYCLE_MS = 4400;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let endTimer: number | null = null;
+    let playbackRate = 1;
+    let isPlaying = false;
+    let isPaused = false;
+    let remainingNominalMs = CYCLE_MS;
+    let timerArmedAt = 0;
+
+    const clearEndTimer = () => {
+      if (endTimer !== null) {
+        window.clearTimeout(endTimer);
+        endTimer = null;
+      }
+    };
+
+    const armEndTimer = () => {
+      clearEndTimer();
+      timerArmedAt = performance.now();
+      endTimer = window.setTimeout(stop, remainingNominalMs / playbackRate);
+    };
+
+    const captureElapsed = () => {
+      if (endTimer === null) return;
+      const elapsedRealMs = performance.now() - timerArmedAt;
+      remainingNominalMs = Math.max(0, remainingNominalMs - elapsedRealMs * playbackRate);
+    };
+
+    const setAllAnimations = (fn: (a: Animation) => void) => {
+      wrapper.querySelectorAll("*").forEach((el) => el.getAnimations().forEach(fn));
+    };
+
+    const setPlaybackRate = (rate: number) => {
+      if (!isPlaying) {
+        playbackRate = rate;
+        return;
+      }
+      captureElapsed();
+      playbackRate = rate;
+      setAllAnimations((a) => { a.playbackRate = playbackRate; });
+      if (!isPaused) armEndTimer();
+    };
+
+    function stop() {
+      isPlaying = false;
+      isPaused = false;
+      shell?.classList.remove("playing");
+      clearEndTimer();
+      remainingNominalMs = CYCLE_MS;
+      playButton!.removeAttribute("disabled");
+      pauseButton!.setAttribute("disabled", "true");
+      pauseButton!.dataset.paused = "false";
+      pauseButton!.textContent = "⏸ إيقاف مؤقت";
+    }
+
+    const start = () => {
+      if (reducedMotion.matches) return;
+      isPlaying = true;
+      isPaused = false;
+      remainingNominalMs = CYCLE_MS;
+      shell?.classList.add("playing");
+      playButton!.setAttribute("disabled", "true");
+      pauseButton!.removeAttribute("disabled");
+      pauseButton!.dataset.paused = "false";
+      pauseButton!.textContent = "⏸ إيقاف مؤقت";
+      armEndTimer();
+    };
+
+    const restart = () => {
+      shell?.classList.remove("playing");
+      void (wrapper as HTMLElement).offsetWidth;
+      start();
+    };
+
+    playButton.addEventListener("click", start);
+    resetButton.addEventListener("click", restart);
+
+    pauseButton.addEventListener("click", () => {
+      if (!isPlaying) return;
+      if (isPaused) {
+        isPaused = false;
+        setAllAnimations((a) => a.play());
+        armEndTimer();
+        pauseButton.dataset.paused = "false";
+        pauseButton.textContent = "⏸ إيقاف مؤقت";
+      } else {
+        isPaused = true;
+        captureElapsed();
+        clearEndTimer();
+        setAllAnimations((a) => a.pause());
+        pauseButton.dataset.paused = "true";
+        pauseButton.textContent = "▶ استئناف";
+      }
+    });
+
+    speedUpButton?.addEventListener("click", () => setPlaybackRate(Math.min(playbackRate + 0.5, 3)));
+    speedDownButton?.addEventListener("click", () => setPlaybackRate(Math.max(playbackRate - 0.5, 0.25)));
+
+    const hotspots = Array.from(wrapper.querySelectorAll<HTMLElement>(".hotspot"));
+    const links = Array.from(wrapper.querySelectorAll<HTMLElement>(".link"));
+    const infoHint = wrapper.querySelector<HTMLElement>("[data-info-hint]");
+    const infoContent = wrapper.querySelector<HTMLElement>("[data-info-content]");
+    const infoTitle = wrapper.querySelector<HTMLElement>("[data-info-title]");
+    const infoText = wrapper.querySelector<HTMLElement>("[data-info-text]");
+    let selected: string | null = null;
+
+    const applyFocus = (id: string | null) => {
+      shell.classList.toggle("has-selection", !!id);
+      hotspots.forEach((h) => h.classList.toggle("is-selected", h.dataset.component === id));
+      links.forEach((l) => {
+        const related = id !== null && (l.dataset.link === id || l.dataset.linkTo === id);
+        l.classList.toggle("is-related", related);
+      });
+
+      if (!id || !infoHint || !infoContent || !infoTitle || !infoText) {
+        if (infoHint) infoHint.hidden = false;
+        if (infoContent) infoContent.hidden = true;
+        return;
+      }
+      const info = COMPONENT_INFO[id];
+      if (!info) return;
+      infoHint.hidden = true;
+      infoContent.hidden = false;
+      infoTitle.textContent = info.title;
+      infoText.textContent = info.text;
+    };
+
+    hotspots.forEach((hotspot) => {
+      const id = hotspot.dataset.component ?? null;
+      hotspot.addEventListener("mouseenter", () => {
+        if (!selected) applyFocus(id);
+      });
+      hotspot.addEventListener("mouseleave", () => {
+        if (!selected) applyFocus(null);
+      });
+      hotspot.addEventListener("focus", () => applyFocus(id));
+      hotspot.addEventListener("blur", () => {
+        if (!selected) applyFocus(null);
+      });
+      hotspot.addEventListener("click", () => {
+        selected = selected === id ? null : id;
+        applyFocus(selected);
+      });
+      hotspot.addEventListener("keydown", (event) => {
+        const key = (event as KeyboardEvent).key;
+        if (key === "Enter" || key === " ") {
+          event.preventDefault();
+          selected = selected === id ? null : id;
+          applyFocus(selected);
+        }
+      });
+    });
+  });
 </script>
