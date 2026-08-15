@@ -1,12 +1,20 @@
 ---
-// Animated Figure 2-16 (صور عرض شاشة الاوسيليسكوب للنوعين) — printed
-// page 37. Static artwork kept pixel-identical (same A-scan spike
-// panel, B-scan brightness-dot band, dashed correspondence guides).
-// Animation highlights each A-scan spike and then its corresponding
-// B-scan brightness dot directly below it, in left-to-right order —
-// teaching how amplitude-mode (A) and brightness-mode (B) display the
-// exact same returning echoes in two different ways.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-16 (صور عرض شاشة الاوسيليسكوب للنوعين) using the
+// Chapter 1 dark neumorphic simulator system. Reuses the shared
+// shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (A-scan spike panel, B-scan brightness-dot band,
+// correspondence guides identical to the prior build) — only
+// fill/stroke treatment and the interaction/animation layer changed.
+// Each pair's spike+dot+guide-line (previously three separate
+// same-class elements) is now one hotspot per pair.
+//
+// Color mapping: not a flow circuit — orange for every A-scan spike
+// (amplitude display) and blue for every B-scan dot (brightness
+// display), so the two display MODES stay visually distinct while each
+// pair's hotspot ties its own spike and dot together.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -15,100 +23,215 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram scan-comparison-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="sc-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="700"
-      height="360"
-      viewBox="0 0 700 360"
-      role="img"
-      aria-label="صور عرض شاشة الاوسيليسكوب للنوعين"
-    >
-      <rect x="0" y="0" width="700" height="360" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft scan-comparison-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مقارنة عرض A و B</span>
+      <span class="simulator-subtitle">شكل 2-16 — نفس الصدى بطريقتي عرض</span>
+    </div>
 
-      <rect x="40" y="20" width="620" height="150" fill="#fef9c3" stroke="#263238" stroke-width="2"></rect>
-      <line x1="60" y1="150" x2="640" y2="150" stroke="#263238" stroke-width="2"></line>
-      <path class="flow-highlight pair-1 a-spike" d="M 90,150 q 8,-100 16,-100 t 16,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight pair-2 a-spike" d="M 260,150 q 6,-40 12,-40 t 12,40" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight pair-3 a-spike" d="M 380,150 q 6,-30 12,-30 t 12,30" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight pair-4 a-spike" d="M 470,150 q 5,-45 10,-45 t 10,45" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight pair-4 a-spike" d="M 495,150 q 5,-55 10,-55 t 10,55" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight pair-5 a-spike" d="M 590,150 q 6,-35 12,-35 t 12,35" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <text x="350" y="190" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">(a)</text>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="sc-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="360"
+          viewBox="0 0 700 360"
+          role="img"
+          aria-label="صور عرض شاشة الاوسيليسكوب للنوعين"
+        >
+          <defs>
+            <linearGradient id="scBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="scGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="scPanelA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
+            <linearGradient id="scPanelB" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
 
-      <rect x="40" y="230" width="620" height="60" fill="#bae6fd" stroke="#263238" stroke-width="2"></rect>
-      <ellipse class="flow-highlight pair-1 b-dot" cx="270" cy="260" rx="16" ry="6" fill="#111827"></ellipse>
-      <ellipse class="flow-highlight pair-2 b-dot" cx="390" cy="260" rx="10" ry="5" fill="#111827"></ellipse>
-      <ellipse class="flow-highlight pair-3 b-dot" cx="478" cy="260" rx="7" ry="4" fill="#111827"></ellipse>
-      <ellipse class="flow-highlight pair-4 b-dot" cx="502" cy="260" rx="9" ry="5" fill="#111827"></ellipse>
-      <ellipse class="flow-highlight pair-5 b-dot" cx="598" cy="260" rx="11" ry="5" fill="#111827"></ellipse>
-      <text x="350" y="320" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">(b)</text>
+            <filter id="scGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight guides" stroke="#57606f" stroke-width="1" stroke-dasharray="3 3">
-        <line x1="270" y1="150" x2="270" y2="230"></line>
-        <line x1="390" y1="150" x2="390" y2="230"></line>
-        <line x1="490" y1="150" x2="490" y2="230"></line>
-        <line x1="598" y1="150" x2="598" y2="230"></line>
-      </g>
+          <rect x="0" y="0" width="700" height="360" rx="20" fill="url(#scBgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="360" rx="20" fill="url(#scGrid)"></rect>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.9s"></rect>
-      </g>
-    </svg>
+          <rect x="40" y="20" width="620" height="150" rx="10" fill="url(#scPanelA)" stroke="#2a3550" stroke-width="1.5"></rect>
+          <line x1="60" y1="150" x2="640" y2="150" stroke="#3a4258" stroke-width="2"></line>
+          <text x="350" y="190" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">(a)</text>
+
+          <rect x="40" y="230" width="620" height="60" rx="10" fill="url(#scPanelB)" stroke="#2a3550" stroke-width="1.5"></rect>
+          <text x="350" y="320" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">(b)</text>
+
+          <g class="hotspot" data-component="pair1" tabindex="0" role="button" aria-label="الصدى الأول">
+            <rect class="hit-area" x="85" y="45" width="205" height="225" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape a-spike" d="M 90,150 q 8,-100 16,-100 t 16,100" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <line class="guide" x1="270" y1="150" x2="270" y2="230" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3"></line>
+            <ellipse class="box-shape b-dot" cx="270" cy="260" rx="16" ry="6" fill="#38BDF8" filter="url(#scGlow)"></ellipse>
+          </g>
+
+          <g class="hotspot" data-component="pair2" tabindex="0" role="button" aria-label="الصدى الثاني">
+            <rect class="hit-area" x="255" y="105" width="150" height="165" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape a-spike" d="M 260,150 q 6,-40 12,-40 t 12,40" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <line class="guide" x1="390" y1="150" x2="390" y2="230" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3"></line>
+            <ellipse class="box-shape b-dot" cx="390" cy="260" rx="10" ry="5" fill="#38BDF8" filter="url(#scGlow)"></ellipse>
+          </g>
+
+          <g class="hotspot" data-component="pair3" tabindex="0" role="button" aria-label="الصدى الثالث">
+            <rect class="hit-area" x="375" y="115" width="120" height="155" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape a-spike" d="M 380,150 q 6,-30 12,-30 t 12,30" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <line class="guide" x1="490" y1="150" x2="490" y2="230" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3"></line>
+            <ellipse class="box-shape b-dot" cx="478" cy="260" rx="7" ry="4" fill="#38BDF8" filter="url(#scGlow)"></ellipse>
+          </g>
+
+          <g class="hotspot" data-component="pair4" tabindex="0" role="button" aria-label="الصدى الرابع (اشارتان متقاربتان)">
+            <rect class="hit-area" x="460" y="30" width="60" height="230" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape a-spike" d="M 470,150 q 5,-45 10,-45 t 10,45" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <path class="box-shape a-spike" d="M 495,150 q 5,-55 10,-55 t 10,55" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <ellipse class="box-shape b-dot" cx="502" cy="260" rx="9" ry="5" fill="#38BDF8" filter="url(#scGlow)"></ellipse>
+          </g>
+
+          <g class="hotspot" data-component="pair5" tabindex="0" role="button" aria-label="الصدى الخامس">
+            <rect class="hit-area" x="580" y="30" width="45" height="230" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape a-spike" d="M 590,150 q 6,-35 12,-35 t 12,35" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#scGlow)"></path>
+            <line class="guide" x1="598" y1="150" x2="598" y2="230" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3"></line>
+            <ellipse class="box-shape b-dot" cx="598" cy="260" rx="11" ry="5" fill="#38BDF8" filter="url(#scGlow)"></ellipse>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="pair1"><span class="status-dot dot-orange"></span><span class="status-label">صدى 1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pair2"><span class="status-dot dot-orange"></span><span class="status-label">صدى 2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pair3"><span class="status-dot dot-orange"></span><span class="status-label">صدى 3</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pair4"><span class="status-dot dot-orange"></span><span class="status-label">صدى 4</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pair5"><span class="status-dot dot-orange"></span><span class="status-label">صدى 5</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي صدى لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>عرض A (السعة)</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>عرض B (السطوع)</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .a-spike,
+  .hotspot:focus-visible .a-spike,
+  .hotspot.is-selected .a-spike {
+    stroke-width: 3.5;
   }
 
-  .sc-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .hotspot:hover .b-dot,
+  .hotspot:focus-visible .b-dot,
+  .hotspot.is-selected .b-dot {
+    filter: url(#scGlow) brightness(1.5);
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
+  .guide {
+    opacity: 0.4;
   }
 
-  .guides { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .pair-1 { --highlight-delay: 0.4s; --highlight-duration: 0.5s; }
-  .pair-2 { --highlight-delay: 0.9s; --highlight-duration: 0.5s; }
-  .pair-3 { --highlight-delay: 1.4s; --highlight-duration: 0.5s; }
-  .pair-4 { --highlight-delay: 1.9s; --highlight-duration: 0.5s; }
-  .pair-5 { --highlight-delay: 2.4s; --highlight-duration: 0.4s; }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes sc-glow-activate { to { filter: url(#scGlow) brightness(1.6); } }
+    @keyframes sc-status-value-on { to { opacity: 1; } }
+    @keyframes sc-status-value-off { to { opacity: 0; } }
+    @keyframes sc-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="pair1"] .box-shape { animation: sc-glow-activate 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="pair1"] .status-dot { animation: sc-dot-on-orange 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="pair1"] .value-on { animation: sc-status-value-on 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="pair1"] .value-off { animation: sc-status-value-off 0.4s ease-out 0.4s forwards; }
+
+    .playing [data-component="pair2"] .box-shape { animation: sc-glow-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="pair2"] .status-dot { animation: sc-dot-on-orange 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="pair2"] .value-on { animation: sc-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="pair2"] .value-off { animation: sc-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="pair3"] .box-shape { animation: sc-glow-activate 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="pair3"] .status-dot { animation: sc-dot-on-orange 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="pair3"] .value-on { animation: sc-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="pair3"] .value-off { animation: sc-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing [data-component="pair4"] .box-shape { animation: sc-glow-activate 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="pair4"] .status-dot { animation: sc-dot-on-orange 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="pair4"] .value-on { animation: sc-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="pair4"] .value-off { animation: sc-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing [data-component="pair5"] .box-shape { animation: sc-glow-activate 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="pair5"] .status-dot { animation: sc-dot-on-orange 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="pair5"] .value-on { animation: sc-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="pair5"] .value-off { animation: sc-status-value-off 0.4s ease-out 2.4s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".scan-comparison-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    pair1: {
+      title: "الصدى الأول: عرض A و B",
+      // src/data/chapter-02/page-10.json #a-scan-p2 / #b-scan-p1 (excerpt)
+      text: "نفس الصدى الصوتي يظهر كرأس (Spike) في عرض A حيث تمثل السعة كدالة للمسافة، وكنقطة سطوع (Dot) في عرض B على نفس الموقع الأفقي.",
+    },
+    pair2: {
+      title: "الصدى الثاني: عرض A و B",
+      text: "نفس الصدى الصوتي يظهر كرأس (Spike) في عرض A، وكنقطة سطوع (Dot) في عرض B على نفس الموقع الأفقي.",
+    },
+    pair3: {
+      title: "الصدى الثالث: عرض A و B",
+      text: "نفس الصدى الصوتي يظهر كرأس (Spike) في عرض A، وكنقطة سطوع (Dot) في عرض B على نفس الموقع الأفقي.",
+    },
+    pair4: {
+      title: "الصدى الرابع: عرض A و B",
+      text: "صدوان متقاربان في عرض A يظهران كرأسين متجاورين، بينما يندمجان في عرض B ضمن نقطة سطوع واحدة قريبة.",
+    },
+    pair5: {
+      title: "الصدى الخامس: عرض A و B",
+      text: "نفس الصدى الصوتي يظهر كرأس (Spike) في عرض A، وكنقطة سطوع (Dot) في عرض B على نفس الموقع الأفقي.",
+    },
+  };
+
+  wireDiagramSimulator(".scan-comparison-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
 </script>

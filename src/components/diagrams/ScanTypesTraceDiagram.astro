@@ -1,14 +1,22 @@
 ---
-// Animated Figure 2-18 (الاثر الذي تخلفه الانواع الثلاثة للتصوير فوق
-// الصوتي) — printed page 39. Static artwork kept pixel-identical (same
-// M-scan panel with transmitted-pulse bar, moving-target wavy trace,
-// stationary-target straight trace, and the corresponding A-scan strip
-// below). Animation highlights the transmitted pulse, then the two
-// M-scan traces (moving vs. stationary target — the wavy line is the
-// whole teaching point of M-mode, so it draws in with a visible
-// wobble), then the matching A-scan spikes underneath, tying the two
-// display modes to the same three signal events.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-18 (الاثر الذي تخلفه الانواع الثلاثة للتصوير فوق
+// الصوتي) using the Chapter 1 dark neumorphic simulator system. Reuses
+// the shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (M-scan panel, transmitted-pulse bar, moving/
+// stationary traces, corresponding A-scan spikes and guide lines
+// identical to the prior build) — only fill/stroke treatment and the
+// interaction/animation layer changed. Each M-scan trace and its own
+// corresponding A-scan spike (previously drawn as separate same-timed
+// elements) are grouped into one hotspot.
+//
+// Color mapping: not a flow circuit — white for the transmitted pulse,
+// blue for the moving-target trace (matches the moving-source Doppler
+// diagram's blue wave convention), orange for the stationary-target
+// trace (contrast color), tying each M-scan trace to its own A-scan
+// spike below it.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,108 +25,181 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram scan-types-trace-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="stt-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="700"
-      height="380"
-      viewBox="0 0 700 380"
-      role="img"
-      aria-label="الاثر الذي تخلفه الانواع الثلاثة للتصوير فوق الصوتي"
-    >
-      <rect x="0" y="0" width="700" height="380" fill="none"></rect>
-      <rect x="30" y="20" width="640" height="230" fill="#fef9c3" stroke="#263238" stroke-width="2"></rect>
+<figure class="diagram-block neo-surface-soft scan-types-trace-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة أنواع أثر المسح الصوري</span>
+      <span class="simulator-subtitle">شكل 2-18 — نمط M مع مسحه المقابل من نوع A</span>
+    </div>
 
-      <g class="flow-highlight tx-bar">
-        <rect x="90" y="40" width="14" height="190" fill="#111827"></rect>
-        <text x="97" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Transmitted pulse</text>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="stt-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="380"
+          viewBox="0 0 700 380"
+          role="img"
+          aria-label="الاثر الذي تخلفه الانواع الثلاثة للتصوير فوق الصوتي"
+        >
+          <defs>
+            <marker id="s18-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
 
-      <g class="flow-highlight moving-trace">
-        <path d="M 350,40 q 20,20 0,40 t 0,40 t 0,40 t 0,40 t 0,30"
-              fill="none" stroke="#263238" stroke-width="3"></path>
-        <text x="350" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Echo, moving target</text>
-      </g>
+            <linearGradient id="sttBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="sttGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="sttPanel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
 
-      <g class="flow-highlight stationary-trace">
-        <line x1="560" y1="40" x2="560" y2="230" stroke="#263238" stroke-width="3"></line>
-        <text x="560" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Echo, stationary target</text>
-      </g>
+            <filter id="sttGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <text x="220" y="30" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">M-scan</text>
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#sttBgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#sttGrid)"></rect>
 
-      <line x1="60" y1="330" x2="640" y2="330" stroke="#263238" stroke-width="2"></line>
-      <path class="flow-highlight a-scan-1" d="M 90,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight a-scan-2" d="M 343,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <path class="flow-highlight a-scan-3" d="M 553,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      <line x1="104" y1="330" x2="350" y2="330" stroke="#263238" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
-      <line x1="350" y1="330" x2="560" y2="330" stroke="#263238" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
-      <text x="360" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Corresponding A-scan</text>
+          <rect x="30" y="20" width="640" height="230" rx="10" fill="url(#sttPanel)" stroke="#2a3550" stroke-width="1.5"></rect>
+          <text x="220" y="30" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">M-scan</text>
 
-      <defs>
-        <marker id="s18-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+          <line x1="60" y1="330" x2="640" y2="330" stroke="#5b6478" stroke-width="2"></line>
+          <text x="360" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">Corresponding A-scan</text>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.2s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="txPulse" tabindex="0" role="button" aria-label="النبضة المرسلة">
+            <rect class="hit-area" x="40" y="35" width="315" height="300" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="90" y="40" width="14" height="190" fill="#eef1f8" filter="url(#sttGlow)"></rect>
+            <text x="97" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">Transmitted pulse</text>
+            <line class="guide" x1="104" y1="330" x2="350" y2="330" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
+            <path class="box-shape" d="M 90,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#eef1f8" stroke-width="2.5" filter="url(#sttGlow)"></path>
+          </g>
+
+          <g class="hotspot" data-component="movingTarget" tabindex="0" role="button" aria-label="اثر الهدف المتحرك">
+            <rect class="hit-area" x="285" y="35" width="280" height="300" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 350,40 q 20,20 0,40 t 0,40 t 0,40 t 0,40 t 0,30" fill="none" stroke="#38BDF8" stroke-width="3" filter="url(#sttGlow)"></path>
+            <text x="350" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Echo, moving target</text>
+            <line class="guide" x1="350" y1="330" x2="560" y2="330" stroke="#5b6478" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#s18-arrow)"></line>
+            <path class="box-shape" d="M 343,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#sttGlow)"></path>
+          </g>
+
+          <g class="hotspot" data-component="stationaryTarget" tabindex="0" role="button" aria-label="اثر الهدف الثابت">
+            <rect class="hit-area" x="530" y="30" width="60" height="240" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="560" y1="40" x2="560" y2="230" stroke="#FB923C" stroke-width="3" filter="url(#sttGlow)"></line>
+            <text x="560" y="255" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Echo, stationary target</text>
+            <path class="box-shape" d="M 553,330 q 7,-70 14,-70 t 14,70" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#sttGlow)"></path>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="txPulse"><span class="status-dot dot-white"></span><span class="status-label">النبضة المرسلة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="movingTarget"><span class="status-dot dot-blue"></span><span class="status-label">هدف متحرك</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="stationaryTarget"><span class="status-dot dot-orange"></span><span class="status-label">هدف ثابت</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي أثر لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#eef1f8"></span>النبضة المرسلة</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>هدف متحرك</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>هدف ثابت</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#sttGlow) brightness(1.6);
   }
 
-  .stt-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .guide {
+    opacity: 0.4;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes stt-glow-activate { to { filter: url(#sttGlow) brightness(1.6); } }
+    @keyframes stt-status-value-on { to { opacity: 1; } }
+    @keyframes stt-status-value-off { to { opacity: 0; } }
+    @keyframes stt-dot-on-white { to { background: #eef1f8; box-shadow: 0 0 8px 1px rgba(238, 241, 248, 0.8); } }
+    @keyframes stt-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes stt-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
 
-  .tx-bar { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .moving-trace { --highlight-delay: 0.7s; --highlight-duration: 0.7s; }
-  .stationary-trace { --highlight-delay: 1.5s; --highlight-duration: 0.5s; }
-  .a-scan-1 { --highlight-delay: 2.1s; --highlight-duration: 0.4s; }
-  .a-scan-2 { --highlight-delay: 2.5s; --highlight-duration: 0.4s; }
-  .a-scan-3 { --highlight-delay: 2.8s; --highlight-duration: 0.4s; }
+    .playing [data-component="txPulse"] .box-shape { animation: stt-glow-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="txPulse"] .status-dot { animation: stt-dot-on-white 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="txPulse"] .value-on { animation: stt-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="txPulse"] .value-off { animation: stt-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="movingTarget"] .box-shape { animation: stt-glow-activate 0.5s ease-out 0.7s forwards; }
+    .playing [data-status="movingTarget"] .status-dot { animation: stt-dot-on-blue 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="movingTarget"] .value-on { animation: stt-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="movingTarget"] .value-off { animation: stt-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="stationaryTarget"] .box-shape { animation: stt-glow-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="stationaryTarget"] .status-dot { animation: stt-dot-on-orange 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="stationaryTarget"] .value-on { animation: stt-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="stationaryTarget"] .value-off { animation: stt-status-value-off 0.4s ease-out 1.5s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".scan-types-trace-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    txPulse: {
+      title: "النبضة المرسلة",
+      // src/data/chapter-02/page-13.json #mt-scan-p1 (excerpt)
+      text: "نبضة كهربائية تحفز بلورة المجس ترسل نفس النبضة لتوليد او تحفيز اشارة الاوسلوسكوب الافقية (Sweep).",
+    },
+    movingTarget: {
+      title: "اثر الهدف المتحرك",
+      // src/data/chapter-02/page-13.json #mt-scan-p1 (excerpt)
+      text: "الجسم المتحرك يكون أثره متحركا مع الزمن، ويمكن للصدى المنعكس عن الاجسام المتحركة ان يرسم بدلالة الزمن لتكون منحنى زمن-حركة.",
+    },
+    stationaryTarget: {
+      title: "اثر الهدف الثابت",
+      // src/data/chapter-02/page-13.json #mt-scan-p1 (excerpt)
+      text: "اذا كان الهدف ثابتا سيكون أثره خط مستقيم.",
+    },
+  };
+
+  wireDiagramSimulator(".scan-types-trace-diagram", { cycleMs: 3200, componentInfo: COMPONENT_INFO });
 </script>
