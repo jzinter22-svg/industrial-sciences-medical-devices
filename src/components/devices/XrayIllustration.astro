@@ -1,69 +1,85 @@
 ---
-// Animated device-01 illustration (still picture X-ray machine). The
-// static artwork from public/assets/svg/chapter-01/devices/xray.svg is
-// reproduced exactly — same viewBox, same shapes, same colors, same
-// stroke widths — the tube head, arm, table, and console are all
-// mechanically stable. The only added behavior is a class hook on the
-// existing dashed beam lines: they already run tube -> table, so no
-// geometry needed to change, only a pulse-fade-pause loop. One element
-// was added (not part of the approved static artwork): a soft glow
-// behind the patient/table, timed just after the beam pulse, as the
-// "detector receiving the exposure" cue requested for visibility.
-import "../../styles/device-illustration-animations.css";
 ---
 
-<figure class="device-image device-illustration" data-device-animation="xray">
+<figure class="device-image device-illustration">
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="480"
-    height="270"
-    viewBox="0 0 480 270"
+    viewBox="0 0 512 512"
+    width="512"
+    height="512"
+    fill="none"
+    stroke="#22303A"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
     role="img"
     aria-label="جهاز الاشعة السينية ذات الصورة الثابتة"
   >
-    <g stroke="#263238" stroke-width="2.5" fill="none">
-      <line x1="120" y1="230" x2="120" y2="55"></line>
-      <line x1="112" y1="230" x2="112" y2="55"></line>
-      <rect x="98" y="230" width="38" height="10" rx="2" fill="#94a3b8" stroke="#263238"></rect>
+    <g id="floor-column">
+      <rect x="70" y="110" width="26" height="320" rx="4" fill="#D8E1E6"></rect>
+      <line x1="83" y1="126" x2="83" y2="424" stroke-width="2"></line>
+      <rect x="58" y="430" width="50" height="14" rx="3" fill="#BCC9D1"></rect>
     </g>
-
-    <line x1="70" y1="42" x2="430" y2="42" stroke="#57606f" stroke-width="4"></line>
-    <rect x="106" y="38" width="20" height="10" fill="#cbd5e1" stroke="#263238" stroke-width="1.5"></rect>
-
-    <g stroke="#263238" stroke-width="3" fill="none" stroke-linecap="round">
-      <line x1="116" y1="55" x2="230" y2="55"></line>
-      <circle cx="230" cy="55" r="6" fill="#cbd5e1" stroke="#263238"></circle>
-      <line x1="230" y1="55" x2="280" y2="95"></line>
-      <circle cx="280" cy="95" r="6" fill="#cbd5e1" stroke="#263238"></circle>
+    <g id="overhead-tube-arm">
+      <rect x="96" y="120" width="150" height="18" rx="4" fill="#D8E1E6"></rect>
+      <circle cx="102" cy="129" r="5" fill="#CFE2EC"></circle>
     </g>
-
-    <rect x="248" y="95" width="64" height="42" rx="10" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
-    <circle cx="280" cy="116" r="5" fill="#8DC2BE" stroke="#263238" stroke-width="1.5"></circle>
-
-    <path d="M 262,137 L 298,137 L 288,168 L 272,168 Z" fill="#cbd5e1" stroke="#263238" stroke-width="2"></path>
-
-    <g class="device-beam-discrete" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
-      <line x1="272" y1="168" x2="235" y2="205"></line>
-      <line x1="288" y1="168" x2="325" y2="205"></line>
+    <g id="tube-mount">
+      <rect x="222" y="136" width="14" height="26" fill="#D8E1E6"></rect>
+      <circle cx="229" cy="146" r="5" fill="#CFE2EC"></circle>
     </g>
-
-    <ellipse class="device-xray-exposure" cx="280" cy="205" rx="130" ry="22" fill="#1d4ed8" opacity="0"></ellipse>
-
-    <rect x="150" y="205" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
-    <line x1="170" y1="221" x2="170" y2="238" stroke="#263238" stroke-width="3"></line>
-    <line x1="390" y1="221" x2="390" y2="238" stroke="#263238" stroke-width="3"></line>
-
-    <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
-      <ellipse cx="228" cy="199" rx="12" ry="9"></ellipse>
-      <rect x="245" y="192" width="110" height="15" rx="7"></rect>
+    <g id="tube-head">
+      <rect x="182" y="160" width="96" height="56" rx="14" fill="#CFE2EC"></rect>
+      <rect x="182" y="160" width="96" height="12" rx="6" fill="#EEF2F4"></rect>
+      <line x1="200" y1="164" x2="200" y2="212" stroke-width="1.5"></line>
+      <line x1="222" y1="164" x2="222" y2="212" stroke-width="1.5"></line>
+      <line x1="244" y1="164" x2="244" y2="212" stroke-width="1.5"></line>
+      <circle cx="192" cy="188" r="4" fill="#22303A"></circle>
+      <rect x="182" y="178" width="8" height="20" rx="2" fill="#BCC9D1"></rect>
+      <rect x="270" y="178" width="8" height="20" rx="2" fill="#BCC9D1"></rect>
     </g>
-
-    <g stroke="#263238" stroke-width="2" fill="none">
-      <rect x="404" y="150" width="46" height="70" rx="4" fill="#e2e8f0"></rect>
-      <rect x="410" y="158" width="34" height="22" rx="2" fill="#1d4ed8" stroke="none"></rect>
-      <circle cx="418" cy="196" r="5" fill="#cbd5e1"></circle>
-      <circle cx="434" cy="196" r="5" fill="#cbd5e1"></circle>
-      <line x1="410" y1="210" x2="444" y2="210"></line>
+    <g id="collimator">
+      <rect x="212" y="216" width="34" height="14" fill="#D8E1E6"></rect>
+      <path d="M206 230 H252 L264 268 H194 Z" fill="#D8E1E6"></path>
+      <line x1="206" y1="247" x2="252" y2="247" stroke-width="1.5"></line>
+      <rect x="221" y="219" width="16" height="8" rx="1" fill="#EEF2F4"></rect>
+      <circle cx="229" cy="223" r="2" fill="#22303A"></circle>
+      <line x1="200" y1="260" x2="258" y2="260" stroke-width="1" opacity="0.6"></line>
+    </g>
+    <g id="beam-guide" opacity="0.5">
+      <path d="M198 268 L210 300 M258 268 L246 300" stroke-width="1.2" stroke-dasharray="4 5"></path>
+    </g>
+    <g id="patient-table">
+      <rect x="128" y="300" width="228" height="18" rx="5" fill="#EEF2F4"></rect>
+      <line x1="146" y1="309" x2="342" y2="309" stroke-width="1.5"></line>
+      <rect x="148" y="318" width="168" height="16" rx="3" fill="#CFE2EC"></rect>
+      <rect x="160" y="321" width="46" height="9" rx="2" fill="#EEF2F4"></rect>
+      <circle cx="336" cy="326" r="3.5" fill="#D8E1E6"></circle>
+      <rect x="330" y="300" width="20" height="6" rx="1" fill="#BCC9D1"></rect>
+    </g>
+    <g id="table-pedestal">
+      <rect x="212" y="334" width="52" height="102" fill="#D8E1E6"></rect>
+      <line x1="238" y1="340" x2="238" y2="432" stroke-width="2"></line>
+      <rect x="220" y="352" width="36" height="10" rx="2" fill="#CFE2EC"></rect>
+      <rect x="220" y="376" width="36" height="10" rx="2" fill="#CFE2EC"></rect>
+      <rect x="260" y="358" width="22" height="24" rx="3" fill="#EEF2F4"></rect>
+      <circle cx="267" cy="365" r="2.5" fill="#D8E1E6"></circle>
+      <circle cx="275" cy="365" r="2.5" fill="#D8E1E6"></circle>
+      <line x1="264" y1="375" x2="278" y2="375" stroke-width="1"></line>
+      <rect x="182" y="436" width="112" height="14" rx="3" fill="#BCC9D1"></rect>
+    </g>
+    <g id="wall-bucky-stand">
+      <rect x="396" y="150" width="16" height="286" rx="3" fill="#D8E1E6"></rect>
+      <line x1="404" y1="166" x2="404" y2="420" stroke-width="2"></line>
+      <rect x="384" y="210" width="80" height="120" rx="5" fill="#EEF2F4"></rect>
+      <rect x="396" y="222" width="56" height="96" rx="3" fill="#CFE2EC"></rect>
+      <line x1="404" y1="234" x2="444" y2="234" stroke-width="1.2"></line>
+      <line x1="404" y1="306" x2="444" y2="306" stroke-width="1.2"></line>
+      <rect x="418" y="332" width="28" height="8" rx="2" fill="#D8E1E6"></rect>
+      <rect x="388" y="172" width="32" height="8" rx="2" fill="#CFE2EC"></rect>
+      <line x1="404" y1="176" x2="404" y2="176" stroke-width="0"></line>
+      <circle cx="460" cy="270" r="3" fill="#22303A" opacity="0.4"></circle>
+      <rect x="372" y="436" width="96" height="14" rx="3" fill="#BCC9D1"></rect>
     </g>
   </svg>
 </figure>
