@@ -94,14 +94,53 @@ const { caption } = Astro.props;
               <stop offset="100%" stop-color="#12161f"></stop>
             </linearGradient>
 
+            <!-- Neumorphic depth: soft outer elevation shadow + a soft
+                 inner top-inset shadow bevel, combined in one filter
+                 graph (an SVG filter attribute can only reference one
+                 <filter>, so both effects live here rather than as two
+                 separate filters on each box). -->
             <filter id="elevate" x="-60%" y="-60%" width="220%" height="220%">
-              <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000000" flood-opacity="0.5"></feDropShadow>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="7" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInner"></feGaussianBlur>
+              <feOffset in="blurInner" dx="0" dy="2.5" result="offsetInner"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.4" result="colorInner"></feFlood>
+              <feComposite in="colorInner" in2="offsetInner" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+              </feMerge>
             </filter>
             <filter id="softGlow" x="-120%" y="-120%" width="340%" height="340%">
               <feGaussianBlur stdDeviation="6"></feGaussianBlur>
             </filter>
+            <!-- Used on the thin energy trails/particles: a blurred halo
+                 merged UNDER the crisp original, so the line itself stays
+                 thin and readable instead of smearing into a blob (which
+                 a bare feGaussianBlur, as used for softGlow above, would
+                 do to something this thin). -->
+            <filter id="lineGlow" x="-150%" y="-150%" width="400%" height="400%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
             <filter id="beamGlow" x="-150%" y="-80%" width="400%" height="260%">
-              <feGaussianBlur stdDeviation="4"></feGaussianBlur>
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
             </filter>
           </defs>
 
@@ -322,19 +361,24 @@ const { caption } = Astro.props;
     box-sizing: border-box;
   }
 
+  /* Diagram enlarged 15% over the prior pilot (620px -> 713px ceiling).
+     Only the ceiling moves — width stays 100% of the card, so this has
+     no effect at widths where the shell was already fluid (mobile);
+     verified via Playwright at 375/768/1024/1440 that the parent card
+     has room and nothing overflows/clips/overlaps. */
   .simulator-shell {
     width: 100%;
-    max-width: 620px;
+    max-width: 713px;
     border-radius: 18px;
-    padding: 0.9rem;
+    padding: 1rem;
     box-sizing: border-box;
     background: linear-gradient(155deg, #182236 0%, #0c1220 100%);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      0 14px 30px rgba(8, 12, 22, 0.35);
+      0 16px 34px rgba(8, 12, 22, 0.35);
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.8rem;
   }
 
   .simulator-toolbar {
@@ -416,11 +460,11 @@ const { caption } = Astro.props;
   }
 
   .status-panel {
-    flex: 0 0 148px;
+    flex: 0 0 170px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 12px;
-    padding: 0.6rem 0.55rem;
+    padding: 0.7rem 0.65rem;
     box-sizing: border-box;
     backdrop-filter: blur(6px);
   }
@@ -618,6 +662,10 @@ const { caption } = Astro.props;
   }
 
   .hotspot .box-shape {
+    /* Subdued by default so an active/hovered/selected component reads
+       as a clear focal point by contrast, per "inactive components
+       remain visible but subdued". */
+    filter: url(#elevate) saturate(0.82) brightness(0.93);
     transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.2s ease;
     transform-box: fill-box;
     transform-origin: center;
@@ -626,7 +674,7 @@ const { caption } = Astro.props;
   .hotspot:hover .box-shape,
   .hotspot:focus-visible .box-shape,
   .hotspot.is-selected .box-shape {
-    filter: url(#elevate) brightness(1.25);
+    filter: url(#elevate) saturate(1.1) brightness(1.3);
     transform: translateY(-3px);
   }
 
@@ -660,11 +708,14 @@ const { caption } = Astro.props;
      the sequence plays ---- */
   .trail {
     opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#lineGlow);
   }
 
   .particle {
     fill: #eef1f8;
     opacity: 0;
+    filter: url(#lineGlow);
   }
 
   .beam-ray {
@@ -702,7 +753,7 @@ const { caption } = Astro.props;
       to { stroke-dashoffset: -36; }
     }
     @keyframes box-activate {
-      to { filter: url(#elevate) brightness(1.2); }
+      to { filter: url(#elevate) saturate(1.1) brightness(1.3); }
     }
     @keyframes glow-in {
       to { opacity: 0.85; }
