@@ -1,13 +1,18 @@
 ---
-// Animated Figure 2-4 (العربة واقفة وصافرتها تشتغل — الطول الموجي للصوت لا
-// يتغير للمستمع الساكن) — printed page 28. Static artwork kept
-// pixel-identical. Animation ripples the four already-drawn concentric
-// wavefronts outward in emission order (innermost first) to show the
-// stationary source radiating evenly-spaced waves, then highlights the
-// unchanging sine trace and the stationary listener receiving the
-// signal — reusing the same ripple-fade technique built for the radar
-// diagram (Figure 2-2).
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-4 (العربة واقفة وصافرتها تشتغل — الطول الموجي
+// للصوت لا يتغير للمستمع الساكن) using the Chapter 1 dark neumorphic
+// simulator system. Reuses the shared shell/controller
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (ring radii, truck/listener positions, sine trace,
+// all labels identical to the prior build) — only fill/stroke treatment
+// and the interaction/animation layer changed.
+//
+// Color mapping: acoustic-wave physics, not an electrical circuit —
+// local legend: red = sound source (stationary vehicle), white/blue =
+// wavefronts, yellow = the listener (matches the source text's own
+// "اللون الأصفر" / yellow-observer convention).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -16,115 +21,229 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram doppler-stationary-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="ds-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="760"
-      height="360"
-      viewBox="0 0 760 360"
-      role="img"
-      aria-label="العربة واقفة وصافرتها تشتغل الطول الموجي للصوت لا يتغير للمستمع الساكن"
-    >
-      <defs>
-        <marker id="ds-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="760" height="360" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft doppler-stationary-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تأثير دوبلر — مصدر ساكن</span>
+      <span class="simulator-subtitle">شكل 2-4 — الطول الموجي لا يتغير للمستمع الساكن</span>
+    </div>
 
-      <g fill="none" stroke="#263238" stroke-width="2">
-        <circle class="ripple-ring ring-1" cx="330" cy="170" r="50"></circle>
-        <circle class="ripple-ring ring-2" cx="330" cy="170" r="90"></circle>
-        <circle class="ripple-ring ring-3" cx="330" cy="170" r="130"></circle>
-        <circle class="ripple-ring ring-4" cx="330" cy="170" r="170"></circle>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ds-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="360"
+          viewBox="0 0 760 360"
+          role="img"
+          aria-label="العربة واقفة وصافرتها تشتغل الطول الموجي للصوت لا يتغير للمستمع الساكن"
+        >
+          <defs>
+            <marker id="ds-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#f87171"></path>
+            </marker>
 
-      <g class="flow-highlight truck">
-        <rect x="290" y="150" width="80" height="35" rx="4" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
-        <rect x="300" y="130" width="35" height="24" rx="3" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
-        <circle cx="305" cy="188" r="9" fill="#263238"></circle>
-        <circle cx="355" cy="188" r="9" fill="#263238"></circle>
-      </g>
-      <text x="330" y="220" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">V=0</text>
+            <linearGradient id="dsBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dsGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dsGradTruck" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4a1414"></stop>
+              <stop offset="100%" stop-color="#2a0a0a"></stop>
+            </linearGradient>
+            <linearGradient id="dsGradListener" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332a10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
 
-      <path class="flow-highlight sine-trace" d="M 170,270 q 20,-25 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0" fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+            <filter id="dsElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="dsGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight listener">
-        <rect x="620" y="145" width="110" height="55" fill="#fde047" stroke="#263238" stroke-width="2"></rect>
-        <text x="675" y="168" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المستمع ساكن</text>
-        <text x="675" y="188" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">v=0</text>
-        <line x1="675" y1="135" x2="675" y2="105" stroke="#dc2626" stroke-width="3" marker-end="url(#ds-arrow)"></line>
-      </g>
+          <rect x="0" y="0" width="760" height="360" rx="20" fill="url(#dsBgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="360" rx="20" fill="url(#dsGrid)"></rect>
 
-      <text x="60" y="175" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">L1</text>
+          <g class="ripple-layer" fill="none" stroke="#7dd3fc" stroke-width="2" filter="url(#dsGlow)">
+            <circle class="ripple-ring ring-1" cx="330" cy="170" r="50"></circle>
+            <circle class="ripple-ring ring-2" cx="330" cy="170" r="90"></circle>
+            <circle class="ripple-ring ring-3" cx="330" cy="170" r="130"></circle>
+            <circle class="ripple-ring ring-4" cx="330" cy="170" r="170"></circle>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.7s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="source" tabindex="0" role="button" aria-label="مصدر الصوت الساكن">
+            <rect class="hit-area" x="280" y="120" width="100" height="90" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="290" y="150" width="80" height="35" rx="6" fill="url(#dsGradTruck)" stroke="#f87171" stroke-width="2" filter="url(#dsElevate)"></rect>
+            <rect class="box-shape" x="300" y="130" width="35" height="24" rx="4" fill="url(#dsGradTruck)" stroke="#f87171" stroke-width="2" filter="url(#dsElevate)"></rect>
+            <circle cx="305" cy="188" r="9" fill="#0d1420" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="355" cy="188" r="9" fill="#0d1420" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <text x="330" y="220" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#f87171" text-anchor="middle" direction="ltr">V=0</text>
+          </g>
+
+          <text x="60" y="175" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">L1</text>
+
+          <g class="hotspot" data-component="sineTrace" tabindex="0" role="button" aria-label="الموجة الصوتية">
+            <rect class="hit-area" x="150" y="235" width="350" height="60" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape sine-path" d="M 170,270 q 20,-25 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0 t 40,0" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#dsGlow)"></path>
+          </g>
+
+          <g class="hotspot" data-component="listener" tabindex="0" role="button" aria-label="المستمع الساكن">
+            <rect class="hit-area" x="600" y="95" width="150" height="115" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="620" y="145" width="110" height="55" rx="6" fill="url(#dsGradListener)" stroke="#FBBF24" stroke-width="2" filter="url(#dsElevate)"></rect>
+            <text x="675" y="168" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المستمع ساكن</text>
+            <text x="675" y="188" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">v=0</text>
+            <line x1="675" y1="135" x2="675" y2="105" stroke="#FBBF24" stroke-width="3" marker-end="url(#ds-arrow)"></line>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="source"><span class="status-dot dot-red"></span><span class="status-label">المصدر (V=0)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="sineTrace"><span class="status-dot dot-blue"></span><span class="status-label">الموجة الصوتية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="listener"><span class="status-dot dot-yellow"></span><span class="status-label">المستمع (v=0)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#f87171"></span>المصدر الساكن</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الموجة الصوتية</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>المستمع</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 460px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    transform: translateY(-2px) scale(1.02);
   }
 
-  .ds-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .ripple-ring {
+    opacity: 0;
   }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .truck { --highlight-delay: 0s; --highlight-duration: 0.5s; }
-  .sine-trace { --highlight-delay: 1.3s; --highlight-duration: 0.9s; }
-  .listener { --highlight-delay: 2.2s; --highlight-duration: 0.5s; }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes ripple-fade {
+    @keyframes ds-ripple-fade {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
     }
+    .playing .ring-1 { animation: ds-ripple-fade 0.45s ease-in-out 0.2s; }
+    .playing .ring-2 { animation: ds-ripple-fade 0.45s ease-in-out 0.55s; }
+    .playing .ring-3 { animation: ds-ripple-fade 0.45s ease-in-out 0.9s; }
+    .playing .ring-4 { animation: ds-ripple-fade 0.45s ease-in-out 1.25s; }
 
-    .playing .ring-1 { animation: ripple-fade 0.45s ease-in-out 0.2s; }
-    .playing .ring-2 { animation: ripple-fade 0.45s ease-in-out 0.55s; }
-    .playing .ring-3 { animation: ripple-fade 0.45s ease-in-out 0.9s; }
-    .playing .ring-4 { animation: ripple-fade 0.45s ease-in-out 1.25s; }
+    @keyframes ds-source-activate { to { filter: url(#dsElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes ds-glow-activate { to { filter: url(#dsGlow) brightness(1.5); } }
+    @keyframes ds-status-value-on { to { opacity: 1; } }
+    @keyframes ds-status-value-off { to { opacity: 0; } }
+    @keyframes ds-dot-on-red { to { background: #f87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes ds-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes ds-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="source"] .box-shape { animation: ds-source-activate 0.4s ease-out 0s forwards; }
+    .playing [data-status="source"] .status-dot { animation: ds-dot-on-red 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="source"] .value-on { animation: ds-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="source"] .value-off { animation: ds-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="sineTrace"] .sine-path { animation: ds-glow-activate 0.5s ease-out 1.3s forwards; }
+    .playing [data-status="sineTrace"] .status-dot { animation: ds-dot-on-blue 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="sineTrace"] .value-on { animation: ds-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="sineTrace"] .value-off { animation: ds-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="listener"] .box-shape { animation: ds-source-activate 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="listener"] .status-dot { animation: ds-dot-on-yellow 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="listener"] .value-on { animation: ds-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="listener"] .value-off { animation: ds-status-value-off 0.4s ease-out 2.2s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".doppler-stationary-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    source: {
+      title: "مصدر الصوت الساكن (V=0)",
+      // src/data/chapter-02/page-04.json #doppler-p1 (excerpt)
+      text: "العربة واقفة في المحطة وتشتغل صافرتها، وسرعة العربة صفراً (V=0).",
+    },
+    sineTrace: {
+      title: "الموجة الصوتية",
+      // src/data/chapter-02/page-04.json #doppler-p1 (excerpt)
+      text: "تأثير دوبلر ينص على ان شدة الصوت تزداد كلما اقتربنا من المصدر الصوتي وتقل بابتعادنا عنه؛ هنا الطول الموجي (λ) لا يتغير لأن المصدر ساكن.",
+    },
+    listener: {
+      title: "المستمع الساكن (v=0)",
+      // src/data/chapter-02/page-04.json #doppler-p1 (excerpt)
+      text: "الشخص المراقب (الممثل باللون الاصفر) الواقف امام العربة، فان شدة الصوت الذي يسمعه المراقب هي نفس شدة الصافرة الحقيقية، حيث سرعة المراقب صفراً (V=0).",
+    },
+  };
+
+  wireDiagramSimulator(".doppler-stationary-diagram", { cycleMs: 2700, componentInfo: COMPONENT_INFO });
 </script>

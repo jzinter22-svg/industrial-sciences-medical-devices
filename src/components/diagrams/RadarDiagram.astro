@@ -1,19 +1,17 @@
 ---
-// Animated Figure 2-2 (مخطط عمل الرادار) — printed page 24/25. The static
-// concentric-arc artwork is kept pixel-identical (same paths, same
-// viewBox, same proportions — nothing was resized or cropped); animation
-// is purely additive, matching Chapter 1's "reproduce the static SVG,
-// add class hooks + a flow-layer" convention.
+// Redesigned Figure 2-2 (مخطط عمل الرادار) using the Chapter 1 dark
+// neumorphic simulator system. Reuses the shared shell/controller
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
 //
-// Teaches the radar sequence described in the source text: the
-// sender/receiver emits a pulse (the red arcs ripple outward and a
-// particle travels along "موجه مرسله" toward the target), the wave
-// reaches the object (highlight), the object reflects it (the green
-// arcs ripple back and a particle travels along "موجه منعكسه" back
-// toward the sender), the receiver detects the return, and the
-// distance line is emphasized last since the round-trip is what the
-// distance measurement is actually derived from.
-import "../../styles/diagram-animations.css";
+// Geometry unchanged (arc radii, sender/object positions, all labels
+// identical to the prior build) — only fill/stroke treatment and the
+// interaction/animation layer changed.
+//
+// Color mapping: this is a radar/echo-ranging analogy, not an
+// electrical circuit, so it keeps its own local legend (established in
+// the prior build): red = outgoing wave, green = reflected wave, blue =
+// target object, purple = the sender/receiver unit.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -22,133 +20,291 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram radar-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="radar-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="760"
-      height="380"
-      viewBox="0 0 760 380"
-      role="img"
-      aria-label="مخطط عمل الرادار"
-    >
-      <defs>
-        <marker id="rd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="760" height="380" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft radar-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة عمل الرادار</span>
+      <span class="simulator-subtitle">شكل 2-2 — الارسال، الانعكاس، تحديد المسافة</span>
+    </div>
 
-      <!-- outgoing wave arcs (ripple outward when playing) -->
-      <g fill="none" stroke="#dc2626" stroke-width="3">
-        <path class="ripple-out ripple-out-1" d="M 120,180 A 60,60 0 0 1 120,220"></path>
-        <path class="ripple-out ripple-out-2" d="M 120,150 A 90,90 0 0 1 120,250"></path>
-        <path class="ripple-out ripple-out-3" d="M 120,120 A 120,120 0 0 1 120,280"></path>
-        <path class="ripple-out ripple-out-4" d="M 120,90 A 150,150 0 0 1 120,290"></path>
-      </g>
-      <!-- reflected wave arcs (ripple back toward sender when playing) -->
-      <g fill="none" stroke="#15803d" stroke-width="2.5" stroke-dasharray="6 5">
-        <path class="ripple-back ripple-back-1" d="M 120,160 A 75,75 0 0 1 120,240"></path>
-        <path class="ripple-back ripple-back-2" d="M 120,105 A 135,135 0 0 1 120,275"></path>
-        <path class="ripple-back ripple-back-3" d="M 120,75 A 165,165 0 0 1 120,290"></path>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="radar-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="380"
+          viewBox="0 0 760 380"
+          role="img"
+          aria-label="مخطط عمل الرادار"
+        >
+          <defs>
+            <marker id="rd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <marker id="rd-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#f87171"></path>
+            </marker>
+            <marker id="rd-arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#4ADE80"></path>
+            </marker>
 
-      <g class="flow-highlight sender-box">
-        <line x1="80" y1="200" x2="120" y2="170" stroke="#263238" stroke-width="2"></line>
-        <line x1="80" y1="200" x2="120" y2="230" stroke="#263238" stroke-width="2"></line>
-        <line x1="80" y1="170" x2="80" y2="230" stroke="#263238" stroke-width="2"></line>
-      </g>
-      <text x="65" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">مرسله</text>
-      <text x="65" y="248" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Sender/Receiver</text>
+            <linearGradient id="rdBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rdGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <radialGradient id="rdGradObject" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#1a2e46"></stop>
+              <stop offset="100%" stop-color="#0b1a2c"></stop>
+            </radialGradient>
 
-      <circle class="flow-highlight object-circle" cx="620" cy="200" r="18" fill="#1d4ed8" stroke="#263238" stroke-width="2"></circle>
-      <text x="655" y="195" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">الهدف</text>
-      <text x="655" y="213" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Object</text>
+            <filter id="rdElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="rdGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <line class="flow-highlight reflected-label-line" x1="740" y1="130" x2="600" y2="130" stroke="#15803d" stroke-width="3" marker-end="url(#rd-arrow)"></line>
-      <text x="670" y="115" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#15803d" text-anchor="middle" direction="rtl">موجه منعكسه</text>
-      <text x="670" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle" direction="ltr">reflected wave</text>
+          <rect x="0" y="0" width="760" height="380" rx="20" fill="url(#rdBgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="380" rx="20" fill="url(#rdGrid)"></rect>
 
-      <line class="flow-highlight sent-label-line" x1="150" y1="310" x2="500" y2="310" stroke="#dc2626" stroke-width="3" marker-end="url(#rd-arrow)"></line>
-      <text x="300" y="335" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">موجه مرسله</text>
+          <!-- outgoing wave arcs -->
+          <g class="ripple-layer" fill="none" stroke="#f87171" stroke-width="3" filter="url(#rdGlow)">
+            <path class="ripple-out ripple-out-1" d="M 120,180 A 60,60 0 0 1 120,220"></path>
+            <path class="ripple-out ripple-out-2" d="M 120,150 A 90,90 0 0 1 120,250"></path>
+            <path class="ripple-out ripple-out-3" d="M 120,120 A 120,120 0 0 1 120,280"></path>
+            <path class="ripple-out ripple-out-4" d="M 120,90 A 150,150 0 0 1 120,290"></path>
+          </g>
+          <!-- reflected wave arcs -->
+          <g class="ripple-layer" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 5" filter="url(#rdGlow)">
+            <path class="ripple-back ripple-back-1" d="M 120,160 A 75,75 0 0 1 120,240"></path>
+            <path class="ripple-back ripple-back-2" d="M 120,105 A 135,135 0 0 1 120,275"></path>
+            <path class="ripple-back ripple-back-3" d="M 120,75 A 165,165 0 0 1 120,290"></path>
+          </g>
 
-      <line class="flow-highlight distance-line" x1="120" y1="345" x2="620" y2="345" stroke="#263238" stroke-width="1.5" marker-end="url(#rd-arrow)" marker-start="url(#rd-arrow)"></line>
-      <text x="370" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">distance r</text>
+          <g class="hotspot" data-component="sender" tabindex="0" role="button" aria-label="المرسل والمستلم">
+            <rect class="hit-area" x="30" y="150" width="130" height="100" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 80,200 L 120,170 L 120,230 Z" fill="none" stroke="#C084FC" stroke-width="2.4" filter="url(#rdElevate)"></path>
+            <line x1="80" y1="170" x2="80" y2="230" stroke="#C084FC" stroke-width="2.4"></line>
+            <text x="65" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="end" direction="rtl">مرسله</text>
+            <text x="65" y="248" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="end" direction="ltr">Sender/Receiver</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p-out" cx="120" cy="215" r="6" style="--tx:500px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.9s"></circle>
-        <circle class="flow-particle p-back" cx="620" cy="185" r="6" style="--tx:-500px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.9s" fill="#15803d"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.6s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="object" tabindex="0" role="button" aria-label="جسم الهدف">
+            <circle class="box-shape" cx="620" cy="200" r="18" fill="url(#rdGradObject)" stroke="#38BDF8" stroke-width="2" filter="url(#rdElevate)"></circle>
+            <text x="655" y="195" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">الهدف</text>
+            <text x="655" y="213" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">Object</text>
+          </g>
+
+          <g class="hotspot" data-component="sentWave" tabindex="0" role="button" aria-label="الموجه المرسلة">
+            <rect class="hit-area" x="140" y="290" width="380" height="55" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="150" y1="310" x2="500" y2="310" stroke="#f87171" stroke-width="3" marker-end="url(#rd-arrow-red)" filter="url(#rdElevate)"></line>
+            <text x="300" y="335" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle" direction="rtl">موجه مرسله</text>
+          </g>
+
+          <g class="hotspot" data-component="reflectedWave" tabindex="0" role="button" aria-label="الموجه المنعكسة">
+            <rect class="hit-area" x="590" y="80" width="160" height="60" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="740" y1="130" x2="600" y2="130" stroke="#4ADE80" stroke-width="3" marker-end="url(#rd-arrow-green)" filter="url(#rdElevate)"></line>
+            <text x="670" y="115" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="rtl">موجه منعكسه</text>
+            <text x="670" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">reflected wave</text>
+          </g>
+
+          <g class="hotspot" data-component="distance" tabindex="0" role="button" aria-label="المسافة r">
+            <rect class="hit-area" x="110" y="325" width="520" height="45" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="120" y1="345" x2="620" y2="345" stroke="#eef1f8" stroke-width="1.5" marker-end="url(#rd-arrow)" marker-start="url(#rd-arrow)" filter="url(#rdElevate)"></line>
+            <text x="370" y="360" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">distance r</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle p-out" cx="120" cy="215" r="6" fill="#f87171" filter="url(#rdGlow)" style="--tx:500px; --ty:0px; --particle-delay:0.3s; --particle-duration:0.9s"></circle>
+            <circle class="flow-particle p-back" cx="620" cy="185" r="6" fill="#4ADE80" filter="url(#rdGlow)" style="--tx:-500px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.9s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="sender"><span class="status-dot dot-purple"></span><span class="status-label">المرسل/المستلم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="sentWave"><span class="status-dot dot-red"></span><span class="status-label">الموجه المرسلة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="object"><span class="status-dot dot-blue"></span><span class="status-label">جسم الهدف</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="reflectedWave"><span class="status-dot dot-green"></span><span class="status-label">الموجه المنعكسة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="distance"><span class="status-dot dot-white"></span><span class="status-label">تحديد المسافة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>المرسل/المستلم</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#f87171"></span>الموجه المرسلة</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الهدف</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الموجه المنعكسة</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#rdElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#rdElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
   }
 
-  .radar-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .flow-particle {
+    opacity: 0;
   }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .sender-box { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .sent-label-line { --highlight-delay: 0.3s; --highlight-duration: 0.9s; }
-  .object-circle { --highlight-delay: 1.2s; --highlight-duration: 0.6s; }
-  .reflected-label-line { --highlight-delay: 1.6s; --highlight-duration: 0.9s; }
-  .distance-line { --highlight-delay: 2.9s; --highlight-duration: 0.7s; }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes ripple-fade {
+    @keyframes rd-ripple-fade {
       0%, 100% { opacity: 0.35; }
       50% { opacity: 1; }
     }
+    .playing .ripple-out-1 { animation: rd-ripple-fade 0.5s ease-in-out 0.3s; }
+    .playing .ripple-out-2 { animation: rd-ripple-fade 0.5s ease-in-out 0.5s; }
+    .playing .ripple-out-3 { animation: rd-ripple-fade 0.5s ease-in-out 0.7s; }
+    .playing .ripple-out-4 { animation: rd-ripple-fade 0.5s ease-in-out 0.9s; }
+    .playing .ripple-back-3 { animation: rd-ripple-fade 0.5s ease-in-out 1.6s; }
+    .playing .ripple-back-2 { animation: rd-ripple-fade 0.5s ease-in-out 1.85s; }
+    .playing .ripple-back-1 { animation: rd-ripple-fade 0.5s ease-in-out 2.1s; }
 
-    .playing .ripple-out-1 { animation: ripple-fade 0.5s ease-in-out 0.3s; }
-    .playing .ripple-out-2 { animation: ripple-fade 0.5s ease-in-out 0.5s; }
-    .playing .ripple-out-3 { animation: ripple-fade 0.5s ease-in-out 0.7s; }
-    .playing .ripple-out-4 { animation: ripple-fade 0.5s ease-in-out 0.9s; }
+    @keyframes rd-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: rd-particle-move var(--particle-duration, 1s) ease-in-out var(--particle-delay, 0s) forwards;
+    }
 
-    .playing .ripple-back-3 { animation: ripple-fade 0.5s ease-in-out 1.6s; }
-    .playing .ripple-back-2 { animation: ripple-fade 0.5s ease-in-out 1.85s; }
-    .playing .ripple-back-1 { animation: ripple-fade 0.5s ease-in-out 2.1s; }
+    @keyframes rd-shape-activate { to { filter: url(#rdElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes rd-status-value-on { to { opacity: 1; } }
+    @keyframes rd-status-value-off { to { opacity: 0; } }
+    @keyframes rd-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes rd-dot-on-red { to { background: #f87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes rd-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes rd-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes rd-dot-on-white { to { background: #eef1f8; box-shadow: 0 0 8px 1px rgba(238, 241, 248, 0.8); } }
+
+    .playing [data-component="sender"] .box-shape { animation: rd-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sender"] .status-dot { animation: rd-dot-on-purple 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sender"] .value-on { animation: rd-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sender"] .value-off { animation: rd-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="sentWave"] .box-shape { animation: rd-shape-activate 0.5s ease-out 0.3s forwards; }
+    .playing [data-status="sentWave"] .status-dot { animation: rd-dot-on-red 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="sentWave"] .value-on { animation: rd-status-value-on 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="sentWave"] .value-off { animation: rd-status-value-off 0.4s ease-out 0.3s forwards; }
+
+    .playing [data-component="object"] .box-shape { animation: rd-shape-activate 0.5s ease-out 1.2s forwards; }
+    .playing [data-status="object"] .status-dot { animation: rd-dot-on-blue 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="object"] .value-on { animation: rd-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="object"] .value-off { animation: rd-status-value-off 0.4s ease-out 1.2s forwards; }
+
+    .playing [data-component="reflectedWave"] .box-shape { animation: rd-shape-activate 0.5s ease-out 1.6s forwards; }
+    .playing [data-status="reflectedWave"] .status-dot { animation: rd-dot-on-green 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="reflectedWave"] .value-on { animation: rd-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="reflectedWave"] .value-off { animation: rd-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-component="distance"] .box-shape { animation: rd-shape-activate 0.5s ease-out 2.9s forwards; }
+    .playing [data-status="distance"] .status-dot { animation: rd-dot-on-white 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="distance"] .value-on { animation: rd-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="distance"] .value-off { animation: rd-status-value-off 0.4s ease-out 2.9s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".radar-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    sender: {
+      title: "المرسل والمستلم (Sender/Receiver)",
+      // src/data/chapter-02/page-01.json #intro-p2 (excerpt)
+      text: "جهاز يستخدم لتحديد مواقع الأجسام بواسطة انعكاس الموجات الراديوية التي يولدها، ويستعمله السفن والطائرات وربابنة السفن.",
+    },
+    sentWave: {
+      title: "الموجه المرسلة",
+      // src/data/chapter-02/page-01.json #intro-p2 (excerpt)
+      text: "يوضح الشكل إرسال الموجات الراديوية من المرسل (Sender) الى جسم الهدف (Object).",
+    },
+    object: {
+      title: "جسم الهدف (Object)",
+      // src/data/chapter-02/page-01.json #intro-p2 (excerpt)
+      text: "الموجات المرسلة تصل الى جسم الهدف (Object) فتنعكس (Reflection) عنه.",
+    },
+    reflectedWave: {
+      title: "الموجه المنعكسة",
+      // src/data/chapter-02/page-01.json #intro-p2 (excerpt)
+      text: "تنعكس الموجات عن الهدف لتُستلم (Received) من نفس الجهاز.",
+    },
+    distance: {
+      title: "تحديد المسافة (Distance)",
+      // src/data/chapter-02/page-01.json #intro-p2 (excerpt)
+      text: "يتم استلام الموجة المنعكسة من نفس الجهاز لتحديد المسافة (Distance) كما موضح بالشكل.",
+    },
+  };
+
+  wireDiagramSimulator(".radar-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
 </script>

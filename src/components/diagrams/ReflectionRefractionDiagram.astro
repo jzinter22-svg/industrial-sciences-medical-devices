@@ -1,14 +1,20 @@
 ---
-// Animated Figure 2-3 (مخطط الضوء في السقوط والانعكاس والانكسار) —
-// printed page 25. Static artwork kept pixel-identical (same rays,
-// angle arcs, viewBox, proportions). Animation sequence follows the
-// physical order the text describes: an incident ray strikes the
-// boundary at O, then splits simultaneously into a reflected ray
-// (staying in the upper medium) and a refracted ray (bent toward the
-// normal as it enters the lower medium) — the two angle arcs for the
-// reflected/refracted rays appear together with their own ray, exactly
-// like Chapter 1's cause->effect timer-circuit sequencing.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-3 (مخطط الضوء في السقوط والانعكاس والانكسار) using
+// the Chapter 1 dark neumorphic simulator system. Reuses the shared
+// shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (ray endpoints, angle arcs, boundary line, all
+// labels identical to the prior build) — only fill/stroke treatment and
+// the interaction/animation layer changed.
+//
+// Color mapping: this is optics/acoustic-wave physics, not an
+// electrical circuit, so it uses its own local legend: white = incident
+// ray, green = reflected ray (matches the "reflected" = green
+// convention already established in the radar diagram), blue =
+// refracted ray (the ray that continues into the new medium), orange =
+// angle measurements.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,125 +23,218 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram reflection-refraction-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="rr-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="700"
-      height="460"
-      viewBox="0 0 700 460"
-      role="img"
-      aria-label="مخطط الضوء في السقوط والانعكاس والانكسار"
-    >
-      <defs>
-        <marker id="rr-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="700" height="460" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft reflection-refraction-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة السقوط والانعكاس والانكسار</span>
+      <span class="simulator-subtitle">شكل 2-3 — قوانين انعكاس وانكسار الموجات</span>
+    </div>
 
-      <rect x="60" y="190" width="580" height="200" fill="#bfdbfe"></rect>
-      <line x1="60" y1="190" x2="640" y2="190" stroke="#263238" stroke-width="2"></line>
-      <text x="120" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Air</text>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="rr-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="460"
+          viewBox="0 0 700 460"
+          role="img"
+          aria-label="مخطط الضوء في السقوط والانعكاس والانكسار"
+        >
+          <defs>
+            <marker id="rr-arrow-white" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#eef1f8"></path>
+            </marker>
+            <marker id="rr-arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#4ADE80"></path>
+            </marker>
+            <marker id="rr-arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#38BDF8"></path>
+            </marker>
 
-      <line x1="350" y1="60" x2="350" y2="420" stroke="#57606f" stroke-width="1.5"></line>
+            <linearGradient id="rrBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rrGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="rrGradWater" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
 
-      <g class="flow-highlight incident-ray">
-        <line x1="180" y1="90" x2="350" y2="190" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
-        <text x="185" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">I</text>
-        <rect x="120" y="105" width="90" height="26" fill="#fde047"></rect>
-        <text x="165" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع ساقط</text>
-      </g>
+            <filter id="rrGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight reflected-ray">
-        <line x1="350" y1="190" x2="520" y2="90" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
-        <text x="530" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">R¹</text>
-        <rect x="490" y="105" width="100" height="26" fill="#fde047"></rect>
-        <text x="540" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع منعكس</text>
-      </g>
+          <rect x="0" y="0" width="700" height="460" rx="20" fill="url(#rrBgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="460" rx="20" fill="url(#rrGrid)"></rect>
 
-      <g class="flow-highlight refracted-ray">
-        <line x1="350" y1="190" x2="420" y2="400" stroke="#dc2626" stroke-width="3" marker-end="url(#rr-arrow)"></line>
-        <text x="430" y="415" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">R</text>
-        <rect x="200" y="235" width="100" height="26" fill="#fde047"></rect>
-        <text x="250" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">شعاع منكسر</text>
-      </g>
+          <rect x="60" y="190" width="580" height="200" fill="url(#rrGradWater)"></rect>
+          <line x1="60" y1="190" x2="640" y2="190" stroke="#2a3550" stroke-width="2"></line>
+          <text x="120" y="170" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">Air</text>
 
-      <g class="flow-highlight angle-i">
-        <path d="M 320,190 A 30,30 0 0 1 335,163" fill="none" stroke="#ea580c" stroke-width="2"></path>
-        <text x="315" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">i</text>
-      </g>
-      <g class="flow-highlight angle-r1">
-        <path d="M 365,163 A 30,30 0 0 1 380,190" fill="none" stroke="#ea580c" stroke-width="2"></path>
-        <text x="378" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">r¹</text>
-      </g>
-      <g class="flow-highlight angle-r">
-        <path d="M 350,225 A 35,35 0 0 0 373,213" fill="none" stroke="#ea580c" stroke-width="2"></path>
-        <text x="375" y="235" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#ea580c" text-anchor="middle" direction="ltr">r</text>
-      </g>
+          <line x1="350" y1="60" x2="350" y2="420" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="4 4"></line>
 
-      <circle class="flow-highlight point-o" cx="350" cy="190" r="3" fill="#263238"></circle>
-      <text x="360" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">O</text>
+          <g class="hotspot" data-component="incidentRay" tabindex="0" role="button" aria-label="الشعاع الساقط">
+            <rect class="hit-area" x="110" y="60" width="260" height="90" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="180" y1="90" x2="350" y2="190" stroke="#eef1f8" stroke-width="3" marker-end="url(#rr-arrow-white)" filter="url(#rrGlow)"></line>
+            <text x="185" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">I</text>
+            <text x="165" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">شعاع ساقط</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p-incident" cx="180" cy="90" r="5" style="--tx:170px; --ty:100px; --particle-delay:0.1s; --particle-duration:0.8s"></circle>
-        <circle class="flow-particle p-reflected" cx="350" cy="190" r="5" style="--tx:170px; --ty:-100px; --particle-delay:1.1s; --particle-duration:0.7s"></circle>
-        <circle class="flow-particle p-refracted" cx="350" cy="190" r="5" style="--tx:70px; --ty:210px; --particle-delay:1.1s; --particle-duration:0.8s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.1s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="reflectedRay" tabindex="0" role="button" aria-label="الشعاع المنعكس">
+            <rect class="hit-area" x="350" y="60" width="240" height="130" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="350" y1="190" x2="520" y2="90" stroke="#4ADE80" stroke-width="3" marker-end="url(#rr-arrow-green)" filter="url(#rrGlow)"></line>
+            <text x="530" y="80" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">R¹</text>
+            <text x="540" y="123" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="rtl">شعاع منعكس</text>
+            <g class="angle-arc">
+              <path d="M 365,163 A 30,30 0 0 1 380,190" fill="none" stroke="#FB923C" stroke-width="2"></path>
+              <text x="378" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">r¹</text>
+            </g>
+          </g>
+
+          <g class="hotspot" data-component="refractedRay" tabindex="0" role="button" aria-label="الشعاع المنكسر">
+            <rect class="hit-area" x="180" y="190" width="260" height="230" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="350" y1="190" x2="420" y2="400" stroke="#38BDF8" stroke-width="3" marker-end="url(#rr-arrow-blue)" filter="url(#rrGlow)"></line>
+            <text x="430" y="415" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">R</text>
+            <text x="250" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">شعاع منكسر</text>
+            <g class="angle-arc">
+              <path d="M 350,225 A 35,35 0 0 0 373,213" fill="none" stroke="#FB923C" stroke-width="2"></path>
+              <text x="375" y="235" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">r</text>
+            </g>
+          </g>
+
+          <g class="angle-arc">
+            <path d="M 320,190 A 30,30 0 0 1 335,163" fill="none" stroke="#FB923C" stroke-width="2"></path>
+            <text x="315" y="172" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">i</text>
+          </g>
+
+          <circle cx="350" cy="190" r="3" fill="#eef1f8"></circle>
+          <text x="360" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">O</text>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle p-incident" cx="180" cy="90" r="5" fill="#eef1f8" filter="url(#rrGlow)" style="--tx:170px; --ty:100px; --particle-delay:0.1s; --particle-duration:0.8s"></circle>
+            <circle class="flow-particle p-reflected" cx="350" cy="190" r="5" fill="#4ADE80" filter="url(#rrGlow)" style="--tx:170px; --ty:-100px; --particle-delay:1.1s; --particle-duration:0.7s"></circle>
+            <circle class="flow-particle p-refracted" cx="350" cy="190" r="5" fill="#38BDF8" filter="url(#rrGlow)" style="--tx:70px; --ty:210px; --particle-delay:1.1s; --particle-duration:0.8s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="incidentRay"><span class="status-dot dot-white"></span><span class="status-label">شعاع ساقط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="reflectedRay"><span class="status-dot dot-green"></span><span class="status-label">شعاع منعكس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="refractedRay"><span class="status-dot dot-blue"></span><span class="status-label">شعاع منكسر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي شعاع في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#eef1f8"></span>شعاع ساقط</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>شعاع منعكس</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>شعاع منكسر</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>زاوية القياس</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    stroke-width: 4;
   }
 
-  .rr-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .flow-particle {
+    opacity: 0;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes rr-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: rr-particle-move var(--particle-duration, 0.8s) ease-out var(--particle-delay, 0s) forwards;
+    }
 
-  .incident-ray { --highlight-delay: 0.1s; --highlight-duration: 0.8s; }
-  .point-o { --highlight-delay: 0.9s; --highlight-duration: 0.3s; }
-  .reflected-ray, .angle-r1 { --highlight-delay: 1.1s; --highlight-duration: 0.7s; }
-  .refracted-ray, .angle-r { --highlight-delay: 1.1s; --highlight-duration: 0.8s; }
-  .angle-i { --highlight-delay: 0.7s; --highlight-duration: 0.4s; }
+    @keyframes rr-ray-glow { to { filter: url(#rrGlow) brightness(1.5); } }
+    @keyframes rr-status-value-on { to { opacity: 1; } }
+    @keyframes rr-status-value-off { to { opacity: 0; } }
+    @keyframes rr-dot-on-white { to { background: #eef1f8; box-shadow: 0 0 8px 1px rgba(238, 241, 248, 0.8); } }
+    @keyframes rr-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes rr-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="incidentRay"] .box-shape { animation: rr-ray-glow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="incidentRay"] .status-dot { animation: rr-dot-on-white 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="incidentRay"] .value-on { animation: rr-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="incidentRay"] .value-off { animation: rr-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="reflectedRay"] .box-shape { animation: rr-ray-glow 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="reflectedRay"] .status-dot { animation: rr-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="reflectedRay"] .value-on { animation: rr-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="reflectedRay"] .value-off { animation: rr-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="refractedRay"] .box-shape { animation: rr-ray-glow 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="refractedRay"] .status-dot { animation: rr-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="refractedRay"] .value-on { animation: rr-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="refractedRay"] .value-off { animation: rr-status-value-off 0.4s ease-out 1.1s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".reflection-refraction-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    incidentRay: {
+      title: "الشعاع الساقط (Incident)",
+      // src/data/chapter-02/page-02.json #velocity-intro (excerpt)
+      text: "اذا سلطت حزمة من الموجات الفوق صوتية على جسم ما فإنها تتبع نفس قوانين الضوء في الانعكاس والانكسار.",
+    },
+    reflectedRay: {
+      title: "الشعاع المنعكس (Reflection)",
+      // src/data/chapter-02/page-02.json #velocity-intro (excerpt)
+      text: "تتبع الموجات الفوق صوتية نفس قوانين الضوء في الانعكاس (Reflection) — جزء من الطاقة يرتد إلى الوسط الأول.",
+    },
+    refractedRay: {
+      title: "الشعاع المنكسر (Refraction)",
+      // src/data/chapter-02/page-02.json #velocity-intro (excerpt)
+      text: "تتبع الموجات الفوق صوتية نفس قوانين الضوء في الانكسار (Refraction) — جزء من الطاقة ينفذ إلى الوسط الثاني بزاوية مختلفة.",
+    },
+  };
+
+  wireDiagramSimulator(".reflection-refraction-diagram", { cycleMs: 2100, componentInfo: COMPONENT_INFO });
 </script>
