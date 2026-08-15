@@ -94,49 +94,67 @@ const { caption } = Astro.props;
               <stop offset="100%" stop-color="#12161f"></stop>
             </linearGradient>
 
-            <!-- Neumorphic depth: soft outer elevation shadow + a soft
-                 inner top-inset shadow bevel, combined in one filter
-                 graph (an SVG filter attribute can only reference one
-                 <filter>, so both effects live here rather than as two
-                 separate filters on each box). -->
-            <filter id="elevate" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blurOuter"></feGaussianBlur>
-              <feOffset in="blurOuter" dx="0" dy="7" result="offsetOuter"></feOffset>
-              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorOuter"></feFlood>
+            <!-- Neumorphic "raised" emboss: an outer dark shadow (bottom-
+                 right) PLUS an outer light halo (top-left, opposite the
+                 shadow — this pairing is what actually reads as an
+                 extruded/embossed surface rather than a flat card with a
+                 drop-shadow) plus a matching inner dark crease + inner
+                 light catch along the same diagonal, so the box itself
+                 looks domed/beveled, not flat. All in one filter graph
+                 (an SVG filter attribute can only reference one
+                 <filter>, so every layer lives here). -->
+            <filter id="elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
               <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
 
               <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
                 <feFuncA type="table" tableValues="1 0"></feFuncA>
               </feComponentTransfer>
-              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInner"></feGaussianBlur>
-              <feOffset in="blurInner" dx="0" dy="2.5" result="offsetInner"></feOffset>
-              <feFlood flood-color="#000000" flood-opacity="0.4" result="colorInner"></feFlood>
-              <feComposite in="colorInner" in2="offsetInner" operator="in" result="shadowInnerRaw"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
               <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.38" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
 
               <feMerge>
                 <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
                 <feMergeNode in="SourceGraphic"></feMergeNode>
                 <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
               </feMerge>
             </filter>
-            <filter id="softGlow" x="-120%" y="-120%" width="340%" height="340%">
-              <feGaussianBlur stdDeviation="6"></feGaussianBlur>
+            <filter id="softGlow" x="-140%" y="-140%" width="380%" height="380%">
+              <feGaussianBlur stdDeviation="9"></feGaussianBlur>
             </filter>
             <!-- Used on the thin energy trails/particles: a blurred halo
                  merged UNDER the crisp original, so the line itself stays
                  thin and readable instead of smearing into a blob (which
                  a bare feGaussianBlur, as used for softGlow above, would
                  do to something this thin). -->
-            <filter id="lineGlow" x="-150%" y="-150%" width="400%" height="400%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur"></feGaussianBlur>
+            <filter id="lineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"></feGaussianBlur>
               <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
                 <feMergeNode in="blur"></feMergeNode>
                 <feMergeNode in="SourceGraphic"></feMergeNode>
               </feMerge>
             </filter>
-            <filter id="beamGlow" x="-150%" y="-80%" width="400%" height="260%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
+            <filter id="beamGlow" x="-170%" y="-90%" width="440%" height="280%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5.5" result="blur"></feGaussianBlur>
               <feMerge>
                 <feMergeNode in="blur"></feMergeNode>
                 <feMergeNode in="SourceGraphic"></feMergeNode>
@@ -662,11 +680,11 @@ const { caption } = Astro.props;
   }
 
   .hotspot .box-shape {
-    /* Subdued by default so an active/hovered/selected component reads
-       as a clear focal point by contrast, per "inactive components
-       remain visible but subdued". */
-    filter: url(#elevate) saturate(0.82) brightness(0.93);
-    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.2s ease;
+    /* Still subdued relative to the active state (so activation reads
+       as a clear focal point), but no longer washed-out at rest —
+       colors stay present and readable, not flat/dull. */
+    filter: url(#elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.25s ease;
     transform-box: fill-box;
     transform-origin: center;
   }
@@ -674,8 +692,8 @@ const { caption } = Astro.props;
   .hotspot:hover .box-shape,
   .hotspot:focus-visible .box-shape,
   .hotspot.is-selected .box-shape {
-    filter: url(#elevate) saturate(1.1) brightness(1.3);
-    transform: translateY(-3px);
+    filter: url(#elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-5px) scale(1.015);
   }
 
   .hotspot:focus-visible .box-shape {
@@ -694,6 +712,7 @@ const { caption } = Astro.props;
 
   .box-active-glow {
     opacity: 0;
+    stroke-width: 5px;
     filter: url(#softGlow);
     transition: opacity 0.25s ease;
   }
@@ -701,14 +720,14 @@ const { caption } = Astro.props;
   .hotspot:hover .box-active-glow,
   .hotspot:focus-visible .box-active-glow,
   .hotspot.is-selected .box-active-glow {
-    opacity: 0.9;
+    opacity: 1;
   }
 
   /* ---- resting state: trails/particles/beam/needles fully inert until
      the sequence plays ---- */
   .trail {
     opacity: 0;
-    stroke-width: 2.5px;
+    stroke-width: 3px;
     filter: url(#lineGlow);
   }
 
@@ -753,10 +772,10 @@ const { caption } = Astro.props;
       to { stroke-dashoffset: -36; }
     }
     @keyframes box-activate {
-      to { filter: url(#elevate) saturate(1.1) brightness(1.3); }
+      to { filter: url(#elevate) saturate(1.35) brightness(1.45); }
     }
     @keyframes glow-in {
-      to { opacity: 0.85; }
+      to { opacity: 1; }
     }
     @keyframes status-value-on {
       to { opacity: 1; }
