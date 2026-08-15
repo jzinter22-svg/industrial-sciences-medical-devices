@@ -1,11 +1,16 @@
 ---
-// Animated Figure 2-11 (النمط النبضي للامواج الفوق صوتية) — printed page
-// 33. Static artwork kept pixel-identical (same axes, three pulse
-// bursts, spacing/duty-cycle annotations). Animation reveals the three
-// short bursts in left-to-right time order, exactly as an oscilloscope
-// trace would draw them — teaching the pulsed (burst-then-silence) duty
-// cycle that distinguishes this mode from Figure 2-12's continuous wave.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-11 (النمط النبضي للامواج الفوق صوتية) using the
+// Chapter 1 dark neumorphic simulator system. Reuses the shared
+// shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (axis, burst shapes/spacing, timing labels
+// identical to the prior build) — only fill/stroke treatment and the
+// interaction/animation layer changed.
+//
+// Color mapping: a single oscilloscope trace, not a flow circuit —
+// every burst uses the same blue "signal" accent.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -14,95 +19,182 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram pulsed-ultrasound-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="pu-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="700"
-      height="280"
-      viewBox="0 0 700 280"
-      role="img"
-      aria-label="النمط النبضي للامواج الفوق صوتية"
-    >
-      <defs>
-        <marker id="pu-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="700" height="280" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft pulsed-ultrasound-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة النمط النبضي للموجات</span>
+      <span class="simulator-subtitle">شكل 2-11 — نبضات قصيرة ومتتابعة</span>
+    </div>
 
-      <line x1="60" y1="140" x2="660" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#pu-arrow)"></line>
-      <line x1="60" y1="230" x2="60" y2="50" stroke="#263238" stroke-width="2" marker-end="url(#pu-arrow)"></line>
-      <text x="30" y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">السعة</text>
-      <text x="640" y="160" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">الزمن</text>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pu-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="280"
+          viewBox="0 0 700 280"
+          role="img"
+          aria-label="النمط النبضي للامواج الفوق صوتية"
+        >
+          <defs>
+            <marker id="pu-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
 
-      <g fill="none" stroke="#1d4ed8" stroke-width="2.5">
-        <path class="flow-highlight burst-1" d="M 100,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
-        <path class="flow-highlight burst-2" d="M 270,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
-        <path class="flow-highlight burst-3" d="M 440,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0"></path>
-      </g>
+            <linearGradient id="puBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="puGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-      <line x1="100" y1="185" x2="164" y2="185" stroke="#263238" stroke-width="1.5" marker-end="url(#pu-arrow)" marker-start="url(#pu-arrow)"></line>
-      <text x="132" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">1 μsec.</text>
+            <filter id="puGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <line x1="164" y1="60" x2="270" y2="60" stroke="#263238" stroke-width="1.2" stroke-dasharray="4 3"></line>
-      <text x="480" y="65" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">f=1KHz-12KHz</text>
+          <rect x="0" y="0" width="700" height="280" rx="20" fill="url(#puBgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="280" rx="20" fill="url(#puGrid)"></rect>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle" cx="60" cy="140" r="5" style="--tx:590px; --ty:0px; --particle-delay:0.1s; --particle-duration:1.8s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.2s"></rect>
-      </g>
-    </svg>
+          <line x1="60" y1="140" x2="660" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#pu-arrow)"></line>
+          <line x1="60" y1="230" x2="60" y2="50" stroke="#5b6478" stroke-width="2" marker-end="url(#pu-arrow)"></line>
+          <text x="30" y="60" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">السعة</text>
+          <text x="640" y="160" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">الزمن</text>
+
+          <g class="hotspot" data-component="burst1" tabindex="0" role="button" aria-label="النبضة الاولى">
+            <rect class="hit-area" x="85" y="70" width="60" height="140" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 100,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#puGlow)"></path>
+          </g>
+          <g class="hotspot" data-component="burst2" tabindex="0" role="button" aria-label="النبضة الثانية">
+            <rect class="hit-area" x="255" y="70" width="60" height="140" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 270,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#puGlow)"></path>
+          </g>
+          <g class="hotspot" data-component="burst3" tabindex="0" role="button" aria-label="النبضة الثالثة">
+            <rect class="hit-area" x="425" y="70" width="60" height="140" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 440,140 q 8,-45 16,0 t 16,0 t 16,0 t 16,0" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#puGlow)"></path>
+          </g>
+
+          <line x1="100" y1="185" x2="164" y2="185" stroke="#8b94aa" stroke-width="1.5" marker-end="url(#pu-arrow)" marker-start="url(#pu-arrow)"></line>
+          <text x="132" y="205" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">1 μsec.</text>
+
+          <line x1="164" y1="60" x2="270" y2="60" stroke="#5b6478" stroke-width="1.2" stroke-dasharray="4 3"></line>
+          <text x="480" y="65" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">f=1KHz-12KHz</text>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="60" cy="140" r="5" fill="#eef1f8" filter="url(#puGlow)" style="--tx:590px; --ty:0px; --particle-delay:0.1s; --particle-duration:1.8s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="burst1"><span class="status-dot dot-blue"></span><span class="status-label">النبضة الأولى</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="burst2"><span class="status-dot dot-blue"></span><span class="status-label">النبضة الثانية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="burst3"><span class="status-dot dot-blue"></span><span class="status-label">النبضة الثالثة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي نبضة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>النبضة الفوق صوتية</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    stroke-width: 3.5;
   }
 
-  .pu-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .flow-particle {
+    opacity: 0;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pu-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      5% { opacity: 1; }
+      95% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: pu-particle-move var(--particle-duration, 1.8s) linear var(--particle-delay, 0s) forwards;
+    }
 
-  .burst-1 { --highlight-delay: 0.2s; --highlight-duration: 0.5s; }
-  .burst-2 { --highlight-delay: 0.9s; --highlight-duration: 0.5s; }
-  .burst-3 { --highlight-delay: 1.6s; --highlight-duration: 0.5s; }
+    @keyframes pu-glow-activate { to { filter: url(#puGlow) brightness(1.6); } }
+    @keyframes pu-status-value-on { to { opacity: 1; } }
+    @keyframes pu-status-value-off { to { opacity: 0; } }
+    @keyframes pu-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="burst1"] .box-shape { animation: pu-glow-activate 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="burst1"] .status-dot { animation: pu-dot-on-blue 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="burst1"] .value-on { animation: pu-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="burst1"] .value-off { animation: pu-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="burst2"] .box-shape { animation: pu-glow-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="burst2"] .status-dot { animation: pu-dot-on-blue 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="burst2"] .value-on { animation: pu-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="burst2"] .value-off { animation: pu-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="burst3"] .box-shape { animation: pu-glow-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="burst3"] .status-dot { animation: pu-dot-on-blue 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="burst3"] .value-on { animation: pu-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="burst3"] .value-off { animation: pu-status-value-off 0.4s ease-out 1.6s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".pulsed-ultrasound-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    burst1: {
+      title: "النبضة الأولى",
+      // src/data/chapter-02/page-08.json #pulsed-p1 (excerpt)
+      text: "في هذا النمط ترسل الموجات الفوق صوتية على شكل نبضات قصيرة ومتتابعة بمعدل من (1kHz) الى (12kHz) ومدتها الزمنية حوالي (1μsec.).",
+    },
+    burst2: {
+      title: "النبضة الثانية",
+      // src/data/chapter-02/page-08.json #pulsed-p1 (excerpt)
+      text: "الصدى الراجع (الموجات المنعكسة) يعرض على شاشة الاوسلوسكوب كدالة للزمن، والذي يتناسب مع المسافة من مصدر الأمواج (المجس) والى الحد الفاصل للعضو المستهدف.",
+    },
+    burst3: {
+      title: "النبضة الثالثة",
+      // src/data/chapter-02/page-08.json #pulsed-p1 (excerpt)
+      text: "يمكن ان يستخدم هذا النمط في عرض حركة حدود العضو مع الزمن مثل حركة جدران القلب وصمامات القلب.",
+    },
+  };
+
+  wireDiagramSimulator(".pulsed-ultrasound-diagram", { cycleMs: 2200, componentInfo: COMPONENT_INFO });
 </script>
