@@ -1,16 +1,22 @@
 ---
-// Animated Figure 2-29 (الدائرة الالكترونية لمستقبلة وكاشف جهاز الصدى
-// الصوتي) — printed page 45. Static schematic kept pixel-identical
-// (this is the receiver figure the source PDF itself captions "الشكل
-// 29-2"; the delivery-monitor block diagram on the following page
-// shares that same caption number in the original textbook — a genuine
-// duplicate-numbering error preserved verbatim, see c2-fig-2-29b).
-// Animation highlights the returning-echo signal path in order: the
-// input transformer T1 picks up the echo, R1/R2/C1/C2 bias the first
-// amplifier Q1, T2 couples the signal to the detector stage
-// (C3/C4/R4/Q2/D1), and the R5-R8/C5-C8/D2 filter network smooths the
-// detected signal out to the circuit's output.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-29 (الدائرة الالكترونية لمستقبلة وكاشف جهاز
+// الصدى الصوتي) using the Chapter 1 dark neumorphic simulator system.
+// Reuses the shared shell/controller (src/styles/diagram-simulator.css
+// + src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (every component symbol, label, and wire at its
+// original coordinates — including the source's own duplicate caption
+// numbering with the delivery-monitor block diagram, preserved
+// verbatim per the original component's note) — only fill/stroke
+// treatment and the interaction/animation layer changed. The five
+// pre-existing stage groups become the five hotspots.
+//
+// Color mapping: an electrical-flow circuit — blue for the receive/
+// detect signal path (input transformer, detector, output), orange
+// for the amplifier transistor, purple for the audio filter network,
+// matching the color conventions already used in the echo-sounder and
+// fetal-pulse block diagrams.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -19,190 +25,291 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram receiver-circuit-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="rc-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="900"
-      height="380"
-      viewBox="0 0 900 380"
-      role="img"
-      aria-label="الدائرة الالكترونية لمستقبلة وكاشف جهاز الصدى الصوتي"
-    >
-      <rect x="0" y="0" width="900" height="380" fill="none"></rect>
-      <g fill="none" stroke="#263238" stroke-width="2">
-        <line x1="40" y1="60" x2="860" y2="60"></line>
-        <line x1="40" y1="300" x2="860" y2="300"></line>
-        <line x1="40" y1="60" x2="40" y2="300"></line>
+<figure class="diagram-block neo-surface-soft receiver-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة المستقبلة والكاشف</span>
+      <span class="simulator-subtitle">شكل 2-29 — من محول الدخل الى خرج الدائرة</span>
+    </div>
 
-        <g class="flow-highlight stage-input">
-          <text x="30" y="220" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Receiver</text>
-          <path d="M 60,180 a8,12 0 1 0 0,24 a8,12 0 1 0 0,24 a8,12 0 1 0 0,24" stroke-width="2"></path>
-          <text x="70" y="175" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">T1 3:1</text>
-          <line x1="60" y1="180" x2="60" y2="60"></line>
-          <line x1="60" y1="252" x2="60" y2="300"></line>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="rc-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="380"
+          viewBox="0 0 900 380"
+          role="img"
+          aria-label="الدائرة الالكترونية لمستقبلة وكاشف جهاز الصدى الصوتي"
+        >
+          <defs>
+            <linearGradient id="rcBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rcGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-          <line x1="60" y1="216" x2="110" y2="216"></line>
-          <line x1="110" y1="206" x2="110" y2="226"></line>
-          <line x1="118" y1="206" x2="118" y2="226"></line>
-          <text x="105" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C1</text>
+            <filter id="rcElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.55" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-          <line x1="140" y1="60" x2="140" y2="90"></line>
-          <path d="M 140,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <line x1="140" y1="112" x2="140" y2="216"></line>
-          <text x="150" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R1</text>
+          <rect x="0" y="0" width="900" height="380" rx="20" fill="url(#rcBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="380" rx="20" fill="url(#rcGrid)"></rect>
 
-          <line x1="170" y1="60" x2="170" y2="90"></line>
-          <path d="M 170,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <line x1="170" y1="112" x2="170" y2="216"></line>
-          <text x="180" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R2</text>
+          <g fill="none" stroke="#5b6478" stroke-width="2">
+            <line x1="40" y1="60" x2="860" y2="60"></line>
+            <line x1="40" y1="300" x2="860" y2="300"></line>
+            <line x1="40" y1="60" x2="40" y2="300"></line>
 
-          <line x1="118" y1="216" x2="170" y2="216"></line>
-          <line x1="140" y1="216" x2="140" y2="240"></line>
-          <line x1="130" y1="240" x2="150" y2="240"></line>
-          <line x1="130" y1="248" x2="150" y2="248"></line>
-          <text x="155" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C2</text>
-        </g>
+            <g class="hotspot" data-component="input" tabindex="0" role="button" aria-label="محول الدخل ومرحلة الانحياز">
+              <rect class="hit-area" x="15" y="55" width="180" height="250" fill="#000" fill-opacity="0"></rect>
+              <text x="30" y="220" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="end" direction="ltr">Receiver</text>
+              <path class="box-shape" d="M 60,180 a8,12 0 1 0 0,24 a8,12 0 1 0 0,24 a8,12 0 1 0 0,24" stroke="#38BDF8" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="70" y="175" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">T1 3:1</text>
+              <line x1="60" y1="180" x2="60" y2="60" stroke="#38BDF8"></line>
+              <line x1="60" y1="252" x2="60" y2="300" stroke="#38BDF8"></line>
 
-        <g class="flow-highlight stage-amp1">
-          <circle cx="220" cy="216" r="22" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <text x="220" y="185" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle">Q1</text>
-          <line x1="170" y1="216" x2="198" y2="216"></line>
+              <line x1="60" y1="216" x2="110" y2="216" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="110" y1="206" x2="110" y2="226" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="118" y1="206" x2="118" y2="226" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="105" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">C1</text>
 
-          <path d="M 260,180 a7,11 0 1 0 0,22 a7,11 0 1 0 0,22 a7,11 0 1 0 0,22" stroke-width="2"></path>
-          <text x="248" y="172" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">T2 3:1</text>
-          <line x1="242" y1="216" x2="260" y2="216"></line>
-          <line x1="260" y1="180" x2="260" y2="60"></line>
-          <line x1="260" y1="248" x2="260" y2="300"></line>
+              <line x1="140" y1="60" x2="140" y2="90" stroke="#38BDF8"></line>
+              <path class="box-shape" d="M 140,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#38BDF8" stroke-width="2" filter="url(#rcElevate)"></path>
+              <line x1="140" y1="112" x2="140" y2="216" stroke="#38BDF8"></line>
+              <text x="150" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">R1</text>
 
-          <line x1="220" y1="238" x2="220" y2="260"></line>
-          <line x1="210" y1="260" x2="230" y2="260"></line>
-          <line x1="210" y1="268" x2="230" y2="268"></line>
-          <line x1="220" y1="268" x2="220" y2="300"></line>
-          <text x="235" y="270" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C3</text>
-        </g>
+              <line x1="170" y1="60" x2="170" y2="90" stroke="#38BDF8"></line>
+              <path class="box-shape" d="M 170,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#38BDF8" stroke-width="2" filter="url(#rcElevate)"></path>
+              <line x1="170" y1="112" x2="170" y2="216" stroke="#38BDF8"></line>
+              <text x="180" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">R2</text>
 
-        <g class="flow-highlight stage-detector">
-          <line x1="290" y1="60" x2="290" y2="216"></line>
-          <line x1="280" y1="130" x2="300" y2="130"></line>
-          <line x1="280" y1="138" x2="300" y2="138"></line>
-          <text x="305" y="135" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C4</text>
-          <line x1="260" y1="216" x2="290" y2="216"></line>
+              <line x1="118" y1="216" x2="170" y2="216" stroke="#38BDF8"></line>
+              <line x1="140" y1="216" x2="140" y2="240" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="130" y1="240" x2="150" y2="240" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="130" y1="248" x2="150" y2="248" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="155" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">C2</text>
+            </g>
 
-          <line x1="340" y1="60" x2="340" y2="90"></line>
-          <path d="M 340,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <text x="350" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R4</text>
-          <line x1="340" y1="112" x2="340" y2="180"></line>
-          <circle cx="340" cy="205" r="22" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <text x="340" y="240" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle">Q2</text>
-          <line x1="340" y1="180" x2="340" y2="183"></line>
+            <g class="hotspot" data-component="amp1" tabindex="0" role="button" aria-label="مكبر الاشارة الاول">
+              <rect class="hit-area" x="195" y="55" width="90" height="250" fill="#000" fill-opacity="0"></rect>
+              <circle class="box-shape" cx="220" cy="216" r="22" fill="#332210" stroke="#FB923C" stroke-width="2" filter="url(#rcElevate)"></circle>
+              <text x="220" y="185" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C" text-anchor="middle">Q1</text>
+              <line x1="170" y1="216" x2="198" y2="216" stroke="#FB923C"></line>
 
-          <path d="M 340,140 L 355,150 L 340,160 Z" fill="#263238"></path>
-          <line x1="355" y1="138" x2="355" y2="162" stroke-width="2.5"></line>
-          <text x="365" y="145" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D1</text>
-        </g>
+              <path class="box-shape" d="M 260,180 a7,11 0 1 0 0,22 a7,11 0 1 0 0,22 a7,11 0 1 0 0,22" stroke="#FB923C" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="248" y="172" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C">T2 3:1</text>
+              <line x1="242" y1="216" x2="260" y2="216" stroke="#FB923C"></line>
+              <line x1="260" y1="180" x2="260" y2="60" stroke="#FB923C"></line>
+              <line x1="260" y1="248" x2="260" y2="300" stroke="#FB923C"></line>
 
-        <g class="flow-highlight stage-filter">
-          <line x1="390" y1="60" x2="390" y2="90"></line>
-          <path d="M 390,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <text x="400" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R5</text>
-          <line x1="390" y1="112" x2="390" y2="300"></line>
-          <path d="M 390,200 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <text x="400" y="230" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R6</text>
+              <line x1="220" y1="238" x2="220" y2="260" stroke="#FB923C"></line>
+              <line class="box-shape" x1="210" y1="260" x2="230" y2="260" stroke="#FB923C" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="210" y1="268" x2="230" y2="268" stroke="#FB923C" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line x1="220" y1="268" x2="220" y2="300" stroke="#FB923C"></line>
+              <text x="235" y="270" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C">C3</text>
+            </g>
 
-          <line x1="450" y1="60" x2="450" y2="300"></line>
-          <line x1="440" y1="150" x2="460" y2="150"></line>
-          <line x1="440" y1="158" x2="460" y2="158"></line>
-          <text x="465" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C5</text>
+            <g class="hotspot" data-component="detector" tabindex="0" role="button" aria-label="مرحلة الكشف">
+              <rect class="hit-area" x="255" y="55" width="120" height="190" fill="#000" fill-opacity="0"></rect>
+              <line x1="290" y1="60" x2="290" y2="216" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="280" y1="130" x2="300" y2="130" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="280" y1="138" x2="300" y2="138" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="305" y="135" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">C4</text>
+              <line x1="260" y1="216" x2="290" y2="216" stroke="#38BDF8"></line>
 
-          <line x1="510" y1="60" x2="510" y2="300"></line>
-          <line x1="500" y1="150" x2="520" y2="150"></line>
-          <line x1="500" y1="158" x2="520" y2="158"></line>
-          <text x="525" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C6</text>
+              <line x1="340" y1="60" x2="340" y2="90" stroke="#38BDF8"></line>
+              <path class="box-shape" d="M 340,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#38BDF8" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="350" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">R4</text>
+              <line x1="340" y1="112" x2="340" y2="180" stroke="#38BDF8"></line>
+              <circle class="box-shape" cx="340" cy="205" r="22" fill="#0f1729" stroke="#38BDF8" stroke-width="2" filter="url(#rcElevate)"></circle>
+              <text x="340" y="240" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle">Q2</text>
+              <line x1="340" y1="180" x2="340" y2="183" stroke="#38BDF8"></line>
 
-          <path d="M 550,140 L 565,150 L 550,160 Z" fill="#263238"></path>
-          <line x1="565" y1="138" x2="565" y2="162" stroke-width="2.5"></line>
-          <text x="575" y="145" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D2</text>
+              <path class="box-shape" d="M 340,140 L 355,150 L 340,160 Z" fill="#38BDF8" filter="url(#rcElevate)"></path>
+              <line x1="355" y1="138" x2="355" y2="162" stroke-width="2.5" stroke="#38BDF8"></line>
+              <text x="365" y="145" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">D1</text>
+            </g>
 
-          <line x1="610" y1="60" x2="610" y2="90"></line>
-          <path d="M 610,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <text x="620" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R7</text>
-          <line x1="610" y1="112" x2="610" y2="300"></line>
-          <line x1="660" y1="60" x2="660" y2="90"></line>
-          <path d="M 660,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke-width="2"></path>
-          <text x="670" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">R8</text>
-          <line x1="660" y1="112" x2="660" y2="300"></line>
-        </g>
+            <g class="hotspot" data-component="filter" tabindex="0" role="button" aria-label="مرشح الاشارة">
+              <rect class="hit-area" x="380" y="55" width="300" height="250" fill="#000" fill-opacity="0"></rect>
+              <line x1="390" y1="60" x2="390" y2="90" stroke="#C084FC"></line>
+              <path class="box-shape" d="M 390,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#C084FC" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="400" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">R5</text>
+              <line x1="390" y1="112" x2="390" y2="300" stroke="#C084FC"></line>
+              <path class="box-shape" d="M 390,200 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#C084FC" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="400" y="230" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">R6</text>
 
-        <g class="flow-highlight stage-output">
-          <line x1="710" y1="60" x2="710" y2="140"></line>
-          <line x1="700" y1="140" x2="720" y2="140"></line>
-          <line x1="700" y1="148" x2="720" y2="148"></line>
-          <text x="695" y="130" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C8</text>
-          <line x1="710" y1="148" x2="710" y2="180"></line>
-          <line x1="710" y1="180" x2="860" y2="180"></line>
-        </g>
-      </g>
-      <text x="150" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">مستلمة الموجات فوق الصوتي</text>
-      <text x="500" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">الكاشف</text>
-      <text x="780" y="200" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">خرج الدائرة</text>
+              <line x1="450" y1="60" x2="450" y2="300" stroke="#C084FC"></line>
+              <line class="box-shape" x1="440" y1="150" x2="460" y2="150" stroke="#C084FC" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="440" y1="158" x2="460" y2="158" stroke="#C084FC" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="465" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">C5</text>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 4.4s"></rect>
-      </g>
-    </svg>
+              <line x1="510" y1="60" x2="510" y2="300" stroke="#C084FC"></line>
+              <line class="box-shape" x1="500" y1="150" x2="520" y2="150" stroke="#C084FC" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="500" y1="158" x2="520" y2="158" stroke="#C084FC" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="525" y="155" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">C6</text>
+
+              <path class="box-shape" d="M 550,140 L 565,150 L 550,160 Z" fill="#C084FC" filter="url(#rcElevate)"></path>
+              <line x1="565" y1="138" x2="565" y2="162" stroke-width="2.5" stroke="#C084FC"></line>
+              <text x="575" y="145" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">D2</text>
+
+              <line x1="610" y1="60" x2="610" y2="90" stroke="#C084FC"></line>
+              <path class="box-shape" d="M 610,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#C084FC" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="620" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">R7</text>
+              <line x1="610" y1="112" x2="610" y2="300" stroke="#C084FC"></line>
+              <line x1="660" y1="60" x2="660" y2="90" stroke="#C084FC"></line>
+              <path class="box-shape" d="M 660,90 l 7,5 -14,6 14,6 -14,6 7,5" stroke="#C084FC" stroke-width="2" filter="url(#rcElevate)"></path>
+              <text x="670" y="95" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">R8</text>
+              <line x1="660" y1="112" x2="660" y2="300" stroke="#C084FC"></line>
+            </g>
+
+            <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="خرج الدائرة">
+              <rect class="hit-area" x="685" y="55" width="180" height="140" fill="#000" fill-opacity="0"></rect>
+              <line x1="710" y1="60" x2="710" y2="140" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="700" y1="140" x2="720" y2="140" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <line class="box-shape" x1="700" y1="148" x2="720" y2="148" stroke="#38BDF8" stroke-width="3" filter="url(#rcElevate)"></line>
+              <text x="695" y="130" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">C8</text>
+              <line x1="710" y1="148" x2="710" y2="180" stroke="#38BDF8"></line>
+              <line x1="710" y1="180" x2="860" y2="180" stroke="#38BDF8"></line>
+            </g>
+          </g>
+          <text x="150" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مستلمة الموجات فوق الصوتي</text>
+          <text x="500" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الكاشف</text>
+          <text x="780" y="200" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">خرج الدائرة</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="input"><span class="status-dot dot-blue"></span><span class="status-label">محول الدخل T1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="amp1"><span class="status-dot dot-orange"></span><span class="status-label">مكبر الاشارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="detector"><span class="status-dot dot-blue"></span><span class="status-label">الكاشف</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filter"><span class="status-dot dot-purple"></span><span class="status-label">مرشح الاشارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="output"><span class="status-dot dot-blue"></span><span class="status-label">خرج الدائرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الاستقبال والكشف</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التكبير</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الترشيح</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 680px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#rcElevate) brightness(1.5) !important;
   }
 
-  .rc-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes rc-glow-activate { to { filter: url(#rcElevate) brightness(1.55); } }
+    @keyframes rc-status-value-on { to { opacity: 1; } }
+    @keyframes rc-status-value-off { to { opacity: 0; } }
+    @keyframes rc-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes rc-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes rc-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+    .playing [data-component="input"] .box-shape { animation: rc-glow-activate 0.6s ease-out 0.1s forwards; }
+    .playing [data-status="input"] .status-dot { animation: rc-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="input"] .value-on { animation: rc-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="input"] .value-off { animation: rc-status-value-off 0.4s ease-out 0.1s forwards; }
 
-  .stage-input { --highlight-delay: 0.1s; --highlight-duration: 0.7s; }
-  .stage-amp1 { --highlight-delay: 1.0s; --highlight-duration: 0.6s; }
-  .stage-detector { --highlight-delay: 1.8s; --highlight-duration: 0.7s; }
-  .stage-filter { --highlight-delay: 2.7s; --highlight-duration: 0.8s; }
-  .stage-output { --highlight-delay: 3.7s; --highlight-duration: 0.5s; }
+    .playing [data-component="amp1"] .box-shape { animation: rc-glow-activate 0.5s ease-out 1.0s forwards; }
+    .playing [data-status="amp1"] .status-dot { animation: rc-dot-on-orange 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="amp1"] .value-on { animation: rc-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="amp1"] .value-off { animation: rc-status-value-off 0.4s ease-out 1.0s forwards; }
+
+    .playing [data-component="detector"] .box-shape { animation: rc-glow-activate 0.6s ease-out 1.8s forwards; }
+    .playing [data-status="detector"] .status-dot { animation: rc-dot-on-blue 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="detector"] .value-on { animation: rc-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="detector"] .value-off { animation: rc-status-value-off 0.4s ease-out 1.8s forwards; }
+
+    .playing [data-component="filter"] .box-shape { animation: rc-glow-activate 0.7s ease-out 2.7s forwards; }
+    .playing [data-status="filter"] .status-dot { animation: rc-dot-on-purple 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="filter"] .value-on { animation: rc-status-value-on 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="filter"] .value-off { animation: rc-status-value-off 0.4s ease-out 2.7s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: rc-glow-activate 0.4s ease-out 3.7s forwards; }
+    .playing [data-status="output"] .status-dot { animation: rc-dot-on-blue 0.4s ease-out 3.7s forwards; }
+    .playing [data-status="output"] .value-on { animation: rc-status-value-on 0.4s ease-out 3.7s forwards; }
+    .playing [data-status="output"] .value-off { animation: rc-status-value-off 0.4s ease-out 3.7s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".receiver-circuit-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    input: {
+      title: "محول الدخل T1 (مستقبلة الموجات)",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "تستلم الموجات المنعكسة (الصدى الصوتي) وحسب تاثير دوبلر فتدخل الى دائرة الكاشف لنحصل على الفرق بين ترددي المرسلة والمستقبلة.",
+    },
+    amp1: {
+      title: "مكبر الاشارة الاول (Q1)",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "الاشارة المستلمة تحتاج الى تكبير قبل الكشف عن الفرق بين ترددي المرسلة والمستقبلة.",
+    },
+    detector: {
+      title: "مرحلة الكشف (T2, Q2, D1)",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "الكاشف (Detector) يستقبل الموجات فوق الصوتية محملة بنبضات الجنين، وقيمة الفرق بين ترددي المرسلة والمستقبلة (±Δf) هو موجات صوتية ذات تردد واطئ.",
+    },
+    filter: {
+      title: "مرشح الاشارة (R5-R8, C5-C8, D2)",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "بعد ان تتحول الاشارة الى موجات سمعية لترشح وتكبر لسماعها عن طريق السماعة الطبية او مباشرة من خلال المجهر الصوتي.",
+    },
+    output: {
+      title: "خرج الدائرة",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "الشكل يوضح الدائرة الالكترونية لوحدة المستقبلة والكاشف والتي منها تخرج الاشارة السمعية.",
+    },
+  };
+
+  wireDiagramSimulator(".receiver-circuit-diagram", { cycleMs: 4400, componentInfo: COMPONENT_INFO });
 </script>
