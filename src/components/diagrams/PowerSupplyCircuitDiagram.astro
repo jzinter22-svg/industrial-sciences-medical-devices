@@ -1,14 +1,22 @@
 ---
-// Animated Figure 2-27 (الدائرة الالكترونية لمجهز قدرة جهاز نبض الجنين)
-// — printed page 47. Static schematic kept pixel-identical (every
-// component symbol, label, and wire at its original coordinates —
-// nothing redrawn, resized, or simplified). Animation highlights the
-// circuit in electrical-flow order, matching Chapter 1's kV/mA control
-// circuit treatment: AC input -> rectifier (D1/D2) -> filter (C1) ->
-// series-pass regulator (Q1/Q2/R1/R2) -> zener voltage reference
-// (Q3/R3/VR1) -> regulated output through the switch/meter branch
-// (D5/SW/R6/VR3/M/C3) to the output terminal P.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-27 (الدائرة الالكترونية لمجهز قدرة جهاز نبض
+// الجنين) using the Chapter 1 dark neumorphic simulator system. Reuses
+// the shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (every component symbol, label, and wire at its
+// original coordinates — nothing redrawn, resized, or simplified) —
+// only fill/stroke treatment and the interaction/animation layer
+// changed. The six pre-existing stage groups (rectifier, filter,
+// regulator, reference, battery, output) become the six hotspots.
+//
+// Color mapping: an electrical-flow circuit, following Chapter 1's
+// kV/mA control convention — orange for the rectifier (AC->DC
+// conversion), blue for the filter and the current path through the
+// output stage, green for the series-pass regulator (voltage control),
+// purple for the zener reference (precision), yellow for the battery
+// (power storage).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,192 +25,315 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram power-supply-circuit-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="pc-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="820"
-      height="480"
-      viewBox="0 0 820 480"
-      role="img"
-      aria-label="الدائرة الالكترونية لمجهز قدرة جهاز نبض الجنين"
-    >
-      <defs>
-        <marker id="ps-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="820" height="480" fill="none"></rect>
-      <g fill="none" stroke="#263238" stroke-width="2">
+<figure class="diagram-block neo-surface-soft power-supply-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة مجهز القدرة</span>
+      <span class="simulator-subtitle">شكل 2-27 — من التوحيد الى الخرج المنظم</span>
+    </div>
 
-        <line x1="60" y1="215" x2="60" y2="410" stroke-width="2"></line>
-        <line x1="60" y1="410" x2="820" y2="410" stroke-width="2"></line>
-        <text x="30" y="425" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238">E</text>
-        <circle cx="60" cy="410" r="3" fill="#263238"></circle>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pc-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="480"
+          viewBox="0 0 820 480"
+          role="img"
+          aria-label="الدائرة الالكترونية لمجهز قدرة جهاز نبض الجنين"
+        >
+          <defs>
+            <marker id="ps-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
 
-        <g class="flow-highlight stage-rectifier">
-          <text x="35" y="235" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">AC</text>
-          <circle cx="60" cy="215" r="3" fill="#263238"></circle>
-          <circle cx="60" cy="255" r="3" fill="#263238"></circle>
-          <line x1="60" y1="215" x2="60" y2="255"></line>
-          <line x1="60" y1="215" x2="100" y2="215"></line>
-          <line x1="60" y1="255" x2="100" y2="255"></line>
-          <path d="M 100,205 L 100,225 L 118,215 Z" fill="#263238"></path>
-          <line x1="118" y1="203" x2="118" y2="227" stroke-width="3"></line>
-          <text x="80" y="200" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">D1</text>
-          <path d="M 100,245 L 100,265 L 118,255 Z" fill="#263238"></path>
-          <line x1="118" y1="243" x2="118" y2="267" stroke-width="3"></line>
-          <text x="80" y="280" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">D2</text>
-        </g>
+            <linearGradient id="pcBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pcGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-        <g class="flow-highlight stage-filter">
-          <line x1="118" y1="215" x2="150" y2="215"></line>
-          <line x1="118" y1="255" x2="150" y2="255"></line>
-          <line x1="150" y1="205" x2="150" y2="265"></line>
-          <line x1="158" y1="205" x2="158" y2="265"></line>
-          <text x="130" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C1</text>
-          <text x="90" y="190" font-family="Cairo, sans-serif" font-size="10" fill="#263238">+</text>
-        </g>
+            <filter id="pcElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.55" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pcGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-        <g class="flow-highlight stage-regulator">
-          <line x1="158" y1="215" x2="230" y2="215"></line>
-          <circle cx="255" cy="185" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <text x="255" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q1</text>
-          <line x1="230" y1="215" x2="230" y2="330"></line>
-          <circle cx="255" cy="330" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <text x="255" y="365" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q2</text>
-          <path d="M 190,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke-width="2"></path>
-          <text x="165" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R1</text>
-          <path d="M 215,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke-width="2"></path>
-          <text x="200" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R2</text>
-        </g>
+          <rect x="0" y="0" width="820" height="480" rx="20" fill="url(#pcBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="480" rx="20" fill="url(#pcGrid)"></rect>
 
-        <g class="flow-highlight stage-reference">
-          <circle cx="330" cy="260" r="22" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <text x="330" y="290" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">Q3</text>
-          <line x1="279" y1="185" x2="500" y2="185"></line>
-          <path d="M 460,175 v10 l8,6 -16,6 16,6 -16,6 8,6 v10" stroke-width="2"></path>
-          <text x="440" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R3</text>
-          <path d="M 500,175 L 512,185 L 500,195 Z" fill="#263238"></path>
-          <line x1="512" y1="173" x2="512" y2="197" stroke-width="3"></line>
-          <line x1="500" y1="200" x2="500" y2="238" stroke-width="1.5" stroke-dasharray="3 3"></line>
-          <text x="475" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR1</text>
-          <line x1="279" y1="260" x2="300" y2="260"></line>
-          <line x1="300" y1="250" x2="300" y2="270"></line>
-          <line x1="308" y1="250" x2="308" y2="270"></line>
-          <text x="290" y="290" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C2</text>
-          <path d="M 330,282 v20 l8,6 -16,6 16,6 -16,6 8,6 v20" stroke-width="2"></path>
-          <text x="345" y="330" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R4</text>
-          <text x="345" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR2</text>
-          <path d="M 255,354 L 255,374 L 275,364 Z" fill="none" stroke="#263238" stroke-width="1.5"></path>
-          <text x="220" y="370" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D3</text>
-          <path d="M 300,364 L 320,354 L 320,374 Z" fill="none" stroke="#263238" stroke-width="1.5"></path>
-          <text x="330" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D4</text>
-          <path d="M 330,340 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke-width="2"></path>
-          <line x1="330" y1="392" x2="330" y2="410"></line>
-          <text x="345" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R5</text>
-        </g>
+          <g fill="none" stroke="#5b6478" stroke-width="2">
+            <line x1="60" y1="215" x2="60" y2="410" stroke-width="2"></line>
+            <line x1="60" y1="410" x2="820" y2="410" stroke-width="2"></line>
+            <text x="30" y="425" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa">E</text>
+            <circle cx="60" cy="410" r="3" fill="#8b94aa"></circle>
 
-        <g class="flow-highlight stage-battery">
-          <line x1="500" y1="238" x2="500" y2="280"></line>
-          <g stroke-width="2">
-            <line x1="480" y1="250" x2="520" y2="250"></line>
-            <line x1="486" y1="256" x2="514" y2="256"></line>
-            <line x1="480" y1="264" x2="520" y2="264"></line>
-            <line x1="486" y1="270" x2="514" y2="270"></line>
-            <line x1="480" y1="278" x2="520" y2="278"></line>
+            <g class="hotspot" data-component="rectifier" tabindex="0" role="button" aria-label="دائرة التوحيد">
+              <rect class="hit-area" x="15" y="185" width="110" height="110" fill="#000" fill-opacity="0"></rect>
+              <text x="35" y="235" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="end" direction="ltr">AC</text>
+              <circle cx="60" cy="215" r="3" fill="#eef1f8"></circle>
+              <circle cx="60" cy="255" r="3" fill="#eef1f8"></circle>
+              <line x1="60" y1="215" x2="60" y2="255" stroke="#FB923C"></line>
+              <line x1="60" y1="215" x2="100" y2="215" stroke="#FB923C"></line>
+              <line x1="60" y1="255" x2="100" y2="255" stroke="#FB923C"></line>
+              <path class="box-shape" d="M 100,205 L 100,225 L 118,215 Z" fill="#FB923C" filter="url(#pcElevate)"></path>
+              <line x1="118" y1="203" x2="118" y2="227" stroke-width="3" stroke="#FB923C"></line>
+              <text x="80" y="200" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C">D1</text>
+              <path class="box-shape" d="M 100,245 L 100,265 L 118,255 Z" fill="#FB923C" filter="url(#pcElevate)"></path>
+              <line x1="118" y1="243" x2="118" y2="267" stroke-width="3" stroke="#FB923C"></line>
+              <text x="80" y="280" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C">D2</text>
+            </g>
+
+            <g class="hotspot" data-component="filter" tabindex="0" role="button" aria-label="مرشح الفلترة">
+              <rect class="hit-area" x="80" y="180" width="90" height="125" fill="#000" fill-opacity="0"></rect>
+              <line x1="118" y1="215" x2="150" y2="215" stroke="#38BDF8"></line>
+              <line x1="118" y1="255" x2="150" y2="255" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="150" y1="205" x2="150" y2="265" stroke="#38BDF8" stroke-width="3" filter="url(#pcElevate)"></line>
+              <line class="box-shape" x1="158" y1="205" x2="158" y2="265" stroke="#38BDF8" stroke-width="3" filter="url(#pcElevate)"></line>
+              <text x="130" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">C1</text>
+              <text x="90" y="190" font-family="Cairo, sans-serif" font-size="10" fill="#38BDF8">+</text>
+            </g>
+
+            <g class="hotspot" data-component="regulator" tabindex="0" role="button" aria-label="منظم الفولتية (التمرير التسلسلي)">
+              <rect class="hit-area" x="150" y="135" width="140" height="235" fill="#000" fill-opacity="0"></rect>
+              <line x1="158" y1="215" x2="230" y2="215" stroke="#4ADE80"></line>
+              <circle class="box-shape" cx="255" cy="185" r="24" fill="#123322" stroke="#4ADE80" stroke-width="2" filter="url(#pcElevate)"></circle>
+              <text x="255" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle">Q1</text>
+              <line x1="230" y1="215" x2="230" y2="330" stroke="#4ADE80"></line>
+              <circle class="box-shape" cx="255" cy="330" r="24" fill="#123322" stroke="#4ADE80" stroke-width="2" filter="url(#pcElevate)"></circle>
+              <text x="255" y="365" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle">Q2</text>
+              <path class="box-shape" d="M 190,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke="#4ADE80" stroke-width="2" filter="url(#pcElevate)"></path>
+              <text x="165" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">R1</text>
+              <path class="box-shape" d="M 215,215 v20 l10,8 -20,8 20,8 -20,8 10,8 v20" stroke="#4ADE80" stroke-width="2" filter="url(#pcElevate)"></path>
+              <text x="200" y="270" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">R2</text>
+            </g>
+
+            <g class="hotspot" data-component="reference" tabindex="0" role="button" aria-label="مرجع فولتية الزنر">
+              <rect class="hit-area" x="290" y="135" width="225" height="280" fill="#000" fill-opacity="0"></rect>
+              <rect class="hit-area" x="210" y="345" width="70" height="35" fill="#000" fill-opacity="0"></rect>
+              <circle class="box-shape" cx="330" cy="260" r="22" fill="#241530" stroke="#C084FC" stroke-width="2" filter="url(#pcElevate)"></circle>
+              <text x="330" y="290" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle">Q3</text>
+              <line x1="279" y1="185" x2="500" y2="185" stroke="#C084FC"></line>
+              <path class="box-shape" d="M 460,175 v10 l8,6 -16,6 16,6 -16,6 8,6 v10" stroke="#C084FC" stroke-width="2" filter="url(#pcElevate)"></path>
+              <text x="440" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#C084FC">R3</text>
+              <path class="box-shape" d="M 500,175 L 512,185 L 500,195 Z" fill="#C084FC" filter="url(#pcElevate)"></path>
+              <line x1="512" y1="173" x2="512" y2="197" stroke-width="3" stroke="#C084FC"></line>
+              <line x1="500" y1="200" x2="500" y2="238" stroke-width="1.5" stroke-dasharray="3 3" stroke="#8b94aa"></line>
+              <text x="475" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa">VR1</text>
+              <line x1="279" y1="260" x2="300" y2="260" stroke="#C084FC"></line>
+              <line class="box-shape" x1="300" y1="250" x2="300" y2="270" stroke="#C084FC" stroke-width="2.5" filter="url(#pcElevate)"></line>
+              <line class="box-shape" x1="308" y1="250" x2="308" y2="270" stroke="#C084FC" stroke-width="2.5" filter="url(#pcElevate)"></line>
+              <text x="290" y="290" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">C2</text>
+              <path class="box-shape" d="M 330,282 v20 l8,6 -16,6 16,6 -16,6 8,6 v20" stroke="#C084FC" stroke-width="2" filter="url(#pcElevate)"></path>
+              <text x="345" y="330" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#C084FC">R4</text>
+              <text x="345" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa">VR2</text>
+              <path class="box-shape" d="M 255,354 L 255,374 L 275,364 Z" fill="none" stroke="#C084FC" stroke-width="1.5" filter="url(#pcElevate)"></path>
+              <text x="220" y="370" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">D3</text>
+              <path class="box-shape" d="M 300,364 L 320,354 L 320,374 Z" fill="none" stroke="#C084FC" stroke-width="1.5" filter="url(#pcElevate)"></path>
+              <text x="330" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC">D4</text>
+              <path class="box-shape" d="M 330,340 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke="#C084FC" stroke-width="2" filter="url(#pcElevate)"></path>
+              <line x1="330" y1="392" x2="330" y2="410" stroke="#C084FC"></line>
+              <text x="345" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#C084FC">R5</text>
+            </g>
+
+            <g class="hotspot" data-component="battery" tabindex="0" role="button" aria-label="البطارية">
+              <rect class="hit-area" x="465" y="235" width="60" height="180" fill="#000" fill-opacity="0"></rect>
+              <line x1="500" y1="238" x2="500" y2="280" stroke="#FBBF24"></line>
+              <g class="box-shape" stroke-width="2" stroke="#FBBF24" filter="url(#pcElevate)">
+                <line x1="480" y1="250" x2="520" y2="250"></line>
+                <line x1="486" y1="256" x2="514" y2="256"></line>
+                <line x1="480" y1="264" x2="520" y2="264"></line>
+                <line x1="486" y1="270" x2="514" y2="270"></line>
+                <line x1="480" y1="278" x2="520" y2="278"></line>
+              </g>
+              <line x1="500" y1="290" x2="500" y2="410" stroke="#FBBF24"></line>
+              <text x="470" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24">B</text>
+              <text x="470" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24">E</text>
+            </g>
+
+            <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="خرج الفولتية المنظمة">
+              <rect class="hit-area" x="555" y="135" width="250" height="280" fill="#000" fill-opacity="0"></rect>
+              <line x1="500" y1="185" x2="560" y2="185" stroke="#38BDF8"></line>
+              <path class="box-shape" d="M 560,175 L 580,185 L 560,195 Z" fill="#38BDF8" filter="url(#pcElevate)"></path>
+              <text x="565" y="170" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">D5</text>
+              <line x1="580" y1="185" x2="610" y2="185" stroke="#38BDF8"></line>
+              <circle cx="610" cy="185" r="3" fill="#38BDF8"></circle>
+              <line x1="610" y1="185" x2="640" y2="165" stroke="#38BDF8"></line>
+              <circle cx="650" cy="160" r="3" fill="#38BDF8"></circle>
+              <text x="615" y="160" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">SW</text>
+              <line x1="650" y1="160" x2="760" y2="160" stroke="#38BDF8"></line>
+              <circle cx="760" cy="160" r="3" fill="#38BDF8"></circle>
+              <text x="770" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8">P</text>
+              <line x1="760" y1="160" x2="760" y2="185" stroke="#38BDF8"></line>
+              <path class="box-shape" d="M 760,185 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke="#38BDF8" stroke-width="2" filter="url(#pcElevate)"></path>
+              <text x="775" y="215" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">R6</text>
+              <text x="775" y="250" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa">VR3</text>
+              <circle class="box-shape" cx="720" cy="290" r="26" fill="#0f1729" stroke="#38BDF8" stroke-width="2" filter="url(#pcElevate)"></circle>
+              <line x1="712" y1="300" x2="726" y2="278" stroke="#38BDF8" stroke-width="2"></line>
+              <text x="720" y="330" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">M</text>
+              <line x1="760" y1="255" x2="760" y2="270" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="750" y1="270" x2="770" y2="270" stroke="#38BDF8" stroke-width="2.5" filter="url(#pcElevate)"></line>
+              <line class="box-shape" x1="750" y1="278" x2="770" y2="278" stroke="#38BDF8" stroke-width="2.5" filter="url(#pcElevate)"></line>
+              <line x1="760" y1="278" x2="760" y2="410" stroke="#38BDF8"></line>
+              <text x="775" y="285" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8">C3</text>
+              <line x1="720" y1="316" x2="720" y2="410" stroke="#38BDF8"></line>
+              <text x="700" y="335" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa">E</text>
+            </g>
           </g>
-          <line x1="500" y1="290" x2="500" y2="410"></line>
-          <text x="470" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">B</text>
-          <text x="470" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">E</text>
-        </g>
+        </svg>
+      </div>
 
-        <g class="flow-highlight stage-output">
-          <line x1="500" y1="185" x2="560" y2="185"></line>
-          <path d="M 560,175 L 580,185 L 560,195 Z" fill="#263238"></path>
-          <text x="565" y="170" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">D5</text>
-          <line x1="580" y1="185" x2="610" y2="185"></line>
-          <circle cx="610" cy="185" r="3" fill="#263238"></circle>
-          <line x1="610" y1="185" x2="640" y2="165"></line>
-          <circle cx="650" cy="160" r="3" fill="#263238"></circle>
-          <text x="615" y="160" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">SW</text>
-          <line x1="650" y1="160" x2="760" y2="160"></line>
-          <circle cx="760" cy="160" r="3" fill="#263238"></circle>
-          <text x="770" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238">P</text>
-          <line x1="760" y1="160" x2="760" y2="185"></line>
-          <path d="M 760,185 v15 l8,6 -16,6 16,6 -16,6 8,6 v15" stroke-width="2"></path>
-          <text x="775" y="215" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R6</text>
-          <text x="775" y="250" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">VR3</text>
-          <circle cx="720" cy="290" r="26" fill="#fff" stroke="#263238" stroke-width="2"></circle>
-          <line x1="712" y1="300" x2="726" y2="278" stroke="#1d4ed8" stroke-width="2"></line>
-          <text x="720" y="330" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle">M</text>
-          <line x1="760" y1="255" x2="760" y2="270"></line>
-          <line x1="750" y1="270" x2="770" y2="270"></line>
-          <line x1="750" y1="278" x2="770" y2="278"></line>
-          <line x1="760" y1="278" x2="760" y2="410"></line>
-          <text x="775" y="285" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238">C3</text>
-          <line x1="720" y1="316" x2="720" y2="410"></line>
-          <text x="700" y="335" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">E</text>
-        </g>
-      </g>
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="rectifier"><span class="status-dot dot-orange"></span><span class="status-label">التوحيد</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filter"><span class="status-dot dot-blue"></span><span class="status-label">الترشيح</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="regulator"><span class="status-dot dot-green"></span><span class="status-label">منظم الفولتية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="reference"><span class="status-dot dot-purple"></span><span class="status-label">مرجع الزنر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="battery"><span class="status-dot dot-yellow"></span><span class="status-label">البطارية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="output"><span class="status-dot dot-blue"></span><span class="status-label">الخرج المنظم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.9s"></rect>
-      </g>
-    </svg>
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التوحيد</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الترشيح/الخرج</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>منظم الفولتية</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مرجع الزنر</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>البطارية</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 620px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#pcElevate) brightness(1.5) !important;
   }
 
-  .pc-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pc-glow-activate { to { filter: url(#pcElevate) brightness(1.55); } }
+    @keyframes pc-status-value-on { to { opacity: 1; } }
+    @keyframes pc-status-value-off { to { opacity: 0; } }
+    @keyframes pc-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pc-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes pc-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes pc-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes pc-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+    .playing [data-component="rectifier"] .box-shape { animation: pc-glow-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="rectifier"] .status-dot { animation: pc-dot-on-orange 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="rectifier"] .value-on { animation: pc-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="rectifier"] .value-off { animation: pc-status-value-off 0.4s ease-out 0.1s forwards; }
 
-  .stage-rectifier { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .stage-filter { --highlight-delay: 0.7s; --highlight-duration: 0.4s; }
-  .stage-regulator { --highlight-delay: 1.2s; --highlight-duration: 0.6s; }
-  .stage-reference { --highlight-delay: 1.9s; --highlight-duration: 0.7s; }
-  .stage-battery { --highlight-delay: 2.7s; --highlight-duration: 0.4s; }
-  .stage-output { --highlight-delay: 3.2s; --highlight-duration: 0.6s; }
+    .playing [data-component="filter"] .box-shape { animation: pc-glow-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="filter"] .status-dot { animation: pc-dot-on-blue 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="filter"] .value-on { animation: pc-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="filter"] .value-off { animation: pc-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="regulator"] .box-shape { animation: pc-glow-activate 0.6s ease-out 1.2s forwards; }
+    .playing [data-status="regulator"] .status-dot { animation: pc-dot-on-green 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="regulator"] .value-on { animation: pc-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="regulator"] .value-off { animation: pc-status-value-off 0.4s ease-out 1.2s forwards; }
+
+    .playing [data-component="reference"] .box-shape { animation: pc-glow-activate 0.7s ease-out 1.9s forwards; }
+    .playing [data-status="reference"] .status-dot { animation: pc-dot-on-purple 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="reference"] .value-on { animation: pc-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="reference"] .value-off { animation: pc-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing [data-component="battery"] .box-shape { animation: pc-glow-activate 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="battery"] .status-dot { animation: pc-dot-on-yellow 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="battery"] .value-on { animation: pc-status-value-on 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="battery"] .value-off { animation: pc-status-value-off 0.4s ease-out 2.7s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: pc-glow-activate 0.6s ease-out 3.2s forwards; }
+    .playing [data-status="output"] .status-dot { animation: pc-dot-on-blue 0.4s ease-out 3.2s forwards; }
+    .playing [data-status="output"] .value-on { animation: pc-status-value-on 0.4s ease-out 3.2s forwards; }
+    .playing [data-status="output"] .value-off { animation: pc-status-value-off 0.4s ease-out 3.2s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".power-supply-circuit-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    rectifier: {
+      title: "دائرة التوحيد (D1, D2)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "تتكون كما في جميع الاجهزة من مجهز القدرة المتناوبة (220V-50Hz) مع مصهر لحماية الدائرة، ثم مفتاح تحويل الفولتية والى المحولة الخافضة.",
+    },
+    filter: {
+      title: "الترشيح (C1)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "تبدأ الدائرة من خرج المحولة الخافضة (AC) لتدخل دائرة منظم الفولتية.",
+    },
+    regulator: {
+      title: "منظم الفولتية (Q1, Q2, R1, R2)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "دائرة منظم الفولتية المتكون من اثنين من الترانزستورات (Q1) و(Q2).",
+    },
+    reference: {
+      title: "مرجع فولتية الزنر (Q3, VR1, VR2)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "الترانزستور (Q3) المرتبط به الزنر دايود عن طريق الباعث فهو للسيطرة على التنظيم الدقيق للفولتية، حيث يتحكم بفولتية القاعدة كفولتية مرتدة لتحافظ على خرج مستمر ثابت.",
+    },
+    battery: {
+      title: "البطارية (B)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "خرج مستمر ثابت لتغذية الدائرة ولشحن البطارية المؤشرة بالنقطتين (B وE)، ودايود العزل (D3) لمنع فولتية البطارية عند الاستخدام من الرجوع الى المنظم والمحولة.",
+    },
+    output: {
+      title: "الخرج المنظم (D5, SW, R6, VR3, M, C3)",
+      // src/data/chapter-02/page-18.json #psu-unit (excerpt)
+      text: "المفتاح (SW) يستخدم لقطع او توصيل الفولتية المستمرة الى مقياس الفولتية المؤشر بالنقطتين (M وE)، ثم لبقية اجزاء الدائرة الالكترونية من خلال المتسعة (C3).",
+    },
+  };
+
+  wireDiagramSimulator(".power-supply-circuit-diagram", { cycleMs: 3900, componentInfo: COMPONENT_INFO });
 </script>
