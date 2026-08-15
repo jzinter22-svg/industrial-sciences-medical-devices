@@ -1,13 +1,19 @@
 ---
-// Animated Figure 2-28 (الدائرة الالكترونية لمرسلة الموجات الفوق
-// الصوتية) — printed page 47. Static schematic kept pixel-identical.
-// Animation highlights the signal path in order: the crystal-controlled
-// oscillator (L1/crystal/C1/C2, biased by R1/R2) generates the
-// 2.25 MHz drive signal, the transistor amplifies it, and C4/R/C5/C6
-// couple the amplified signal out to the detector stage — the same
-// "current particle through the circuit" treatment as Chapter 1's kV
-// control diagram, adapted to a signal-generation circuit.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-28 (الدائرة الالكترونية لمرسلة الموجات الفوق
+// الصوتية) using the Chapter 1 dark neumorphic simulator system.
+// Reuses the shared shell/controller (src/styles/diagram-simulator.css
+// + src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (every component symbol, label, and wire at its
+// original coordinates) — only fill/stroke treatment and the
+// interaction/animation layer changed. The three pre-existing stage
+// groups (oscillator, amplifier, output) become the three hotspots.
+//
+// Color mapping: an electrical-flow circuit — green for the
+// crystal-controlled oscillator (the origin signal, matches Chapter
+// 1's control convention), orange for the amplifier transistor, blue
+// for the output-coupling stage feeding the detector.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -16,151 +22,232 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram transmitter-circuit-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="tc-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="820"
-      height="360"
-      viewBox="0 0 820 360"
-      role="img"
-      aria-label="الدائرة الالكترونية لمرسلة الموجات الفوق الصوتية"
-    >
-      <rect x="0" y="0" width="820" height="360" fill="none"></rect>
-      <g fill="none" stroke="#263238" stroke-width="2">
+<figure class="diagram-block neo-surface-soft transmitter-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة المرسلة</span>
+      <span class="simulator-subtitle">شكل 2-28 — من المذبذب البلوري الى الكاشف</span>
+    </div>
 
-        <line x1="80" y1="80" x2="780" y2="80"></line>
-        <line x1="80" y1="80" x2="80" y2="280"></line>
-        <line x1="80" y1="280" x2="780" y2="280"></line>
-        <line x1="780" y1="80" x2="780" y2="280"></line>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="tc-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="360"
+          viewBox="0 0 820 360"
+          role="img"
+          aria-label="الدائرة الالكترونية لمرسلة الموجات الفوق الصوتية"
+        >
+          <defs>
+            <linearGradient id="tcBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="tcGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-        <text x="20" y="175" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">المرسلة</text>
-        <text x="20" y="192" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Transmitter</text>
+            <filter id="tcElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.55" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-        <g class="flow-highlight stage-oscillator">
-          <line x1="150" y1="80" x2="150" y2="130"></line>
-          <line x1="140" y1="130" x2="160" y2="130"></line>
-          <line x1="140" y1="138" x2="160" y2="138"></line>
-          <line x1="150" y1="138" x2="150" y2="175"></line>
-          <text x="165" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C1</text>
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#tcBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#tcGrid)"></rect>
 
-          <line x1="150" y1="175" x2="220" y2="175"></line>
-          <line x1="220" y1="165" x2="220" y2="185"></line>
-          <line x1="228" y1="165" x2="228" y2="185"></line>
-          <text x="200" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C2</text>
+          <g fill="none" stroke="#5b6478" stroke-width="2">
+            <line x1="80" y1="80" x2="780" y2="80"></line>
+            <line x1="80" y1="80" x2="80" y2="280"></line>
+            <line x1="80" y1="280" x2="780" y2="280"></line>
+            <line x1="780" y1="80" x2="780" y2="280"></line>
 
-          <line x1="228" y1="175" x2="280" y2="175"></line>
-          <path d="M 280,175 v-15 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 v-45" stroke-width="2"></path>
-          <text x="300" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238">L1</text>
-          <text x="290" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">2.25MHZ</text>
-          <rect x="273" y="205" width="14" height="26" fill="#f87171" stroke="#263238" stroke-width="1.5"></rect>
-          <text x="245" y="222" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">البلورة</text>
+            <text x="20" y="175" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">المرسلة</text>
+            <text x="20" y="192" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">Transmitter</text>
 
-          <line x1="228" y1="80" x2="228" y2="100"></line>
-          <path d="M 228,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
-          <line x1="228" y1="130" x2="228" y2="175"></line>
-          <text x="240" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R2</text>
+            <g class="hotspot" data-component="oscillator" tabindex="0" role="button" aria-label="المذبذب البلوري">
+              <rect class="hit-area" x="130" y="75" width="220" height="165" fill="#000" fill-opacity="0"></rect>
+              <line x1="150" y1="80" x2="150" y2="130" stroke="#4ADE80"></line>
+              <line class="box-shape" x1="140" y1="130" x2="160" y2="130" stroke="#4ADE80" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="140" y1="138" x2="160" y2="138" stroke="#4ADE80" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line x1="150" y1="138" x2="150" y2="175" stroke="#4ADE80"></line>
+              <text x="165" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">C1</text>
 
-          <line x1="330" y1="80" x2="330" y2="100"></line>
-          <path d="M 330,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
-          <line x1="330" y1="130" x2="330" y2="175"></line>
-          <text x="342" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R1</text>
-          <line x1="280" y1="175" x2="330" y2="175"></line>
-        </g>
+              <line x1="150" y1="175" x2="220" y2="175" stroke="#4ADE80"></line>
+              <line class="box-shape" x1="220" y1="165" x2="220" y2="185" stroke="#4ADE80" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="228" y1="165" x2="228" y2="185" stroke="#4ADE80" stroke-width="3" filter="url(#tcElevate)"></line>
+              <text x="200" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">C2</text>
 
-        <g class="flow-highlight stage-amplifier">
-          <circle cx="330" cy="230" r="24" fill="#fde68a" stroke="#263238" stroke-width="2"></circle>
-          <line x1="330" y1="175" x2="330" y2="206"></line>
-          <line x1="330" y1="254" x2="330" y2="280"></line>
+              <line x1="228" y1="175" x2="280" y2="175" stroke="#4ADE80"></line>
+              <path class="box-shape" d="M 280,175 v-15 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 a10,10 0 1 1 0,20 v-45" stroke="#4ADE80" stroke-width="2" filter="url(#tcElevate)"></path>
+              <text x="300" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80">L1</text>
+              <text x="290" y="170" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa">2.25MHZ</text>
+              <rect class="box-shape" x="273" y="205" width="14" height="26" rx="2" fill="#FBBF24" stroke="#FBBF24" stroke-width="1.5" filter="url(#tcElevate)"></rect>
+              <text x="245" y="222" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="end" direction="rtl">البلورة</text>
 
-          <line x1="306" y1="230" x2="270" y2="230"></line>
-          <line x1="260" y1="220" x2="260" y2="240"></line>
-          <line x1="252" y1="220" x2="252" y2="240"></line>
-          <line x1="252" y1="230" x2="228" y2="230"></line>
-          <line x1="228" y1="175" x2="228" y2="230"></line>
-          <text x="248" y="255" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C3</text>
-        </g>
+              <line x1="228" y1="80" x2="228" y2="100" stroke="#4ADE80"></line>
+              <path class="box-shape" d="M 228,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke="#4ADE80" stroke-width="2" filter="url(#tcElevate)"></path>
+              <line x1="228" y1="130" x2="228" y2="175" stroke="#4ADE80"></line>
+              <text x="240" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">R2</text>
 
-        <g class="flow-highlight stage-output">
-          <line x1="330" y1="175" x2="440" y2="175"></line>
-          <line x1="440" y1="165" x2="440" y2="185"></line>
-          <line x1="448" y1="165" x2="448" y2="185"></line>
-          <text x="435" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C4</text>
+              <line x1="330" y1="80" x2="330" y2="100" stroke="#4ADE80"></line>
+              <path class="box-shape" d="M 330,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke="#4ADE80" stroke-width="2" filter="url(#tcElevate)"></path>
+              <line x1="330" y1="130" x2="330" y2="175" stroke="#4ADE80"></line>
+              <text x="342" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80">R1</text>
+              <line x1="280" y1="175" x2="330" y2="175" stroke="#4ADE80"></line>
+            </g>
 
-          <line x1="448" y1="175" x2="520" y2="175"></line>
-          <path d="M 500,80 v75" stroke-width="2"></path>
-          <path d="M 500,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke-width="2"></path>
-          <text x="512" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">R₂</text>
-          <line x1="500" y1="175" x2="520" y2="175"></line>
-          <line x1="600" y1="80" x2="600" y2="280"></line>
-          <line x1="590" y1="165" x2="610" y2="165"></line>
-          <line x1="590" y1="173" x2="610" y2="173"></line>
-          <text x="615" y="175" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C5</text>
+            <g class="hotspot" data-component="amplifier" tabindex="0" role="button" aria-label="مكبر الاشارة">
+              <rect class="hit-area" x="220" y="205" width="140" height="70" fill="#000" fill-opacity="0"></rect>
+              <circle class="box-shape" cx="330" cy="230" r="24" fill="#332210" stroke="#FB923C" stroke-width="2" filter="url(#tcElevate)"></circle>
+              <line x1="330" y1="175" x2="330" y2="206" stroke="#FB923C"></line>
+              <line x1="330" y1="254" x2="330" y2="280" stroke="#FB923C"></line>
 
-          <line x1="600" y1="130" x2="780" y2="130"></line>
-          <line x1="700" y1="120" x2="720" y2="120"></line>
-          <line x1="700" y1="128" x2="720" y2="128"></line>
-          <text x="705" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238">C6</text>
-        </g>
-      </g>
-      <text x="800" y="120" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end" direction="rtl">الى الكاشف</text>
-      <text x="800" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dc2626" text-anchor="end" direction="ltr">To Detector</text>
+              <line x1="306" y1="230" x2="270" y2="230" stroke="#FB923C"></line>
+              <line class="box-shape" x1="260" y1="220" x2="260" y2="240" stroke="#FB923C" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="252" y1="220" x2="252" y2="240" stroke="#FB923C" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line x1="252" y1="230" x2="228" y2="230" stroke="#FB923C"></line>
+              <line x1="228" y1="175" x2="228" y2="230" stroke="#FB923C"></line>
+              <text x="248" y="255" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C">C3</text>
+            </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle" cx="150" cy="80" r="5" style="--tx:630px; --ty:50px; --particle-delay:2.2s; --particle-duration:1.0s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.3s"></rect>
-      </g>
-    </svg>
+            <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="اقتران الخرج الى الكاشف">
+              <rect class="hit-area" x="420" y="75" width="370" height="115" fill="#000" fill-opacity="0"></rect>
+              <line x1="330" y1="175" x2="440" y2="175" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="440" y1="165" x2="440" y2="185" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="448" y1="165" x2="448" y2="185" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <text x="435" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">C4</text>
+
+              <line x1="448" y1="175" x2="520" y2="175" stroke="#38BDF8"></line>
+              <path d="M 500,80 v75" stroke="#38BDF8" stroke-width="2"></path>
+              <path class="box-shape" d="M 500,100 l 8,6 -16,6 16,6 -16,6 8,6" stroke="#38BDF8" stroke-width="2" filter="url(#tcElevate)"></path>
+              <text x="512" y="105" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">R₂</text>
+              <line x1="500" y1="175" x2="520" y2="175" stroke="#38BDF8"></line>
+              <line x1="600" y1="80" x2="600" y2="280" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="590" y1="165" x2="610" y2="165" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="590" y1="173" x2="610" y2="173" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <text x="615" y="175" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">C5</text>
+
+              <line x1="600" y1="130" x2="780" y2="130" stroke="#38BDF8"></line>
+              <line class="box-shape" x1="700" y1="120" x2="720" y2="120" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <line class="box-shape" x1="700" y1="128" x2="720" y2="128" stroke="#38BDF8" stroke-width="3" filter="url(#tcElevate)"></line>
+              <text x="705" y="112" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">C6</text>
+            </g>
+          </g>
+          <text x="800" y="120" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#f87171" text-anchor="end" direction="rtl">الى الكاشف</text>
+          <text x="800" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#f87171" text-anchor="end" direction="ltr">To Detector</text>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="150" cy="80" r="5" fill="#38BDF8" filter="url(#tcElevate)" style="--tx:630px; --ty:50px; --particle-delay:2.2s; --particle-duration:1.0s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="oscillator"><span class="status-dot dot-green"></span><span class="status-label">المذبذب البلوري</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="amplifier"><span class="status-dot dot-orange"></span><span class="status-label">مكبر الاشارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="output"><span class="status-dot dot-blue"></span><span class="status-label">اقتران الخرج</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المذبذب البلوري</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>مكبر الاشارة</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>اقتران الخرج</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 620px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#tcElevate) brightness(1.5) !important;
   }
 
-  .tc-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes tc-glow-activate { to { filter: url(#tcElevate) brightness(1.55); } }
+    @keyframes tc-status-value-on { to { opacity: 1; } }
+    @keyframes tc-status-value-off { to { opacity: 0; } }
+    @keyframes tc-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes tc-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes tc-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+    .playing [data-component="oscillator"] .box-shape { animation: tc-glow-activate 0.6s ease-out 0.1s forwards; }
+    .playing [data-status="oscillator"] .status-dot { animation: tc-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="oscillator"] .value-on { animation: tc-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="oscillator"] .value-off { animation: tc-status-value-off 0.4s ease-out 0.1s forwards; }
 
-  .stage-oscillator { --highlight-delay: 0.1s; --highlight-duration: 0.7s; }
-  .stage-amplifier { --highlight-delay: 1.0s; --highlight-duration: 0.6s; }
-  .stage-output { --highlight-delay: 1.8s; --highlight-duration: 0.7s; }
+    .playing [data-component="amplifier"] .box-shape { animation: tc-glow-activate 0.5s ease-out 1.0s forwards; }
+    .playing [data-status="amplifier"] .status-dot { animation: tc-dot-on-orange 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="amplifier"] .value-on { animation: tc-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="amplifier"] .value-off { animation: tc-status-value-off 0.4s ease-out 1.0s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: tc-glow-activate 0.6s ease-out 1.8s forwards; }
+    .playing [data-status="output"] .status-dot { animation: tc-dot-on-blue 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="output"] .value-on { animation: tc-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="output"] .value-off { animation: tc-status-value-off 0.4s ease-out 1.8s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".transmitter-circuit-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    oscillator: {
+      title: "المذبذب البلوري (L1, C1, C2, البلورة)",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "دائرة المرسلة عبارة عن مذبذب بلوري مع عناصر الدائرة الاخرى لتوليد الموجات الكهربائية بتردد (2.25MHz) وتنظيمها من خلال الملف (L1).",
+    },
+    amplifier: {
+      title: "مكبر الاشارة",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "بعد توليد الموجة عند تردد (2.25MHz) تمر بمرحلة تكبير قبل ان تُرسل الى بلورة المجس.",
+    },
+    output: {
+      title: "اقتران الخرج الى الكاشف",
+      // src/data/chapter-02/page-19.json #H.F Unit definition (excerpt)
+      text: "ترسل الموجة الى بلورة المجس (Probe) وفي نفس الوقت الى الكاشف (Detector) لتتحول الى موجات فوق صوتية بنفس التردد.",
+    },
+  };
+
+  wireDiagramSimulator(".transmitter-circuit-diagram", { cycleMs: 3300, componentInfo: COMPONENT_INFO });
 </script>
