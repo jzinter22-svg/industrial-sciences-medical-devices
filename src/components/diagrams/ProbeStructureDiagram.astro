@@ -1,15 +1,22 @@
 ---
-// Animated Figure 2-8 (الأجزاء الداخلية لمجس الأمواج الفوق صوتية) —
-// printed page 30. Static artwork kept pixel-identical (same housing,
-// insulator, backing block, crystal, cover shapes/positions). Animation
-// walks the electrical/acoustic signal path in physical order — the
-// coaxial cable feeds the crystal element, the backing block damps the
-// pulse behind it, the acoustic insulator and plastic housing contain
-// it, and the ground electrode/insulated cover complete the circuit —
-// highlighting each part and its leader line in that sequence, the same
-// "identify each labeled part in turn" treatment used for Chapter 1's
-// timer-types comparison figure.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-8 (الأجزاء الداخلية لمجس الأمواج الفوق صوتية)
+// using the Chapter 1 dark neumorphic simulator system. Reuses the
+// shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (housing/insulator/backing/crystal/cable/ground
+// shapes and positions, every leader line and label identical to the
+// prior build) — only fill/stroke treatment and the interaction/
+// animation layer changed. Each part's shape and its own label/leader
+// line (previously two separate same-class groups) are now merged into
+// one hotspot per part.
+//
+// Color mapping: cross-section of a physical device, not a flow
+// circuit — local legend: blue = the electrical signal path (coaxial
+// cable + ground electrode), yellow = the crystal (the active
+// piezoelectric element), green = the acoustic insulator, gray =
+// structural parts (housing, backing block, insulated cover).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -18,153 +25,288 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram probe-structure-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="ps-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="640"
-      height="520"
-      viewBox="0 0 640 520"
-      role="img"
-      aria-label="الأجزاء الداخلية لمجس الأمواج الفوق صوتية"
-    >
-      <rect x="0" y="0" width="640" height="520" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft probe-structure-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الأجزاء الداخلية للمجس</span>
+      <span class="simulator-subtitle">شكل 2-8 — مسار الاشارة من السلك الى البلورة</span>
+    </div>
 
-      <g class="flow-highlight part-cable">
-        <path d="M 240,20 C 235,60 245,90 250,120" fill="none" stroke="#92400e" stroke-width="10" stroke-linecap="round"></path>
-        <rect x="225" y="115" width="50" height="22" fill="#fde047" stroke="#263238" stroke-width="2"></rect>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ps-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="640"
+          height="520"
+          viewBox="0 0 640 520"
+          role="img"
+          aria-label="الأجزاء الداخلية لمجس الأمواج الفوق صوتية"
+        >
+          <defs>
+            <linearGradient id="psBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="psGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="psGradHousing" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#242c3d"></stop>
+              <stop offset="100%" stop-color="#141a26"></stop>
+            </linearGradient>
+            <linearGradient id="psGradInsulator" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
 
-      <g class="flow-highlight part-housing">
-        <path d="M 150,340 L 150,220 A 100,100 0 0 1 350,220 L 350,340 Z" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></path>
-      </g>
+            <filter id="psElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight part-insulator">
-        <path d="M 185,320 L 185,225 A 65,65 0 0 1 315,225 L 315,320 Z" fill="#86efac" stroke="#263238" stroke-width="2"></path>
-      </g>
+          <rect x="0" y="0" width="640" height="520" rx="20" fill="url(#psBgGrad)"></rect>
+          <rect x="0" y="0" width="640" height="520" rx="20" fill="url(#psGrid)"></rect>
 
-      <g class="flow-highlight part-backing">
-        <rect x="205" y="245" width="45" height="90" fill="#94a3b8" stroke="#263238" stroke-width="1.5"></rect>
-        <rect x="250" y="245" width="45" height="90" fill="#cbd5e1" stroke="#263238" stroke-width="1.5"></rect>
-        <g stroke="#57606f" stroke-width="1">
-          <line x1="210" y1="245" x2="210" y2="335"></line>
-          <line x1="220" y1="245" x2="220" y2="335"></line>
-          <line x1="230" y1="245" x2="230" y2="335"></line>
-          <line x1="240" y1="245" x2="240" y2="335"></line>
-          <line x1="255" y1="245" x2="255" y2="335"></line>
-          <line x1="265" y1="245" x2="265" y2="335"></line>
-          <line x1="275" y1="245" x2="275" y2="335"></line>
-          <line x1="285" y1="245" x2="285" y2="335"></line>
-        </g>
-      </g>
+          <g class="hotspot" data-component="housing" tabindex="0" role="button" aria-label="الغلاف الخارجي">
+            <rect class="hit-area" x="145" y="100" width="580" height="250" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 150,340 L 150,220 A 100,100 0 0 1 350,220 L 350,340 Z" fill="url(#psGradHousing)" stroke="#8b94aa" stroke-width="2.5" filter="url(#psElevate)"></path>
+            <line x1="330" y1="235" x2="420" y2="120" stroke="#8b94aa" stroke-width="1.2"></line>
+            <text x="425" y="115" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">Plastic Housing</text>
+            <text x="425" y="132" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="start" direction="rtl">الغلاف الخارجي</text>
+          </g>
 
-      <g class="flow-highlight part-crystal">
-        <rect x="200" y="335" width="100" height="14" fill="#facc15" stroke="#263238" stroke-width="2"></rect>
-      </g>
-      <g class="flow-highlight part-ground">
-        <path d="M 150,340 L 350,340 L 340,352 L 160,352 Z" fill="#e2e8f0" stroke="#263238" stroke-width="2"></path>
-      </g>
+          <g class="hotspot" data-component="insulator" tabindex="0" role="button" aria-label="عازل صوتي">
+            <rect class="hit-area" x="180" y="185" width="245" height="140" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 185,320 L 185,225 A 65,65 0 0 1 315,225 L 315,320 Z" fill="url(#psGradInsulator)" stroke="#4ADE80" stroke-width="2" filter="url(#psElevate)"></path>
+            <line x1="310" y1="260" x2="420" y2="195" stroke="#4ADE80" stroke-width="1.2"></line>
+            <text x="425" y="190" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">Acoustic Insulator</text>
+            <text x="425" y="207" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#4ADE80" text-anchor="start" direction="rtl">عازل صوتي</text>
+          </g>
 
-      <g class="flow-highlight part-cable">
-        <line x1="270" y1="70" x2="380" y2="60" stroke="#263238" stroke-width="1.2"></line>
-        <text x="385" y="55" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Coaxial Cable</text>
-        <text x="385" y="72" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">سلك توصيل</text>
-      </g>
+          <g class="hotspot" data-component="backing" tabindex="0" role="button" aria-label="طبقات ساندة">
+            <rect class="hit-area" x="200" y="240" width="225" height="100" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape" filter="url(#psElevate)">
+              <rect x="205" y="245" width="45" height="90" fill="#3a4258" stroke="#8b94aa" stroke-width="1.5"></rect>
+              <rect x="250" y="245" width="45" height="90" fill="#4a5570" stroke="#8b94aa" stroke-width="1.5"></rect>
+            </g>
+            <g stroke="#242c3d" stroke-width="1">
+              <line x1="210" y1="245" x2="210" y2="335"></line>
+              <line x1="220" y1="245" x2="220" y2="335"></line>
+              <line x1="230" y1="245" x2="230" y2="335"></line>
+              <line x1="240" y1="245" x2="240" y2="335"></line>
+              <line x1="255" y1="245" x2="255" y2="335"></line>
+              <line x1="265" y1="245" x2="265" y2="335"></line>
+              <line x1="275" y1="245" x2="275" y2="335"></line>
+              <line x1="285" y1="245" x2="285" y2="335"></line>
+            </g>
+            <line x1="290" y1="280" x2="420" y2="255" stroke="#8b94aa" stroke-width="1.2"></line>
+            <text x="425" y="250" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">Backing Block</text>
+            <text x="425" y="267" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="start" direction="rtl">طبقات ساندة</text>
+          </g>
 
-      <g class="flow-highlight part-housing">
-        <line x1="330" y1="235" x2="420" y2="120" stroke="#263238" stroke-width="1.2"></line>
-        <text x="425" y="115" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Plastic Housing</text>
-        <text x="425" y="132" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الغلاف الخارجي</text>
-      </g>
+          <g class="hotspot" data-component="crystal" tabindex="0" role="button" aria-label="عنصر البلورة">
+            <rect class="hit-area" x="195" y="325" width="230" height="30" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="200" y="335" width="100" height="14" fill="#FBBF24" stroke="#FBBF24" stroke-width="2" filter="url(#psElevate)"></rect>
+            <line x1="270" y1="335" x2="420" y2="335" stroke="#FBBF24" stroke-width="1.2"></line>
+            <text x="425" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">Crystal Element</text>
+            <text x="425" y="347" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#FBBF24" text-anchor="start" direction="rtl">عنصر البلورة</text>
+          </g>
 
-      <g class="flow-highlight part-insulator">
-        <line x1="310" y1="260" x2="420" y2="195" stroke="#263238" stroke-width="1.2"></line>
-        <text x="425" y="190" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Acoustic Insulator</text>
-        <text x="425" y="207" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عازل صوتي</text>
-      </g>
+          <g class="hotspot" data-component="ground" tabindex="0" role="button" aria-label="القطب الأرضي">
+            <rect class="hit-area" x="145" y="338" width="280" height="55" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 150,340 L 350,340 L 340,352 L 160,352 Z" fill="#0f2536" stroke="#38BDF8" stroke-width="2" filter="url(#psElevate)"></path>
+            <line x1="230" y1="342" x2="420" y2="375" stroke="#38BDF8" stroke-width="1.2"></line>
+            <text x="425" y="370" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">"Ground" Electrode</text>
+            <text x="425" y="387" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="start" direction="rtl">الارضي</text>
+          </g>
 
-      <g class="flow-highlight part-backing">
-        <line x1="290" y1="280" x2="420" y2="255" stroke="#263238" stroke-width="1.2"></line>
-        <text x="425" y="250" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Backing Block</text>
-        <text x="425" y="267" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">طبقات ساندة</text>
-      </g>
+          <g class="hotspot" data-component="cover" tabindex="0" role="button" aria-label="غلاف خارجي عازل">
+            <rect class="hit-area" x="20" y="345" width="185" height="95" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="200" y1="348" x2="130" y2="400" stroke="#8b94aa" stroke-width="1.2" filter="url(#psElevate)"></line>
+            <text x="125" y="418" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="end" direction="ltr">Insulated Cover</text>
+            <text x="125" y="435" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">غلاف خارجي عازل</text>
+          </g>
 
-      <g class="flow-highlight part-crystal">
-        <line x1="270" y1="335" x2="420" y2="335" stroke="#263238" stroke-width="1.2"></line>
-        <text x="425" y="330" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">Crystal Element</text>
-        <text x="425" y="347" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">عنصر البلورة</text>
-      </g>
+          <g class="hotspot" data-component="cable" tabindex="0" role="button" aria-label="سلك التوصيل">
+            <rect class="hit-area" x="220" y="15" width="310" height="80" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 240,20 C 235,60 245,90 250,120" fill="none" stroke="#38BDF8" stroke-width="10" stroke-linecap="round" filter="url(#psElevate)"></path>
+            <rect class="box-shape" x="225" y="115" width="50" height="22" rx="4" fill="#0f2536" stroke="#38BDF8" stroke-width="2" filter="url(#psElevate)"></rect>
+            <line x1="270" y1="70" x2="380" y2="60" stroke="#38BDF8" stroke-width="1.2"></line>
+            <text x="385" y="55" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">Coaxial Cable</text>
+            <text x="385" y="72" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="start" direction="rtl">سلك توصيل</text>
+          </g>
+        </svg>
+      </div>
 
-      <g class="flow-highlight part-ground">
-        <line x1="230" y1="342" x2="420" y2="375" stroke="#263238" stroke-width="1.2"></line>
-        <text x="425" y="370" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">"Ground" Electrode</text>
-        <text x="425" y="387" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="start" direction="rtl">الارضي</text>
-      </g>
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="cable"><span class="status-dot dot-blue"></span><span class="status-label">سلك التوصيل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="crystal"><span class="status-dot dot-yellow"></span><span class="status-label">عنصر البلورة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="backing"><span class="status-dot dot-gray"></span><span class="status-label">طبقات ساندة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="insulator"><span class="status-dot dot-green"></span><span class="status-label">عازل صوتي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="housing"><span class="status-dot dot-gray"></span><span class="status-label">الغلاف الخارجي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="ground"><span class="status-dot dot-blue"></span><span class="status-label">القطب الأرضي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="cover"><span class="status-dot dot-gray"></span><span class="status-label">غلاف عازل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
 
-      <g class="flow-highlight part-cover">
-        <line x1="200" y1="348" x2="130" y2="400" stroke="#263238" stroke-width="1.2"></line>
-        <text x="125" y="418" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="end" direction="ltr">Insulated Cover</text>
-        <text x="125" y="435" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end" direction="rtl">غلاف خارجي عازل</text>
-      </g>
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.6s"></rect>
-      </g>
-    </svg>
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>المسار الكهربائي</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>البلورة</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>العازل الصوتي</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#8b94aa"></span>أجزاء هيكلية</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#psElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 380px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#psElevate) saturate(1.35) brightness(1.45);
   }
 
-  .ps-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ps-shape-activate { to { filter: url(#psElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes ps-status-value-on { to { opacity: 1; } }
+    @keyframes ps-status-value-off { to { opacity: 0; } }
+    @keyframes ps-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes ps-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes ps-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes ps-dot-on-gray { to { background: #8b94aa; box-shadow: 0 0 8px 1px rgba(139, 148, 170, 0.8); } }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+    .playing [data-component="cable"] .box-shape { animation: ps-shape-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="cable"] .status-dot { animation: ps-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="cable"] .value-on { animation: ps-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="cable"] .value-off { animation: ps-status-value-off 0.4s ease-out 0.1s forwards; }
 
-  .part-cable { --highlight-delay: 0.1s; --highlight-duration: 0.5s; }
-  .part-crystal { --highlight-delay: 0.7s; --highlight-duration: 0.5s; }
-  .part-backing { --highlight-delay: 1.3s; --highlight-duration: 0.5s; }
-  .part-insulator { --highlight-delay: 1.9s; --highlight-duration: 0.5s; }
-  .part-housing { --highlight-delay: 2.5s; --highlight-duration: 0.5s; }
-  .part-ground { --highlight-delay: 3.1s; --highlight-duration: 0.4s; }
-  .part-cover { --highlight-delay: 3.1s; --highlight-duration: 0.4s; }
+    .playing [data-component="crystal"] .box-shape { animation: ps-shape-activate 0.5s ease-out 0.7s forwards; }
+    .playing [data-status="crystal"] .status-dot { animation: ps-dot-on-yellow 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="crystal"] .value-on { animation: ps-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="crystal"] .value-off { animation: ps-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="backing"] .box-shape { animation: ps-shape-activate 0.5s ease-out 1.3s forwards; }
+    .playing [data-status="backing"] .status-dot { animation: ps-dot-on-gray 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="backing"] .value-on { animation: ps-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="backing"] .value-off { animation: ps-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="insulator"] .box-shape { animation: ps-shape-activate 0.5s ease-out 1.9s forwards; }
+    .playing [data-status="insulator"] .status-dot { animation: ps-dot-on-green 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="insulator"] .value-on { animation: ps-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="insulator"] .value-off { animation: ps-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing [data-component="housing"] .box-shape { animation: ps-shape-activate 0.5s ease-out 2.5s forwards; }
+    .playing [data-status="housing"] .status-dot { animation: ps-dot-on-gray 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="housing"] .value-on { animation: ps-status-value-on 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="housing"] .value-off { animation: ps-status-value-off 0.4s ease-out 2.5s forwards; }
+
+    .playing [data-component="ground"] .box-shape { animation: ps-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="ground"] .status-dot { animation: ps-dot-on-blue 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="ground"] .value-on { animation: ps-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="ground"] .value-off { animation: ps-status-value-off 0.4s ease-out 3.1s forwards; }
+
+    .playing [data-component="cover"] .box-shape { animation: ps-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="cover"] .status-dot { animation: ps-dot-on-gray 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="cover"] .value-on { animation: ps-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="cover"] .value-off { animation: ps-status-value-off 0.4s ease-out 3.1s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".probe-structure-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    cable: {
+      title: "سلك التوصيل (Coaxial Cable)",
+      // src/data/chapter-02/page-06.json #piezo-p2 (excerpt)
+      text: "عند تسليط اشارة كهربائية متناوبة على طرفي البلورة بتردد معين تهتز جزيئتها فتولد امواج فوق صوتية بنفس تردد الاشارة الكهربائية.",
+    },
+    crystal: {
+      title: "عنصر البلورة (Crystal Element)",
+      // src/data/chapter-02/page-06.json #piezo-p1 / #piezo-p2 (excerpt)
+      text: "تتولد الموجات الفوق صوتية وتكشف باستخدام محولات الطاقة (Transducers) والتي تصنع من السيراميك أو الكوارتز، حسب التاثير الكهروضغطي (Piezoelectric Effect).",
+    },
+    backing: {
+      title: "طبقات ساندة (Backing Block)",
+      // src/data/chapter-02/page-07.json #piezo-p3 (excerpt)
+      text: "المواد الساندة التي تمنع وصول ترددات الامواج الفوق صوتية من الوجه الداخلي للبلورة وامتزاجها مع الترددات الرئيسة، مما يسبب اضعافها.",
+    },
+    insulator: {
+      title: "عازل صوتي (Acoustic Insulator)",
+      // src/data/chapter-02/page-06.json #piezo-p2 (excerpt)
+      text: "البلورة مع اجزائها الاخرى والغلاف الخارجي يسمى المجس (Probe).",
+    },
+    housing: {
+      title: "الغلاف الخارجي (Plastic Housing)",
+      // src/data/chapter-02/page-07.json #piezo-p3 (excerpt)
+      text: "الغلاف الخارجي الذي يغلف سطح البلورة.",
+    },
+    ground: {
+      title: "القطب الأرضي (Ground Electrode)",
+      // src/data/chapter-02/page-06.json #piezo-p2 (excerpt)
+      text: "الشكل يوضح الاجزاء الداخلية للمجس من سلك التوصيل للجهاز والغلاف البلاستيكي او المعدني الخارجي الحافظ ثم بلورة الكوارتز واقطاب التوصيل على طرفيها.",
+    },
+    cover: {
+      title: "غلاف خارجي عازل (Insulated Cover)",
+      // src/data/chapter-02/page-06.json #piezo-p2 (excerpt)
+      text: "البلورة مع اجزائها الاخرى والغلاف الخارجي يسمى المجس (Probe).",
+    },
+  };
+
+  wireDiagramSimulator(".probe-structure-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
 </script>
