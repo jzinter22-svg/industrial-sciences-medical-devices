@@ -303,6 +303,10 @@
   outline: none;
 }
 
+.link {
+  pointer-events: none;
+}
+
 .simulator-shell.has-selection .hotspot:not(.is-selected) {
   opacity: 0.4;
   transition: opacity 0.25s ease;
