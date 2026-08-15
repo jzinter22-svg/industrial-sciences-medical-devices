@@ -1,47 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" role="img" aria-label="جهاز الاشعة السينية ذات الصورة المتحركة (تصوير الأوعية)">
-  <!-- floor base / pedestal (biplane angiography C-arm) -->
-  <path d="M 100,232 L 172,232 L 160,246 L 112,246 Z" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></path>
-  <line x1="136" y1="232" x2="136" y2="185" stroke="#263238" stroke-width="3"></line>
-
-  <!-- primary (frontal) C-arm — explicit bezier curve for a clearly legible "C" -->
-  <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
-  <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
-  <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
-  <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
-
-  <!-- secondary (lateral) C-arm, ceiling mounted, smaller — biplane signature -->
-  <line x1="256" y1="26" x2="256" y2="46" stroke="#263238" stroke-width="3"></line>
-  <path d="M 256,46 C 300,52 300,88 268,98" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round"></path>
-  <path d="M 256,46 C 300,52 300,88 268,98" fill="none" stroke="#263238" stroke-width="2"></path>
-  <ellipse cx="256" cy="46" rx="18" ry="13" fill="#94a3b8" stroke="#263238" stroke-width="2"></ellipse>
-  <rect x="254" y="90" width="30" height="18" rx="5" fill="#F9E0A9" stroke="#263238" stroke-width="2"></rect>
-
-  <!-- patient table -->
-  <rect x="150" y="153" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
-  <line x1="170" y1="169" x2="170" y2="204" stroke="#263238" stroke-width="3"></line>
-  <line x1="390" y1="169" x2="390" y2="204" stroke="#263238" stroke-width="3"></line>
-  <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
-    <ellipse cx="232" cy="147" rx="12" ry="9"></ellipse>
-    <rect x="249" y="140" width="115" height="15" rx="7"></rect>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none" stroke="#22303A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Interventional angiography suite">
+  <g id="ceiling-rail">
+    <rect x="50" y="52" width="420" height="16" rx="4" fill="#BCC9D1"></rect>
+    <line x1="70" y1="60" x2="450" y2="60" stroke-width="1.5" stroke-dasharray="7 7"></line>
   </g>
-
-  <!-- catheter / contrast injection line into the patient -->
-  <path d="M 264,147 q 14,-4 26,-2" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"></path>
-  <circle cx="292" cy="143" r="3" fill="#dc2626"></circle>
-
-  <!-- IV / contrast injector pole beside the table -->
-  <g stroke="#263238" stroke-width="2" fill="none">
-    <line x1="374" y1="204" x2="374" y2="126"></line>
-    <rect x="366" y="96" width="16" height="30" rx="2" fill="#bfdbfe"></rect>
+  <g id="ceiling-carriage">
+    <rect x="140" y="68" width="40" height="14" fill="#D8E1E6"></rect>
+    <rect x="126" y="82" width="68" height="16" rx="4" fill="#D8E1E6"></rect>
   </g>
-
-  <!-- monitor showing a vascular (angiographic) tree — the key visual differentiator -->
-  <rect x="392" y="150" width="72" height="50" rx="4" fill="#e2e8f0" stroke="#263238" stroke-width="2"></rect>
-  <rect x="398" y="156" width="60" height="38" rx="2" fill="#111827"></rect>
-  <g fill="none" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round">
-    <path d="M 428,190 L 428,168"></path>
-    <path d="M 428,178 L 415,166"></path>
-    <path d="M 428,174 L 442,160"></path>
-    <path d="M 415,166 L 408,160"></path>
+  <g id="robotic-support-arm">
+    <rect x="150" y="98" width="16" height="72" rx="4" fill="#D8E1E6"></rect>
+    <circle cx="158" cy="176" r="9" fill="#CFE2EC"></circle>
+    <circle cx="158" cy="176" r="3" fill="#22303A"></circle>
+    <rect x="140" y="184" width="120" height="16" rx="4" fill="#D8E1E6"></rect>
+  </g>
+  <g id="c-arm">
+    <path d="M158 200 A150 150 0 1 1 158 400 L180 380 A128 128 0 1 0 180 220 Z" fill="#D8E1E6"></path>
+    <path d="M170 212 A138 138 0 1 1 170 388" stroke-width="1.5"></path>
+    <path d="M188 228 A120 120 0 1 1 188 372" stroke-width="1.5"></path>
+  </g>
+  <g id="large-flat-panel-detector" transform="translate(172 206) rotate(20)">
+    <rect x="-16" y="-32" width="26" height="64" fill="#BCC9D1"></rect>
+    <rect x="-80" y="-54" width="64" height="108" rx="12" fill="#CFE2EC"></rect>
+    <rect x="-70" y="-44" width="44" height="88" rx="4" fill="none" stroke-width="1.5"></rect>
+    <line x1="-58" y1="-44" x2="-58" y2="44" stroke-width="1" opacity="0.5"></line>
+    <line x1="-38" y1="-44" x2="-38" y2="44" stroke-width="1" opacity="0.5"></line>
+  </g>
+  <g id="x-ray-tube" transform="translate(172 394) rotate(-20)">
+    <rect x="-18" y="-22" width="26" height="44" fill="#BCC9D1"></rect>
+    <rect x="-78" y="-32" width="60" height="64" rx="10" fill="#CFE2EC"></rect>
+    <line x1="-62" y1="-26" x2="-62" y2="26" stroke-width="1.5"></line>
+    <line x1="-44" y1="-26" x2="-44" y2="26" stroke-width="1.5"></line>
+    <circle cx="-24" cy="0" r="4" fill="#22303A"></circle>
+    <path d="M-18 -14 L-4 -6 L-4 6 L-18 14 Z" fill="#D8E1E6"></path>
+  </g>
+  <g id="patient-table">
+    <rect x="16" y="278" width="256" height="18" rx="5" fill="#EEF2F4"></rect>
+    <line x1="34" y1="287" x2="258" y2="287" stroke-width="1.5"></line>
+    <rect x="16" y="272" width="256" height="6" fill="#BCC9D1"></rect>
+    <rect x="26" y="296" width="54" height="12" rx="2" fill="#D8E1E6"></rect>
+    <rect x="28" y="308" width="44" height="120" fill="#D8E1E6"></rect>
+    <line x1="40" y1="316" x2="40" y2="424" stroke-width="1.5"></line>
+    <line x1="60" y1="316" x2="60" y2="424" stroke-width="1.5"></line>
+    <rect x="32" y="340" width="32" height="10" rx="2" fill="#CFE2EC"></rect>
+    <rect x="14" y="430" width="90" height="14" rx="3" fill="#BCC9D1"></rect>
+  </g>
+  <g id="ceiling-monitor-boom">
+    <rect x="330" y="68" width="14" height="50" fill="#D8E1E6"></rect>
+    <rect x="300" y="118" width="72" height="14" rx="4" fill="#D8E1E6"></rect>
+    <rect x="356" y="132" width="10" height="30" fill="#D8E1E6"></rect>
+    <rect x="322" y="162" width="70" height="52" rx="5" fill="#EEF2F4"></rect>
+    <rect x="330" y="170" width="54" height="36" rx="3" fill="#CFE2EC"></rect>
+    <line x1="336" y1="178" x2="372" y2="178" stroke-width="1.2"></line>
+    <line x1="336" y1="186" x2="364" y2="186" stroke-width="1.2"></line>
+    <line x1="336" y1="194" x2="368" y2="194" stroke-width="1.2"></line>
+  </g>
+  <g id="control-room-console">
+    <rect x="404" y="360" width="90" height="76" rx="5" fill="#EEF2F4"></rect>
+    <rect x="414" y="370" width="56" height="34" rx="3" fill="#CFE2EC"></rect>
+    <line x1="420" y1="378" x2="454" y2="378" stroke-width="1"></line>
+    <line x1="420" y1="385" x2="448" y2="385" stroke-width="1"></line>
+    <circle cx="422" cy="418" r="6" fill="#D8E1E6"></circle>
+    <circle cx="422" cy="418" r="2.2" fill="#22303A"></circle>
+    <circle cx="444" cy="418" r="6" fill="#D8E1E6"></circle>
+    <circle cx="444" cy="418" r="2.2" fill="#22303A"></circle>
+    <rect x="392" y="440" width="112" height="10" rx="3" fill="#BCC9D1"></rect>
   </g>
 </svg>

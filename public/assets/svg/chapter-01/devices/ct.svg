@@ -1,34 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" role="img" aria-label="جهاز الاشعة السينية المقطعية بالحاسوب (CT)">
-  <!-- gantry housing block -->
-  <rect x="130" y="40" width="180" height="170" rx="18" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
-
-  <!-- gantry bore (donut) -->
-  <circle cx="220" cy="125" r="68" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></circle>
-  <circle cx="220" cy="125" r="40" fill="#e2e8f0" stroke="#263238" stroke-width="2.5"></circle>
-
-  <!-- rotating detector ring hint -->
-  <circle cx="220" cy="125" r="54" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="6 5" opacity="0.7"></circle>
-
-  <!-- patient table sliding through the bore -->
-  <rect x="60" y="118" width="360" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
-  <line x1="80" y1="134" x2="80" y2="216" stroke="#263238" stroke-width="3"></line>
-  <line x1="360" y1="134" x2="360" y2="200" stroke="#263238" stroke-width="3"></line>
-
-  <!-- simplified patient lying through the bore -->
-  <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
-    <ellipse cx="188" cy="112" rx="13" ry="10"></ellipse>
-    <rect x="200" y="104" width="190" height="16" rx="8"></rect>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none" stroke="#22303A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Computed tomography scanner">
+  <g id="gantry-housing">
+    <rect x="112" y="60" width="312" height="332" rx="56" fill="#EEF2F4"></rect>
+    <line x1="132" y1="88" x2="132" y2="364" stroke-width="1.5"></line>
+    <line x1="404" y1="88" x2="404" y2="364" stroke-width="1.5"></line>
   </g>
-
-  <!-- console / workstation -->
-  <g stroke="#263238" stroke-width="2" fill="none">
-    <rect x="392" y="150" width="66" height="52" rx="4" fill="#e2e8f0"></rect>
+  <g id="gantry-vents">
+    <rect x="132" y="336" width="26" height="26" rx="4" fill="#D8E1E6"></rect>
+    <line x1="138" y1="342" x2="152" y2="342" stroke-width="1.2"></line>
+    <line x1="138" y1="348" x2="152" y2="348" stroke-width="1.2"></line>
+    <line x1="138" y1="354" x2="152" y2="354" stroke-width="1.2"></line>
+    <rect x="340" y="336" width="70" height="32" rx="5" fill="#CFE2EC"></rect>
+    <line x1="350" y1="344" x2="398" y2="344" stroke-width="1.2"></line>
+    <line x1="350" y1="352" x2="398" y2="352" stroke-width="1.2"></line>
+    <line x1="350" y1="360" x2="386" y2="360" stroke-width="1.2"></line>
   </g>
-  <rect x="398" y="156" width="54" height="30" rx="2" fill="#1d4ed8"></rect>
-  <g stroke="#93c5fd" stroke-width="1.2" opacity="0.8">
-    <line x1="400" y1="163" x2="450" y2="163"></line>
-    <line x1="400" y1="170" x2="450" y2="170"></line>
-    <line x1="400" y1="177" x2="450" y2="177"></line>
+  <g id="bore-ring">
+    <circle cx="268" cy="226" r="120" fill="#D8E1E6"></circle>
+    <circle cx="268" cy="226" r="120" fill="none" stroke-width="1.5"></circle>
+    <circle cx="268" cy="226" r="104" fill="#CFE2EC"></circle>
+    <circle cx="268" cy="226" r="90" fill="#D8E1E6"></circle>
+    <circle cx="268" cy="226" r="74" fill="#EEF2F4"></circle>
+    <circle cx="268" cy="226" r="74" stroke-width="1.5"></circle>
+    <g stroke-width="1.2">
+      <line x1="268" y1="122" x2="268" y2="136"></line>
+      <line x1="268" y1="316" x2="268" y2="330"></line>
+      <line x1="164" y1="226" x2="178" y2="226"></line>
+      <line x1="358" y1="226" x2="372" y2="226"></line>
+    </g>
+    <circle cx="268" cy="146" r="5" fill="#BCC9D1"></circle>
+    <circle cx="268" cy="226" r="110" fill="none" stroke-width="1" stroke-dasharray="3 5" opacity="0.5"></circle>
   </g>
-  <line x1="398" y1="196" x2="452" y2="196" stroke="#263238" stroke-width="1.5"></line>
+  <g id="laser-alignment-strip">
+    <rect x="152" y="220" width="232" height="4" fill="#BCC9D1" opacity="0.6" stroke="none"></rect>
+  </g>
+  <g id="control-strip">
+    <rect x="150" y="380" width="220" height="10" rx="3" fill="#D8E1E6"></rect>
+    <circle cx="170" cy="385" r="2.5" fill="#22303A"></circle>
+    <circle cx="190" cy="385" r="2.5" fill="#22303A"></circle>
+  </g>
+  <g id="gantry-base">
+    <rect x="140" y="392" width="252" height="44" rx="6" fill="#D8E1E6"></rect>
+    <line x1="160" y1="400" x2="160" y2="428" stroke-width="1.5"></line>
+    <line x1="372" y1="400" x2="372" y2="428" stroke-width="1.5"></line>
+    <rect x="124" y="436" width="274" height="14" rx="3" fill="#BCC9D1"></rect>
+  </g>
+  <g id="patient-couch">
+    <rect x="300" y="292" width="200" height="20" rx="5" fill="#EEF2F4"></rect>
+    <line x1="320" y1="302" x2="486" y2="302" stroke-width="1.5"></line>
+    <rect x="312" y="312" width="60" height="10" rx="2" fill="#D8E1E6"></rect>
+    <line x1="308" y1="298" x2="492" y2="298" stroke-width="1" opacity="0.4"></line>
+  </g>
+  <g id="couch-headrest">
+    <path d="M300 300 Q286 300 286 314 V320 Q286 328 296 328 H300 Z" fill="#D8E1E6"></path>
+  </g>
+  <g id="couch-column">
+    <rect x="418" y="322" width="52" height="114" fill="#D8E1E6"></rect>
+    <line x1="432" y1="330" x2="432" y2="428" stroke-width="1.5"></line>
+    <line x1="456" y1="330" x2="456" y2="428" stroke-width="1.5"></line>
+    <rect x="428" y="346" width="34" height="10" rx="2" fill="#CFE2EC"></rect>
+    <rect x="406" y="436" width="92" height="14" rx="3" fill="#BCC9D1"></rect>
+  </g>
 </svg>
