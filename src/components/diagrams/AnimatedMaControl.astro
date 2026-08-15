@@ -1,33 +1,20 @@
 ---
-// Animated Figure 1-4 (السيطرة على تيار أنبوب الأشعة).
+// Redesigned Figure 1-4 (السيطرة على تيار أنبوب الأشعة) using the
+// diagram-01/02/03 visual system. Fourth of 8 Chapter 1 diagrams being
+// converted; uses the shared shell/controller
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
 //
-// Rebuilt against the original textbook page (page 13 / PDF index 12) for
-// fidelity. Two corrections to the previous build:
+// Geometry unchanged (every path/line/circle coordinate, every label,
+// every mA value identical to the prior build) — only fill/stroke
+// treatment and the interaction/animation layer changed.
 //
-// 1. Part أ and ب were swapped left/right — the source has the simple
-//    filament-transformer illustration (أ) on the LEFT and the practical
-//    5-tap selector circuit (ب) on the RIGHT; the previous build reversed
-//    them.
-// 2. Part أ's right-hand box was mislabeled "مجهز القدرة" (power supply) —
-//    in the source that label belongs to the resistor/node-A side, and the
-//    box on the far side of the filament transformer is "انبوبة الاشعة"
-//    (the X-ray tube, whose filament this circuit feeds). Also, part أ's
-//    box was floating with no transformer between it and node A; the
-//    source draws an actual filament transformer (primary coil + core +
-//    secondary coil) between them, and part ب was missing that same
-//    transformer, and 4 of its 5 resistor taps (300/200/150/100/75 mA),
-//    entirely — only one generic resistor was drawn.
-//
-// The book's own text on this page ("مقاومة متغيرة مربوطة على التوالي مع
-// محولة خافضة للفولتية") confirms the resistor is in series with the
-// transformer, which resolves which transformer terminal the selector's
-// wiper wire returns to (the coil's far/bottom terminal) — used here
-// where the hand-drawn source line-crossing is otherwise ambiguous.
-//
-// Animation: part أ highlights resistor -> node A -> transformer; part ب
-// keeps its existing 4-stage flow (resistor -> tap -> wiper -> onward)
-// re-pointed at the corrected geometry, ending at the transformer/tube.
-import "../../styles/diagram-animations.css";
+// Color mapping: the variable resistors (the adjustable element a
+// radiographer actually selects) are the control action (green,
+// matching diagram-01's mA/filament control circuit). The filament
+// transformers and the current they carry to the tube are the current
+// path (blue, matching diagram-01's kV/mA meters and diagram-02's
+// cathode).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -36,204 +23,318 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram ma-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="ma-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="1080"
-      height="380"
-      viewBox="0 0 1080 380"
-      role="img"
-      aria-label="السيطرة على تيار انبوب الأشعة"
-    >
-      <defs>
-        <marker id="arrow-ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-        <marker id="arrow-ma-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#15803d"></path>
-        </marker>
-      </defs>
+<figure class="diagram-block neo-surface-soft ma-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة السيطرة على تيار الأنبوبة</span>
+      <span class="simulator-subtitle">شكل 1-4 — دائرة الفتيل</span>
+    </div>
 
-      <rect x="0" y="0" width="1080" height="380" fill="none"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ma-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1080"
+          height="380"
+          viewBox="0 0 1080 380"
+          role="img"
+          aria-label="السيطرة على تيار انبوب الأشعة"
+        >
+          <defs>
+            <marker id="arrow-ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B9C3D6"></path>
+            </marker>
+            <marker id="arrow-ma-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#4ADE80"></path>
+            </marker>
 
-      <!-- ===== Part أ: simple illustrative circuit ===== -->
-      <text x="230" y="28" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">أ</text>
+            <linearGradient id="maBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="maGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="maGradControl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="maGradCurrent" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
 
-      <text x="70" y="170" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
-      <text x="70" y="188" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
+            <filter id="maElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="maLineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <path class="flow-highlight resistor-a" d="M 230.0,60.0 L 211.7,65.0 L 193.3,55.0 L 175.0,65.0 L 156.7,55.0 L 138.3,65.0 L 120.0,60.0" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-      <line x1="230" y1="60" x2="230" y2="90" stroke="#263238" stroke-width="2"></line>
-      <circle cx="230" cy="90" r="5" fill="#263238"></circle>
-      <text x="245" y="85" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">A</text>
-      <line x1="230" y1="90" x2="280" y2="90" stroke="#263238" stroke-width="2"></line>
-      <line x1="280" y1="90" x2="280" y2="110" stroke="#263238" stroke-width="2"></line>
-      <line x1="280" y1="235" x2="100" y2="235" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+          <rect x="0" y="0" width="1080" height="380" rx="20" fill="url(#maBgGrad)"></rect>
+          <rect x="0" y="0" width="1080" height="380" rx="20" fill="url(#maGrid)"></rect>
 
-      <path class="flow-highlight coil-a-primary" d="M 280,110 a7,10 0 1 1 0,20 M 280,130 a7,10 0 1 1 0,20 M 280,150 a7,10 0 1 1 0,20 M 280,170 a7,10 0 1 1 0,20 M 280,190 a7,10 0 1 1 0,20 M 280,210 a7,10 0 1 1 0,20" fill="none" stroke="#263238" stroke-width="2"></path>
-      <line x1="298" y1="110" x2="298" y2="230" stroke="#15803d" stroke-width="2"></line>
-      <line x1="305" y1="110" x2="305" y2="230" stroke="#15803d" stroke-width="2"></line>
-      <line x1="312" y1="110" x2="312" y2="230" stroke="#15803d" stroke-width="2"></line>
-      <line x1="319" y1="110" x2="319" y2="230" stroke="#15803d" stroke-width="2"></line>
-      <path d="M 335,140 a6,10 0 1 1 0,20 M 335,160 a6,10 0 1 1 0,20 M 335,180 a6,10 0 1 1 0,20" fill="none" stroke="#263238" stroke-width="2"></path>
+          <!-- ===== Part أ: simple illustrative circuit ===== -->
+          <text x="230" y="28" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">أ</text>
 
-      <line x1="335" y1="140" x2="365" y2="140" stroke="#263238" stroke-width="2"></line>
-      <line x1="335" y1="200" x2="365" y2="200" stroke="#263238" stroke-width="2"></line>
-      <rect x="365" y="130" width="60" height="80" fill="#ffffff" stroke="#263238" stroke-width="2"></rect>
-      <circle cx="395" cy="170" r="13" fill="#ffffff" stroke="#f97316" stroke-width="2"></circle>
-      <line x1="386" y1="178" x2="404" y2="162" stroke="#263238" stroke-width="2"></line>
-      <text x="460" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة</text>
-      <text x="460" y="183" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الاشعة</text>
-      <text x="300" y="262" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">محولة الفتيل</text>
+          <g class="hotspot" data-component="resistorA" tabindex="0" role="button" aria-label="المقاومة المتغيرة">
+            <rect class="hit-area" x="50" y="45" width="240" height="155" fill="#000" fill-opacity="0"></rect>
+            <text x="70" y="170" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مجهز</text>
+            <text x="70" y="188" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">القدرة</text>
+            <path class="box-shape" d="M 230.0,60.0 L 211.7,65.0 L 193.3,55.0 L 175.0,65.0 L 156.7,55.0 L 138.3,65.0 L 120.0,60.0" fill="none" stroke="#4ADE80" stroke-width="2.4" marker-end="url(#arrow-ma)" filter="url(#maElevate)"></path>
+            <line x1="230" y1="60" x2="230" y2="90" stroke="#8b94aa" stroke-width="2"></line>
+            <circle cx="230" cy="90" r="5" fill="#eef1f8"></circle>
+            <text x="245" y="85" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">A</text>
+            <line x1="230" y1="90" x2="280" y2="90" stroke="#8b94aa" stroke-width="2"></line>
+          </g>
 
-      <!-- ===== Part ب: practical 5-tap selector circuit ===== -->
-      <text x="700" y="28" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">ب</text>
+          <g class="hotspot" data-component="transformerA" tabindex="0" role="button" aria-label="محولة الفتيل — أ">
+            <rect class="hit-area" x="270" y="85" width="210" height="185" fill="#000" fill-opacity="0"></rect>
+            <line x1="280" y1="90" x2="280" y2="110" stroke="#8b94aa" stroke-width="2"></line>
+            <line x1="280" y1="235" x2="100" y2="235" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+            <line class="trail trail-blue" x1="280" y1="235" x2="100" y2="235" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="7 9"></line>
 
-      <text x="500" y="212" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
-      <text x="500" y="230" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
+            <path class="box-shape" d="M 280,110 a7,10 0 1 1 0,20 M 280,130 a7,10 0 1 1 0,20 M 280,150 a7,10 0 1 1 0,20 M 280,170 a7,10 0 1 1 0,20 M 280,190 a7,10 0 1 1 0,20 M 280,210 a7,10 0 1 1 0,20" fill="none" stroke="#38BDF8" stroke-width="2.2" filter="url(#maElevate)"></path>
+            <line x1="298" y1="110" x2="298" y2="230" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="305" y1="110" x2="305" y2="230" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="312" y1="110" x2="312" y2="230" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="319" y1="110" x2="319" y2="230" stroke="#38BDF8" stroke-width="2"></line>
+            <path d="M 335,140 a6,10 0 1 1 0,20 M 335,160 a6,10 0 1 1 0,20 M 335,180 a6,10 0 1 1 0,20" fill="none" stroke="#8b94aa" stroke-width="2"></path>
 
-      <line x1="580" y1="100" x2="540" y2="100" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
-      <line x1="580" y1="340" x2="540" y2="340" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
-      <line x1="580" y1="100" x2="580" y2="340" stroke="#263238" stroke-width="2"></line>
-      <line x1="580" y1="100" x2="850" y2="100" stroke="#263238" stroke-width="2"></line>
+            <line x1="335" y1="140" x2="365" y2="140" stroke="#8b94aa" stroke-width="2"></line>
+            <line x1="335" y1="200" x2="365" y2="200" stroke="#8b94aa" stroke-width="2"></line>
+            <rect x="365" y="130" width="60" height="80" fill="url(#maGradCurrent)" stroke="#38BDF8" stroke-width="2" filter="url(#maElevate)"></rect>
+            <circle cx="395" cy="170" r="13" fill="none" stroke="#FB923C" stroke-width="2"></circle>
+            <line x1="386" y1="178" x2="404" y2="162" stroke="#8b94aa" stroke-width="2"></line>
+            <text x="460" y="165" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انبوبة</text>
+            <text x="460" y="183" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الاشعة</text>
+            <text x="300" y="262" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#8b94aa" text-anchor="middle" direction="rtl">محولة الفتيل</text>
+          </g>
 
-      <g class="taps">
-        <path class="flow-highlight resistor-300" d="M 670,140 L 655,146 L 640,134 L 625,146 L 610,134 L 595,146 L 580,140" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-        <text x="625" y="128" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">300 mA</text>
-        <line x1="670" y1="140" x2="700" y2="140" stroke="#263238" stroke-width="2"></line>
-        <circle class="flow-highlight tap-300" cx="700" cy="140" r="5" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+          <!-- ===== Part ب: practical 5-tap selector circuit ===== -->
+          <text x="700" y="28" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">ب</text>
 
-        <path d="M 670,175 L 655,181 L 640,169 L 625,181 L 610,169 L 595,181 L 580,175" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-        <text x="625" y="163" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">200 mA</text>
-        <line x1="670" y1="175" x2="700" y2="175" stroke="#263238" stroke-width="2"></line>
-        <circle cx="700" cy="175" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+          <g class="hotspot" data-component="resistorB" tabindex="0" role="button" aria-label="مفتاح اختيار mA">
+            <rect class="hit-area" x="490" y="95" width="310" height="255" fill="#000" fill-opacity="0"></rect>
+            <text x="500" y="212" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مجهز</text>
+            <text x="500" y="230" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">القدرة</text>
+            <line x1="580" y1="100" x2="540" y2="100" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+            <line x1="580" y1="340" x2="540" y2="340" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+            <line x1="580" y1="100" x2="580" y2="340" stroke="#8b94aa" stroke-width="2"></line>
+            <line x1="580" y1="100" x2="850" y2="100" stroke="#8b94aa" stroke-width="2"></line>
 
-        <path d="M 670,210 L 655,216 L 640,204 L 625,216 L 610,204 L 595,216 L 580,210" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-        <text x="625" y="198" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">150 mA</text>
-        <line x1="670" y1="210" x2="700" y2="210" stroke="#263238" stroke-width="2"></line>
-        <circle cx="700" cy="210" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+            <g class="taps">
+              <path class="box-shape" d="M 670,140 L 655,146 L 640,134 L 625,146 L 610,134 L 595,146 L 580,140" fill="none" stroke="#4ADE80" stroke-width="2.2" marker-end="url(#arrow-ma)" filter="url(#maElevate)"></path>
+              <text x="625" y="128" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">300 mA</text>
+              <line x1="670" y1="140" x2="700" y2="140" stroke="#8b94aa" stroke-width="2"></line>
+              <circle class="box-shape tap-300" cx="700" cy="140" r="5" fill="url(#maGradControl)" stroke="#4ADE80" stroke-width="1.6" filter="url(#maElevate)"></circle>
 
-        <path d="M 670,245 L 655,251 L 640,239 L 625,251 L 610,239 L 595,251 L 580,245" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-        <text x="625" y="233" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">100 mA</text>
-        <line x1="670" y1="245" x2="700" y2="245" stroke="#263238" stroke-width="2"></line>
-        <circle cx="700" cy="245" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
+              <path d="M 670,175 L 655,181 L 640,169 L 625,181 L 610,169 L 595,181 L 580,175" fill="none" stroke="#8b94aa" stroke-width="2"></path>
+              <text x="625" y="163" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">200 mA</text>
+              <line x1="670" y1="175" x2="700" y2="175" stroke="#8b94aa" stroke-width="2"></line>
+              <circle cx="700" cy="175" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
 
-        <path d="M 670,280 L 655,286 L 640,274 L 625,286 L 610,274 L 595,286 L 580,280" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow-ma)"></path>
-        <text x="625" y="268" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">75 mA</text>
-        <line x1="670" y1="280" x2="700" y2="280" stroke="#263238" stroke-width="2"></line>
-        <circle cx="700" cy="280" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      </g>
+              <path d="M 670,210 L 655,216 L 640,204 L 625,216 L 610,204 L 595,216 L 580,210" fill="none" stroke="#8b94aa" stroke-width="2"></path>
+              <text x="625" y="198" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">150 mA</text>
+              <line x1="670" y1="210" x2="700" y2="210" stroke="#8b94aa" stroke-width="2"></line>
+              <circle cx="700" cy="210" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
 
-      <text x="790" y="128" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح اختيار</text>
-      <text x="790" y="145" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">mA</text>
-      <circle cx="780" cy="245" r="6" fill="#ffffff" stroke="#263238" stroke-width="2"></circle>
-      <text x="797" y="260" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">S</text>
-      <path d="M 775,240 L 705,145" stroke="#15803d" stroke-width="3" marker-end="url(#arrow-ma-green)"></path>
+              <path d="M 670,245 L 655,251 L 640,239 L 625,251 L 610,239 L 595,251 L 580,245" fill="none" stroke="#8b94aa" stroke-width="2"></path>
+              <text x="625" y="233" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">100 mA</text>
+              <line x1="670" y1="245" x2="700" y2="245" stroke="#8b94aa" stroke-width="2"></line>
+              <circle cx="700" cy="245" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
 
-      <path class="flow-highlight ma-return" d="M 786,245 L 820,245 L 820,340 L 850,340" fill="none" stroke="#263238" stroke-width="2"></path>
+              <path d="M 670,280 L 655,286 L 640,274 L 625,286 L 610,274 L 595,286 L 580,280" fill="none" stroke="#8b94aa" stroke-width="2"></path>
+              <text x="625" y="268" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">75 mA</text>
+              <line x1="670" y1="280" x2="700" y2="280" stroke="#8b94aa" stroke-width="2"></line>
+              <circle cx="700" cy="280" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            </g>
 
-      <path class="flow-highlight coil-b-primary" d="M 850,100 a7,12 0 1 1 0,24 M 850,124 a7,12 0 1 1 0,24 M 850,148 a7,12 0 1 1 0,24 M 850,172 a7,12 0 1 1 0,24 M 850,196 a7,12 0 1 1 0,24 M 850,220 a7,12 0 1 1 0,24 M 850,244 a7,12 0 1 1 0,24 M 850,268 a7,12 0 1 1 0,24 M 850,292 a7,12 0 1 1 0,24 M 850,316 a7,12 0 1 1 0,24" fill="none" stroke="#263238" stroke-width="2"></path>
-      <line x1="868" y1="100" x2="868" y2="340" stroke="#15803d" stroke-width="2"></line>
-      <line x1="875" y1="100" x2="875" y2="340" stroke="#15803d" stroke-width="2"></line>
-      <line x1="882" y1="100" x2="882" y2="340" stroke="#15803d" stroke-width="2"></line>
-      <line x1="889" y1="100" x2="889" y2="340" stroke="#15803d" stroke-width="2"></line>
-      <path d="M 905,170 a6,12 0 1 1 0,24 M 905,194 a6,12 0 1 1 0,24 M 905,218 a6,12 0 1 1 0,24 M 905,242 a6,12 0 1 1 0,24" fill="none" stroke="#263238" stroke-width="2"></path>
+            <text x="790" y="128" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح اختيار</text>
+            <text x="790" y="145" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">mA</text>
+            <circle cx="780" cy="245" r="6" fill="#1c2436" stroke="#4ADE80" stroke-width="2"></circle>
+            <text x="797" y="260" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">S</text>
+            <path class="trail trail-green" d="M 775,240 L 705,145" stroke="#4ADE80" stroke-width="3" marker-end="url(#arrow-ma-green)"></path>
+          </g>
 
-      <line x1="905" y1="170" x2="960" y2="170" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
-      <line x1="905" y1="266" x2="960" y2="266" stroke="#263238" stroke-width="2" marker-end="url(#arrow-ma)"></line>
-      <text x="1010" y="212" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الى فتيل</text>
-      <text x="1010" y="230" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">انبوبة الاشعة</text>
+          <g class="hotspot" data-component="transformerB" tabindex="0" role="button" aria-label="محولة الفتيل — ب">
+            <rect class="hit-area" x="780" y="95" width="240" height="280" fill="#000" fill-opacity="0"></rect>
+            <path class="trail trail-blue" d="M 786,245 L 820,245 L 820,340 L 850,340" fill="none" stroke="#38BDF8" stroke-width="2.5"></path>
+            <path d="M 786,245 L 820,245 L 820,340 L 850,340" fill="none" stroke="#5b6478" stroke-width="2"></path>
 
-      <text x="870" y="365" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">محولة الفتيل</text>
+            <path class="box-shape" d="M 850,100 a7,12 0 1 1 0,24 M 850,124 a7,12 0 1 1 0,24 M 850,148 a7,12 0 1 1 0,24 M 850,172 a7,12 0 1 1 0,24 M 850,196 a7,12 0 1 1 0,24 M 850,220 a7,12 0 1 1 0,24 M 850,244 a7,12 0 1 1 0,24 M 850,268 a7,12 0 1 1 0,24 M 850,292 a7,12 0 1 1 0,24 M 850,316 a7,12 0 1 1 0,24" fill="none" stroke="#38BDF8" stroke-width="2.2" filter="url(#maElevate)"></path>
+            <line x1="868" y1="100" x2="868" y2="340" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="875" y1="100" x2="875" y2="340" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="882" y1="100" x2="882" y2="340" stroke="#38BDF8" stroke-width="2"></line>
+            <line x1="889" y1="100" x2="889" y2="340" stroke="#38BDF8" stroke-width="2"></line>
+            <path d="M 905,170 a6,12 0 1 1 0,24 M 905,194 a6,12 0 1 1 0,24 M 905,218 a6,12 0 1 1 0,24 M 905,242 a6,12 0 1 1 0,24" fill="none" stroke="#8b94aa" stroke-width="2"></path>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle pa1" cx="230" cy="60" r="4.5" style="--tx:-90px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle pa2" cx="230" cy="90" r="4.5" style="--tx:50px; --ty:0px; --particle-delay:0.8s; --particle-duration:0.4s"></circle>
+            <line x1="905" y1="170" x2="960" y2="170" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+            <line x1="905" y1="266" x2="960" y2="266" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-ma)"></line>
+            <text x="1010" y="212" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الى فتيل</text>
+            <text x="1010" y="230" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انبوبة الاشعة</text>
+            <text x="870" y="365" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#8b94aa" text-anchor="middle" direction="rtl">محولة الفتيل</text>
+          </g>
+        </svg>
+      </div>
 
-        <circle class="flow-particle p-resistor" cx="670" cy="140" r="5" style="--tx:-90px; --ty:0px; --particle-delay:1.5s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-diag" cx="700" cy="140" r="5" style="--tx:75px; --ty:105px; --particle-delay:2.1s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-down" cx="780" cy="245" r="5" style="--tx:70px; --ty:95px; --particle-delay:2.7s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-out" cx="905" cy="170" r="5" style="--tx:55px; --ty:0px; --particle-delay:3.3s; --particle-duration:0.5s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.9s"></rect>
-      </g>
-    </svg>
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="resistorA"><span class="status-dot dot-green"></span><span class="status-label">المقاومة (أ)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transformerA"><span class="status-dot dot-blue"></span><span class="status-label">محولة الفتيل (أ)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="resistorB"><span class="status-dot dot-green"></span><span class="status-label">مفتاح mA (ب)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transformerB"><span class="status-dot dot-blue"></span><span class="status-label">محولة الفتيل (ب)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>إشارة السيطرة (اختيار المقاومة)</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التيار</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#maElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 560px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#maElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.015);
   }
 
-  .ma-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .hotspot:focus-visible .box-shape {
+    stroke-width: 3.2;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
+  .trail {
+    opacity: 0;
+    stroke-width: 3px;
+    filter: url(#maLineGlow);
   }
 
-  .resistor-a {
-    --highlight-delay: 0.1s;
-    --highlight-duration: 0.5s;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ma-reveal-trail { 0% { opacity: 0; } 100% { opacity: 0.85; } }
+    @keyframes ma-shape-activate { to { filter: url(#maElevate) saturate(1.35) brightness(1.45); } }
+    @keyframes ma-status-value-on { to { opacity: 1; } }
+    @keyframes ma-status-value-off { to { opacity: 0; } }
+    @keyframes ma-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes ma-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
 
-  .coil-a-primary {
-    --highlight-delay: 0.7s;
-    --highlight-duration: 0.6s;
-  }
+    /* Stage 1 — resistor أ (0.0s -> ~0.7s) */
+    .playing [data-component="resistorA"] .box-shape { animation: ma-shape-activate 0.5s ease-out 0s forwards; }
+    .playing [data-status="resistorA"] .status-dot { animation: ma-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="resistorA"] .value-on { animation: ma-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="resistorA"] .value-off { animation: ma-status-value-off 0.4s ease-out 0.1s forwards; }
 
-  .resistor-300 {
-    --highlight-delay: 1.4s;
-    --highlight-duration: 0.5s;
-  }
+    /* Stage 2 — transformer أ conducts to the tube (0.7s -> ~1.5s) */
+    .playing [data-component="transformerA"] .box-shape { animation: ma-shape-activate 0.5s ease-out 0.7s forwards; }
+    .playing [data-component="transformerA"] .trail-blue { animation: ma-reveal-trail 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="transformerA"] .status-dot { animation: ma-dot-on-blue 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="transformerA"] .value-on { animation: ma-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="transformerA"] .value-off { animation: ma-status-value-off 0.4s ease-out 0.8s forwards; }
 
-  .tap-300 {
-    --highlight-delay: 1.9s;
-    --highlight-duration: 0.5s;
-  }
+    /* Stage 3 — mA selector switch (1.5s -> ~2.3s) */
+    .playing [data-component="resistorB"] .box-shape { animation: ma-shape-activate 0.5s ease-out 1.5s forwards; }
+    .playing [data-component="resistorB"] .trail-green { animation: ma-reveal-trail 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="resistorB"] .status-dot { animation: ma-dot-on-green 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="resistorB"] .value-on { animation: ma-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="resistorB"] .value-off { animation: ma-status-value-off 0.4s ease-out 1.6s forwards; }
 
-  .ma-return {
-    --highlight-delay: 2.6s;
-    --highlight-duration: 0.6s;
-  }
-
-  .coil-b-primary {
-    --highlight-delay: 3.2s;
-    --highlight-duration: 0.6s;
+    /* Stage 4 — transformer ب conducts to the tube filament (2.3s -> ~3.1s) */
+    .playing [data-component="transformerB"] .box-shape { animation: ma-shape-activate 0.5s ease-out 2.3s forwards; }
+    .playing [data-component="transformerB"] .trail-blue { animation: ma-reveal-trail 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="transformerB"] .status-dot { animation: ma-dot-on-blue 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="transformerB"] .value-on { animation: ma-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="transformerB"] .value-off { animation: ma-status-value-off 0.4s ease-out 2.4s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".ma-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    resistorA: {
+      title: "المقاومة المتغيرة",
+      // src/data/chapter-01/page-04.json #definition-tube-current-control (excerpt)
+      text: "يتم السيطرة على شدة الإشعاع من خلال التغيير في عدد الالكترونات التي تنبعث من تسخين فتيل أنبوبة الاشعة السينية.",
+    },
+    transformerA: {
+      title: "محولة الفتيل",
+      // src/data/chapter-01/page-04.json #definition-tube-current-control (excerpt)
+      text: "كلما زاد تسخين الفتيل زاد عدد الالكترونات وبالتالي يزداد التيار المار في أنبوبة الاشعة عند اخذ الصورة الشعاعية ويقاس هذا التيار بـ (mA).",
+    },
+    resistorB: {
+      title: "مفتاح اختيار mA",
+      // src/data/chapter-01/page-04.json #definition-tube-current-control (excerpt)
+      text: "وكلما يزداد (mA) يزداد وضوح الصورة ويتم السيطرة على تيار انبوبة الاشعة من خلال السيطرة على حرارة الفتيل…",
+    },
+    transformerB: {
+      title: "محولة الفتيل",
+      // src/data/chapter-01/page-04.json #definition-tube-current-control (excerpt)
+      text: "وتستخدم مقاومة متغيرة مربوطة على التوالي مع محولة خافضة للفولتية التي تجهز فتيل الاشعة السينية.",
+    },
+  };
+
+  wireDiagramSimulator(".ma-diagram", { cycleMs: 3900, componentInfo: COMPONENT_INFO });
 </script>

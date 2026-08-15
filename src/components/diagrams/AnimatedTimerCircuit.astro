@@ -1,26 +1,24 @@
 ---
-// Animated Figure 1-5 (مخطط دائرة المؤقت).
+// Redesigned Figure 1-5 (مخطط دائرة المؤقت) using the diagram-01/02/03
+// visual system. Fifth of 8 Chapter 1 diagrams being converted; uses
+// the shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
 //
-// Rebuilt against the original textbook page (page 13 / PDF index 12) for
-// fidelity: the power source is drawn as a coil/reactor icon (not a
-// plain box) in the source; both switches are open knife-switch symbols
-// (two terminal circles + a diagonal blade), not a single stray diagonal
-// line; both fuses have terminal circles around the zigzag; the
-// contactor has TWO contact pairs (top pair + bottom pair, ganged
-// together — the source draws the same open-blade symbol on both rails
-// inside the orange box) feeding the HV transformer, with a distinct
-// green coil block and a blue linkage line from the coil to the contact
-// it pulls closed; the timer switch is a simple two-terminal contact
-// symbol, not a lettered box. The source also sets this whole figure on
-// a light cyan panel, reproduced here as a background rect behind the
-// circuit.
+// Geometry unchanged (every line/path/circle coordinate and label
+// identical to the prior build) — only fill/stroke treatment and the
+// interaction/animation layer changed. The prior build's light cyan
+// background panel is dropped in favor of the shared dark simulator
+// panel used by every other converted diagram; the circuit's own
+// stroke colors are what carry meaning now, not the page behind it.
 //
-// Teaches (unchanged cause -> effect sequence): the timer switch closes
-// -> energizes the contactor coil -> both contact pairs close together
-// -> power reaches the HV transformer only while that path is live —
-// same class hooks / highlight-pulse timing as before, retargeted at the
-// corrected symbols.
-import "../../styles/diagram-animations.css";
+// Color mapping preserves the cause -> effect chain the textbook
+// describes: the timer switch (control action) and the contactor coil
+// it energizes are green (control signal, matching diagram-01's
+// control circuits); the contactor's contacts closing and the power
+// that then reaches the HV transformer are orange (HV domain,
+// matching diagram-01's HV generator); the AC supply feeding the main
+// rails is blue (current).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -29,223 +27,306 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram timer-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="timer-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="900"
-      height="460"
-      viewBox="0 0 900 460"
-      role="img"
-      aria-label="مخطط دائرة المؤقت"
-    >
-      <defs>
-        <marker id="arrow-timer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+<figure class="diagram-block neo-surface-soft timer-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة المؤقت</span>
+      <span class="simulator-subtitle">شكل 1-5 — المؤقت والموصل الهوائي</span>
+    </div>
 
-      <rect x="0" y="0" width="900" height="460" fill="none"></rect>
-      <rect x="8" y="8" width="884" height="420" rx="8" fill="#cdf5f8"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="timer-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="460"
+          viewBox="0 0 900 460"
+          role="img"
+          aria-label="مخطط دائرة المؤقت"
+        >
+          <defs>
+            <marker id="arrow-timer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B9C3D6"></path>
+            </marker>
 
-      <!-- Power source coil -->
-      <text x="70" y="200" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مجهز</text>
-      <text x="70" y="218" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">القدرة</text>
-      <text x="70" y="236" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">AC</text>
-      <path d="M 130,70 a7,10 0 1 1 0,20 M 130,90 a7,10 0 1 1 0,20 M 130,110 a7,10 0 1 1 0,20 M 130,130 a7,10 0 1 1 0,20 M 130,150 a7,10 0 1 1 0,20 M 130,170 a7,10 0 1 1 0,20 M 130,190 a7,10 0 1 1 0,20 M 130,210 a7,10 0 1 1 0,20 M 130,230 a7,10 0 1 1 0,20 M 130,250 a7,10 0 1 1 0,20 M 130,270 a7,10 0 1 1 0,20 M 130,290 a7,10 0 1 1 0,20 M 130,310 a7,10 0 1 1 0,20 M 130,330 a7,10 0 1 1 0,20 M 130,350 a7,10 0 1 1 0,20 M 130,370 a7,10 0 1 1 0,20" fill="none" stroke="#263238" stroke-width="2"></path>
+            <linearGradient id="timerBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="timerGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="timerGradControl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="timerGradHv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a2210"></stop>
+              <stop offset="100%" stop-color="#1a0f08"></stop>
+            </linearGradient>
 
-      <!-- Top rail: switch -> fuse -->
-      <line x1="130" y1="70" x2="170" y2="70" stroke="#263238" stroke-width="2"></line>
-      <circle cx="170" cy="70" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <circle cx="210" cy="70" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <line x1="170" y1="70" x2="200" y2="52" stroke="#1d4ed8" stroke-width="2.5"></line>
-      <text x="190" y="40" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح</text>
-      <line x1="210" y1="70" x2="240" y2="70" stroke="#263238" stroke-width="2"></line>
-      <circle cx="240" cy="70" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <path d="M 240,70 L 250,65 L 260,75 L 270,65 L 280,75 L 290,70" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
-      <circle cx="290" cy="70" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <text x="265" y="40" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مصهر</text>
-      <line x1="290" y1="70" x2="640" y2="70" stroke="#263238" stroke-width="2"></line>
-      <line x1="640" y1="70" x2="640" y2="190" stroke="#263238" stroke-width="2"></line>
+            <filter id="timerElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="timerLineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <!-- Bottom rail: switch -> fuse -->
-      <line x1="130" y1="370" x2="170" y2="370" stroke="#263238" stroke-width="2"></line>
-      <circle cx="170" cy="370" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <circle cx="210" cy="370" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <line x1="170" y1="370" x2="200" y2="352" stroke="#1d4ed8" stroke-width="2.5"></line>
-      <text x="190" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مفتاح</text>
-      <line x1="210" y1="370" x2="240" y2="370" stroke="#263238" stroke-width="2"></line>
-      <circle cx="240" cy="370" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <path d="M 240,370 L 250,365 L 260,375 L 270,365 L 280,375 L 290,370" fill="none" stroke="#c2410c" stroke-width="2.2"></path>
-      <circle cx="290" cy="370" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <text x="265" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مصهر</text>
-      <line x1="290" y1="370" x2="600" y2="370" stroke="#263238" stroke-width="2"></line>
-      <line x1="600" y1="370" x2="600" y2="270" stroke="#263238" stroke-width="2"></line>
-      <line x1="600" y1="270" x2="640" y2="270" stroke="#263238" stroke-width="2"></line>
+          <rect x="0" y="0" width="900" height="460" rx="20" fill="url(#timerBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="460" rx="20" fill="url(#timerGrid)"></rect>
 
-      <!-- Contactor: two ganged contact pairs + coil -->
-      <rect class="flow-highlight contactor-box" x="640" y="150" width="150" height="150" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
-      <text x="715" y="135" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">موصل هوائي</text>
-      <text x="715" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#263238" text-anchor="middle" direction="ltr">Contactor</text>
+          <!-- ============ Supply: coil + both rails (switch + fuse) ============ -->
+          <g class="hotspot" data-component="supply" tabindex="0" role="button" aria-label="مجهز القدرة">
+            <rect class="hit-area" x="60" y="30" width="580" height="380" fill="#000" fill-opacity="0"></rect>
+            <text x="70" y="200" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مجهز</text>
+            <text x="70" y="218" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">القدرة</text>
+            <text x="70" y="236" font-family="Cairo, sans-serif" font-size="12" font-weight="600" fill="#38BDF8" text-anchor="middle" direction="ltr">AC</text>
+            <path class="box-shape" d="M 130,70 a7,10 0 1 1 0,20 M 130,90 a7,10 0 1 1 0,20 M 130,110 a7,10 0 1 1 0,20 M 130,130 a7,10 0 1 1 0,20 M 130,150 a7,10 0 1 1 0,20 M 130,170 a7,10 0 1 1 0,20 M 130,190 a7,10 0 1 1 0,20 M 130,210 a7,10 0 1 1 0,20 M 130,230 a7,10 0 1 1 0,20 M 130,250 a7,10 0 1 1 0,20 M 130,270 a7,10 0 1 1 0,20 M 130,290 a7,10 0 1 1 0,20 M 130,310 a7,10 0 1 1 0,20 M 130,330 a7,10 0 1 1 0,20 M 130,350 a7,10 0 1 1 0,20 M 130,370 a7,10 0 1 1 0,20" fill="none" stroke="#38BDF8" stroke-width="2.2" filter="url(#timerElevate)"></path>
 
-      <circle cx="660" cy="190" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <circle cx="770" cy="190" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <line class="contact-blade" x1="660" y1="190" x2="750" y2="176" stroke="#263238" stroke-width="2.2"></line>
-      <line x1="770" y1="190" x2="830" y2="190" stroke="#263238" stroke-width="2" marker-end="url(#arrow-timer)"></line>
-      <line x1="600" y1="190" x2="640" y2="190" stroke="#263238" stroke-width="2"></line>
-      <text x="595" y="165" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="end" direction="rtl">الى مصدر القدرة</text>
+            <line x1="130" y1="70" x2="170" y2="70" stroke="#8b94aa" stroke-width="2"></line>
+            <circle cx="170" cy="70" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="210" cy="70" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line x1="170" y1="70" x2="200" y2="52" stroke="#38BDF8" stroke-width="2.5"></line>
+            <text x="190" y="40" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح</text>
+            <line x1="210" y1="70" x2="240" y2="70" stroke="#8b94aa" stroke-width="2"></line>
+            <circle cx="240" cy="70" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <path d="M 240,70 L 250,65 L 260,75 L 270,65 L 280,75 L 290,70" fill="none" stroke="#8b94aa" stroke-width="2.2"></path>
+            <circle cx="290" cy="70" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <text x="265" y="40" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مصهر</text>
+            <line x1="290" y1="70" x2="640" y2="70" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="640" y1="70" x2="640" y2="190" stroke="#5b6478" stroke-width="2"></line>
+            <line class="trail trail-blue" x1="290" y1="70" x2="640" y2="190" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="8 10"></line>
 
-      <circle cx="660" cy="270" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <circle cx="770" cy="270" r="4" fill="#ffffff" stroke="#263238" stroke-width="1.5"></circle>
-      <line class="contact-blade" x1="660" y1="270" x2="750" y2="256" stroke="#263238" stroke-width="2.2"></line>
-      <line x1="770" y1="270" x2="830" y2="270" stroke="#263238" stroke-width="2" marker-end="url(#arrow-timer)"></line>
+            <line x1="130" y1="370" x2="170" y2="370" stroke="#8b94aa" stroke-width="2"></line>
+            <circle cx="170" cy="370" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="210" cy="370" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line x1="170" y1="370" x2="200" y2="352" stroke="#38BDF8" stroke-width="2.5"></line>
+            <text x="190" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح</text>
+            <line x1="210" y1="370" x2="240" y2="370" stroke="#8b94aa" stroke-width="2"></line>
+            <circle cx="240" cy="370" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <path d="M 240,370 L 250,365 L 260,375 L 270,365 L 280,375 L 290,370" fill="none" stroke="#8b94aa" stroke-width="2.2"></path>
+            <circle cx="290" cy="370" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <text x="265" y="400" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مصهر</text>
+            <line x1="290" y1="370" x2="600" y2="370" stroke="#5b6478" stroke-width="2"></line>
+          </g>
 
-      <text x="855" y="182" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الى محولة</text>
-      <text x="855" y="200" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الضغط العالي</text>
+          <!-- ============ Contactor: contacts + output to HV transformer ============ -->
+          <g class="hotspot" data-component="contactor" tabindex="0" role="button" aria-label="موصل هوائي (Contactor)">
+            <rect class="box-shape" x="640" y="150" width="150" height="150" rx="10" fill="url(#timerGradHv)" stroke="#FB923C" stroke-width="2" filter="url(#timerElevate)"></rect>
+            <text x="715" y="135" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">موصل هوائي</text>
+            <text x="715" y="118" font-family="Cairo, sans-serif" font-size="11" font-weight="600" fill="#FB923C" text-anchor="middle" direction="ltr">Contactor</text>
 
-      <rect class="flow-highlight coil-box" x="685" y="235" width="60" height="20" fill="#15803d" stroke="#263238" stroke-width="1.5"></rect>
-      <line x1="745" y1="245" x2="770" y2="270" stroke="#1d4ed8" stroke-width="2"></line>
-      <text x="815" y="240" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">ملف الموصل</text>
-      <text x="815" y="253" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="start" direction="rtl">الهوائي</text>
+            <circle cx="660" cy="190" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="770" cy="190" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line class="contact-blade" x1="660" y1="190" x2="750" y2="176" stroke="#FB923C" stroke-width="2.4"></line>
+            <line x1="770" y1="190" x2="830" y2="190" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-timer)"></line>
+            <line class="trail trail-orange" x1="770" y1="190" x2="830" y2="190" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="8 10"></line>
+            <line x1="600" y1="190" x2="640" y2="190" stroke="#5b6478" stroke-width="2"></line>
+            <text x="595" y="165" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="end" direction="rtl">الى مصدر القدرة</text>
 
-      <!-- Control loop: bottom rail -> timer switch -> coil -->
-      <line x1="600" y1="370" x2="600" y2="400" stroke="#263238" stroke-width="2"></line>
-      <line x1="600" y1="400" x2="640" y2="400" stroke="#263238" stroke-width="2"></line>
-      <rect class="flow-highlight timer-switch-box" x="640" y="380" width="70" height="40" rx="4" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"></rect>
-      <circle cx="655" cy="400" r="4" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.5"></circle>
-      <circle cx="695" cy="400" r="4" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.5"></circle>
-      <line x1="675" y1="388" x2="675" y2="412" stroke="#c2410c" stroke-width="3"></line>
-      <text x="675" y="368" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#1d4ed8" text-anchor="middle" direction="rtl">مفتاح مؤقت</text>
-      <line x1="710" y1="400" x2="715" y2="400" stroke="#263238" stroke-width="2"></line>
-      <path d="M 715,400 L 715,245 L 685,245" stroke="#263238" stroke-width="2" fill="none"></path>
+            <circle cx="660" cy="270" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="770" cy="270" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line class="contact-blade" x1="660" y1="270" x2="750" y2="256" stroke="#FB923C" stroke-width="2.4"></line>
+            <line x1="770" y1="270" x2="830" y2="270" stroke="#5b6478" stroke-width="2" marker-end="url(#arrow-timer)"></line>
+            <line class="trail trail-orange" x1="770" y1="270" x2="830" y2="270" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="8 10"></line>
+            <line x1="600" y1="270" x2="640" y2="270" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="600" y1="370" x2="600" y2="270" stroke="#5b6478" stroke-width="2"></line>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="particle-loop p-timer" cx="600" cy="370" r="5"></circle>
-        <circle class="flow-particle p-top" cx="130" cy="70" r="5" style="--tx:510px; --ty:0px; --particle-delay:2.0s; --particle-duration:0.9s"></circle>
-        <circle class="particle-diag p-bottom" cx="600" cy="370" r="5"></circle>
-        <circle class="flow-particle p-out" cx="770" cy="190" r="5" style="--tx:60px; --ty:0px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.8s"></rect>
-      </g>
-    </svg>
+            <text x="855" y="182" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الى محولة</text>
+            <text x="855" y="200" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الضغط العالي</text>
+          </g>
+
+          <!-- ============ Contactor coil ============ -->
+          <g class="hotspot" data-component="coil" tabindex="0" role="button" aria-label="ملف الموصل الهوائي">
+            <rect class="hit-area" x="680" y="230" width="140" height="45" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="685" y="235" width="60" height="20" rx="3" fill="url(#timerGradControl)" stroke="#4ADE80" stroke-width="1.8" filter="url(#timerElevate)"></rect>
+            <line class="trail trail-green" x1="745" y1="245" x2="770" y2="270" stroke="#4ADE80" stroke-width="2.5"></line>
+            <text x="815" y="240" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">ملف الموصل</text>
+            <text x="815" y="253" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">الهوائي</text>
+          </g>
+
+          <!-- ============ Timer switch (control loop) ============ -->
+          <g class="hotspot" data-component="timerSwitch" tabindex="0" role="button" aria-label="مفتاح مؤقت">
+            <rect class="hit-area" x="595" y="240" width="125" height="185" fill="#000" fill-opacity="0"></rect>
+            <line x1="600" y1="370" x2="600" y2="400" stroke="#8b94aa" stroke-width="2"></line>
+            <line x1="600" y1="400" x2="640" y2="400" stroke="#8b94aa" stroke-width="2"></line>
+            <rect class="box-shape" x="640" y="380" width="70" height="40" rx="6" fill="url(#timerGradControl)" stroke="#4ADE80" stroke-width="2" filter="url(#timerElevate)"></rect>
+            <circle cx="655" cy="400" r="4" fill="#1c2436" stroke="#4ADE80" stroke-width="1.5"></circle>
+            <circle cx="695" cy="400" r="4" fill="#1c2436" stroke="#4ADE80" stroke-width="1.5"></circle>
+            <line x1="675" y1="388" x2="675" y2="412" stroke="#4ADE80" stroke-width="3"></line>
+            <text x="675" y="368" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="rtl">مفتاح مؤقت</text>
+            <line x1="710" y1="400" x2="715" y2="400" stroke="#8b94aa" stroke-width="2"></line>
+            <path class="trail trail-green" d="M 715,400 L 715,245 L 685,245" stroke="#4ADE80" stroke-width="2.5" fill="none"></path>
+            <path d="M 715,400 L 715,245 L 685,245" stroke="#5b6478" stroke-width="2" fill="none"></path>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="timerSwitch"><span class="status-dot dot-green"></span><span class="status-label">مفتاح المؤقت</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="coil"><span class="status-dot dot-green"></span><span class="status-label">ملف الموصل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="contactor"><span class="status-dot dot-orange"></span><span class="status-label">تلامسات الموصل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="supply"><span class="status-dot dot-blue"></span><span class="status-label">القدرة الى المحولة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>إشارة السيطرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الضغط العالي</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التيار</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#timerElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 520px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#timerElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.015);
   }
 
-  .timer-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .hotspot:focus-visible .box-shape {
+    stroke-width: 3.2;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .timer-switch-box {
-    --highlight-delay: 0.9s;
-    --highlight-duration: 0.6s;
-  }
-
-  .coil-box {
-    --highlight-delay: 1.4s;
-    --highlight-duration: 0.7s;
-  }
-
-  .contactor-box {
-    --highlight-delay: 1.9s;
-    --highlight-duration: 0.8s;
-  }
-
-  .particle-loop,
-  .particle-diag {
-    fill: var(--neo-primary);
+  .trail {
     opacity: 0;
+    stroke-width: 3px;
+    filter: url(#timerLineGlow);
+  }
+
+  .contact-blade {
+    transition: stroke 0.3s ease, filter 0.3s ease;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* (600,370) -> (600,400) -> (640,400): the timer branch's own wire,
-       taken directly from the existing <line> coordinates above. */
-    @keyframes timer-loop-move {
-      0% {
-        transform: translate(0, 0);
-        opacity: 0;
-      }
-      8% {
-        opacity: 1;
-      }
-      55% {
-        transform: translate(0, 30px);
-      }
-      92% {
-        opacity: 1;
-      }
-      100% {
-        transform: translate(40px, 30px);
-        opacity: 0;
-      }
-    }
+    @keyframes timer-reveal-trail { 0% { opacity: 0; } 100% { opacity: 0.85; } }
+    @keyframes timer-shape-activate { to { filter: url(#timerElevate) saturate(1.35) brightness(1.45); } }
+    @keyframes timer-status-value-on { to { opacity: 1; } }
+    @keyframes timer-status-value-off { to { opacity: 0; } }
+    @keyframes timer-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes timer-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes timer-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes timer-blade-glow { to { filter: url(#timerLineGlow); } }
 
-    .playing .p-timer {
-      animation: timer-loop-move 1.3s ease-in-out 0.2s;
-    }
+    /* Stage 1 — timer switch closes (0.0s -> ~0.7s) */
+    .playing [data-component="timerSwitch"] .box-shape { animation: timer-shape-activate 0.5s ease-out 0s forwards; }
+    .playing [data-component="timerSwitch"] .trail-green { animation: timer-reveal-trail 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="timerSwitch"] .status-dot { animation: timer-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="timerSwitch"] .value-on { animation: timer-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="timerSwitch"] .value-off { animation: timer-status-value-off 0.4s ease-out 0.1s forwards; }
 
-    /* (600,370) -> (600,270) -> (640,270): main bottom rail into the
-       contactor, running once the coil above has already latched. */
-    @keyframes bottom-rail-move {
-      0% {
-        transform: translate(0, 0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      70% {
-        transform: translate(0, -100px);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(40px, -100px);
-        opacity: 0;
-      }
-    }
+    /* Stage 2 — contactor coil energizes (0.7s -> ~1.5s) */
+    .playing [data-component="coil"] .box-shape { animation: timer-shape-activate 0.5s ease-out 0.9s forwards; }
+    .playing [data-component="coil"] .trail-green { animation: timer-reveal-trail 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="coil"] .status-dot { animation: timer-dot-on-green 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="coil"] .value-on { animation: timer-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="coil"] .value-off { animation: timer-status-value-off 0.4s ease-out 1.0s forwards; }
 
-    .playing .p-bottom {
-      animation: bottom-rail-move 0.8s ease-in-out 2.0s;
-    }
+    /* Stage 3 — both contact pairs close together (1.5s -> ~2.2s) */
+    .playing [data-component="contactor"] .box-shape { animation: timer-shape-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-component="contactor"] .contact-blade { animation: timer-blade-glow 0.01s linear 1.7s forwards; }
+    .playing [data-status="contactor"] .status-dot { animation: timer-dot-on-orange 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="contactor"] .value-on { animation: timer-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="contactor"] .value-off { animation: timer-status-value-off 0.4s ease-out 1.8s forwards; }
+
+    /* Stage 4 — power reaches the HV transformer (2.2s -> ~3.0s) */
+    .playing [data-component="supply"] .trail-blue { animation: timer-reveal-trail 0.4s ease-out 2.2s forwards; }
+    .playing [data-component="contactor"] .trail-orange { animation: timer-reveal-trail 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="supply"] .status-dot { animation: timer-dot-on-blue 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="supply"] .value-on { animation: timer-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="supply"] .value-off { animation: timer-status-value-off 0.4s ease-out 2.2s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".timer-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    timerSwitch: {
+      title: "مفتاح مؤقت",
+      // src/data/chapter-01/page-05.json definition "ج" (excerpt)
+      text: "يتم السيطرة على فترة اشعاع الاشعة السينية بواسطة دائرة كهربائية تحدد بداية الاشعاع ونهايته والفترة الزمنية للاشعاع.",
+    },
+    supply: {
+      title: "مجهز القدرة",
+      // src/data/chapter-01/page-05.json definition "ج" (excerpt)
+      text: "وتحصل دائرة المؤقت قدرتها من الخط الرئيسي عبر المفتاح (Switch) والمصهرات (Fuses)…",
+    },
+    coil: {
+      title: "ملف الموصل الهوائي",
+      // src/data/chapter-01/page-05.json definition "ج" (excerpt)
+      text: "ويمكن اعتبار مفتاح المؤقت ضاغط (Push Button) مع ميكانيكية تؤقيت آلية لقطع التيار بعد زمن محدد…",
+    },
+    contactor: {
+      title: "موصل هوائي (Contactor)",
+      // src/data/chapter-01/page-05.json definition "ج" (excerpt)
+      text: "وعندها تنغلق نقاط الموصل الهوائي المفتوحة ليتم تطبيق الضغط العالي (H.P) الى ملف الابتدائي لمحولة الضغط العالي وتتولد الاشعة السينية فقط عندما يمر التيار خلال المؤقت.",
+    },
+  };
+
+  wireDiagramSimulator(".timer-diagram", { cycleMs: 3300, componentInfo: COMPONENT_INFO });
 </script>

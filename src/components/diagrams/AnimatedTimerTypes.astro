@@ -1,25 +1,19 @@
 ---
-// Animated Figure 1-6 (بعض أنواع المؤقتات).
+// Redesigned Figure 1-6 (بعض أنواع المؤقتات) using the diagram-01/02/03
+// visual system. Sixth of 8 Chapter 1 diagrams being converted; uses
+// the shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
 //
-// The source figure is a photo collage of three real devices (page 14 /
-// PDF index 13), so pixel-photographic reproduction isn't the goal —
-// instead each icon was redrawn with the distinguishing features visible
-// in that device's own photo, rather than a generic placeholder shape:
-// the mechanical timer gets its dial tick marks, pointer and status LED
-// (its photo is a white body with a graduated clock-face dial); the
-// synchronous timer gets a cylindrical motor body with a wound-coil
-// texture, a drive gear, and two lead wires (its photo is a brass
-// cylindrical motor with visible gear teeth and wires) instead of the
-// previous abstract 8-spoke asterisk, which read as a compass/fan and
-// didn't communicate "motor"; the digital timer keeps its LCD readout
-// and gains a small keypad grid (its photo is a keypad digital timer).
-//
-// Comparison of three device types, not a single process — each icon
-// keeps the one motion that explains its own operating principle: the
-// mechanical dial's hand sweeps, the synchronous motor's rotor spins,
-// the digital display's reading pulses. Level 2 — restrained, no card
-// interaction.
-import "../../styles/diagram-animations.css";
+// This is a comparison of three alternative devices, not a single
+// energy-flow process, so there is no multi-color energy semantic to
+// apply here — all three get the same blue "operating" accent
+// (current/operation), and the sequence simply demonstrates each
+// device's own distinguishing motion in turn (mechanical dial sweep,
+// synchronous motor spin, digital readout pulse) rather than one
+// flowing into the next. Geometry unchanged from the prior build
+// (every shape/path/text identical); only fill/stroke treatment and
+// the interaction/animation layer changed.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -28,125 +22,186 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram timer-types-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="timer-types-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="780"
-      height="300"
-      viewBox="0 0 780 300"
-      role="img"
-      aria-label="بعض أنواع المؤقتات"
-    >
-      <defs>
-        <marker id="arrow-tt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+<figure class="diagram-block neo-surface-soft timer-types-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة أنواع المؤقتات</span>
+      <span class="simulator-subtitle">شكل 1-6 — مقارنة</span>
+    </div>
 
-      <rect x="0" y="0" width="780" height="300" fill="none"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="timer-types-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="780"
+          height="300"
+          viewBox="0 0 780 300"
+          role="img"
+          aria-label="بعض أنواع المؤقتات"
+        >
+          <defs>
+            <linearGradient id="ttBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="ttGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="ttGradCard" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#182236"></stop>
+              <stop offset="100%" stop-color="#0d1420"></stop>
+            </linearGradient>
 
-      <!-- Mechanical timer: dial with tick marks, pointer, status LED -->
-      <rect x="60" y="40" width="180" height="140" rx="14" fill="#f1f5f9" stroke="#263238" stroke-width="2"></rect>
-      <circle cx="150" cy="105" r="45" fill="#fff" stroke="#263238" stroke-width="3"></circle>
-      <g stroke="#263238" stroke-width="2">
-        <line x1="150" y1="64" x2="150" y2="72" />
-        <line x1="189" y1="105" x2="181" y2="105" />
-        <line x1="150" y1="146" x2="150" y2="138" />
-        <line x1="111" y1="105" x2="119" y2="105" />
-        <line x1="177.6" y1="77.4" x2="172" y2="83" />
-        <line x1="177.6" y1="132.6" x2="172" y2="127" />
-        <line x1="122.4" y1="132.6" x2="128" y2="127" />
-        <line x1="122.4" y1="77.4" x2="128" y2="83" />
-      </g>
-      <circle cx="205" cy="55" r="5" fill="#dc2626"></circle>
-      <g class="dial-hand-group" style="transform-origin: 150px 105px;">
-        <line x1="150" y1="105" x2="150" y2="70" stroke="#263238" stroke-width="3"></line>
-        <line x1="150" y1="105" x2="175" y2="115" stroke="#263238" stroke-width="3"></line>
-      </g>
-      <circle cx="150" cy="105" r="4" fill="#263238"></circle>
-      <text x="150" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقت ميكانيكي</text>
+            <filter id="ttElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <!-- Synchronous timer: cylindrical motor, wound-coil texture, drive gear, leads -->
-      <rect x="300" y="40" width="180" height="140" rx="14" fill="#f1f5f9" stroke="#263238" stroke-width="2"></rect>
-      <line x1="345" y1="90" x2="330" y2="78" stroke="#57606f" stroke-width="2"></line>
-      <line x1="345" y1="120" x2="330" y2="132" stroke="#57606f" stroke-width="2"></line>
-      <rect x="345" y="80" width="60" height="50" rx="4" fill="#eab308" stroke="#263238" stroke-width="2.5"></rect>
-      <line x1="357" y1="80" x2="357" y2="130" stroke="#a16207" stroke-width="1.5"></line>
-      <line x1="369" y1="80" x2="369" y2="130" stroke="#a16207" stroke-width="1.5"></line>
-      <line x1="381" y1="80" x2="381" y2="130" stroke="#a16207" stroke-width="1.5"></line>
-      <line x1="393" y1="80" x2="393" y2="130" stroke="#a16207" stroke-width="1.5"></line>
-      <g class="motor-rotor-group" style="transform-origin: 435px 105px;">
-        <circle cx="435" cy="105" r="24" fill="#fde68a" stroke="#263238" stroke-width="2.5"></circle>
-        <path d="M 435,81 L 439,73 L 443,81 M 459,105 L 467,101 L 467,109 M 435,129 L 439,137 L 431,137 M 411,105 L 403,109 L 403,101 M 452,88 L 460,82 L 456,90 M 452,122 L 460,128 L 456,120 M 418,122 L 410,128 L 414,120 M 418,88 L 410,82 L 414,90" fill="#263238"></path>
-        <circle cx="435" cy="105" r="6" fill="#263238"></circle>
-      </g>
-      <text x="390" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقت تزامني</text>
+          <rect x="0" y="0" width="780" height="300" rx="20" fill="url(#ttBgGrad)"></rect>
+          <rect x="0" y="0" width="780" height="300" rx="20" fill="url(#ttGrid)"></rect>
 
-      <!-- Digital timer: LCD readout + keypad -->
-      <rect x="540" y="40" width="180" height="140" rx="14" fill="#f1f5f9" stroke="#263238" stroke-width="2"></rect>
-      <rect x="565" y="52" width="130" height="42" rx="4" fill="#0f172a" stroke="#263238" stroke-width="2"></rect>
-      <text class="digital-readout" x="630" y="80" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#4ade80" text-anchor="middle" direction="ltr">45:30</text>
-      <g fill="#334155" stroke="#263238" stroke-width="1">
-        <rect x="567" y="100" width="18" height="14" rx="2"></rect>
-        <rect x="589" y="100" width="18" height="14" rx="2"></rect>
-        <rect x="611" y="100" width="18" height="14" rx="2"></rect>
-        <rect x="633" y="100" width="18" height="14" rx="2"></rect>
-        <rect x="655" y="100" width="18" height="14" rx="2"></rect>
-        <rect x="567" y="118" width="18" height="14" rx="2"></rect>
-        <rect x="589" y="118" width="18" height="14" rx="2"></rect>
-        <rect x="611" y="118" width="18" height="14" rx="2"></rect>
-        <rect x="633" y="118" width="18" height="14" rx="2"></rect>
-        <rect x="655" y="118" width="18" height="14" rx="2"></rect>
-      </g>
-      <text x="630" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مؤقتات الكترونية - رقمية</text>
+          <!-- Mechanical timer -->
+          <g class="hotspot" data-component="mechanical" tabindex="0" role="button" aria-label="المؤقت الميكانيكي">
+            <rect class="box-shape" x="60" y="40" width="180" height="140" rx="14" fill="url(#ttGradCard)" stroke="#38BDF8" stroke-width="2" filter="url(#ttElevate)"></rect>
+            <circle cx="150" cy="105" r="45" fill="#0d1420" stroke="#8b94aa" stroke-width="2.5"></circle>
+            <g stroke="#8b94aa" stroke-width="2">
+              <line x1="150" y1="64" x2="150" y2="72"></line>
+              <line x1="189" y1="105" x2="181" y2="105"></line>
+              <line x1="150" y1="146" x2="150" y2="138"></line>
+              <line x1="111" y1="105" x2="119" y2="105"></line>
+              <line x1="177.6" y1="77.4" x2="172" y2="83"></line>
+              <line x1="177.6" y1="132.6" x2="172" y2="127"></line>
+              <line x1="122.4" y1="132.6" x2="128" y2="127"></line>
+              <line x1="122.4" y1="77.4" x2="128" y2="83"></line>
+            </g>
+            <circle cx="205" cy="55" r="5" fill="#38BDF8"></circle>
+            <g class="dial-hand-group" style="transform-origin: 150px 105px;">
+              <line x1="150" y1="105" x2="150" y2="70" stroke="#38BDF8" stroke-width="3"></line>
+              <line x1="150" y1="105" x2="175" y2="115" stroke="#38BDF8" stroke-width="3"></line>
+            </g>
+            <circle cx="150" cy="105" r="4" fill="#eef1f8"></circle>
+            <text x="150" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤقت ميكانيكي</text>
+          </g>
 
-      <g aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.6s"></rect>
-      </g>
-    </svg>
+          <!-- Synchronous timer -->
+          <g class="hotspot" data-component="synchronous" tabindex="0" role="button" aria-label="المؤقت التزامني">
+            <rect class="box-shape" x="300" y="40" width="180" height="140" rx="14" fill="url(#ttGradCard)" stroke="#38BDF8" stroke-width="2" filter="url(#ttElevate)"></rect>
+            <line x1="345" y1="90" x2="330" y2="78" stroke="#8b94aa" stroke-width="2"></line>
+            <line x1="345" y1="120" x2="330" y2="132" stroke="#8b94aa" stroke-width="2"></line>
+            <rect x="345" y="80" width="60" height="50" rx="4" fill="#0d1420" stroke="#38BDF8" stroke-width="2.2"></rect>
+            <line x1="357" y1="80" x2="357" y2="130" stroke="#38BDF8" stroke-width="1.5" opacity="0.6"></line>
+            <line x1="369" y1="80" x2="369" y2="130" stroke="#38BDF8" stroke-width="1.5" opacity="0.6"></line>
+            <line x1="381" y1="80" x2="381" y2="130" stroke="#38BDF8" stroke-width="1.5" opacity="0.6"></line>
+            <line x1="393" y1="80" x2="393" y2="130" stroke="#38BDF8" stroke-width="1.5" opacity="0.6"></line>
+            <g class="motor-rotor-group" style="transform-origin: 435px 105px;">
+              <circle cx="435" cy="105" r="24" fill="#0d1420" stroke="#8b94aa" stroke-width="2.2"></circle>
+              <path d="M 435,81 L 439,73 L 443,81 M 459,105 L 467,101 L 467,109 M 435,129 L 439,137 L 431,137 M 411,105 L 403,109 L 403,101 M 452,88 L 460,82 L 456,90 M 452,122 L 460,128 L 456,120 M 418,122 L 410,128 L 414,120 M 418,88 L 410,82 L 414,90" fill="#8b94aa"></path>
+              <circle cx="435" cy="105" r="6" fill="#38BDF8"></circle>
+            </g>
+            <text x="390" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤقت تزامني</text>
+          </g>
+
+          <!-- Digital timer -->
+          <g class="hotspot" data-component="digital" tabindex="0" role="button" aria-label="المؤقتات الالكترونية">
+            <rect class="box-shape" x="540" y="40" width="180" height="140" rx="14" fill="url(#ttGradCard)" stroke="#38BDF8" stroke-width="2" filter="url(#ttElevate)"></rect>
+            <rect x="565" y="52" width="130" height="42" rx="4" fill="#050a12" stroke="#38BDF8" stroke-width="2"></rect>
+            <text class="digital-readout" x="630" y="80" font-family="Cairo, sans-serif" font-size="18" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">45:30</text>
+            <g fill="#0d1420" stroke="#8b94aa" stroke-width="1">
+              <rect x="567" y="100" width="18" height="14" rx="2"></rect>
+              <rect x="589" y="100" width="18" height="14" rx="2"></rect>
+              <rect x="611" y="100" width="18" height="14" rx="2"></rect>
+              <rect x="633" y="100" width="18" height="14" rx="2"></rect>
+              <rect x="655" y="100" width="18" height="14" rx="2"></rect>
+              <rect x="567" y="118" width="18" height="14" rx="2"></rect>
+              <rect x="589" y="118" width="18" height="14" rx="2"></rect>
+              <rect x="611" y="118" width="18" height="14" rx="2"></rect>
+              <rect x="633" y="118" width="18" height="14" rx="2"></rect>
+              <rect x="655" y="118" width="18" height="14" rx="2"></rect>
+            </g>
+            <text x="630" y="210" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤقتات الكترونية - رقمية</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة العرض</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="mechanical"><span class="status-dot dot-blue"></span><span class="status-label">ميكانيكي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="synchronous"><span class="status-dot dot-blue"></span><span class="status-label">تزامني</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="digital"><span class="status-dot dot-blue"></span><span class="status-label">رقمي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مؤقت في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>قيد التشغيل</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#ttElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, stroke-width 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#ttElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-4px) scale(1.015);
   }
 
-  .timer-types-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
+  .hotspot:focus-visible .box-shape {
+    stroke-width: 3.2;
   }
 
   .dial-hand-group,
@@ -155,51 +210,59 @@ const { caption } = Astro.props;
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    @keyframes tt-status-value-on { to { opacity: 1; } }
+    @keyframes tt-status-value-off { to { opacity: 0; } }
+    @keyframes tt-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    /* Stage 1 — mechanical dial sweeps (0.0s -> ~2.4s) */
     @keyframes dial-sweep {
-      0%,
-      100% {
-        transform: rotate(0deg);
-      }
-      80% {
-        transform: rotate(300deg);
-      }
+      0%, 100% { transform: rotate(0deg); }
+      80% { transform: rotate(300deg); }
     }
+    .playing .dial-hand-group { animation: dial-sweep 2.2s ease-in-out 0.2s; }
+    .playing [data-status="mechanical"] .status-dot { animation: tt-dot-on-blue 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="mechanical"] .value-on { animation: tt-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="mechanical"] .value-off { animation: tt-status-value-off 0.4s ease-out 0.2s forwards; }
 
-    .playing .dial-hand-group {
-      animation: dial-sweep 2.2s ease-in-out 0.2s;
-    }
+    /* Stage 2 — synchronous motor spins one revolution (2.4s -> ~4.0s) */
+    @keyframes rotor-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .playing .motor-rotor-group { animation: rotor-spin 1.6s linear 2.6s 1; }
+    .playing [data-status="synchronous"] .status-dot { animation: tt-dot-on-blue 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="synchronous"] .value-on { animation: tt-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="synchronous"] .value-off { animation: tt-status-value-off 0.4s ease-out 2.6s forwards; }
 
-    @keyframes rotor-spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .playing .motor-rotor-group {
-      animation: rotor-spin 1.6s linear 0.2s 1;
-    }
-
+    /* Stage 3 — digital readout pulses (4.0s -> ~5.0s) */
     @keyframes readout-pulse {
-      0%,
-      100% {
-        opacity: 1;
-      }
-      25%,
-      75% {
-        opacity: 0.35;
-      }
+      0%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.35; }
     }
-
-    .playing .digital-readout {
-      animation: readout-pulse 0.6s ease-in-out 0.2s 3;
-    }
+    .playing .digital-readout { animation: readout-pulse 0.6s ease-in-out 4.4s 3; }
+    .playing [data-status="digital"] .status-dot { animation: tt-dot-on-blue 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="digital"] .value-on { animation: tt-status-value-on 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="digital"] .value-off { animation: tt-status-value-off 0.4s ease-out 4.4s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".timer-types-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    mechanical: {
+      title: "المؤقت الميكانيكي (اليدوي)",
+      // src/data/chapter-01/page-06.json definition "1" (excerpt)
+      text: "ويحتوي على نابض مع مؤشر وعتلة يمكن تحريكها على قرص مدرج ويعتمد الزمن على مدى بعد وضع المؤشر. وللمؤقت الميكانيكي زمن ادنى هو ثمن الثانية (1/8sec)…",
+    },
+    synchronous: {
+      title: "المؤقت التزامني",
+      // src/data/chapter-01/page-06.json definition "2"
+      text: "ويستخدم محرك تزامني يقوم بتدوير عتلة (Shaft) بسرعة (60) دورة بالدقيقة مقسمة الى اجزاء هي (1/10,1/20,1/30) من الزمن الاصلي للدورة.",
+    },
+    digital: {
+      title: "المؤقتات الالكترونية",
+      // src/data/chapter-01/page-06.json definition "3" (excerpt)
+      text: "وهو الاكثر تعقيداً والاكثر دقة اعتماداً على نوع الدائرة الالكترونية لحساب الزمن، ويعتمد تصميم المؤقت في تحديد زمن الشعاع على متسعة يتم شحنها عن طريق مقاومة متغيرة…",
+    },
+  };
+
+  wireDiagramSimulator(".timer-types-diagram", { cycleMs: 5000, componentInfo: COMPONENT_INFO });
 </script>
