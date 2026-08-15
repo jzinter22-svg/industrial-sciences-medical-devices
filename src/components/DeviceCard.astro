@@ -1,4 +1,6 @@
 ---
+import "../styles/device-illustration-animations.css";
+
 interface DeviceImageCredit {
   source: string;
   sourceUrl?: string;
@@ -33,7 +35,9 @@ const resolvedImageSrc = image ? import.meta.env.BASE_URL.replace(/\/$/, "") + i
     </div>
   </div>
 
-  {image ? (
+  {Astro.slots.has("illustration") ? (
+    <slot name="illustration" />
+  ) : image ? (
     <div class="device-image">
       <img src={resolvedImageSrc} alt={image.alt} loading="lazy" />
     </div>
@@ -56,6 +60,11 @@ const resolvedImageSrc = image ? import.meta.env.BASE_URL.replace(/\/$/, "") + i
 
   <slot name="visualization" />
 </article>
+
+<script>
+  import { wireDeviceIllustrationEntrance } from "../scripts/deviceIllustrationEntrance.js";
+  wireDeviceIllustrationEntrance(".device-illustration");
+</script>
 
 <style>
   .device-card {

@@ -2,6 +2,11 @@
 import IntroCard from "./IntroCard.astro";
 import DeviceCard from "./DeviceCard.astro";
 import TomographySectionsDiagram from "./TomographySectionsDiagram.astro";
+import XrayIllustration from "./devices/XrayIllustration.astro";
+import FluoroscopyIllustration from "./devices/FluoroscopyIllustration.astro";
+import AngiographyIllustration from "./devices/AngiographyIllustration.astro";
+import MammographyIllustration from "./devices/MammographyIllustration.astro";
+import CtIllustration from "./devices/CtIllustration.astro";
 import DefinitionCard from "./DefinitionCard.astro";
 import SubsectionHeading from "./SubsectionHeading.astro";
 import ListBlock from "./ListBlock.astro";
@@ -70,6 +75,18 @@ const chapter2AnimatedDiagrams: Record<string, any> = {
   "c2-fig-2-29b": DeliveryMonitorBlockDiagram,
 };
 
+// Chapter 1 device ids (device-0N) that have a hand-built animated
+// inline-SVG illustration, rendered through DeviceCard's "illustration"
+// slot. Any device not listed here falls back to DeviceCard's existing
+// image/placeholder rendering, unchanged.
+const deviceIllustrations: Record<string, any> = {
+  "device-01": XrayIllustration,
+  "device-02": FluoroscopyIllustration,
+  "device-03": AngiographyIllustration,
+  "device-04": MammographyIllustration,
+  "device-05": CtIllustration,
+};
+
 interface Props {
   block: any;
 }
@@ -89,6 +106,7 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
 };
 
 const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[block.id] : undefined;
+const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
 {block.type === "paragraph" && <IntroCard content={block.content.ar} />}
@@ -101,6 +119,7 @@ const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[bloc
     description={block.description.ar}
     image={block.image}
   >
+    {DeviceIllustration && <DeviceIllustration slot="illustration" />}
     {block.id === "device-05" && <TomographySectionsDiagram slot="visualization" />}
   </DeviceCard>
 )}

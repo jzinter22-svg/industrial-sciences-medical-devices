@@ -1,0 +1,79 @@
+---
+// Animated device-03 illustration (motion picture X-ray / angiography).
+// Static artwork reproduced from
+// public/assets/svg/chapter-01/devices/angiography.svg with two small,
+// deliberate additions — both minimal technical modifications needed to
+// expose an animation target, not a redesign:
+//   1. A dashed beam line from the frontal tube toward the table (the
+//      static artwork didn't have one; fluoroscopy and still-X-ray both
+//      do, and angiography is X-ray-based too, so this is scientifically
+//      consistent with the other two, not invented).
+//   2. A small travelling highlight dot riding the existing catheter
+//      path via a native CSS motion path (offset-path) — the path
+//      itself is untouched.
+// Both C-arms (frontal + biplane secondary) stay mechanically stable,
+// as instructed.
+import "../../styles/device-illustration-animations.css";
+---
+
+<figure class="device-image device-illustration" data-device-animation="angiography">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="480"
+    height="270"
+    viewBox="0 0 480 270"
+    role="img"
+    aria-label="جهاز الاشعة السينية ذات الصورة المتحركة (تصوير الأوعية)"
+  >
+    <path d="M 100,232 L 172,232 L 160,246 L 112,246 Z" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></path>
+    <line x1="136" y1="232" x2="136" y2="185" stroke="#263238" stroke-width="3"></line>
+
+    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"></path>
+    <path d="M 178,218 C 92,206 92,116 178,100" fill="none" stroke="#263238" stroke-width="2.5"></path>
+    <ellipse cx="178" cy="100" rx="30" ry="22" fill="#94a3b8" stroke="#263238" stroke-width="2.5"></ellipse>
+    <rect x="152" y="203" width="52" height="30" rx="8" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+
+    <!-- beam: tube -> table (added — see header note) -->
+    <g class="device-beam-continuous" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
+      <line x1="178" y1="169" x2="178" y2="203"></line>
+    </g>
+
+    <line x1="256" y1="26" x2="256" y2="46" stroke="#263238" stroke-width="3"></line>
+    <path d="M 256,46 C 300,52 300,88 268,98" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round"></path>
+    <path d="M 256,46 C 300,52 300,88 268,98" fill="none" stroke="#263238" stroke-width="2"></path>
+    <ellipse cx="256" cy="46" rx="18" ry="13" fill="#94a3b8" stroke="#263238" stroke-width="2"></ellipse>
+    <rect x="254" y="90" width="30" height="18" rx="5" fill="#F9E0A9" stroke="#263238" stroke-width="2"></rect>
+
+    <rect x="150" y="153" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
+    <line x1="170" y1="169" x2="170" y2="204" stroke="#263238" stroke-width="3"></line>
+    <line x1="390" y1="169" x2="390" y2="204" stroke="#263238" stroke-width="3"></line>
+    <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
+      <ellipse cx="232" cy="147" rx="12" ry="9"></ellipse>
+      <rect x="249" y="140" width="115" height="15" rx="7"></rect>
+    </g>
+
+    <path d="M 264,147 q 14,-4 26,-2" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"></path>
+    <circle cx="292" cy="143" r="3" fill="#dc2626"></circle>
+    <!-- travelling highlight along the catheter path (added — see header note) -->
+    <circle
+      class="device-catheter-dot"
+      r="2.6"
+      fill="#fca5a5"
+      style={`offset-path: path('M 264,147 q 14,-4 26,-2')`}
+    ></circle>
+
+    <g stroke="#263238" stroke-width="2" fill="none">
+      <line x1="374" y1="204" x2="374" y2="126"></line>
+      <rect x="366" y="96" width="16" height="30" rx="2" fill="#bfdbfe"></rect>
+    </g>
+
+    <rect x="392" y="150" width="72" height="50" rx="4" fill="#e2e8f0" stroke="#263238" stroke-width="2"></rect>
+    <rect x="398" y="156" width="60" height="38" rx="2" fill="#111827"></rect>
+    <g class="device-vascular-tree" fill="none" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round">
+      <path class="vascular-segment" d="M 428,190 L 428,168"></path>
+      <path class="vascular-segment" d="M 428,178 L 415,166"></path>
+      <path class="vascular-segment" d="M 428,174 L 442,160"></path>
+      <path class="vascular-segment" d="M 415,166 L 408,160"></path>
+    </g>
+  </svg>
+</figure>

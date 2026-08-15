@@ -1,0 +1,64 @@
+---
+// Animated device-01 illustration (still picture X-ray machine). The
+// static artwork from public/assets/svg/chapter-01/devices/xray.svg is
+// reproduced exactly — same viewBox, same shapes, same colors, same
+// stroke widths — the tube head, arm, table, and console are all
+// mechanically stable. The only added behavior is a class hook on the
+// existing dashed beam lines: they already run tube -> table, so no
+// geometry needed to change, only a pulse-fade-pause loop.
+import "../../styles/device-illustration-animations.css";
+---
+
+<figure class="device-image device-illustration" data-device-animation="xray">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="480"
+    height="270"
+    viewBox="0 0 480 270"
+    role="img"
+    aria-label="جهاز الاشعة السينية ذات الصورة الثابتة"
+  >
+    <g stroke="#263238" stroke-width="2.5" fill="none">
+      <line x1="120" y1="230" x2="120" y2="55"></line>
+      <line x1="112" y1="230" x2="112" y2="55"></line>
+      <rect x="98" y="230" width="38" height="10" rx="2" fill="#94a3b8" stroke="#263238"></rect>
+    </g>
+
+    <line x1="70" y1="42" x2="430" y2="42" stroke="#57606f" stroke-width="4"></line>
+    <rect x="106" y="38" width="20" height="10" fill="#cbd5e1" stroke="#263238" stroke-width="1.5"></rect>
+
+    <g stroke="#263238" stroke-width="3" fill="none" stroke-linecap="round">
+      <line x1="116" y1="55" x2="230" y2="55"></line>
+      <circle cx="230" cy="55" r="6" fill="#cbd5e1" stroke="#263238"></circle>
+      <line x1="230" y1="55" x2="280" y2="95"></line>
+      <circle cx="280" cy="95" r="6" fill="#cbd5e1" stroke="#263238"></circle>
+    </g>
+
+    <rect x="248" y="95" width="64" height="42" rx="10" fill="#F9E0A9" stroke="#263238" stroke-width="2.5"></rect>
+    <circle cx="280" cy="116" r="5" fill="#8DC2BE" stroke="#263238" stroke-width="1.5"></circle>
+
+    <path d="M 262,137 L 298,137 L 288,168 L 272,168 Z" fill="#cbd5e1" stroke="#263238" stroke-width="2"></path>
+
+    <g class="device-beam-discrete" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55">
+      <line x1="272" y1="168" x2="235" y2="205"></line>
+      <line x1="288" y1="168" x2="325" y2="205"></line>
+    </g>
+
+    <rect x="150" y="205" width="260" height="16" rx="4" fill="#cbd5e1" stroke="#263238" stroke-width="2.5"></rect>
+    <line x1="170" y1="221" x2="170" y2="238" stroke="#263238" stroke-width="3"></line>
+    <line x1="390" y1="221" x2="390" y2="238" stroke="#263238" stroke-width="3"></line>
+
+    <g fill="#bfdbfe" stroke="#263238" stroke-width="1.5">
+      <ellipse cx="228" cy="199" rx="12" ry="9"></ellipse>
+      <rect x="245" y="192" width="110" height="15" rx="7"></rect>
+    </g>
+
+    <g stroke="#263238" stroke-width="2" fill="none">
+      <rect x="404" y="150" width="46" height="70" rx="4" fill="#e2e8f0"></rect>
+      <rect x="410" y="158" width="34" height="22" rx="2" fill="#1d4ed8" stroke="none"></rect>
+      <circle cx="418" cy="196" r="5" fill="#cbd5e1"></circle>
+      <circle cx="434" cy="196" r="5" fill="#cbd5e1"></circle>
+      <line x1="410" y1="210" x2="444" y2="210"></line>
+    </g>
+  </svg>
+</figure>

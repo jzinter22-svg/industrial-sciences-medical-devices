@@ -1,0 +1,171 @@
+/* Shared ambient-animation utilities for the Chapter 1 device-card
+   illustrations (xray/fluoroscopy/angiography/mammography/ct). This is a
+   deliberately separate sibling to diagram-animations.css rather than an
+   extension of it: the two systems solve different interaction models.
+   diagram-animations.css drives explicit, button-triggered, single-cycle
+   playback ("press play, watch the sequence, it stops"). Device-card
+   illustrations instead need a continuous, low-key ambient loop that
+   starts once the card scrolls into view and never needs a button —
+   reusing the `.playing`-based contract here would mean faking a button
+   click on scroll, which is more confusing than just having a second,
+   equally small, equally documented contract.
+
+   Usage contract:
+   - Root wrapper carries `.device-illustration` (in addition to the
+     existing `.device-image` box-sizing class already used by
+     DeviceCard).
+   - `deviceIllustrationEntrance.js` adds `.in-view` to that wrapper once,
+     the first time it scrolls into the viewport (IntersectionObserver,
+     unobserved after firing — never replays on repeated scrolling).
+   - Every ambient keyframe below is scoped under `.in-view` so nothing
+     animates, and no CPU is spent, on an off-screen card.
+   - Hovering/focusing the card (`.device-card:hover`,
+     `.device-card:focus-within`) shortens each animation's duration
+     slightly (a touch more energetic) rather than changing amplitude —
+     safer against anything reading as "distorted" or "jumping".
+   - Every rule here lives under `@media (prefers-reduced-motion:
+     no-preference)`; the reduced-motion fallback (outside that query)
+     shows the finished, fully-opaque illustration immediately with no
+     transition, exactly like the diagram system's own reduced-motion
+     handling. */
+
+.device-illustration svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Reduced-motion / no-JS baseline: fully visible, static. This sits
+   outside the media query on purpose so it is the default in every
+   browser before anything else can override it. */
+.device-illustration {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .device-illustration {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .device-illustration.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hover / focus boost — illustration only, never the card itself. */
+  .device-card:hover .device-illustration svg,
+  .device-card:focus-within .device-illustration svg {
+    transform: scale(1.015);
+    transition: transform 0.2s ease;
+  }
+
+  /* Discrete exposure pulse: brief pulse, fade, pause, repeat.
+     Used for single-shot imaging (still X-ray, mammography exposure). */
+  @keyframes device-beam-discrete {
+    0% { opacity: 0; }
+    8% { opacity: 0.65; }
+    20% { opacity: 0.65; }
+    34% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .in-view .device-beam-discrete {
+    animation: device-beam-discrete 4.5s ease-in-out infinite;
+  }
+
+  .device-card:hover .in-view .device-beam-discrete,
+  .device-card:focus-within .in-view .device-beam-discrete {
+    animation-duration: 3.2s;
+  }
+
+  /* Continuous pulse: smoother, faster, never fully off — communicates
+     live/continuous imaging (fluoroscopy, angiography). */
+  @keyframes device-beam-continuous {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.65; }
+  }
+
+  .in-view .device-beam-continuous {
+    animation: device-beam-continuous 1.6s ease-in-out infinite;
+  }
+
+  .device-card:hover .in-view .device-beam-continuous,
+  .device-card:focus-within .in-view .device-beam-continuous {
+    animation-duration: 1.1s;
+  }
+
+  /* Monitor / console screen glow. */
+  @keyframes device-screen-glow {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+
+  .in-view .device-screen-glow {
+    animation: device-screen-glow 2.4s ease-in-out infinite;
+  }
+
+  /* Vascular-tree reveal: each vessel segment fades in, holds, fades —
+     staggered per segment so the tree reads as filling with contrast
+     and washing out again, matching how a contrast bolus actually
+     behaves, rather than a generic blink. */
+  @keyframes device-vascular-segment {
+    0% { opacity: 0; }
+    15% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .in-view .device-vascular-tree .vascular-segment {
+    animation: device-vascular-segment 4.5s ease-in-out infinite;
+  }
+
+  .in-view .device-vascular-tree .vascular-segment:nth-child(1) { animation-delay: 0s; }
+  .in-view .device-vascular-tree .vascular-segment:nth-child(2) { animation-delay: 0.25s; }
+  .in-view .device-vascular-tree .vascular-segment:nth-child(3) { animation-delay: 0.45s; }
+  .in-view .device-vascular-tree .vascular-segment:nth-child(4) { animation-delay: 0.65s; }
+
+  /* Small highlight travelling along the catheter path (native SVG/CSS
+     motion path — no JS, no per-frame work). */
+  @keyframes device-catheter-travel {
+    0% { offset-distance: 0%; opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+
+  .in-view .device-catheter-dot {
+    animation: device-catheter-travel 3s ease-in-out infinite;
+  }
+
+  /* Slow, smooth, seamless gantry rotation — always around the
+     element's own geometric center, never the card. */
+  @keyframes device-gantry-rotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .device-gantry-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .in-view .device-gantry-ring {
+    animation: device-gantry-rotate 8s linear infinite;
+  }
+
+  .device-card:hover .in-view .device-gantry-ring,
+  .device-card:focus-within .in-view .device-gantry-ring {
+    animation-duration: 5.5s;
+  }
+
+  /* Detector activation pulse (CT bore / mammography tray). */
+  @keyframes device-detector-pulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.95; }
+  }
+
+  .in-view .device-detector-pulse {
+    animation: device-detector-pulse 3s ease-in-out infinite;
+  }
+}
