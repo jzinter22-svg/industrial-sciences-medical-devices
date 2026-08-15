@@ -48,13 +48,14 @@
      X-ray — the overhead tube assembly slides along its ceiling rail
      into imaging position above the table, holds through a discrete
      exposure fired through the existing beam-guide lines (with a
-     soft blue glow on the tube for emphasis), then returns.
+     strong blue glow on the tube and a matching flash on the table
+     it's exposing), then returns.
      --------------------------------------------------------------- */
   @keyframes xray-tube-cycle {
     0%, 12.5% { transform: translateX(0); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
-    37.5% { transform: translateX(54px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
-    45%, 53% { transform: translateX(54px); filter: drop-shadow(0 0 7px rgba(47, 111, 237, 0.85)); }
-    62.5% { transform: translateX(54px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    37.5% { transform: translateX(66px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    45%, 53% { transform: translateX(66px); filter: drop-shadow(0 0 9px rgba(47, 111, 237, 0.95)); }
+    62.5% { transform: translateX(66px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
     87.5%, 100% { transform: translateX(0); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
   }
 
@@ -74,9 +75,9 @@
   }
 
   @keyframes xray-beam-exposure {
-    0%, 40% { opacity: 0; stroke-width: 1.2; }
-    45%, 53% { opacity: 0.95; stroke-width: 3; }
-    58%, 100% { opacity: 0; stroke-width: 1.2; }
+    0%, 40% { opacity: 0; stroke-width: 1.2; filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    45%, 53% { opacity: 1; stroke-width: 4.5; filter: drop-shadow(0 0 6px rgba(47, 111, 237, 0.9)); }
+    58%, 100% { opacity: 0; stroke-width: 1.2; filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
   }
 
   .illustration-xray.in-view #beam-guide {
@@ -85,6 +86,21 @@
   }
 
   .illustration-xray.is-playing #beam-guide {
+    animation-play-state: running;
+  }
+
+  @keyframes xray-table-flash {
+    0%, 40% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    45%, 53% { filter: drop-shadow(0 0 12px rgba(47, 111, 237, 0.6)); }
+    58%, 100% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+  }
+
+  .illustration-xray.in-view #patient-table {
+    animation: xray-table-flash 8s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+
+  .illustration-xray.is-playing #patient-table {
     animation-play-state: running;
   }
 
@@ -97,8 +113,8 @@
      --------------------------------------------------------------- */
   @keyframes fluoro-carm-sweep {
     0%, 14% { transform: rotate(0deg); }
-    43% { transform: rotate(-18deg); }
-    57% { transform: rotate(-18deg); }
+    43% { transform: rotate(-28deg); }
+    57% { transform: rotate(-28deg); }
     86%, 100% { transform: rotate(0deg); }
   }
 
@@ -143,8 +159,8 @@
      --------------------------------------------------------------- */
   @keyframes angio-carriage-slide {
     0%, 12% { translate: 0 0; }
-    42% { translate: 76px 0; }
-    62% { translate: 76px 0; }
+    42% { translate: 128px 0; }
+    62% { translate: 128px 0; }
     90%, 100% { translate: 0 0; }
   }
 
@@ -186,8 +202,8 @@
      --------------------------------------------------------------- */
   @keyframes mammo-compression {
     0%, 14% { transform: translateY(0); }
-    40% { transform: translateY(12px); }
-    61% { transform: translateY(12px); }
+    40% { transform: translateY(17px); }
+    61% { transform: translateY(17px); }
     86%, 100% { transform: translateY(0); }
   }
 
@@ -202,7 +218,7 @@
 
   @keyframes mammo-exposure-glow {
     0%, 38% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
-    43%, 58% { filter: drop-shadow(0 0 6px rgba(47, 111, 237, 0.85)); }
+    43%, 58% { filter: drop-shadow(0 0 9px rgba(47, 111, 237, 0.95)); }
     63%, 100% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
   }
 
@@ -229,11 +245,44 @@
   }
 
   .illustration-ct.in-view #bore-ring {
-    animation: ct-gantry-rotate 6s linear infinite;
+    animation: ct-gantry-rotate 5s linear infinite;
     animation-play-state: paused;
   }
 
   .illustration-ct.is-playing #bore-ring {
+    animation-play-state: running;
+  }
+
+  /* The ring itself is built from concentric circles (rotationally
+     symmetric — spinning them is invisible on its own) plus one
+     off-center marker dot and a dashed outer ring, which are the
+     elements that actually read as "spinning". Boost their contrast
+     while playing so the rotation is unmistakable at a glance. */
+  @keyframes ct-outer-ring-highlight {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .illustration-ct.in-view #bore-ring circle[r="110"] {
+    animation: ct-outer-ring-highlight 2.5s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+
+  .illustration-ct.is-playing #bore-ring circle[r="110"] {
+    animation-play-state: running;
+  }
+
+  @keyframes ct-marker-glow {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    50% { filter: drop-shadow(0 0 6px rgba(47, 111, 237, 0.9)); }
+  }
+
+  .illustration-ct.in-view #bore-ring circle[r="5"] {
+    animation: ct-marker-glow 1.6s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+
+  .illustration-ct.is-playing #bore-ring circle[r="5"] {
     animation-play-state: running;
   }
 
