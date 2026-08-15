@@ -1,31 +1,20 @@
 /* Shared ambient-animation utilities for the Chapter 1 device-card
-   illustrations (xray/fluoroscopy/angiography/mammography/ct). Sibling
-   to diagram-animations.css, not an extension of it — that system is
-   explicit, button-triggered, single-cycle playback; this one is a
-   continuous ambient loop that starts once the card first scrolls into
-   view and pauses/resumes as it crosses the viewport boundary — a
-   different enough interaction model to warrant its own contract.
+   illustrations, targeting the Claude Design SVG artwork's own semantic
+   <g id="..."> groups (xray.svg / fluoroscopy.svg / angiography.svg /
+   mammography.svg / ct.svg). The root wrapper carries `.device-illustration`
+   plus a per-device scoping class (`.illustration-xray`, etc.) so rules
+   never cross-match group ids that repeat across devices — `c-arm` exists
+   in both fluoroscopy.svg and angiography.svg with different intended
+   motion, and both illustrations are inlined into the same page.
 
-   Usage contract:
-   - Root wrapper carries `.device-illustration` (in addition to the
-     existing `.device-image` box-sizing class already used by
-     DeviceCard).
-   - `deviceIllustrationEntrance.js` adds `.in-view` once (first time
-     seen, never removed — plays the one-time fade/rise entrance) and
-     toggles `.is-playing` every time the card crosses the viewport
-     boundary (drives `animation-play-state`, so a loop freezes
-     mid-cycle off-screen and resumes from that point back on-screen).
-   - Every ambient keyframe is only *attached* under `.in-view` and only
-     *runs* under `.is-playing`, so nothing animates, and no CPU is
-     spent, before a card has ever been seen or while it's off-screen.
-   - Hovering/focusing the card (`.device-card:hover`,
-     `.device-card:focus-within`) shortens each animation's duration —
-     a touch more energetic, not a different amplitude — since the
-     base ambient motion must already be clearly visible without any
-     interaction.
-   - Every rule here lives under `@media (prefers-reduced-motion:
-     no-preference)`; the reduced-motion fallback (outside that query)
-     shows the finished, fully-opaque, static illustration immediately. */
+   Usage contract (same shape as the previous artwork's animation system):
+   `deviceIllustrationEntrance.js` adds `.in-view` once (first time seen,
+   never removed) and toggles `.is-playing` as the card crosses the
+   viewport boundary. Every operational keyframe is only *attached* under
+   `.in-view` and only *runs* under `.is-playing`, so a loop freezes
+   mid-cycle off-screen and resumes on return. Everything lives under
+   `@media (prefers-reduced-motion: no-preference)`; outside that query
+   the SVGs render exactly as authored, fully static. */
 
 .device-illustration svg {
   width: 100%;
@@ -33,9 +22,6 @@
   display: block;
 }
 
-/* Reduced-motion / no-JS baseline: fully visible, static. Outside the
-   media query on purpose so it is the default in every browser before
-   anything else can override it. */
 .device-illustration {
   opacity: 1;
 }
@@ -52,278 +38,236 @@
     transform: translateY(0);
   }
 
-  /* Hover / focus boost — illustration only, never the card itself. */
   .device-card:hover .device-illustration svg,
   .device-card:focus-within .device-illustration svg {
     transform: scale(1.02);
     transition: transform 0.2s ease;
   }
 
-  /* ---- Discrete exposure pulse (still X-ray beam, mammography
-     compression-gap "exposure" lines): a clearly visible pulse that
-     holds, then a long calm pause before repeating. ---- */
-  @keyframes device-beam-discrete {
-    0% { opacity: 0; stroke-width: 1.2; }
-    8% { opacity: 0.92; stroke-width: 2.6; }
-    30% { opacity: 0.92; stroke-width: 2.6; }
-    46% { opacity: 0; stroke-width: 1.2; }
-    100% { opacity: 0; stroke-width: 1.2; }
+  /* ---------------------------------------------------------------
+     X-ray — the overhead tube assembly slides along its ceiling rail
+     into imaging position above the table, holds through a discrete
+     exposure fired through the existing beam-guide lines (with a
+     soft blue glow on the tube for emphasis), then returns.
+     --------------------------------------------------------------- */
+  @keyframes xray-tube-cycle {
+    0%, 12.5% { transform: translateX(0); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    37.5% { transform: translateX(54px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    45%, 53% { transform: translateX(54px); filter: drop-shadow(0 0 7px rgba(47, 111, 237, 0.85)); }
+    62.5% { transform: translateX(54px); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    87.5%, 100% { transform: translateX(0); filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
   }
 
-  .in-view .device-beam-discrete {
-    animation: device-beam-discrete 3.2s ease-in-out infinite;
+  .illustration-xray.in-view #overhead-tube-arm,
+  .illustration-xray.in-view #tube-mount,
+  .illustration-xray.in-view #tube-head,
+  .illustration-xray.in-view #collimator {
+    animation: xray-tube-cycle 8s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-beam-discrete {
+  .illustration-xray.is-playing #overhead-tube-arm,
+  .illustration-xray.is-playing #tube-mount,
+  .illustration-xray.is-playing #tube-head,
+  .illustration-xray.is-playing #collimator {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-beam-discrete,
-  .device-card:focus-within .is-playing .device-beam-discrete {
-    animation-duration: 2.2s;
+  @keyframes xray-beam-exposure {
+    0%, 40% { opacity: 0; stroke-width: 1.2; }
+    45%, 53% { opacity: 0.95; stroke-width: 3; }
+    58%, 100% { opacity: 0; stroke-width: 1.2; }
   }
 
-  /* X-ray-specific: a soft flash behind the patient/table right after
-     the beam reaches it — the "detector responding to exposure" cue. */
-  @keyframes device-xray-exposure {
-    0%, 32% { opacity: 0; }
-    40% { opacity: 0.55; }
-    50% { opacity: 0.55; }
-    60%, 100% { opacity: 0; }
-  }
-
-  .in-view .device-xray-exposure {
-    animation: device-xray-exposure 3.2s ease-in-out infinite;
+  .illustration-xray.in-view #beam-guide {
+    animation: xray-beam-exposure 8s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-xray-exposure {
+  .illustration-xray.is-playing #beam-guide {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-xray-exposure,
-  .device-card:focus-within .is-playing .device-xray-exposure {
-    animation-duration: 2.2s;
+  /* ---------------------------------------------------------------
+     Fluoroscopy — the mobile C-arm sweeps through an imaging arc
+     around its pedestal joint (421,237); detector-top and tube-bottom
+     rotate with it since they are its two physical ends. The cart and
+     casters stay planted. A continuous soft glow on the detector reads
+     as live/continuous imaging, distinct from x-ray's discrete pulse.
+     --------------------------------------------------------------- */
+  @keyframes fluoro-carm-sweep {
+    0%, 14% { transform: rotate(0deg); }
+    43% { transform: rotate(-18deg); }
+    57% { transform: rotate(-18deg); }
+    86%, 100% { transform: rotate(0deg); }
   }
 
-  /* Mammography-specific exposure flash on the existing compression-gap
-     lines (visible at rest at their original static opacity, 0.6 — this
-     only modulates brighter for the flash, timed to the paddle-down
-     hold; same duration as device-paddle-compress so the percentages
-     line up in real time). */
-  @keyframes device-mammo-exposure {
-    0%, 20% { opacity: 0.6; }
-    30% { opacity: 0.95; }
-    48% { opacity: 0.95; }
-    58%, 100% { opacity: 0.6; }
+  .illustration-fluoroscopy #c-arm,
+  .illustration-fluoroscopy #detector-top,
+  .illustration-fluoroscopy #tube-bottom {
+    transform-origin: 421px 237px;
   }
 
-  .in-view .device-mammo-exposure {
-    animation: device-mammo-exposure 3.6s ease-in-out infinite;
+  .illustration-fluoroscopy.in-view #c-arm,
+  .illustration-fluoroscopy.in-view #tube-bottom {
+    animation: fluoro-carm-sweep 7s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-mammo-exposure {
+  .illustration-fluoroscopy.is-playing #c-arm,
+  .illustration-fluoroscopy.is-playing #tube-bottom {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-mammo-exposure,
-  .device-card:focus-within .is-playing .device-mammo-exposure {
-    animation-duration: 2.6s;
+  @keyframes fluoro-live-glow {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    50% { filter: drop-shadow(0 0 5px rgba(47, 111, 237, 0.75)); }
   }
 
-  /* ---- Continuous pulse (fluoroscopy / angiography beam): smoother,
-     never fully off — communicates live/continuous imaging. ---- */
-  @keyframes device-beam-continuous {
-    0%, 100% { opacity: 0.32; stroke-width: 1.4; }
-    50% { opacity: 0.9; stroke-width: 2.8; }
+  .illustration-fluoroscopy.in-view #detector-top {
+    animation: fluoro-carm-sweep 7s ease-in-out infinite, fluoro-live-glow 1.8s ease-in-out infinite;
+    animation-play-state: paused, paused;
   }
 
-  .in-view .device-beam-continuous {
-    animation: device-beam-continuous 1.8s ease-in-out infinite;
+  .illustration-fluoroscopy.is-playing #detector-top {
+    animation-play-state: running, running;
+  }
+
+  /* ---------------------------------------------------------------
+     Angiography — the ceiling-mounted robotic arm slides along its
+     rail (translation, not rotation — deliberately different motion
+     from fluoroscopy's floor C-arm sweep). The detector and tube keep
+     their own translate(...) rotate(20|-20) placement intact; the
+     extra slide is added through the standalone `translate` property,
+     which composes with rather than replaces that existing attribute.
+     --------------------------------------------------------------- */
+  @keyframes angio-carriage-slide {
+    0%, 12% { translate: 0 0; }
+    42% { translate: 76px 0; }
+    62% { translate: 76px 0; }
+    90%, 100% { translate: 0 0; }
+  }
+
+  .illustration-angiography.in-view #ceiling-carriage,
+  .illustration-angiography.in-view #robotic-support-arm,
+  .illustration-angiography.in-view #c-arm,
+  .illustration-angiography.in-view #large-flat-panel-detector,
+  .illustration-angiography.in-view #x-ray-tube {
+    animation: angio-carriage-slide 8s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-beam-continuous {
+  .illustration-angiography.is-playing #ceiling-carriage,
+  .illustration-angiography.is-playing #robotic-support-arm,
+  .illustration-angiography.is-playing #c-arm,
+  .illustration-angiography.is-playing #large-flat-panel-detector,
+  .illustration-angiography.is-playing #x-ray-tube {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-beam-continuous,
-  .device-card:focus-within .is-playing .device-beam-continuous {
-    animation-duration: 1.2s;
-  }
-
-  /* Small controlled C-arm sway (fluoroscopy + angiography primary
-     arm) — a single slow rotation and back, around the arm's own
-     pedestal mount point. */
-  @keyframes device-carm-sway {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(-9deg); }
-  }
-
-  .device-carm-group {
-    transform-origin: 136px 232px;
-  }
-
-  .in-view .device-carm-group {
-    animation: device-carm-sway 2.2s ease-in-out infinite;
-    animation-play-state: paused;
-  }
-
-  .is-playing .device-carm-group {
-    animation-play-state: running;
-  }
-
-  .device-card:hover .is-playing .device-carm-group,
-  .device-card:focus-within .is-playing .device-carm-group {
-    animation-duration: 1.5s;
-  }
-
-  /* Monitor / console screen glow. */
-  @keyframes device-screen-glow {
-    0%, 100% { opacity: 0.45; }
+  @keyframes angio-console-flicker {
+    0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
   }
 
-  .in-view .device-screen-glow {
-    animation: device-screen-glow 2.2s ease-in-out infinite;
+  .illustration-angiography.in-view #control-room-console line {
+    animation: angio-console-flicker 2s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-screen-glow {
+  .illustration-angiography.is-playing #control-room-console line {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-screen-glow,
-  .device-card:focus-within .is-playing .device-screen-glow {
-    animation-duration: 1.5s;
+  /* ---------------------------------------------------------------
+     Mammography — the compression paddle assembly lowers onto the
+     breast platform, holds through the exposure (glow cue on the
+     tube head), then releases. The platform itself never moves.
+     --------------------------------------------------------------- */
+  @keyframes mammo-compression {
+    0%, 14% { transform: translateY(0); }
+    40% { transform: translateY(12px); }
+    61% { transform: translateY(12px); }
+    86%, 100% { transform: translateY(0); }
   }
 
-  /* Vascular-tree reveal: each vessel segment brightens in with a
-     small glow, holds, fades — staggered per segment so the tree reads
-     as filling with contrast and washing out again. */
-  @keyframes device-vascular-segment {
-    0% { opacity: 0.15; filter: drop-shadow(0 0 0 rgba(220, 38, 38, 0)); }
-    20% { opacity: 1; filter: drop-shadow(0 0 3px rgba(248, 113, 113, 0.9)); }
-    65% { opacity: 1; filter: drop-shadow(0 0 3px rgba(248, 113, 113, 0.9)); }
-    100% { opacity: 0.15; filter: drop-shadow(0 0 0 rgba(220, 38, 38, 0)); }
-  }
-
-  .in-view .device-vascular-tree .vascular-segment {
-    animation: device-vascular-segment 3.6s ease-in-out infinite;
+  .illustration-mammography.in-view #compression-paddle-assembly {
+    animation: mammo-compression 7s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-vascular-tree .vascular-segment {
+  .illustration-mammography.is-playing #compression-paddle-assembly {
     animation-play-state: running;
   }
 
-  .in-view .device-vascular-tree .vascular-segment:nth-child(1) { animation-delay: 0s; }
-  .in-view .device-vascular-tree .vascular-segment:nth-child(2) { animation-delay: 0.2s; }
-  .in-view .device-vascular-tree .vascular-segment:nth-child(3) { animation-delay: 0.4s; }
-  .in-view .device-vascular-tree .vascular-segment:nth-child(4) { animation-delay: 0.6s; }
-
-  .device-card:hover .is-playing .device-vascular-tree .vascular-segment,
-  .device-card:focus-within .is-playing .device-vascular-tree .vascular-segment {
-    animation-duration: 2.4s;
+  @keyframes mammo-exposure-glow {
+    0%, 38% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
+    43%, 58% { filter: drop-shadow(0 0 6px rgba(47, 111, 237, 0.85)); }
+    63%, 100% { filter: drop-shadow(0 0 0 rgba(47, 111, 237, 0)); }
   }
 
-  /* Highlight travelling along the catheter path (native SVG/CSS
-     motion path — no JS, no per-frame work). */
-  @keyframes device-catheter-travel {
-    0% { offset-distance: 0%; opacity: 0; }
-    12% { opacity: 1; }
-    88% { opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
-  }
-
-  .in-view .device-catheter-dot {
-    animation: device-catheter-travel 2.4s ease-in-out infinite;
+  .illustration-mammography.in-view #x-ray-tube-head {
+    animation: mammo-exposure-glow 7s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-catheter-dot {
+  .illustration-mammography.is-playing #x-ray-tube-head {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-catheter-dot,
-  .device-card:focus-within .is-playing .device-catheter-dot {
-    animation-duration: 1.6s;
-  }
-
-  /* Slow, smooth, seamless gantry rotation — always around the
-     element's own authored center point (220,125 in the CT
-     illustration's own viewBox units), never the card. */
-  @keyframes device-gantry-rotate {
+  /* ---------------------------------------------------------------
+     CT — the gantry ring rotates continuously around the bore center
+     (268,226); the couch makes one small, controlled advance into
+     the bore and back, with a blinking status-light scanning cue.
+     --------------------------------------------------------------- */
+  @keyframes ct-gantry-rotate {
     to { transform: rotate(360deg); }
   }
 
-  .device-gantry-ring {
-    transform-origin: 220px 125px;
+  .illustration-ct #bore-ring {
+    transform-origin: 268px 226px;
   }
 
-  .in-view .device-gantry-ring {
-    animation: device-gantry-rotate 4.5s linear infinite;
+  .illustration-ct.in-view #bore-ring {
+    animation: ct-gantry-rotate 6s linear infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-gantry-ring {
+  .illustration-ct.is-playing #bore-ring {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-gantry-ring,
-  .device-card:focus-within .is-playing .device-gantry-ring {
-    animation-duration: 3s;
+  @keyframes ct-couch-advance {
+    0%, 12.5% { transform: translateX(0); }
+    37.5% { transform: translateX(-40px); }
+    75% { transform: translateX(-40px); }
+    95%, 100% { transform: translateX(0); }
   }
 
-  /* Mammography compression paddle: down -> pause -> (exposure fires)
-     -> return -> long rest. One controlled cycle, not a bounce. */
-  @keyframes device-paddle-compress {
-    0% { transform: translateY(0); }
-    14% { transform: translateY(13px); }
-    58% { transform: translateY(13px); }
-    74% { transform: translateY(0); }
-    100% { transform: translateY(0); }
-  }
-
-  .device-paddle-group {
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .in-view .device-paddle-group {
-    animation: device-paddle-compress 3.6s ease-in-out infinite;
+  .illustration-ct.in-view #patient-couch,
+  .illustration-ct.in-view #couch-headrest {
+    animation: ct-couch-advance 8s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-paddle-group {
+  .illustration-ct.is-playing #patient-couch,
+  .illustration-ct.is-playing #couch-headrest {
     animation-play-state: running;
   }
 
-  .device-card:hover .is-playing .device-paddle-group,
-  .device-card:focus-within .is-playing .device-paddle-group {
-    animation-duration: 2.6s;
+  @keyframes ct-scan-indicator {
+    0%, 35% { opacity: 0.4; }
+    40%, 60% { opacity: 1; }
+    50% { opacity: 0.5; }
+    78%, 100% { opacity: 0.4; }
   }
 
-  /* Detector activation pulse (CT console / mammography tray) — a
-     slower, continuous "device is active" breathing glow. */
-  @keyframes device-detector-pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-  }
-
-  .in-view .device-detector-pulse {
-    animation: device-detector-pulse 2.6s ease-in-out infinite;
+  .illustration-ct.in-view #control-strip circle {
+    animation: ct-scan-indicator 8s ease-in-out infinite;
     animation-play-state: paused;
   }
 
-  .is-playing .device-detector-pulse {
+  .illustration-ct.is-playing #control-strip circle {
     animation-play-state: running;
-  }
-
-  .device-card:hover .is-playing .device-detector-pulse,
-  .device-card:focus-within .is-playing .device-detector-pulse {
-    animation-duration: 1.8s;
   }
 }
