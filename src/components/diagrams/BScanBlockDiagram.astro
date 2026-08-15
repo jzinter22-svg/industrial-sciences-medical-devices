@@ -1,14 +1,19 @@
 ---
-// Animated Figure 2-15 (مخطط لعرض صورة نوع B) — printed page 35.
-// Teaches the B-scan signal path: the pulse generator triggers the
-// oscilloscope's beam AND the transmitter at once; the transmitter drives
-// the probe (mounted on a mechanical scanning arm) into the target body;
-// the probe's echo returns through the receiver to brighten the
-// oscilloscope beam, while the arm's own position feeds a second signal
-// that sets the beam's horizontal deflection — the two signals together
-// are what turn the amplitude-only A-scan into a two-dimensional B-scan
-// image. Same flow-particle / highlight-pulse conventions as Chapter 1.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-15 (مخطط لعرض صورة نوع B) using the Chapter 1
+// dark neumorphic simulator system. Reuses the shared shell/controller
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (block positions/sizes, connection paths, scope
+// dot, all labels identical to the prior build) — only fill/stroke
+// treatment and the interaction/animation layer changed.
+//
+// Color mapping: a signal-flow block diagram — green = the trigger/
+// control signal (generator + scope trigger, since they're the same
+// fan-out pulse), orange = transmission, yellow = the probe/transducer,
+// blue = the received echo signal, purple = the scanning arm's
+// position feedback (a second, independent signal that also reaches
+// the scope), neutral for the oscilloscope display itself.
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,146 +22,361 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram b-scan-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="b-scan-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="900"
-      height="420"
-      viewBox="0 0 900 420"
-      role="img"
-      aria-label="مخطط لعرض صورة نوع (B)"
-    >
-      <defs>
-        <marker id="bs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#263238"></path>
-        </marker>
-      </defs>
+<figure class="diagram-block neo-surface-soft b-scan-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة عرض صورة النوع B</span>
+      <span class="simulator-subtitle">شكل 2-15 — اشارتا الصدى وموقع المسح</span>
+    </div>
 
-      <rect x="0" y="0" width="900" height="420" fill="none"></rect>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="b-scan-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="مخطط لعرض صورة نوع (B)"
+        >
+          <defs>
+            <marker id="bs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
 
-      <rect class="flow-highlight box-gen" x="60" y="40" width="130" height="55" rx="6" fill="#a5f3fc" stroke="#263238" stroke-width="2"></rect>
-      <text x="125" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">مولد النبضات</text>
-      <text x="125" y="80" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Generator</text>
+            <linearGradient id="bsBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="bsGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="bsGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="bsGradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="bsGradYellow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332c10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
+            <linearGradient id="bsGradBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="bsGradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+            <linearGradient id="bsGradScope" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a2436"></stop>
+              <stop offset="100%" stop-color="#0b111c"></stop>
+            </linearGradient>
 
-      <rect class="flow-highlight box-trigger" x="270" y="40" width="140" height="55" rx="6" fill="#fed7aa" stroke="#263238" stroke-width="2"></rect>
-      <text x="340" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">محفز الاسلوسكوب</text>
+            <filter id="bsElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="bsGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <rect class="flow-highlight box-tx" x="60" y="140" width="130" height="55" rx="6" fill="#e2e8f0" stroke="#263238" stroke-width="2"></rect>
-      <text x="125" y="163" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المرسلة</text>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#bsBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#bsGrid)"></rect>
 
-      <rect class="flow-highlight box-rx" x="270" y="230" width="130" height="55" rx="6" fill="#bbf7d0" stroke="#263238" stroke-width="2"></rect>
-      <text x="335" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المستقبل</text>
+          <g class="hotspot" data-component="generator" tabindex="0" role="button" aria-label="مولد النبضات">
+            <rect class="box-shape" x="60" y="40" width="130" height="55" rx="10" fill="url(#bsGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="125" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مولد النبضات</text>
+            <text x="125" y="80" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Generator</text>
+          </g>
 
-      <rect class="flow-highlight box-position" x="470" y="290" width="180" height="55" rx="6" fill="#f9a8d4" stroke="#263238" stroke-width="2"></rect>
-      <text x="560" y="313" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تحديد موقع المجس</text>
+          <g class="hotspot" data-component="trigger" tabindex="0" role="button" aria-label="محفز الاوسلوسكوب">
+            <rect class="box-shape" x="270" y="40" width="140" height="55" rx="10" fill="url(#bsGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="340" y="63" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محفز الاسلوسكوب</text>
+          </g>
 
-      <rect class="flow-highlight box-probe" x="60" y="270" width="140" height="90" rx="8" fill="#fde68a" stroke="#263238" stroke-width="2"></rect>
-      <text x="130" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المجس</text>
-      <rect x="80" y="330" width="100" height="16" fill="#dc2626"></rect>
-      <text x="130" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">الجسم المستهدف</text>
+          <g class="hotspot" data-component="tx" tabindex="0" role="button" aria-label="المرسلة">
+            <rect class="box-shape" x="60" y="140" width="130" height="55" rx="10" fill="url(#bsGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="125" y="163" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المرسلة</text>
+          </g>
 
-      <rect x="660" y="60" width="220" height="220" rx="8" fill="#f8fafc" stroke="#263238" stroke-width="2"></rect>
-      <text x="770" y="45" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Oscilloscope</text>
-      <circle class="flow-highlight scope-screen" cx="770" cy="140" r="55" fill="#0f172a" stroke="#57606f" stroke-width="3"></circle>
-      <circle class="scope-dot" cx="770" cy="140" r="7" fill="#4ade80"></circle>
-      <text x="720" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">V</text>
-      <text x="795" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">H</text>
-      <text x="825" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="ltr">Z</text>
+          <g class="hotspot" data-component="rx" tabindex="0" role="button" aria-label="المستقبل">
+            <rect class="box-shape" x="270" y="230" width="130" height="55" rx="10" fill="url(#bsGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="335" y="253" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المستقبل</text>
+          </g>
 
-      <!-- connections -->
-      <line x1="190" y1="67" x2="270" y2="67" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
-      <path d="M 410,67 L 770,67 L 770,85" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
-      <line x1="125" y1="95" x2="125" y2="140" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
-      <path d="M 125,195 L 125,270" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
-      <line x1="130" y1="330" x2="130" y2="360" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></line>
-      <path d="M 200,320 L 335,320 L 335,285" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
-      <path d="M 400,257 L 720,257 L 720,195" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
-      <path d="M 200,300 L 560,300 L 560,290" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
-      <path d="M 650,317 L 825,317 L 825,195" fill="none" stroke="#263238" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+          <g class="hotspot" data-component="position" tabindex="0" role="button" aria-label="تحديد موقع المجس">
+            <rect class="box-shape" x="470" y="290" width="180" height="55" rx="10" fill="url(#bsGradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="560" y="313" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">تحديد موقع المجس</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle p-gen-trigger" cx="190" cy="67" r="5" style="--tx:80px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-trigger-scope" cx="410" cy="67" r="5" style="--tx:360px; --ty:0px; --particle-delay:0.7s; --particle-duration:0.6s"></circle>
-        <circle class="flow-particle p-gen-tx" cx="125" cy="95" r="5" style="--tx:0px; --ty:45px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-tx-probe" cx="125" cy="195" r="5" style="--tx:0px; --ty:75px; --particle-delay:0.9s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-probe-body" cx="130" cy="330" r="5" style="--tx:0px; --ty:30px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
-        <circle class="flow-particle p-probe-rx" cx="200" cy="320" r="5" style="--tx:135px; --ty:-35px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-rx-scope" cx="400" cy="257" r="5" style="--tx:320px; --ty:-62px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
-        <circle class="flow-particle p-probe-pos" cx="200" cy="300" r="5" style="--tx:360px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
-        <circle class="flow-particle p-pos-scope" cx="650" cy="317" r="5" style="--tx:175px; --ty:-122px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.7s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="probe" tabindex="0" role="button" aria-label="المجس والجسم المستهدف">
+            <rect class="box-shape" x="60" y="270" width="140" height="90" rx="12" fill="url(#bsGradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="130" y="300" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المجس</text>
+            <rect x="80" y="330" width="100" height="16" rx="3" fill="#f87171"></rect>
+            <text x="130" y="368" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">الجسم المستهدف</text>
+          </g>
+
+          <g class="hotspot" data-component="scope" tabindex="0" role="button" aria-label="راسم الاشارة">
+            <rect class="box-shape" x="660" y="60" width="220" height="220" rx="12" fill="url(#bsGradScope)" stroke="#8b94aa" stroke-width="2" filter="url(#bsElevate)"></rect>
+            <text x="770" y="45" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">Oscilloscope</text>
+            <circle cx="770" cy="140" r="55" fill="#0a0f1a" stroke="#8b94aa" stroke-width="3"></circle>
+            <circle class="scope-dot" cx="770" cy="140" r="7" fill="#4ADE80" filter="url(#bsGlow)"></circle>
+            <text x="720" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">V</text>
+            <text x="795" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">H</text>
+            <text x="825" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">Z</text>
+          </g>
+
+          <!-- connections -->
+          <g class="link" data-link="generator" data-link-to="trigger">
+            <line x1="190" y1="67" x2="270" y2="67" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+            <line class="trail trail-green" x1="190" y1="67" x2="268" y2="67" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="trigger" data-link-to="scope">
+            <path d="M 410,67 L 770,67 L 770,85" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-green" d="M 410,67 L 770,67 L 770,83" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="generator" data-link-to="tx">
+            <line x1="125" y1="95" x2="125" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+            <line class="trail trail-green" x1="125" y1="95" x2="125" y2="138" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="tx" data-link-to="probe">
+            <path d="M 125,195 L 125,270" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-orange" d="M 125,195 L 125,268" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <line x1="130" y1="330" x2="130" y2="360" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></line>
+          <g class="link" data-link="probe" data-link-to="rx">
+            <path d="M 200,320 L 335,320 L 335,285" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-blue" d="M 200,320 L 335,320 L 335,287" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="rx" data-link-to="scope">
+            <path d="M 400,257 L 720,257 L 720,195" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-blue" d="M 400,257 L 720,257 L 720,197" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="probe" data-link-to="position">
+            <path d="M 200,300 L 560,300 L 560,290" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-purple" d="M 200,300 L 560,300 L 560,292" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="position" data-link-to="scope">
+            <path d="M 650,317 L 825,317 L 825,195" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#bs-arrow)"></path>
+            <path class="trail trail-purple" d="M 650,317 L 825,317 L 825,197" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle p-gen-trigger" cx="190" cy="67" r="5" fill="#4ADE80" filter="url(#bsGlow)" style="--tx:80px; --ty:0px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-trigger-scope" cx="410" cy="67" r="5" fill="#4ADE80" filter="url(#bsGlow)" style="--tx:360px; --ty:0px; --particle-delay:0.7s; --particle-duration:0.6s"></circle>
+            <circle class="flow-particle p-gen-tx" cx="125" cy="95" r="5" fill="#4ADE80" filter="url(#bsGlow)" style="--tx:0px; --ty:45px; --particle-delay:0.2s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-tx-probe" cx="125" cy="195" r="5" fill="#FB923C" filter="url(#bsGlow)" style="--tx:0px; --ty:75px; --particle-delay:0.9s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-probe-body" cx="130" cy="330" r="5" fill="#FBBF24" filter="url(#bsGlow)" style="--tx:0px; --ty:30px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle p-probe-rx" cx="200" cy="320" r="5" fill="#38BDF8" filter="url(#bsGlow)" style="--tx:135px; --ty:-35px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-rx-scope" cx="400" cy="257" r="5" fill="#38BDF8" filter="url(#bsGlow)" style="--tx:320px; --ty:-62px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
+            <circle class="flow-particle p-probe-pos" cx="200" cy="300" r="5" fill="#C084FC" filter="url(#bsGlow)" style="--tx:360px; --ty:0px; --particle-delay:2.2s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle p-pos-scope" cx="650" cy="317" r="5" fill="#C084FC" filter="url(#bsGlow)" style="--tx:175px; --ty:-122px; --particle-delay:2.9s; --particle-duration:0.6s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="generator"><span class="status-dot dot-green"></span><span class="status-label">مولد النبضات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="tx"><span class="status-dot dot-orange"></span><span class="status-label">المرسلة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="probe"><span class="status-dot dot-yellow"></span><span class="status-label">المجس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rx"><span class="status-dot dot-blue"></span><span class="status-label">المستقبل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="position"><span class="status-dot dot-purple"></span><span class="status-label">موقع المجس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="scope"><span class="status-dot dot-gray"></span><span class="status-label">راسم الاشارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>التحفيز والتشغيل</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الارسال</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>المجس</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الاستقبال</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>تحديد الموقع</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    filter: url(#bsElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 540px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#bsElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.015);
   }
 
-  .b-scan-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#bsGlow);
   }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .box-gen { --highlight-delay: 0.1s; --highlight-duration: 0.4s; }
-  .box-trigger { --highlight-delay: 0.6s; --highlight-duration: 0.5s; }
-  .box-tx { --highlight-delay: 0.1s; --highlight-duration: 0.4s; }
-  .box-probe { --highlight-delay: 0.9s; --highlight-duration: 1.1s; }
-  .box-rx { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
-  .box-position { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
-  .scope-screen { --highlight-delay: 2.8s; --highlight-duration: 0.7s; }
 
   .scope-dot {
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes dot-appear {
+    @keyframes bs-dot-appear {
       0%, 100% { opacity: 0; }
       20%, 80% { opacity: 1; }
     }
+    .playing .scope-dot { animation: bs-dot-appear 1.0s ease-in-out 2.8s; }
 
-    .playing .scope-dot {
-      animation: dot-appear 1.0s ease-in-out 2.8s;
-    }
+    @keyframes bs-shape-activate { to { filter: url(#bsElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes bs-reveal-trail { to { opacity: 0.85; } }
+    @keyframes bs-status-value-on { to { opacity: 1; } }
+    @keyframes bs-status-value-off { to { opacity: 0; } }
+    @keyframes bs-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes bs-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes bs-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes bs-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes bs-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes bs-dot-on-gray { to { background: #8b94aa; box-shadow: 0 0 8px 1px rgba(139, 148, 170, 0.8); } }
+
+    .playing [data-component="generator"] .box-shape { animation: bs-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .status-dot { animation: bs-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .value-on { animation: bs-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .value-off { animation: bs-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-component="trigger"] .box-shape { animation: bs-shape-activate 0.5s ease-out 0.6s forwards; }
+    .playing [data-link="generator"][data-link-to="trigger"] .trail { animation: bs-reveal-trail 0.3s ease-out 0.4s forwards; }
+    .playing [data-link="trigger"] .trail { animation: bs-reveal-trail 0.3s ease-out 0.9s forwards; }
+    .playing [data-link="generator"][data-link-to="tx"] .trail { animation: bs-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="tx"] .box-shape { animation: bs-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tx"] .status-dot { animation: bs-dot-on-orange 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tx"] .value-on { animation: bs-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tx"] .value-off { animation: bs-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="tx"] .trail { animation: bs-reveal-trail 0.3s ease-out 0.5s forwards; }
+
+    .playing [data-component="probe"] .box-shape { animation: bs-shape-activate 0.5s ease-out 0.9s forwards; }
+    .playing [data-status="probe"] .status-dot { animation: bs-dot-on-yellow 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="probe"] .value-on { animation: bs-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="probe"] .value-off { animation: bs-status-value-off 0.4s ease-out 0.9s forwards; }
+    .playing [data-link="probe"][data-link-to="rx"] .trail { animation: bs-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-link="probe"][data-link-to="position"] .trail { animation: bs-reveal-trail 0.3s ease-out 2.0s forwards; }
+
+    .playing [data-component="rx"] .box-shape { animation: bs-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="rx"] .status-dot { animation: bs-dot-on-blue 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="rx"] .value-on { animation: bs-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="rx"] .value-off { animation: bs-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="rx"] .trail { animation: bs-reveal-trail 0.3s ease-out 2.5s forwards; }
+
+    .playing [data-component="position"] .box-shape { animation: bs-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="position"] .status-dot { animation: bs-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="position"] .value-on { animation: bs-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="position"] .value-off { animation: bs-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="position"] .trail { animation: bs-reveal-trail 0.3s ease-out 2.5s forwards; }
+
+    .playing [data-component="scope"] .box-shape { animation: bs-shape-activate 0.4s ease-out 2.8s forwards; }
+    .playing [data-status="scope"] .status-dot { animation: bs-dot-on-gray 0.4s ease-out 2.8s forwards; }
+    .playing [data-status="scope"] .value-on { animation: bs-status-value-on 0.4s ease-out 2.8s forwards; }
+    .playing [data-status="scope"] .value-off { animation: bs-status-value-off 0.4s ease-out 2.8s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".b-scan-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    generator: {
+      title: "مولد النبضات (Pulse Generator)",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "مولد النبضات (Pulse Generator) يحفز كلا من الانحراف العمودي للاوسلوسكوب وفي نفس الوقت يحفز المرسلة لتوليد الموجات الفوق صوتية.",
+    },
+    trigger: {
+      title: "محفز الاوسلوسكوب",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "مولد النبضات يحفز الانحراف العمودي للاوسلوسكوب في نفس لحظة تحفيز المرسلة.",
+    },
+    tx: {
+      title: "المرسلة (Transmitter)",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "المرسلة (Transmitter) تولد الموجات الفوق صوتية من خلال محول الطاقة الموجود في المجس (Probe).",
+    },
+    probe: {
+      title: "المجس والجسم المستهدف",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "المجس مركب على ذراع ميكانيكي يعطي مواقع المسح المثبتة سلفا، والذي يولد اشارة كهربائية للانحراف الافقي للاوسلوسكوب.",
+    },
+    rx: {
+      title: "المستقبل (Receiver)",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "المستقبلة (Receiver) تستلم اشارة الموجات المنعكسة (الصدى الصوتي) من البلورة بعد ان تتحول الى اشارة كهربائية لتضمين سطوع النقطة على الشاشة.",
+    },
+    position: {
+      title: "تحديد موقع المجس",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "في هذا النوع تظهر الصورة ببعدين، حيث موقع المجس على الذراع الميكانيكي يولد اشارة كهربائية للانحراف الافقي للاوسلوسكوب.",
+    },
+    scope: {
+      title: "راسم الاشارة (Oscilloscope)",
+      // src/data/chapter-02/page-10.json #b-scan-p1 (excerpt)
+      text: "في هذا النوع تظهر الصورة ببعدين على شاشة العرض (Monitor) او شاشة الاوسليسكوب.",
+    },
+  };
+
+  wireDiagramSimulator(".b-scan-diagram", { cycleMs: 3700, componentInfo: COMPONENT_INFO });
 </script>

@@ -1,12 +1,18 @@
 ---
-// Animated Figure 2-14 (الاشارة المرسلة واشارات الصدى المستلمة) —
-// printed page 35. Static artwork kept pixel-identical (same baseline,
-// transmitted-pulse spike, five echo spikes, leader lines). Animation
-// reveals the transmitted pulse first, then the returning echoes in
-// their left-to-right time order — teaching that each echo spike is a
-// reflection arriving later than the one before it, exactly the process
-// the A-scan trace is recording.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-14 (الاشارة المرسلة واشارات الصدى المستلمة)
+// using the Chapter 1 dark neumorphic simulator system. Reuses the
+// shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (baseline, transmitted-pulse spike, five echo
+// spikes, leader lines identical to the prior build) — only
+// fill/stroke treatment and the interaction/animation layer changed.
+//
+// Color mapping: an oscilloscope trace, not a flow circuit — red for
+// the transmitted pulse (matches the A-scan block diagram's "transmit"
+// stage being orange/red-family) and orange for the returning echoes
+// (matches the probe/receive path already used elsewhere).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -15,95 +21,172 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram a-scan-trace-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="ast-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="700"
-      height="300"
-      viewBox="0 0 700 300"
-      role="img"
-      aria-label="الاشارة المرسلة واشارات الصدى المستلمة"
-    >
-      <rect x="0" y="0" width="700" height="300" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft a-scan-trace-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة اشارة مسح النوع A</span>
+      <span class="simulator-subtitle">شكل 2-14 — النبضة المرسلة واصداء الاستقبال</span>
+    </div>
 
-      <line x1="30" y1="220" x2="670" y2="220" stroke="#263238" stroke-width="2"></line>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ast-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="300"
+          viewBox="0 0 700 300"
+          role="img"
+          aria-label="الاشارة المرسلة واشارات الصدى المستلمة"
+        >
+          <defs>
+            <linearGradient id="astBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="astGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-      <path class="flow-highlight tx-pulse" d="M 60,220 q 8,-140 16,-140 t 16,140" fill="none" stroke="#263238" stroke-width="2.5"></path>
+            <filter id="astGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight echoes">
-        <path d="M 230,220 q 6,-55 12,-55 t 12,55" fill="none" stroke="#263238" stroke-width="2.5"></path>
-        <path d="M 340,220 q 6,-45 12,-45 t 12,45" fill="none" stroke="#263238" stroke-width="2.5"></path>
-        <path d="M 415,220 q 5,-60 10,-60 t 10,60" fill="none" stroke="#263238" stroke-width="2.5"></path>
-        <path d="M 440,220 q 5,-70 10,-70 t 10,70" fill="none" stroke="#263238" stroke-width="2.5"></path>
-        <path d="M 560,220 q 6,-50 12,-50 t 12,50" fill="none" stroke="#263238" stroke-width="2.5"></path>
-      </g>
+          <rect x="0" y="0" width="700" height="300" rx="20" fill="url(#astBgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="300" rx="20" fill="url(#astGrid)"></rect>
 
-      <g stroke="#263238" stroke-width="1" fill="none">
-        <line x1="430" y1="60" x2="242" y2="165"></line>
-        <line x1="430" y1="60" x2="352" y2="175"></line>
-        <line x1="430" y1="60" x2="425" y2="160"></line>
-        <line x1="430" y1="60" x2="450" y2="150"></line>
-        <line x1="430" y1="60" x2="572" y2="170"></line>
-      </g>
+          <line x1="30" y1="220" x2="670" y2="220" stroke="#5b6478" stroke-width="2"></line>
 
-      <text x="90" y="35" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">النبضة المرسلة</text>
-      <text x="430" y="45" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle" direction="rtl">صدى الصوت المستلم</text>
+          <g class="hotspot" data-component="txPulse" tabindex="0" role="button" aria-label="النبضة المرسلة">
+            <rect class="hit-area" x="45" y="15" width="90" height="220" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 60,220 q 8,-140 16,-140 t 16,140" fill="none" stroke="#f87171" stroke-width="2.5" filter="url(#astGlow)"></path>
+            <text x="90" y="35" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle" direction="rtl">النبضة المرسلة</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <circle class="flow-particle" cx="30" cy="220" r="5" style="--tx:640px; --ty:0px; --particle-delay:0.1s; --particle-duration:2.3s"></circle>
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.6s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="echoes" tabindex="0" role="button" aria-label="اصداء الصوت المستلمة">
+            <rect class="hit-area" x="220" y="60" width="365" height="130" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape" fill="none" stroke="#FB923C" stroke-width="2.5" filter="url(#astGlow)">
+              <path d="M 230,220 q 6,-55 12,-55 t 12,55"></path>
+              <path d="M 340,220 q 6,-45 12,-45 t 12,45"></path>
+              <path d="M 415,220 q 5,-60 10,-60 t 10,60"></path>
+              <path d="M 440,220 q 5,-70 10,-70 t 10,70"></path>
+              <path d="M 560,220 q 6,-50 12,-50 t 12,50"></path>
+            </g>
+            <g stroke="#8b94aa" stroke-width="1" fill="none">
+              <line x1="430" y1="60" x2="242" y2="165"></line>
+              <line x1="430" y1="60" x2="352" y2="175"></line>
+              <line x1="430" y1="60" x2="425" y2="160"></line>
+              <line x1="430" y1="60" x2="450" y2="150"></line>
+              <line x1="430" y1="60" x2="572" y2="170"></line>
+            </g>
+            <text x="430" y="45" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">صدى الصوت المستلم</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="30" cy="220" r="5" fill="#eef1f8" filter="url(#astGlow)" style="--tx:640px; --ty:0px; --particle-delay:0.1s; --particle-duration:2.3s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="txPulse"><span class="status-dot dot-red"></span><span class="status-label">النبضة المرسلة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="echoes"><span class="status-dot dot-orange"></span><span class="status-label">الاصداء المستلمة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على النبضة او الاصداء لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#f87171"></span>النبضة المرسلة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الاصداء المستلمة</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    stroke-width: 3.5;
   }
 
-  .ast-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .flow-particle {
+    opacity: 0;
   }
 
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ast-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      4% { opacity: 1; }
+      96% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: ast-particle-move var(--particle-duration, 2.3s) linear var(--particle-delay, 0s) forwards;
+    }
 
-  .tx-pulse { --highlight-delay: 0.2s; --highlight-duration: 0.5s; }
-  .echoes { --highlight-delay: 1.3s; --highlight-duration: 0.9s; }
+    @keyframes ast-glow-activate { to { filter: url(#astGlow) brightness(1.6); } }
+    @keyframes ast-status-value-on { to { opacity: 1; } }
+    @keyframes ast-status-value-off { to { opacity: 0; } }
+    @keyframes ast-dot-on-red { to { background: #f87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes ast-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="txPulse"] .box-shape { animation: ast-glow-activate 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="txPulse"] .status-dot { animation: ast-dot-on-red 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="txPulse"] .value-on { animation: ast-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="txPulse"] .value-off { animation: ast-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="echoes"] .box-shape { animation: ast-glow-activate 0.5s ease-out 1.3s forwards; }
+    .playing [data-status="echoes"] .status-dot { animation: ast-dot-on-orange 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="echoes"] .value-on { animation: ast-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="echoes"] .value-off { animation: ast-status-value-off 0.4s ease-out 1.3s forwards; }
+  }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".a-scan-trace-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    txPulse: {
+      title: "النبضة المرسلة",
+      // src/data/chapter-02/page-10.json #a-scan-p2 (excerpt)
+      text: "ترسل بلورة المجس بعد تحفيزها امواج فوق صوتية بنفس تردد المرسلة، تظهر على الشاشة كنبضة اولى عالية عند نقطة الارسال.",
+    },
+    echoes: {
+      title: "اصداء الصوت المستلمة",
+      // src/data/chapter-02/page-10.json #a-scan-p2 (excerpt)
+      text: "تنعكس الموجة كصدى صوتي من العضو المستهدف أو الجنين الى نفس البلورة، فتظهر السعة كدالة للمسافة والتي تمثل عمق الجنين او بعده من المجس.",
+    },
+  };
+
+  wireDiagramSimulator(".a-scan-trace-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
 </script>
