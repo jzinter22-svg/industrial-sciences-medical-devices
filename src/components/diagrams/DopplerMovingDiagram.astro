@@ -1,14 +1,20 @@
 ---
-// Animated Figure 2-5 (المراقب واقف والعربة تتحرك بسرعة) — printed page
-// 28. Static artwork kept pixel-identical (same 4 wavefront circles at
-// their existing, already-compressed-ahead/spread-behind radii and
-// centers — nothing repositioned or resized). Animation ripples the
-// rings in true emission order: the largest/left-most ring (emitted
-// earliest, while the source was farther back) pulses first, and the
-// smallest/right-most ring (just emitted, nearest the source's current
-// position) pulses last — visually teaching why the wavefronts bunch up
-// ahead of a moving source and spread out behind it.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-5 (المراقب واقف والعربة تتحرك بسرعة) using the
+// Chapter 1 dark neumorphic simulator system. Reuses the shared
+// shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (ring radii/centers, truck/listener positions,
+// sine trace, all labels identical to the prior build) — only
+// fill/stroke treatment and the interaction/animation layer changed.
+//
+// Color mapping: acoustic-wave physics, not an electrical circuit —
+// local legend: red = moving source (+ its velocity arrow), blue =
+// wavefronts/sine trace, green = the listener (matches the prior
+// build's own green listener box, distinguishing this "listener hears
+// a moving source" figure from the stationary-source figure's plain
+// yellow observer).
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -17,116 +23,230 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram doppler-moving-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="dm-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="760"
-      height="360"
-      viewBox="0 0 760 360"
-      role="img"
-      aria-label="المراقب واقف والعربة تتحرك بسرعة"
-    >
-      <defs>
-        <marker id="dm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="760" height="360" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft doppler-moving-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تأثير دوبلر — مصدر متحرك</span>
+      <span class="simulator-subtitle">شكل 2-5 — المراقب واقف والعربة تتحرك بسرعة V</span>
+    </div>
 
-      <g fill="none" stroke="#263238" stroke-width="2">
-        <circle class="ripple-ring ring-newest" cx="410" cy="170" r="40"></circle>
-        <circle class="ripple-ring ring-2" cx="390" cy="170" r="75"></circle>
-        <circle class="ripple-ring ring-3" cx="360" cy="170" r="112"></circle>
-        <circle class="ripple-ring ring-oldest" cx="320" cy="170" r="152"></circle>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dm-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="360"
+          viewBox="0 0 760 360"
+          role="img"
+          aria-label="المراقب واقف والعربة تتحرك بسرعة"
+        >
+          <defs>
+            <marker id="dm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#f87171"></path>
+            </marker>
 
-      <g class="flow-highlight truck">
-        <rect x="370" y="150" width="80" height="35" rx="4" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
-        <rect x="380" y="130" width="35" height="24" rx="3" fill="#dc2626" stroke="#263238" stroke-width="2"></rect>
-        <circle cx="385" cy="188" r="9" fill="#263238"></circle>
-        <circle cx="435" cy="188" r="9" fill="#263238"></circle>
-      </g>
-      <text x="410" y="220" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle" direction="ltr">V m/s</text>
-      <line class="flow-highlight velocity-arrow" x1="450" y1="167" x2="500" y2="167" stroke="#dc2626" stroke-width="3" marker-end="url(#dm-arrow)"></line>
+            <linearGradient id="dmBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dmGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dmGradTruck" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4a1414"></stop>
+              <stop offset="100%" stop-color="#2a0a0a"></stop>
+            </linearGradient>
+            <linearGradient id="dmGradListener" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
 
-      <text x="60" y="175" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#263238" text-anchor="start" direction="ltr">λ</text>
+            <filter id="dmElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="dmGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <path class="flow-highlight sine-trace" d="M 130,270 q 25,-25 50,0 t 50,0 t 45,-25 35,0 t 30,-25 25,0 t 22,-25 20,0" fill="none" stroke="#1d4ed8" stroke-width="2.5"></path>
+          <rect x="0" y="0" width="760" height="360" rx="20" fill="url(#dmBgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="360" rx="20" fill="url(#dmGrid)"></rect>
 
-      <g class="flow-highlight listener">
-        <rect x="620" y="145" width="120" height="55" fill="#22c55e" stroke="#263238" stroke-width="2"></rect>
-        <text x="680" y="168" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">المستمع ساكن</text>
-        <text x="680" y="188" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">والعربة تتحرك</text>
-        <line x1="680" y1="135" x2="680" y2="105" stroke="#dc2626" stroke-width="3" marker-end="url(#dm-arrow)"></line>
-      </g>
+          <g class="ripple-layer" fill="none" stroke="#7dd3fc" stroke-width="2" filter="url(#dmGlow)">
+            <circle class="ripple-ring ring-newest" cx="410" cy="170" r="40"></circle>
+            <circle class="ripple-ring ring-2" cx="390" cy="170" r="75"></circle>
+            <circle class="ripple-ring ring-3" cx="360" cy="170" r="112"></circle>
+            <circle class="ripple-ring ring-oldest" cx="320" cy="170" r="152"></circle>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 3.1s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="source" tabindex="0" role="button" aria-label="العربة المتحركة وسرعتها">
+            <rect class="hit-area" x="365" y="120" width="145" height="115" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="370" y="150" width="80" height="35" rx="6" fill="url(#dmGradTruck)" stroke="#f87171" stroke-width="2" filter="url(#dmElevate)"></rect>
+            <rect class="box-shape" x="380" y="130" width="35" height="24" rx="4" fill="url(#dmGradTruck)" stroke="#f87171" stroke-width="2" filter="url(#dmElevate)"></rect>
+            <circle cx="385" cy="188" r="9" fill="#0d1420" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="435" cy="188" r="9" fill="#0d1420" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <text x="410" y="220" font-family="Cairo, sans-serif" font-size="16" font-weight="700" fill="#f87171" text-anchor="middle" direction="ltr">V m/s</text>
+            <line class="velocity-arrow" x1="450" y1="167" x2="500" y2="167" stroke="#f87171" stroke-width="3" marker-end="url(#dm-arrow)"></line>
+          </g>
+
+          <text x="60" y="175" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">λ</text>
+
+          <g class="hotspot" data-component="sineTrace" tabindex="0" role="button" aria-label="موجات مضغوطة ومتباعدة">
+            <rect class="hit-area" x="125" y="165" width="290" height="125" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape sine-path" d="M 130,270 q 25,-25 50,0 t 50,0 t 45,-25 35,0 t 30,-25 25,0 t 22,-25 20,0" fill="none" stroke="#38BDF8" stroke-width="2.5" filter="url(#dmGlow)"></path>
+          </g>
+
+          <g class="hotspot" data-component="listener" tabindex="0" role="button" aria-label="المستمع الساكن">
+            <rect class="hit-area" x="615" y="100" width="130" height="105" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="620" y="145" width="120" height="55" rx="6" fill="url(#dmGradListener)" stroke="#4ADE80" stroke-width="2" filter="url(#dmElevate)"></rect>
+            <text x="680" y="168" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المستمع ساكن</text>
+            <text x="680" y="188" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">والعربة تتحرك</text>
+            <line x1="680" y1="135" x2="680" y2="105" stroke="#4ADE80" stroke-width="3" marker-end="url(#dm-arrow)"></line>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="source"><span class="status-dot dot-red"></span><span class="status-label">العربة (V)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="sineTrace"><span class="status-dot dot-blue"></span><span class="status-label">الموجات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="listener"><span class="status-dot dot-green"></span><span class="status-label">المستمع</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#f87171"></span>المصدر المتحرك</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الموجات</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المستمع الساكن</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 460px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    transform: translateY(-2px) scale(1.02);
   }
 
-  .dm-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .ripple-ring {
+    opacity: 0;
   }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .truck, .velocity-arrow { --highlight-delay: 1.3s; --highlight-duration: 0.5s; }
-  .sine-trace { --highlight-delay: 1.9s; --highlight-duration: 0.8s; }
-  .listener { --highlight-delay: 2.6s; --highlight-duration: 0.5s; }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes ripple-fade {
+    @keyframes dm-ripple-fade {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
     }
+    .playing .ring-oldest { animation: dm-ripple-fade 0.4s ease-in-out 0.1s; }
+    .playing .ring-3 { animation: dm-ripple-fade 0.4s ease-in-out 0.4s; }
+    .playing .ring-2 { animation: dm-ripple-fade 0.4s ease-in-out 0.7s; }
+    .playing .ring-newest { animation: dm-ripple-fade 0.4s ease-in-out 1.0s; }
 
-    .playing .ring-oldest { animation: ripple-fade 0.4s ease-in-out 0.1s; }
-    .playing .ring-3 { animation: ripple-fade 0.4s ease-in-out 0.4s; }
-    .playing .ring-2 { animation: ripple-fade 0.4s ease-in-out 0.7s; }
-    .playing .ring-newest { animation: ripple-fade 0.4s ease-in-out 1.0s; }
+    @keyframes dm-source-activate { to { filter: url(#dmElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes dm-glow-activate { to { filter: url(#dmGlow) brightness(1.5); } }
+    @keyframes dm-status-value-on { to { opacity: 1; } }
+    @keyframes dm-status-value-off { to { opacity: 0; } }
+    @keyframes dm-dot-on-red { to { background: #f87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes dm-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes dm-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="source"] .box-shape { animation: dm-source-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="source"] .status-dot { animation: dm-dot-on-red 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="source"] .value-on { animation: dm-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="source"] .value-off { animation: dm-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="sineTrace"] .sine-path { animation: dm-glow-activate 0.5s ease-out 1.9s forwards; }
+    .playing [data-status="sineTrace"] .status-dot { animation: dm-dot-on-blue 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="sineTrace"] .value-on { animation: dm-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="sineTrace"] .value-off { animation: dm-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing [data-component="listener"] .box-shape { animation: dm-source-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="listener"] .status-dot { animation: dm-dot-on-green 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="listener"] .value-on { animation: dm-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="listener"] .value-off { animation: dm-status-value-off 0.4s ease-out 2.6s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".doppler-moving-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    source: {
+      title: "العربة المتحركة (V m/s)",
+      // src/data/chapter-02/page-05.json #doppler-p2 (excerpt)
+      text: "اذا تحركت العربة باتجاه المراقب فان شدة صوت الصافرة تزداد وتكون اعلى من الصوت الحقيقي للصافرة، وعند ابتعاد العربة يبدأ الصوت بالخفوت.",
+    },
+    sineTrace: {
+      title: "الموجات المضغوطة والمتباعدة",
+      // src/data/chapter-02/page-05.json #doppler-p2 (excerpt)
+      text: "الطول الموجي للموجات الصوتية يقل عند اقتراب العربة وبذلك يزداد التردد (f)، وعند ابتعاد العربة يزداد الطول الموجي فيقل التردد فتنخفض شدة الصوت.",
+    },
+    listener: {
+      title: "المستمع الساكن (V=0)",
+      // src/data/chapter-02/page-05.json #doppler-p2 (excerpt)
+      text: "يصح الشيء نفسه اذا كانت العربة واقفة والمراقب هو الذي يتحرك باتجاه العربة وصافرتها شغالة او حين الابتعاد عنها.",
+    },
+  };
+
+  wireDiagramSimulator(".doppler-moving-diagram", { cycleMs: 3100, componentInfo: COMPONENT_INFO });
 </script>

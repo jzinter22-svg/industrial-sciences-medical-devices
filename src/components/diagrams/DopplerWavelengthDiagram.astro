@@ -1,13 +1,20 @@
 ---
-// Animated Figure 2-6 (تاثير دوبلر على الجسم المتحرك وعلاقته بالطول
-// الموجي) — printed page 29. Static artwork kept pixel-identical (same
-// arcs, sine trace, object, viewBox). Animation pulses the trailing
-// (stretched, lower-frequency) arcs first, then the moving object and
-// its velocity arrow, then the leading (compressed, higher-frequency)
-// arcs, then the sine trace — teaching that motion toward the leading
-// side compresses the wave and motion away from the trailing side
-// stretches it, matching the two frequency labels already on the page.
-import "../../styles/diagram-animations.css";
+// Redesigned Figure 2-6 (تاثير دوبلر على الجسم المتحرك وعلاقته بالطول
+// الموجي) using the Chapter 1 dark neumorphic simulator system. Reuses
+// the shared shell/controller (src/styles/diagram-simulator.css +
+// src/scripts/diagramSimulator.js).
+//
+// Geometry unchanged (arc paths — including the intentionally
+// oversized ones that extend past the viewBox and get cropped, exactly
+// as in the prior build — sine trace, object position, all labels
+// identical) — only fill/stroke treatment and the interaction/
+// animation layer changed.
+//
+// Color mapping: acoustic-wave physics, not an electrical circuit —
+// local legend: blue = trailing/stretched wavefronts (lower frequency),
+// orange = leading/compressed wavefronts (higher frequency), red = the
+// moving object (matches the source text's own "الكرة الحمراء").
+import "../../styles/diagram-simulator.css";
 
 interface Props {
   caption: string;
@@ -16,115 +23,196 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<figure class="diagram-block neo-surface-soft animated-diagram doppler-wavelength-diagram">
-  <div class="diagram-block-image">
-    <svg
-      class="dw-svg"
-      xmlns="http://www.w3.org/2000/svg"
-      width="760"
-      height="300"
-      viewBox="0 0 760 300"
-      role="img"
-      aria-label="تاثير دوبلر على الجسم المتحرك وعلاقته بالطول الموجي"
-    >
-      <defs>
-        <marker id="dw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"></path>
-        </marker>
-      </defs>
-      <rect x="0" y="0" width="760" height="300" fill="none"></rect>
+<figure class="diagram-block neo-surface-soft doppler-wavelength-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تأثير دوبلر والطول الموجي</span>
+      <span class="simulator-subtitle">شكل 2-6 — الجسم المتحرك وتغير التردد</span>
+    </div>
 
-      <g class="ripple-ring trailing-arcs" stroke="#8a8f98" stroke-width="6" fill="none">
-        <path d="M 40,150 A 100,100 0 0 1 40,300"></path>
-        <path d="M 40,80 A 170,170 0 0 1 40,370"></path>
-        <path d="M 40,20 A 230,230 0 0 1 40,430"></path>
-      </g>
-      <g class="ripple-ring leading-arc" stroke="#8a8f98" stroke-width="6" fill="none">
-        <path d="M 40,150 A 60,60 0 0 0 40,270" transform="translate(0,-100)"></path>
-      </g>
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dw-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="300"
+          viewBox="0 0 760 300"
+          role="img"
+          aria-label="تاثير دوبلر على الجسم المتحرك وعلاقته بالطول الموجي"
+        >
+          <defs>
+            <marker id="dw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#f87171"></path>
+            </marker>
 
-      <path class="flow-highlight sine-trace" d="M 60,150 q 22,-45 44,0 t 40,0 t 36,-45 32,0 t 26,-45 22,0 t 16,-45 14,0 t 10,-45 8,0"
-            fill="none" stroke="#1d4ed8" stroke-width="4"></path>
+            <linearGradient id="dwBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dwGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
 
-      <g class="flow-highlight moving-object">
-        <circle cx="590" cy="150" r="16" fill="#dc2626" stroke="#263238" stroke-width="2"></circle>
-        <line x1="610" y1="150" x2="660" y2="150" stroke="#dc2626" stroke-width="4" marker-end="url(#dw-arrow)"></line>
-      </g>
+            <filter id="dwGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <g class="flow-highlight leading-label">
-        <text x="700" y="120" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تردد اعلى</text>
-        <text x="700" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">(طول موجي اقصر)</text>
-      </g>
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#dwBgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#dwGrid)"></rect>
 
-      <g class="flow-highlight trailing-label">
-        <text x="90" y="90" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">تردد اقل</text>
-        <text x="90" y="70" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#263238" text-anchor="middle" direction="rtl">(طول موجي اطول)</text>
-      </g>
+          <g class="hotspot" data-component="trailing" tabindex="0" role="button" aria-label="موجات متباعدة خلف الجسم — تردد اقل">
+            <rect class="hit-area" x="10" y="0" width="120" height="150" fill="#000" fill-opacity="0"></rect>
+            <g class="ripple-ring trailing-arcs box-shape" stroke="#38BDF8" stroke-width="5" fill="none" filter="url(#dwGlow)">
+              <path d="M 40,150 A 100,100 0 0 1 40,300"></path>
+              <path d="M 40,80 A 170,170 0 0 1 40,370"></path>
+              <path d="M 40,20 A 230,230 0 0 1 40,430"></path>
+            </g>
+            <text x="90" y="90" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">تردد اقل</text>
+            <text x="90" y="70" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">(طول موجي اطول)</text>
+          </g>
 
-      <g class="flow-layer" aria-hidden="true">
-        <rect class="cycle-end-marker" x="0" y="0" width="1" height="1" fill="none" style="--cycle-length: 2.9s"></rect>
-      </g>
-    </svg>
+          <g class="hotspot" data-component="leading" tabindex="0" role="button" aria-label="موجات مضغوطة امام الجسم — تردد اعلى">
+            <rect class="hit-area" x="600" y="80" width="150" height="80" fill="#000" fill-opacity="0"></rect>
+            <path class="ripple-ring leading-arc box-shape" d="M 40,150 A 60,60 0 0 0 40,270" transform="translate(0,-100)" stroke="#FB923C" stroke-width="5" fill="none" filter="url(#dwGlow)"></path>
+            <text x="700" y="120" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">تردد اعلى</text>
+            <text x="700" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">(طول موجي اقصر)</text>
+          </g>
+
+          <g class="hotspot" data-component="sineTrace" tabindex="0" role="button" aria-label="الموجة الصوتية المتغيرة">
+            <rect class="hit-area" x="130" y="95" width="160" height="65" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape sine-path" d="M 60,150 q 22,-45 44,0 t 40,0 t 36,-45 32,0 t 26,-45 22,0 t 16,-45 14,0 t 10,-45 8,0" fill="none" stroke="#7dd3fc" stroke-width="4" filter="url(#dwGlow)"></path>
+          </g>
+
+          <g class="hotspot" data-component="movingObject" tabindex="0" role="button" aria-label="الجسم المتحرك">
+            <rect class="hit-area" x="565" y="125" width="105" height="50" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="590" cy="150" r="16" fill="#4a1414" stroke="#f87171" stroke-width="2"></circle>
+            <line x1="610" y1="150" x2="660" y2="150" stroke="#f87171" stroke-width="4" marker-end="url(#dw-arrow)"></line>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="trailing"><span class="status-dot dot-blue"></span><span class="status-label">تردد اقل (خلف)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="movingObject"><span class="status-dot dot-red"></span><span class="status-label">الجسم المتحرك</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="sineTrace"><span class="status-dot dot-blue"></span><span class="status-label">الموجة الصوتية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leading"><span class="status-dot dot-orange"></span><span class="status-label">تردد اعلى (امام)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>تردد اقل / طول موجي اطول</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#f87171"></span>الجسم المتحرك</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>تردد اعلى / طول موجي اقصر</li>
+    </ul>
   </div>
 
   {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
 
   <div class="diagram-controls">
     <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
     <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
   </div>
 </figure>
 
 <style>
-  .diagram-block {
-    margin: 0;
-    padding: var(--neo-space-md);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--neo-space-sm);
-    box-sizing: border-box;
+  .hotspot .box-shape {
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
-  .diagram-block-image {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    transform: scale(1.03);
   }
 
-  .dw-svg {
-    width: 100%;
-    height: auto;
-    display: block;
+  .ripple-ring {
+    opacity: 0;
   }
-
-  .diagram-block-caption {
-    margin: 0;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--neo-muted);
-    line-height: var(--neo-line-height);
-  }
-
-  .trailing-label { --highlight-delay: 0.1s; --highlight-duration: 0.6s; }
-  .moving-object { --highlight-delay: 1.1s; --highlight-duration: 0.6s; }
-  .leading-label { --highlight-delay: 2.1s; --highlight-duration: 0.6s; }
-  .sine-trace { --highlight-delay: 0.6s; --highlight-duration: 2.0s; }
 
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes ripple-fade {
+    @keyframes dw-ripple-fade {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
     }
+    .playing .trailing-arcs { animation: dw-ripple-fade 0.9s ease-in-out 0.1s; }
+    .playing .leading-arc { animation: dw-ripple-fade 0.6s ease-in-out 2.1s; }
 
-    .playing .trailing-arcs { animation: ripple-fade 0.9s ease-in-out 0.1s; }
-    .playing .leading-arc { animation: ripple-fade 0.6s ease-in-out 2.1s; }
+    @keyframes dw-glow-activate { to { filter: url(#dwGlow) brightness(1.5); } }
+    @keyframes dw-object-activate { to { filter: brightness(1.4); } }
+    @keyframes dw-status-value-on { to { opacity: 1; } }
+    @keyframes dw-status-value-off { to { opacity: 0; } }
+    @keyframes dw-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes dw-dot-on-red { to { background: #f87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes dw-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-status="trailing"] .status-dot { animation: dw-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="trailing"] .value-on { animation: dw-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="trailing"] .value-off { animation: dw-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="movingObject"] .box-shape { animation: dw-object-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="movingObject"] .status-dot { animation: dw-dot-on-red 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="movingObject"] .value-on { animation: dw-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="movingObject"] .value-off { animation: dw-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="sineTrace"] .sine-path { animation: dw-glow-activate 0.5s ease-out 0.6s forwards; }
+    .playing [data-status="sineTrace"] .status-dot { animation: dw-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="sineTrace"] .value-on { animation: dw-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="sineTrace"] .value-off { animation: dw-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-status="leading"] .status-dot { animation: dw-dot-on-orange 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="leading"] .value-on { animation: dw-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="leading"] .value-off { animation: dw-status-value-off 0.4s ease-out 2.1s forwards; }
   }
 </style>
 
 <script>
-  import { wireDiagramPlayback } from "../../scripts/diagramPlayback.js";
-  wireDiagramPlayback(".doppler-wavelength-diagram");
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    trailing: {
+      title: "تردد اقل (خلف الجسم)",
+      // src/data/chapter-02/page-05.json #doppler-p3 (excerpt)
+      text: "الشكل يوضح تغير الطول الموجي والتردد بالنسبة الى الجسم المتحرك، حيث يقل التردد خلف الجسم ويزداد الطول الموجي.",
+    },
+    movingObject: {
+      title: "الجسم المتحرك",
+      // src/data/chapter-02/page-05.json #doppler-p3 (excerpt)
+      text: "الجسم المتحرك تمثله الكرة الحمراء التي تسير باتجاه السهم الاحمر.",
+    },
+    sineTrace: {
+      title: "الموجة الصوتية المتغيرة",
+      // src/data/chapter-02/page-05.json #doppler-p3 (excerpt)
+      text: "يزداد التردد امام الجسم المتحرك ويقل خلفه، والعكس صحيح بالنسبة للطول الموجي.",
+    },
+    leading: {
+      title: "تردد اعلى (امام الجسم)",
+      // src/data/chapter-02/page-05.json #doppler-p3 (excerpt)
+      text: "يزداد التردد امام الجسم المتحرك، وبذلك يقل الطول الموجي (طول موجي اقصر).",
+    },
+  };
+
+  wireDiagramSimulator(".doppler-wavelength-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
 </script>
