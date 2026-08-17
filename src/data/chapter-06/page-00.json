@@ -1,0 +1,89 @@
+{
+  "id": "page-00",
+  "pageNumber": 100,
+  "chapterNumber": 6,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السادس",
+    "printedPage": 100
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "حاضنة الأطفال",
+    "en": "Infant Incubator"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الاهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "general-goal",
+          "content": {
+            "ar": "1- الهدف العام : يهدف هذا الفصل الى دراسة جهاز الحاضنة أجزاؤه وتركيبه وطريقة العمل."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "specific-goals-intro",
+          "content": {
+            "ar": "2- الهدف الخاص : يفترض من الطالب ان يكون قادرا على :-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            { "id": "objective-01", "content": { "ar": "فهم الوظائف الاساسية للحاضنة." } },
+            { "id": "objective-02", "content": { "ar": "حفظ المكونات الرئيسة للحاضنة مع شرح كل جزء منها." } },
+            { "id": "objective-03", "content": { "ar": "التمييز بين طرق وانواع السيطرة على حرارة الحاضنة." } }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "المحتويات"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            { "id": "toc-6-1", "number": "1-6", "content": { "ar": "وظائف الحاضنة" } },
+            { "id": "toc-6-2", "number": "2-6", "content": { "ar": "مكونات الحاضنة" } },
+            { "id": "toc-6-questions", "number": "", "content": { "ar": "الاسئلة" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c6-fig-opener",
+          "src": "/assets/diagrams/chapter-06/fig-00-opener-incubator.jpg",
+          "alt": "حاضنة الأطفال (Infant Incubator) في بيئة سريرية",
+          "caption": {
+            "ar": "حاضنة الأطفال (Infant Incubator)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

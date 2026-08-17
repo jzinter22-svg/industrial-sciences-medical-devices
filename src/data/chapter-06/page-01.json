@@ -1,0 +1,104 @@
+{
+  "id": "page-01",
+  "pageNumber": 101,
+  "chapterNumber": 6,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السادس",
+    "printedPage": 101
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "حاضنة الأطفال",
+    "en": "Infant Incubator"
+  },
+
+  "sections": [
+    {
+      "id": "section-6-1",
+      "number": "1 - 6",
+      "title": {
+        "ar": "وظائف الحاضنة"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "functions-intro",
+          "content": {
+            "ar": "تقوم الحاضنة بالوظائف الآتية:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-functions",
+          "items": [
+            { "id": "function-1", "content": { "ar": "توفير بيئة حياتية مثالية للأطفال الخدج الذين يعانون من قابلية نمو ضعيفة." } },
+            { "id": "function-2", "content": { "ar": "توفير بيئة معقمة خالية من الجراثيم." } },
+            { "id": "function-3", "content": { "ar": "تقوم بالحفاظ على درجة حرارة مركزية تبلغ من 36.5°م-37° م. وتعتمد درجة الحرارة على حجم الطفل أي كلما صغر حجمه كانت درجة الحرارة المطلوبة أعلى." } },
+            { "id": "function-4", "content": { "ar": "توفير بيئة رطبة والتحكم بالرطوبة يمكن ان يصل لغاية 100%." } },
+            { "id": "function-5", "content": { "ar": "التحكم بنسبة الاوكسجين في هواء الحاضنة لغاية 40% وهذه النسبة هي ضعف المحتوى الاعتيادي للاوكسجين في الجو." } },
+            { "id": "function-6", "content": { "ar": "تقوم الحاضنة بتنقية الهواء من الجزيئات الغريبة لغاية (5μm)." } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "functions-closing",
+          "content": {
+            "ar": "يتم القيام بجميع متطلبات الطفل عبر فتحات خاصة بجدار الحاضنة تكون مغلفة لتدخل اليدين منها حيث يتم اطعام ومعالجة الطفل، كما توجد فتحة اخرى غير مغطاة لاخراج الطفل."
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-6-2",
+      "number": "2 - 6",
+      "title": {
+        "ar": "مكونات الحاضنة"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "components-intro",
+          "content": {
+            "ar": "تتكون الحاضنة من الاجزاء الرئيسة الآتية:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-components",
+          "items": [
+            { "id": "component-1", "content": { "ar": "منظومة التهوية Air Circulation." } },
+            { "id": "component-2", "content": { "ar": "منظومة الحرارة Heat System." } },
+            { "id": "component-3", "content": { "ar": "منظومة الرطوبة Humidification System." } },
+            { "id": "component-4", "content": { "ar": "كابينة الطفل Infant Chamber." } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "components-figure-lead",
+          "content": {
+            "ar": "والشكل (1-6) يوضح المخطط الكتلوي للحاضنة:"
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c6-fig-6-1",
+          "caption": {
+            "ar": "شكل 1-6 المخطط الكتلوي للحاضنة"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

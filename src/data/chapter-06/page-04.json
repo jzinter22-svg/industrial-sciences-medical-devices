@@ -1,0 +1,75 @@
+{
+  "id": "page-04",
+  "pageNumber": 104,
+  "chapterNumber": 6,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السادس",
+    "printedPage": 104
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "حاضنة الأطفال",
+    "en": "Infant Incubator"
+  },
+
+  "sections": [
+    {
+      "id": "section-6-2-proportional",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "proportional-method-title",
+          "content": {
+            "ar": "ب- طريقة نظام السيطرة التناسبي على درجة حرارة الكابينة"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "proportional-method-lead",
+          "content": {
+            "ar": "وكما موضح بالمخطط الكتلوي (6-3)"
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c6-fig-6-3",
+          "caption": {
+            "ar": "شكل 6-3 المخطط الكتلوي لطريقة نظام السيطرة التناسبي على درجة حرارة الكابينة"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "v-values-lead",
+          "content": {
+            "ar": "لدينا في المخطط السابق :"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-v-values",
+          "items": [
+            { "id": "v-value-1", "content": { "ar": "V1: يتناسب مع الفرق بين درجة حرارة هواء التغذية وبين الـ Set Point." } },
+            { "id": "v-value-2", "content": { "ar": "V2: نبضات سن المنشار 1 Hz." } },
+            { "id": "v-value-3", "content": { "ar": "V3: خرج المقارن عندما يكون V1> V2." } },
+            { "id": "v-value-4", "content": { "ar": "V4: نبضات تشغيل مفتاح التحكم." } },
+            { "id": "v-value-5", "content": { "ar": "V5: جهد تغذية السخان." } }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

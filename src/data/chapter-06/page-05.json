@@ -1,0 +1,120 @@
+{
+  "id": "page-05",
+  "pageNumber": 105,
+  "chapterNumber": 6,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السادس",
+    "printedPage": 105
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "حاضنة الأطفال",
+    "en": "Infant Incubator"
+  },
+
+  "sections": [
+    {
+      "id": "section-6-2-heater-parts",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "heater-parts-title",
+          "content": {
+            "ar": "شرح الأجزاء المبينة في الشكل (6-3) دائرة التحكم في الـ Heater"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "heater-parts-intro",
+          "content": {
+            "ar": "تتكون دائرة التحكم بدرجه الحرارة من:"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-1-title",
+          "content": {
+            "ar": "1- قنطرة ويتستون Wheatstone Bridge"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-1-p1",
+          "content": {
+            "ar": "تتكون دائرة قنطرة ويتستون من مقاومات وثيرمستور. وشكل (6-4) يوضح الدائرة."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c6-fig-6-4",
+          "caption": {
+            "ar": "شكل 6-4 دائرة قنطرة ويتستون"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-1-p2",
+          "content": {
+            "ar": "وفي هذه الدائرة استخدمنا مقاومتين معلومتي القيمة (StandardValue) ومقاومة متغيرة (Variable.Resistance) من أجل المعايرة. أما بالنسبه للمقاومة الرابعة فهي عبارة عن ثيرمستور متحسس للحرارة. نقوم في البداية بمعايرة الدائرة على درجة حرارة ملائمة لجسم الطفل الخديج حيث نقوم بتغيير قيمة المقاومة المتغيرة حتى نحصل على قراءة مقياس (صفر) امبير (أي نحصل على أي دائرة مستقرة (Stablestate)) وعندها فإن أي تغير يحدث في درجة الحرارة يؤدي إلى تغير قيمة مقاومة الثيرمستور أي يؤدي الى اختلال الاستقرار وينتج عن هذا تيار معلوم يمر من خلال مقياس التيار."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-2-title",
+          "content": {
+            "ar": "2- دائرة المكبر Amplifier Circuit"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-2-p1",
+          "content": {
+            "ar": "انواعها كثيرة وتستخدم لتكبير الجهد أو التيار وأكثرها شيوعاً هو مكبر العمليات (Operational Amplifier) OP ومن انواعه 741."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-3-title",
+          "content": {
+            "ar": "3 - المقارن Comparator"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-3-p1",
+          "content": {
+            "ar": "يستخدم للمقارنة بين قيمتي فولتيتين ويكون خرجه (output) إما سالباً (- volt) أو موجباً (+volt) وذلك حسب القيم التي يقوم بمقارنتها كما يمكن استخدام 741 كمقارن (Comparator)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-4-title",
+          "content": {
+            "ar": "4- مولد نبضات سن المنشار Sawtooth Generator"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "part-4-p1",
+          "content": {
+            "ar": "نحصل من مولد نبضات سن المنشار على موجة سن المنشار توصل الى دخل (Input) دائرة المقارن أي تتم المقارنة بين هذه الاشارة وبين خرج المكبر وتكون هذه المقارنة خطيةً (Linear)."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

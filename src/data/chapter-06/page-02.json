@@ -1,0 +1,164 @@
+{
+  "id": "page-02",
+  "pageNumber": 102,
+  "chapterNumber": 6,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السادس",
+    "printedPage": 102
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "حاضنة الأطفال",
+    "en": "Infant Incubator"
+  },
+
+  "sections": [
+    {
+      "id": "section-6-2-air-circulation",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-air-circulation",
+          "number": "1",
+          "title": {
+            "ar": "منظومة التهوية",
+            "en": "Air Circulation"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-circulation-intro",
+          "content": {
+            "ar": "تتكون منظومة التهوية من الاجزاء الآتية:"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-air-circulation-parts",
+          "items": [
+            { "id": "air-part-a", "content": { "ar": "أ- (المروحة) fan." } },
+            { "id": "air-part-b", "content": { "ar": "ب- المرشح الدقيق Micro filter." } },
+            { "id": "air-part-c", "content": { "ar": "ج- غطاء المرشح (filter cap)." } },
+            { "id": "air-part-d", "content": { "ar": "د – انبوب توصيل الهواء (Air Connection Pipe)." } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-a-title",
+          "content": {
+            "ar": "أ- المروحة (Fan)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-a-p1",
+          "content": {
+            "ar": "توضع المروحة داخل كابينة تسمى كابينة المروحة وتعمل المروحة على دفع الهواء والاوكسجين من خارج الحاضنة الى داخلها عبر مرشح دقيق (Micro filter)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-b-title",
+          "content": {
+            "ar": "ب- المرشح الدقيق (Microfilter)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-b-p1",
+          "content": {
+            "ar": "يوضع المرشح الدقيق خلف الحاضنة ويتكون من ثلاث طبقات ويصنع من مادة ليف (Fiber) وظيفته يعمل على تنقية الهواء من الجراثيم ويكون قطره تقريبا (1) مايكرون ويجب تغيير هذا المرشح كل ثلاثة أشهر لانه سوف يصبح بعد هذه الفترة غير صحي للاستخدام كما يجب الانتباه بعدم وضعه بصورة معكوسة لانه سوف يعمل على قذف المواد المترسبة عليه الى داخل الحاضنة."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-c-title",
+          "content": {
+            "ar": "ج- غطاء المرشح (Filter cap)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-c-p1",
+          "content": {
+            "ar": "عبارة عن غطاء معدني يغطي المرشح تماما يحتوي على فتحتين الاولى لدخول الهواء العادي والاخرى لدخول الاوكسجين."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-d-title",
+          "content": {
+            "ar": "د - انبوب توصيل الهواء (Air Connection Pipe)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "air-part-d-p1",
+          "content": {
+            "ar": "وهو انبوب بلاستيكي يأخذ الهواء مباشرة من المرشح الخلفي ويدفعه الى حجرة المروحة."
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-6-2-heat-system",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-heat-system",
+          "number": "2",
+          "title": {
+            "ar": "منظومة الحرارة",
+            "en": "Heat system"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "heat-system-intro",
+          "content": {
+            "ar": "تعد من اهم الانظمة في الحاضنة حيث تعمل هذه الدائرة على تثبيت درجة حرارة الطفل، أذ ان اي اختلال في درجة حرارة الطفل تؤدي الى إصابته بالإمراض او الوفاة، وتتكون منظومة الحرارة من الأجزاء الآتية:"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-heat-system-parts",
+          "items": [
+            { "id": "heat-part-a", "content": { "ar": "ا- المسخن (فتيل) (Heater)." } },
+            { "id": "heat-part-b", "content": { "ar": "ب - منظم التشغيل الحراري (Control Thermostat)." } },
+            { "id": "heat-part-c", "content": { "ar": "ج - المنظم الحراري للامان (Safety Thermostat)." } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "heat-part-a-title",
+          "content": {
+            "ar": "أ - المسخن (Heater)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "heat-part-a-p1",
+          "content": {
+            "ar": "يوجد نوعان من المسخنات ملفية وصفائحية، نحصل على هواء مسخن الى درجة الحرارة المطلوبة، وذلك بتمرير الهواء على صفائح ساخنة كما في المسخن الصفائحي، أو على ملف ساخن كما في المسخن الملفي، ويتم السيطرة على درجة حرارة المسخن بواسطة دائرة الكترونية."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}
