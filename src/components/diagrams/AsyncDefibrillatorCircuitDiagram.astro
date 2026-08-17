@@ -1,0 +1,300 @@
+---
+// Figure 4-11 (c4-fig-4-11) — دائرة جهاز الرجة الكهربائية (DC) غير
+// المتزامن، من محولة الأوتو الى تفريغ المتسعة على أقطاب المريض. Built
+// as a dark neumorphic interactive simulator following the exact
+// Chapter 1-3 "circuit-level" system (StylusHeatControlDiagram.astro /
+// MotorSpeedControlDiagram.astro): box hotspots in a left-to-right
+// signal-path chain, plus a climactic discharge-burst animation for the
+// capacitor→relay→electrodes moment. All SVG ids are prefixed "adc11"
+// to stay unique site-wide.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft async-defibrillator-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة جهاز الرجة الكهربائية غير المتزامن</span>
+      <span class="simulator-subtitle">شكل 4-11 — من المحولة الأوتوماتيكية الى تفريغ المتسعة على أقطاب المريض</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="adc11-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1000"
+          height="320"
+          viewBox="0 0 1000 320"
+          role="img"
+          aria-label="دائرة جهاز الرجة الكهربائية غير المتزامن"
+        >
+          <defs>
+            <marker id="adc11-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="adc11BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="adc11Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="adc11GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332b10"></stop><stop offset="100%" stop-color="#1a1508"></stop></linearGradient>
+            <linearGradient id="adc11GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="adc11GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1420"></stop><stop offset="100%" stop-color="#1c0a10"></stop></linearGradient>
+            <linearGradient id="adc11GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <filter id="adc11Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="adc11Glow" x="-260%" y="-260%" width="620%" height="620%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1000" height="320" rx="20" fill="url(#adc11BgGrad)"></rect>
+          <rect x="0" y="0" width="1000" height="320" rx="20" fill="url(#adc11Grid)"></rect>
+
+          <g class="hotspot" data-component="switchS1" tabindex="0" role="button" aria-label="مفتاح S1 وفولتية التغذية 220V">
+            <rect class="box-shape" x="20" y="115" width="90" height="70" rx="10" fill="url(#adc11GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#adc11Elevate)"></rect>
+            <text x="65" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح S1</text>
+            <text x="65" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">220V</text>
+          </g>
+
+          <g class="hotspot" data-component="autoTransformer" tabindex="0" role="button" aria-label="محولة أوتو T1">
+            <rect class="box-shape" x="140" y="115" width="120" height="70" rx="10" fill="url(#adc11GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#adc11Elevate)"></rect>
+            <text x="200" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محولة أوتو</text>
+            <text x="200" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">T1</text>
+          </g>
+
+          <g class="hotspot" data-component="stepUpTransformer" tabindex="0" role="button" aria-label="محولة رافعة T2 حتى 7kV">
+            <rect class="box-shape" x="290" y="115" width="130" height="70" rx="10" fill="url(#adc11GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#adc11Elevate)"></rect>
+            <text x="355" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محولة رافعة</text>
+            <text x="355" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">T2 → 7kV</text>
+          </g>
+
+          <g class="hotspot" data-component="diodeRectifier" tabindex="0" role="button" aria-label="الثنائي D — مقوم نصف موجة">
+            <rect class="box-shape" x="450" y="115" width="110" height="70" rx="10" fill="url(#adc11GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#adc11Elevate)"></rect>
+            <text x="505" y="145" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقوم نصف موجة</text>
+            <text x="505" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Diode D</text>
+          </g>
+
+          <g class="hotspot" data-component="capacitor" tabindex="0" role="button" aria-label="متسعة C — تخزين الطاقة">
+            <rect class="box-shape" x="590" y="95" width="110" height="110" rx="12" fill="url(#adc11GradRed)" stroke="#F87171" stroke-width="2.5" filter="url(#adc11Elevate)"></rect>
+            <text x="645" y="140" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">متسعة C</text>
+            <text x="645" y="158" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">تخزين الطاقة</text>
+            <text x="645" y="176" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">E = CV²/2</text>
+          </g>
+
+          <g class="hotspot" data-component="relaySwitch" tabindex="0" role="button" aria-label="المرحل — K1 K2 K3 K4 ومفتاح S2">
+            <rect class="box-shape" x="730" y="115" width="120" height="70" rx="10" fill="url(#adc11GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#adc11Elevate)"></rect>
+            <text x="790" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المرحل</text>
+            <text x="790" y="163" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">K1-K4 / S2</text>
+          </g>
+
+          <!-- decorative discharge target (not a hotspot): paddles on patient electrodes -->
+          <g aria-hidden="true">
+            <rect x="880" y="120" width="26" height="60" rx="6" fill="none" stroke="#F87171" stroke-width="2" opacity="0.8"></rect>
+            <rect x="916" y="120" width="26" height="60" rx="6" fill="none" stroke="#F87171" stroke-width="2" opacity="0.8"></rect>
+            <path d="M 906,150 l 10,-14 l 6,0" stroke="#F87171" stroke-width="1.6" fill="none" opacity="0.6"></path>
+            <circle id="adc11-paddle-target" class="discharge-target" cx="922" cy="150" r="6" fill="#F87171" filter="url(#adc11Glow)" opacity="0.35"></circle>
+            <text x="911" y="205" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">أقطاب</text>
+            <text x="911" y="220" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">المريض</text>
+          </g>
+
+          <g class="link">
+            <line x1="110" y1="150" x2="140" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+            <line x1="260" y1="150" x2="290" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+            <line x1="420" y1="150" x2="450" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+            <line x1="560" y1="150" x2="590" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+            <line x1="700" y1="150" x2="730" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+            <line x1="850" y1="150" x2="880" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#adc11-arrow)"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="discharge-particle" cx="700" cy="150" r="6" fill="#F87171" filter="url(#adc11Glow)" style="--tx:220px; --ty:0px;"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="switchS1"><span class="status-dot" style="background:#FBBF24"></span><span class="status-label">مفتاح S1 / 220V</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">مغلق</span></span></li>
+          <li class="status-row" data-status="autoTransformer"><span class="status-dot" style="background:#FBBF24"></span><span class="status-label">محولة أوتو T1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="stepUpTransformer"><span class="status-dot dot-orange"></span><span class="status-label">محولة رافعة T2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">≈7kV</span></span></li>
+          <li class="status-row" data-status="diodeRectifier"><span class="status-dot dot-orange"></span><span class="status-label">الثنائي D</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">توحيد</span></span></li>
+          <li class="status-row" data-status="capacitor"><span class="status-dot" style="background:#F87171"></span><span class="status-label">متسعة C</span><span class="status-value"><span class="value-off">فارغة</span><span class="value-on">مشحونة</span></span></li>
+          <li class="status-row" data-status="relaySwitch"><span class="status-dot dot-purple"></span><span class="status-label">المرحل / S2</span><span class="status-value"><span class="value-off">مستقر</span><span class="value-on">تفريغ!</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مفتاح / محولة أوتو</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>رفع الفولتية / توحيد</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>طاقة مخزونة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>المرحل / التفريغ</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#adc11Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#adc11Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .discharge-particle,
+  .discharge-target {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes adc11-activate { to { filter: url(#adc11Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes adc11-charge-pulse {
+      0%, 100% { filter: url(#adc11Elevate) saturate(1.4) brightness(1.45); }
+      50% { filter: url(#adc11Elevate) saturate(1.7) brightness(1.85); }
+    }
+    @keyframes adc11-status-value-on { to { opacity: 1; } }
+    @keyframes adc11-status-value-off { to { opacity: 0; } }
+    @keyframes adc11-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes adc11-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes adc11-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes adc11-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    @keyframes adc11-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      8% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translate(var(--tx, 0), var(--ty, 0)); opacity: 0; }
+    }
+    @keyframes adc11-burst {
+      0% { opacity: 0.9; r: 6; }
+      100% { opacity: 0; r: 42; }
+    }
+
+    .playing [data-component="switchS1"] .box-shape { animation: adc11-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="switchS1"] .status-dot { animation: adc11-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="switchS1"] .value-on { animation: adc11-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="switchS1"] .value-off { animation: adc11-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="autoTransformer"] .box-shape { animation: adc11-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="autoTransformer"] .status-dot { animation: adc11-dot-on-yellow 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="autoTransformer"] .value-on { animation: adc11-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="autoTransformer"] .value-off { animation: adc11-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="stepUpTransformer"] .box-shape { animation: adc11-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="stepUpTransformer"] .status-dot { animation: adc11-dot-on-orange 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="stepUpTransformer"] .value-on { animation: adc11-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="stepUpTransformer"] .value-off { animation: adc11-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="diodeRectifier"] .box-shape { animation: adc11-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="diodeRectifier"] .status-dot { animation: adc11-dot-on-orange 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="diodeRectifier"] .value-on { animation: adc11-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="diodeRectifier"] .value-off { animation: adc11-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="capacitor"] .box-shape { animation: adc11-activate 0.4s ease-out 1.7s forwards, adc11-charge-pulse 0.5s ease-in-out 2.1s 1; }
+    .playing [data-status="capacitor"] .status-dot { animation: adc11-dot-on-red 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="capacitor"] .value-on { animation: adc11-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="capacitor"] .value-off { animation: adc11-status-value-off 0.4s ease-out 1.7s forwards; }
+
+    .playing [data-component="relaySwitch"] .box-shape { animation: adc11-activate 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="relaySwitch"] .status-dot { animation: adc11-dot-on-purple 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="relaySwitch"] .value-on { animation: adc11-status-value-on 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="relaySwitch"] .value-off { animation: adc11-status-value-off 0.4s ease-out 2.3s forwards; }
+
+    .playing .discharge-particle { animation: adc11-particle-move 0.45s linear 2.35s forwards; }
+    .playing .discharge-target { animation: adc11-burst 0.35s ease-out 2.75s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    switchS1: {
+      title: "المفتاح S1 وفولتية التغذية (220V)",
+      // src/data/chapter-04/page-09.json #operation-p1 (excerpt)
+      text: "يتم توصيل فولتية التغذية (220V) الى محولة أوتو (T1) عن طريق توصيل المفتاح (S1).",
+    },
+    autoTransformer: {
+      title: "محولة أوتو (T1)",
+      // src/data/chapter-04/page-09.json #composition-p1 + #operation-p1 (excerpt)
+      text: "محولة أوتو متغيرة (Auto Transformer) تعمل على تحديد فولتية المصدر المطلوبة الى المحولة الرافعة (T2).",
+    },
+    stepUpTransformer: {
+      title: "المحولة الرافعة (T2)",
+      // src/data/chapter-04/page-09.json #operation-p1 (excerpt)
+      text: "محولة رافعة (Transformer Step-Up) تصل فولتيتها الى حوالي (7kV).",
+    },
+    diodeRectifier: {
+      title: "الثنائي (D) — مقوم نصف موجة",
+      // src/data/chapter-04/page-09.json #composition-p1 + #operation-p1 (excerpt)
+      text: "يقوم الثنائي (D) بتمرير التيار باتجاه واحد كمقوم نصف موجة، وتنشحن المتسعة (C) خلال زمن قليل (ثوانٍ).",
+    },
+    capacitor: {
+      title: "المتسعة (C) — تخزين الطاقة",
+      // src/data/chapter-04/page-09.json #operation-p1 + #equation-1-4 (excerpt)
+      text: "إن الطاقة المخزونة في المتسعة تتناسب طرديا مع سعة المتسعة (C) ومربع الفولتية (V) على طرفيها: E = CV²/2، حيث (E) بالجول، (C) بالفاراد، (V) بالفولت.",
+    },
+    relaySwitch: {
+      title: "المرحل (K1-K4) ومفتاح S2",
+      // src/data/chapter-04/page-09.json #operation-p1 (excerpt)
+      text: "للمرحل نقاط توصيل مغلقة (K1، K2) ومفتوحة (K4، K3)، وعند توصيل فولتية التغذية (220V) الى المرحل بغلق المفتاح (S2) فينعكس توصيل تلامساته ويتم تفريغ شحنة المتسعة الى أقطاب المريض.",
+    },
+  };
+
+  wireDiagramSimulator(".async-defibrillator-circuit-diagram", { cycleMs: 3000, componentInfo: COMPONENT_INFO });
+</script>

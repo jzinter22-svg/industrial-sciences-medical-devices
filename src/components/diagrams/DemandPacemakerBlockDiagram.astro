@@ -1,0 +1,309 @@
+---
+// Figure 4-6 (منظم عند الطلب آحادي الغرفة) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1/2/3 system (see
+// ECGDeviceBlockDiagram.astro / MotorSpeedControlDiagram.astro).
+//
+// Unlike the asynchronous generator (fig 4-4), a demand pacemaker
+// senses the heart's own rhythm before it paces: the right ventricle
+// feeds a sensing signal into the senser amplifier (thin dashed blue
+// loop, mirroring MotorSpeedControlDiagram's feedback path), which
+// flows through timing control -> output circuit -> electrode, whose
+// pacing pulse (bright solid purple, traveling glow particles) returns
+// to the same ventricle.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft demand-pacemaker-block-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة منظم عند الطلب أحادي الغرفة</span>
+      <span class="simulator-subtitle">شكل 4-6 — منظم ذو غرفة واحدة وقطبه مغروس في البطين الأيمن</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dpb6-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="980"
+          height="300"
+          viewBox="0 0 980 300"
+          role="img"
+          aria-label="المخطط الكتلوي لمنظم عند الطلب أحادي الغرفة"
+        >
+          <defs>
+            <marker id="dpb6-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="dpb6BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dpb6Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dpb6GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="dpb6GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="dpb6GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="dpb6GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="dpb6GradRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a141c"></stop><stop offset="100%" stop-color="#180a0d"></stop></linearGradient>
+
+            <filter id="dpb6Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="dpb6Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="980" height="300" rx="20" fill="url(#dpb6BgGrad)"></rect>
+          <rect x="0" y="0" width="980" height="300" rx="20" fill="url(#dpb6Grid)"></rect>
+
+          <g class="hotspot" data-component="senserAmplifier" tabindex="0" role="button" aria-label="مكبر متحسس">
+            <rect class="box-shape" x="50" y="140" width="150" height="70" rx="10" fill="url(#dpb6GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#dpb6Elevate)"></rect>
+            <text x="125" y="165" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر متحسس</text>
+            <text x="125" y="183" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Senser Amplifier</text>
+          </g>
+
+          <g class="hotspot" data-component="timingControl" tabindex="0" role="button" aria-label="مسيطر التوقيت">
+            <rect class="box-shape" x="260" y="140" width="150" height="70" rx="10" fill="url(#dpb6GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#dpb6Elevate)"></rect>
+            <text x="335" y="165" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مسيطر التوقيت</text>
+            <text x="335" y="183" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Timing Control</text>
+          </g>
+
+          <g class="hotspot" data-component="outputCircuit" tabindex="0" role="button" aria-label="دائرة الخرج">
+            <rect class="box-shape" x="460" y="140" width="140" height="70" rx="10" fill="url(#dpb6GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#dpb6Elevate)"></rect>
+            <text x="530" y="165" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة الخرج</text>
+            <text x="530" y="183" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Output Circuit</text>
+          </g>
+
+          <g class="hotspot" data-component="electrode" tabindex="0" role="button" aria-label="القطب">
+            <rect class="box-shape" x="650" y="140" width="110" height="70" rx="10" fill="url(#dpb6GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#dpb6Elevate)"></rect>
+            <text x="705" y="165" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قطب</text>
+            <text x="705" y="183" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Electrode</text>
+          </g>
+
+          <!-- receiving/sensing heart icon (not a hotspot): right ventricle -->
+          <g class="heart-icon" aria-hidden="true">
+            <path class="heart-shape" d="M875,202 C830,148 830,94 875,130 C920,94 920,148 875,202 Z" fill="url(#dpb6GradRose)" stroke="#FB7185" stroke-width="2" filter="url(#dpb6Elevate)"></path>
+            <circle class="heart-pulse-ring" cx="875" cy="155" r="6" fill="none" stroke="#FB7185" stroke-width="2" filter="url(#dpb6Glow)"></circle>
+            <text x="875" y="228" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">البطين الأيمن</text>
+            <text x="875" y="242" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FB7185" text-anchor="middle" direction="ltr">(Right Ventricle)</text>
+          </g>
+
+          <!-- sensing feedback loop: heart -> senser amplifier -->
+          <g class="link sensing-link" data-link="senserAmplifier">
+            <path d="M 875,94 L 875,40 L 125,40 L 125,140" fill="none" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="3 5" marker-end="url(#dpb6-arrow)"></path>
+            <path class="trail trail-sense" d="M 875,94 L 875,40 L 125,40 L 125,142" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="4 6"></path>
+          </g>
+          <text x="500" y="34" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تحسس موجة القلب (استشعار)</text>
+
+          <g class="link" data-link="senserAmplifier" data-link-to="timingControl">
+            <line x1="200" y1="175" x2="260" y2="175" stroke="#5b6478" stroke-width="2" marker-end="url(#dpb6-arrow)"></line>
+            <line class="trail trail-green" x1="200" y1="175" x2="258" y2="175" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="timingControl" data-link-to="outputCircuit">
+            <line x1="410" y1="175" x2="460" y2="175" stroke="#5b6478" stroke-width="2" marker-end="url(#dpb6-arrow)"></line>
+            <line class="trail trail-orange" x1="410" y1="175" x2="458" y2="175" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="outputCircuit" data-link-to="electrode">
+            <line x1="600" y1="175" x2="650" y2="175" stroke="#5b6478" stroke-width="2" marker-end="url(#dpb6-arrow)"></line>
+            <line class="trail trail-purple" x1="600" y1="175" x2="648" y2="175" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <!-- pacing pulse: electrode -> heart (brighter/thicker, the "answer" to sensing) -->
+          <g class="link pacing-link" data-link="electrode">
+            <line x1="760" y1="175" x2="828" y2="175" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dpb6-arrow)"></line>
+            <line class="trail trail-pace" x1="760" y1="175" x2="826" y2="175" stroke="#C084FC" stroke-width="4" stroke-dasharray="7 6"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="200" cy="175" r="5" fill="#38BDF8" filter="url(#dpb6Glow)" style="--tx:60px; --ty:0px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="410" cy="175" r="5" fill="#4ADE80" filter="url(#dpb6Glow)" style="--tx:50px; --ty:0px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="600" cy="175" r="5" fill="#FB923C" filter="url(#dpb6Glow)" style="--tx:50px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle pace-particle" cx="760" cy="175" r="6.5" fill="#C084FC" filter="url(#dpb6Glow)" style="--tx:68px; --ty:0px; --particle-delay:2.1s; --particle-duration:0.45s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="senserAmplifier"><span class="status-dot dot-blue"></span><span class="status-label">مكبر متحسس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="timingControl"><span class="status-dot dot-green"></span><span class="status-label">مسيطر التوقيت</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="outputCircuit"><span class="status-dot dot-orange"></span><span class="status-label">دائرة الخرج</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="electrode"><span class="status-dot dot-purple"></span><span class="status-label">القطب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التحسس</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>التوقيت</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الخرج</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>القطب / التنبيه</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape,
+  .heart-shape {
+    filter: url(#dpb6Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#dpb6Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#dpb6Glow);
+  }
+
+  .heart-pulse-ring {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dpb6-shape-activate { to { filter: url(#dpb6Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes dpb6-reveal-trail { to { opacity: 0.85; } }
+    @keyframes dpb6-reveal-trail-sense { to { opacity: 0.7; } }
+    @keyframes dpb6-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: dpb6-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+    @keyframes dpb6-status-value-on { to { opacity: 1; } }
+    @keyframes dpb6-status-value-off { to { opacity: 0; } }
+    @keyframes dpb6-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes dpb6-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes dpb6-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes dpb6-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes dpb6-heart-pulse {
+      0% { opacity: 0.9; transform: scale(0.6); }
+      70% { opacity: 0; transform: scale(2.6); }
+      100% { opacity: 0; transform: scale(2.6); }
+    }
+
+    /* sensing reaches the amplifier first (baseline monitoring) */
+    .playing .sensing-link .trail { animation: dpb6-reveal-trail-sense 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="senserAmplifier"] .box-shape { animation: dpb6-shape-activate 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="senserAmplifier"] .status-dot { animation: dpb6-dot-on-blue 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="senserAmplifier"] .value-on { animation: dpb6-status-value-on 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="senserAmplifier"] .value-off { animation: dpb6-status-value-off 0.4s ease-out 0.3s forwards; }
+    .playing [data-link="senserAmplifier"][data-link-to="timingControl"] .trail { animation: dpb6-reveal-trail 0.3s ease-out 0.6s forwards; }
+
+    .playing [data-component="timingControl"] .box-shape { animation: dpb6-shape-activate 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="timingControl"] .status-dot { animation: dpb6-dot-on-green 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="timingControl"] .value-on { animation: dpb6-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="timingControl"] .value-off { animation: dpb6-status-value-off 0.4s ease-out 0.8s forwards; }
+    .playing [data-link="timingControl"] .trail { animation: dpb6-reveal-trail 0.3s ease-out 1.1s forwards; }
+
+    .playing [data-component="outputCircuit"] .box-shape { animation: dpb6-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="outputCircuit"] .status-dot { animation: dpb6-dot-on-orange 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="outputCircuit"] .value-on { animation: dpb6-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="outputCircuit"] .value-off { animation: dpb6-status-value-off 0.4s ease-out 1.3s forwards; }
+    .playing [data-link="outputCircuit"] .trail { animation: dpb6-reveal-trail 0.3s ease-out 1.6s forwards; }
+
+    .playing [data-component="electrode"] .box-shape { animation: dpb6-shape-activate 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="electrode"] .status-dot { animation: dpb6-dot-on-purple 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="electrode"] .value-on { animation: dpb6-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="electrode"] .value-off { animation: dpb6-status-value-off 0.4s ease-out 1.8s forwards; }
+    .playing .pacing-link .trail { animation: dpb6-reveal-trail 0.3s ease-out 2.1s forwards; }
+
+    .playing .heart-shape { animation: dpb6-shape-activate 0.4s ease-out 2.4s forwards; }
+    .playing .heart-pulse-ring { animation: dpb6-heart-pulse 0.6s ease-out 2.4s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    senserAmplifier: {
+      title: "دائرة مكبر متحسس (Senser Amplifier)",
+      // src/data/chapter-04/page-04.json #sc-part-1 (excerpt)
+      text: "تعمل على تكبير سعة النبضات وجعل إشارة القلب طبيعية مع ترشيح الإشارات غير المرغوب فيها وترشيح موجات التداخل وتقليل ضوضاء التردد العالي. بهذا يتحسس الجهاز فعالية القلب الجوهرية من خلال التقاط موجة القلب عن طريق الأقطاب.",
+    },
+    timingControl: {
+      title: "دائرة مسيطر (تحكم) التوقيت (Timing Control)",
+      // src/data/chapter-04/page-04.json #sc-part-2 (excerpt)
+      text: "تعمل كمذبذب والتحكم بمعدل عدد النبضات لكل دقيقة وتحديد ثابت زمن النبضة.",
+    },
+    outputCircuit: {
+      title: "دائرة الخرج (Output Circuit)",
+      // src/data/chapter-04/page-04.json #sc-part-3 (excerpt)
+      text: "تعمل هذه الدائرة كمفتاح للتحكم بتوصيل وقطع التيار الكهربائي في دائرة القطب.",
+    },
+    electrode: {
+      title: "الأقطاب (Electrodes)",
+      // src/data/chapter-04/page-04.json #sc-part-4 (excerpt)
+      text: "يتم توصيل قطب المنظم الى الأذين الأيمن أو الى البطين الأيمن، ويسمى هذا المنظم بمنظم غرفة واحدة أو (آحادي الغرفة).",
+    },
+  };
+
+  wireDiagramSimulator(".demand-pacemaker-block-diagram", { cycleMs: 2800, componentInfo: COMPONENT_INFO });
+</script>

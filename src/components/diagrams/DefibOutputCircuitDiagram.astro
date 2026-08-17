@@ -1,0 +1,373 @@
+---
+// Figure 4-14 (دائرة الخرج) rebuilt as a dark neumorphic interactive
+// simulator, following the exact Chapter 1/2/3 system
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
+//
+// This book does not draw literal IEEE component symbols: every part of
+// the output circuit (diode D, capacitor C, relay contacts K1/K2) is a
+// labeled rounded-rectangle hotspot in a left-to-right signal-path
+// chain, exactly like StylusHeatControlDiagram.astro. The chain rectifies
+// and stores the high-voltage output of the step-up transformer stage
+// (from c4-fig-4-13's power-amplifier stage), then discharges it through
+// the relay contacts to paddles (a)/(b) — gated by the 12V control-feed
+// branch from the control circuit (c4-fig-4-15).
+//
+// Color mapping (shared book palette + Chapter 3/4 high-voltage red):
+// orange = input/rectify stage, red = stored high-voltage energy,
+// purple = relay/output switching, green = control-circuit enable feed.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft defib-output-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة الخرج</span>
+      <span class="simulator-subtitle">شكل 4-14 — تقويم وتخزين الشحنة ثم تفريغها عبر المرحلين (a) و (b)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="doc14-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="980"
+          height="380"
+          viewBox="0 0 980 380"
+          role="img"
+          aria-label="دائرة الخرج لجهاز الرجة الكهربائية"
+        >
+          <defs>
+            <marker id="doc14-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="doc14BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="doc14Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="doc14GradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="doc14GradRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a1420"></stop>
+              <stop offset="100%" stop-color="#1c0a10"></stop>
+            </linearGradient>
+            <linearGradient id="doc14GradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+            <linearGradient id="doc14GradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+
+            <filter id="doc14Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="doc14Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="980" height="380" rx="20" fill="url(#doc14BgGrad)"></rect>
+          <rect x="0" y="0" width="980" height="380" rx="20" fill="url(#doc14Grid)"></rect>
+
+          <!-- incoming arrow from the power-amplifier / step-up transformer stage -->
+          <line x1="0" y1="182" x2="24" y2="182" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+
+          <g class="hotspot" data-component="stepUpInput" tabindex="0" role="button" aria-label="دخل من مكبر القدرة والمحولة الرافعة">
+            <rect class="box-shape" x="25" y="150" width="110" height="65" rx="10" fill="url(#doc14GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#doc14Elevate)"></rect>
+            <text x="80" y="176" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">من مكبر القدرة</text>
+            <text x="80" y="195" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Step-Up Input</text>
+          </g>
+
+          <g class="link" data-link="stepUpInput" data-link-to="diodeD">
+            <line x1="135" y1="182" x2="170" y2="182" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+            <line class="trail trail-orange" x1="135" y1="182" x2="168" y2="182" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="diodeD" tabindex="0" role="button" aria-label="الثنائي D">
+            <rect class="box-shape" x="170" y="150" width="100" height="65" rx="10" fill="url(#doc14GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#doc14Elevate)"></rect>
+            <text x="220" y="176" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الثنائي (D)</text>
+            <text x="220" y="195" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">تقويم نصف الموجة</text>
+          </g>
+
+          <g class="link" data-link="diodeD" data-link-to="capacitorC">
+            <line x1="270" y1="182" x2="308" y2="182" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+            <line class="trail trail-orange" x1="270" y1="182" x2="306" y2="182" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <!-- capacitorC: prominent + taller, the energy-storage stage -->
+          <circle class="capacitor-glow-ring" cx="375" cy="182" r="70" fill="none" stroke="#F87171" stroke-width="3" filter="url(#doc14Glow)" opacity="0"></circle>
+          <g class="hotspot" data-component="capacitorC" tabindex="0" role="button" aria-label="متسعة C">
+            <rect class="box-shape" x="310" y="125" width="130" height="115" rx="12" fill="url(#doc14GradRed)" stroke="#F87171" stroke-width="2.5" filter="url(#doc14Elevate)"></rect>
+            <text x="375" y="172" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">متسعة (C)</text>
+            <text x="375" y="192" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">خزن الطاقة</text>
+            <text x="375" y="208" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">الكهربائية</text>
+          </g>
+
+          <g class="link" data-link="capacitorC" data-link-to="relayContacts">
+            <line x1="440" y1="182" x2="478" y2="182" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+            <line class="trail" x1="440" y1="182" x2="476" y2="182" stroke="#F87171" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="relayContacts" tabindex="0" role="button" aria-label="نقطتا التوصيل K1 و K2">
+            <rect class="box-shape" x="480" y="150" width="150" height="65" rx="10" fill="url(#doc14GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#doc14Elevate)"></rect>
+            <text x="555" y="174" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">نقطتا التوصيل</text>
+            <text x="555" y="192" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">K1 / K2</text>
+            <text x="555" y="207" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">المرحلان (a) و (b)</text>
+          </g>
+
+          <g class="link" data-link="relayContacts">
+            <line x1="630" y1="182" x2="668" y2="182" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+            <line class="trail" x1="630" y1="182" x2="666" y2="182" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <!-- paddles a/b output icon (decorative, not a hotspot) -->
+          <g class="discharge-flash" aria-hidden="true">
+            <rect x="695" y="150" width="52" height="34" rx="7" fill="#241016" stroke="#F87171" stroke-width="2"></rect>
+            <text x="721" y="172" font-family="Cairo, sans-serif" font-size="12" font-weight="800" fill="#F87171" text-anchor="middle" direction="ltr">a</text>
+            <rect x="695" y="196" width="52" height="34" rx="7" fill="#241016" stroke="#F87171" stroke-width="2"></rect>
+            <text x="721" y="218" font-family="Cairo, sans-serif" font-size="12" font-weight="800" fill="#F87171" text-anchor="middle" direction="ltr">b</text>
+          </g>
+          <text x="800" y="150" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الى</text>
+          <text x="800" y="168" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">جسم</text>
+          <text x="800" y="186" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المريض</text>
+
+          <!-- controlFeed: 12V from control circuit, feeds INTO relayContacts -->
+          <g class="link" data-link="controlFeed" data-link-to="relayContacts">
+            <line x1="565" y1="270" x2="565" y2="217" stroke="#5b6478" stroke-width="2" marker-end="url(#doc14-arrow)"></line>
+            <line class="trail trail-green" x1="565" y1="270" x2="565" y2="219" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="controlFeed" tabindex="0" role="button" aria-label="فولتية التغذية 12V من دائرة التحكم">
+            <rect class="box-shape" x="500" y="270" width="130" height="58" rx="10" fill="url(#doc14GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#doc14Elevate)"></rect>
+            <text x="565" y="294" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">فولتية التغذية</text>
+            <text x="565" y="311" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">12V — من دائرة التحكم</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="135" cy="182" r="5" fill="#FB923C" filter="url(#doc14Glow)" style="--tx:33px; --ty:0px; --particle-delay:0.35s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="270" cy="182" r="5" fill="#FB923C" filter="url(#doc14Glow)" style="--tx:36px; --ty:0px; --particle-delay:0.75s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="440" cy="182" r="5" fill="#F87171" filter="url(#doc14Glow)" style="--tx:36px; --ty:0px; --particle-delay:1.15s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="565" cy="270" r="5" fill="#4ADE80" filter="url(#doc14Glow)" style="--tx:0px; --ty:-51px; --particle-delay:1.55s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle discharge-particle" cx="630" cy="182" r="6" fill="#C084FC" filter="url(#doc14Glow)" style="--tx:38px; --ty:0px; --particle-delay:1.95s; --particle-duration:0.35s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="stepUpInput"><span class="status-dot dot-orange"></span><span class="status-label">دخل المحولة الرافعة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="diodeD"><span class="status-dot dot-orange"></span><span class="status-label">الثنائي D</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="capacitorC"><span class="status-dot dot-red"></span><span class="status-label">متسعة C</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="relayContacts"><span class="status-dot dot-purple"></span><span class="status-label">K1 / K2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="controlFeed"><span class="status-dot dot-green"></span><span class="status-label">تغذية 12V</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الدخل والتقويم</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>الطاقة المخزونة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>المرحل والخرج</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>تمكين دائرة التحكم</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#doc14Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#doc14Elevate) saturate(1.4) brightness(1.5);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#doc14Glow);
+  }
+
+  .capacitor-glow-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .discharge-flash {
+    opacity: 0.85;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes doc14-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: doc14-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes doc14-shape-activate { to { filter: url(#doc14Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes doc14-reveal-trail { to { opacity: 0.85; } }
+    @keyframes doc14-status-value-on { to { opacity: 1; } }
+    @keyframes doc14-status-value-off { to { opacity: 0; } }
+    @keyframes doc14-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes doc14-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes doc14-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes doc14-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    @keyframes doc14-capacitor-pulse {
+      0% { opacity: 0; transform: scale(0.85); }
+      40% { opacity: 0.55; transform: scale(1.05); }
+      100% { opacity: 0; transform: scale(1.25); }
+    }
+    .playing .capacitor-glow-ring {
+      animation: doc14-capacitor-pulse 0.9s ease-out 0.95s 2;
+    }
+
+    @keyframes doc14-discharge-flash {
+      0%, 100% { filter: none; opacity: 0.85; }
+      50% { filter: url(#doc14Glow) brightness(1.6); opacity: 1; }
+    }
+    .playing .discharge-flash {
+      animation: doc14-discharge-flash 0.5s ease-out 1.9s;
+    }
+
+    .playing [data-component="stepUpInput"] .box-shape { animation: doc14-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="stepUpInput"] .status-dot { animation: doc14-dot-on-orange 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="stepUpInput"] .value-on { animation: doc14-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="stepUpInput"] .value-off { animation: doc14-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="stepUpInput"] .trail { animation: doc14-reveal-trail 0.3s ease-out 0.35s forwards; }
+
+    .playing [data-component="diodeD"] .box-shape { animation: doc14-shape-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="diodeD"] .status-dot { animation: doc14-dot-on-orange 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="diodeD"] .value-on { animation: doc14-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="diodeD"] .value-off { animation: doc14-status-value-off 0.4s ease-out 0.5s forwards; }
+    .playing [data-link="diodeD"] .trail { animation: doc14-reveal-trail 0.3s ease-out 0.75s forwards; }
+
+    .playing [data-component="capacitorC"] .box-shape { animation: doc14-shape-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="capacitorC"] .status-dot { animation: doc14-dot-on-red 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="capacitorC"] .value-on { animation: doc14-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="capacitorC"] .value-off { animation: doc14-status-value-off 0.4s ease-out 0.9s forwards; }
+    .playing [data-link="capacitorC"] .trail { animation: doc14-reveal-trail 0.3s ease-out 1.15s forwards; }
+
+    .playing [data-component="controlFeed"] .box-shape { animation: doc14-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="controlFeed"] .status-dot { animation: doc14-dot-on-green 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="controlFeed"] .value-on { animation: doc14-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="controlFeed"] .value-off { animation: doc14-status-value-off 0.4s ease-out 1.3s forwards; }
+    .playing [data-link="controlFeed"] .trail { animation: doc14-reveal-trail 0.3s ease-out 1.55s forwards; }
+
+    .playing [data-component="relayContacts"] .box-shape { animation: doc14-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayContacts"] .status-dot { animation: doc14-dot-on-purple 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayContacts"] .value-on { animation: doc14-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayContacts"] .value-off { animation: doc14-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="relayContacts"] .trail { animation: doc14-reveal-trail 0.3s ease-out 1.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    stepUpInput: {
+      title: "الدخل من المحولة الرافعة (مكبر القدرة)",
+      // src/data/chapter-04/page-11.json #output-circuit-p1 (excerpt)
+      text: "دائرة الخرج تستلم الموجة المتناوبة عالية الفولتية الخارجة من المحولة الرافعة (ضمن مرحلة مكبر القدرة) قبل أن يتم تقويمها.",
+    },
+    diodeD: {
+      title: "الثنائي (D)",
+      // src/data/chapter-04/page-11.json #output-circuit-p1 (excerpt)
+      text: "يعمل الثنائي (D) على تقويم نصف الموجة الخارجة من المحولة الرافعة.",
+    },
+    capacitorC: {
+      title: "متسعة (C)",
+      // src/data/chapter-04/page-11.json #output-circuit-p1 (excerpt)
+      text: "يتم خزن (الشحنة) الطاقة الكهربائية في متسعة (C).",
+    },
+    relayContacts: {
+      title: "نقطتا التوصيل K1 و K2 (المرحلان a و b)",
+      // src/data/chapter-04/page-11.json #output-circuit-p1 (excerpt)
+      text: "يتم تفريغ الفولتية العالية المستمرة من خلال نقطتي التوصيل (K1) و (K2) للمرحلين (a) و (b).",
+    },
+    controlFeed: {
+      title: "فولتية التغذية (12V) من دائرة التحكم",
+      // src/data/chapter-04/page-11.json #output-circuit-p1 (excerpt)
+      text: "يعتمد عمل المرحلين (a) و (b) على فولتية التغذية (12V) المجهزة عن طريق دائرة التحكم.",
+    },
+  };
+
+  wireDiagramSimulator(".defib-output-circuit-diagram", { cycleMs: 2400, componentInfo: COMPONENT_INFO });
+</script>

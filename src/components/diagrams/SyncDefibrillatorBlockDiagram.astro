@@ -1,0 +1,295 @@
+---
+// Figure 4-13 (المخطط الكتلوي لجهاز الرجة المتزامن الحديث) built as a
+// dark neumorphic interactive simulator, following the exact Chapter
+// 1/2/3 system (see ECGDeviceBlockDiagram.astro / MotorSpeedControlDiagram.astro).
+//
+// Four-stage signal path: charging unit (bridge rectifier -> 12V
+// battery) -> astable oscillator (45kHz square wave) -> power amplifier
+// (MOSFET + step-up transformer to ~7kV) -> output & control unit,
+// terminating in the discharge paddles. Unit (d)'s internal output/
+// control detail is covered separately by figs 4-14/4-15, so it stays
+// a single summary block here.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft sync-defibrillator-block-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي لجهاز الرجة المتزامن الحديث</span>
+      <span class="simulator-subtitle">شكل 4-13 — من وحدة الشحن الى دائرة الخرج والتحكم</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="sdb13-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="980"
+          height="230"
+          viewBox="0 0 980 230"
+          role="img"
+          aria-label="المخطط الكتلوي لجهاز الرجة المتزامن الحديث"
+        >
+          <defs>
+            <marker id="sdb13-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="sdb13BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="sdb13Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="sdb13GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="sdb13GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="sdb13GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="sdb13GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="sdb13GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#180a0a"></stop></linearGradient>
+
+            <filter id="sdb13Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="sdb13Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="980" height="230" rx="20" fill="url(#sdb13BgGrad)"></rect>
+          <rect x="0" y="0" width="980" height="230" rx="20" fill="url(#sdb13Grid)"></rect>
+
+          <g class="hotspot" data-component="chargingUnit" tabindex="0" role="button" aria-label="وحدة الشحن">
+            <rect class="box-shape" x="30" y="75" width="130" height="70" rx="10" fill="url(#sdb13GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#sdb13Elevate)"></rect>
+            <text x="95" y="100" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">وحدة الشحن</text>
+            <text x="95" y="118" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Charging Unit</text>
+          </g>
+
+          <g class="hotspot" data-component="astableOscillator" tabindex="0" role="button" aria-label="المذبذب الغير مستقر">
+            <rect class="box-shape" x="210" y="75" width="170" height="70" rx="10" fill="url(#sdb13GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#sdb13Elevate)"></rect>
+            <text x="295" y="100" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مذبذب غير مستقر</text>
+            <text x="295" y="118" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Astable Osc. 45kHz</text>
+          </g>
+
+          <g class="hotspot" data-component="powerAmplifier" tabindex="0" role="button" aria-label="مكبر القدرة">
+            <rect class="box-shape" x="440" y="75" width="160" height="70" rx="10" fill="url(#sdb13GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#sdb13Elevate)"></rect>
+            <text x="520" y="100" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر القدرة</text>
+            <text x="520" y="118" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Power Amp (MOSFET)</text>
+          </g>
+
+          <g class="hotspot" data-component="outputControlUnit" tabindex="0" role="button" aria-label="دائرة الخرج والتحكم">
+            <rect class="box-shape" x="670" y="75" width="150" height="70" rx="10" fill="url(#sdb13GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#sdb13Elevate)"></rect>
+            <text x="745" y="100" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الخرج والتحكم</text>
+            <text x="745" y="118" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Output &amp; Control</text>
+          </g>
+
+          <!-- receiving paddle/electrode icon pair (not a hotspot): the shock output -->
+          <g class="paddle-icon" aria-hidden="true">
+            <circle class="paddle-shape" cx="875" cy="110" r="20" fill="url(#sdb13GradRed)" stroke="#F87171" stroke-width="2" filter="url(#sdb13Elevate)"></circle>
+            <circle class="paddle-shape" cx="945" cy="110" r="20" fill="url(#sdb13GradRed)" stroke="#F87171" stroke-width="2" filter="url(#sdb13Elevate)"></circle>
+            <path class="bolt-shape" d="M912,90 L900,112 L912,112 L898,132" fill="none" stroke="#F87171" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#sdb13Glow)"></path>
+            <text x="910" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">الأقطاب</text>
+            <text x="910" y="164" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">(Paddles)</text>
+          </g>
+
+          <g class="link" data-link="chargingUnit" data-link-to="astableOscillator">
+            <line x1="160" y1="110" x2="210" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#sdb13-arrow)"></line>
+            <line class="trail trail-green" x1="160" y1="110" x2="208" y2="110" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="astableOscillator" data-link-to="powerAmplifier">
+            <line x1="380" y1="110" x2="440" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#sdb13-arrow)"></line>
+            <line class="trail trail-orange" x1="380" y1="110" x2="438" y2="110" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="powerAmplifier" data-link-to="outputControlUnit">
+            <line x1="600" y1="110" x2="670" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#sdb13-arrow)"></line>
+            <line class="trail trail-purple" x1="600" y1="110" x2="668" y2="110" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="outputControlUnit">
+            <line x1="820" y1="110" x2="853" y2="110" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sdb13-arrow)"></line>
+            <line class="trail trail-red" x1="820" y1="110" x2="851" y2="110" stroke="#F87171" stroke-width="3.5" stroke-dasharray="7 6"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="160" cy="110" r="5" fill="#FBBF24" filter="url(#sdb13Glow)" style="--tx:50px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="380" cy="110" r="5" fill="#4ADE80" filter="url(#sdb13Glow)" style="--tx:60px; --ty:0px; --particle-delay:0.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="600" cy="110" r="5" fill="#FB923C" filter="url(#sdb13Glow)" style="--tx:70px; --ty:0px; --particle-delay:1.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle discharge-particle" cx="820" cy="110" r="6.5" fill="#C084FC" filter="url(#sdb13Glow)" style="--tx:33px; --ty:0px; --particle-delay:1.9s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="chargingUnit"><span class="status-dot dot-yellow"></span><span class="status-label">وحدة الشحن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="astableOscillator"><span class="status-dot dot-green"></span><span class="status-label">المذبذب الغير مستقر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="powerAmplifier"><span class="status-dot dot-orange"></span><span class="status-label">مكبر القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="outputControlUnit"><span class="status-dot dot-purple"></span><span class="status-label">الخرج والتحكم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الشحن</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المذبذب</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>مكبر القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الخرج والتحكم</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape,
+  .paddle-shape {
+    filter: url(#sdb13Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#sdb13Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#sdb13Glow);
+  }
+
+  .bolt-shape {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes sdb13-shape-activate { to { filter: url(#sdb13Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes sdb13-reveal-trail { to { opacity: 0.85; } }
+    @keyframes sdb13-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: sdb13-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+    @keyframes sdb13-status-value-on { to { opacity: 1; } }
+    @keyframes sdb13-status-value-off { to { opacity: 0; } }
+    @keyframes sdb13-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes sdb13-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes sdb13-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes sdb13-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes sdb13-bolt-flash {
+      0% { opacity: 0; }
+      15% { opacity: 1; }
+      35% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .playing [data-component="chargingUnit"] .box-shape { animation: sdb13-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="chargingUnit"] .status-dot { animation: sdb13-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="chargingUnit"] .value-on { animation: sdb13-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="chargingUnit"] .value-off { animation: sdb13-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="chargingUnit"] .trail { animation: sdb13-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="astableOscillator"] .box-shape { animation: sdb13-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="astableOscillator"] .status-dot { animation: sdb13-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="astableOscillator"] .value-on { animation: sdb13-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="astableOscillator"] .value-off { animation: sdb13-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="astableOscillator"] .trail { animation: sdb13-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="powerAmplifier"] .box-shape { animation: sdb13-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmplifier"] .status-dot { animation: sdb13-dot-on-orange 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmplifier"] .value-on { animation: sdb13-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmplifier"] .value-off { animation: sdb13-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="powerAmplifier"] .trail { animation: sdb13-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="outputControlUnit"] .box-shape { animation: sdb13-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="outputControlUnit"] .status-dot { animation: sdb13-dot-on-purple 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="outputControlUnit"] .value-on { animation: sdb13-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="outputControlUnit"] .value-off { animation: sdb13-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="outputControlUnit"] .trail { animation: sdb13-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing .bolt-shape { animation: sdb13-bolt-flash 0.6s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    chargingUnit: {
+      title: "a – وحدة الشحن (Charging Unit)",
+      // src/data/chapter-04/page-11.json #unit-a-p1 (excerpt)
+      text: "تتألف هذه الوحدة من دائرة قنطرة مقوم تعمل على شحن بطارية بفولتية (12V).",
+    },
+    astableOscillator: {
+      title: "b – دائرة المذبذب الغير مستقر (Astable Oscillator)",
+      // src/data/chapter-04/page-11.json #unit-b-p1 (excerpt)
+      text: "يستعمل هذا المذبذب لتوليد إشارات عالية التردد تعمل على تشغيل دائرة مكبر القدرة، حيث تولد الدائرة نبضات ترددها (45kHz) ذات شكل موجي مربع.",
+    },
+    powerAmplifier: {
+      title: "c – مكبرة القدرة (Power Amplifier)",
+      // src/data/chapter-04/page-11.json #unit-c-p1 (excerpt)
+      text: "يستعمل ترانزستور تأثير المجال (MOS FET) في هذه المرحلة كمكبر قدرة للإشارة الخارجة من دائرة المذبذب، وتستعمل محولة رافعة نوع الحالة الصلبة (Solid State Transformer) ترفع الفولتية الى قيمة عالية بحدود (7kV).",
+    },
+    outputControlUnit: {
+      title: "d – دائرة الخرج والتحكم (Output &amp; Control)",
+      // src/data/chapter-04/page-11.json #unit-d-p1 (excerpt)
+      text: "تتكون هذه الوحدة من دائرتين: دائرة الخرج ودائرة التحكم، وهما اللتان تحملان الفولتية العالية المخزنة الى الأقطاب لحظة التفريغ.",
+    },
+  };
+
+  wireDiagramSimulator(".sync-defibrillator-block-diagram", { cycleMs: 2800, componentInfo: COMPONENT_INFO });
+</script>
