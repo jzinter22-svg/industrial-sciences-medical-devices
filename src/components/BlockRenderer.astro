@@ -45,6 +45,10 @@ import ScanTypesTraceDiagram from "./diagrams/ScanTypesTraceDiagram.astro";
 import PowerSupplyCircuitDiagram from "./diagrams/PowerSupplyCircuitDiagram.astro";
 import TransmitterCircuitDiagram from "./diagrams/TransmitterCircuitDiagram.astro";
 import ReceiverCircuitDiagram from "./diagrams/ReceiverCircuitDiagram.astro";
+import HeartAnatomyDiagram from "./diagrams/HeartAnatomyDiagram.astro";
+import HeartValvesDiagram from "./diagrams/HeartValvesDiagram.astro";
+import DoubleCirculationDiagram from "./diagrams/DoubleCirculationDiagram.astro";
+import CardiacConductionDiagram from "./diagrams/CardiacConductionDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -73,6 +77,16 @@ const chapter2AnimatedDiagrams: Record<string, any> = {
   "c2-fig-2-28": TransmitterCircuitDiagram,
   "c2-fig-2-29a": ReceiverCircuitDiagram,
   "c2-fig-2-29b": DeliveryMonitorBlockDiagram,
+};
+
+// Chapter 3 diagram ids (c3-fig-3-XX) that have a hand-built animated
+// replacement, same rationale as the Chapter 1/2 tables above — the rest
+// (photographic figures) fall back to the generic DiagramBlock.
+const chapter3AnimatedDiagrams: Record<string, any> = {
+  "c3-fig-3-1": HeartAnatomyDiagram,
+  "c3-fig-3-3": HeartValvesDiagram,
+  "c3-fig-3-4": DoubleCirculationDiagram,
+  "c3-fig-3-6": CardiacConductionDiagram,
 };
 
 // Chapter 1 device ids (device-0N) that have a hand-built animated
@@ -106,6 +120,7 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
 };
 
 const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[block.id] : undefined;
+const Chapter3Diagram = block.type === "diagram" ? chapter3AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -180,10 +195,15 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter2Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter3Diagram && (
+  <Chapter3Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
-  !Chapter2Diagram && (
+  !Chapter2Diagram &&
+  !Chapter3Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 

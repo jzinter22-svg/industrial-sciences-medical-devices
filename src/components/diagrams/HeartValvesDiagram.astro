@@ -1,0 +1,309 @@
+---
+// Figures 2-3 / 3-3 / 4-3 / 5-3 (valve positions, wall layers, coronary
+// flow) consolidated into one dark neumorphic interactive simulator,
+// following the exact Chapter 1/2 system.
+//
+// The book shows this concept across four separate static figures (the
+// posterior heart view, the simplified valve schematic, the internal
+// cross-section, and a microscope crop of muscle tissue) — consolidated
+// here into one coherent "how blood flows one-way through the four
+// valves" interactive diagram, same consolidation precedent as Chapter 1's
+// diagram-06 (timer types).
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft heart-valves-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة صمامات القلب وجدرانه</span>
+      <span class="simulator-subtitle">أشكال 2-3، 3-3، 4-3، 5-3 — مسار الدم أحادي الاتجاه</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="hv-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="720"
+          height="420"
+          viewBox="0 0 720 420"
+          role="img"
+          aria-label="رسم تخطيطي للقلب يوضح موقع الصمامات"
+        >
+          <defs>
+            <marker id="hv-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="hvBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="hvGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="hvGradGold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332a10"></stop>
+              <stop offset="100%" stop-color="#1a1508"></stop>
+            </linearGradient>
+            <linearGradient id="hvGradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+
+            <filter id="hvElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="9" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#ffe9a8" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3.5" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="hvGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="720" height="420" rx="20" fill="url(#hvBgGrad)"></rect>
+          <rect x="0" y="0" width="720" height="420" rx="20" fill="url(#hvGrid)"></rect>
+
+          <!-- heart outline -->
+          <path d="M 150,110 Q 150,60 210,60 Q 270,60 270,110 Q 270,60 330,60 Q 390,60 390,110 L 390,150 L 150,150 Z"
+                fill="none" stroke="#4b5468" stroke-width="2"></path>
+          <path d="M 150,150 L 150,240 Q 150,340 270,380 Q 390,340 390,240 L 390,150"
+                fill="none" stroke="#4b5468" stroke-width="2"></path>
+          <line x1="270" y1="60" x2="270" y2="380" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="4 6"></line>
+
+          <text x="200" y="90" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">أذين</text>
+          <text x="200" y="280" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">بطين</text>
+
+          <!-- pulmonary valve -->
+          <g class="hotspot" data-component="pulmonaryValve" tabindex="0" role="button" aria-label="الصمام الهلالي الرئوي">
+            <rect class="hit-area" x="190" y="30" width="80" height="55" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="230" cy="55" r="22" fill="url(#hvGradGold)" stroke="#FBBF24" stroke-width="2.5" filter="url(#hvElevate)"></circle>
+            <text x="230" y="20" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">الهلالي الرئوي</text>
+            <text x="230" y="60" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">P</text>
+          </g>
+
+          <!-- aortic valve -->
+          <g class="hotspot" data-component="aorticValve" tabindex="0" role="button" aria-label="الصمام الهلالي الأبهري">
+            <rect class="hit-area" x="310" y="30" width="80" height="55" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="350" cy="55" r="22" fill="url(#hvGradGold)" stroke="#FBBF24" stroke-width="2.5" filter="url(#hvElevate)"></circle>
+            <text x="350" y="20" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">الهلالي الأبهري</text>
+            <text x="350" y="60" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">A</text>
+          </g>
+
+          <!-- tricuspid valve (right, between RA/RV) -->
+          <g class="hotspot" data-component="tricuspidValve" tabindex="0" role="button" aria-label="الصمام الثلاثي">
+            <rect class="hit-area" x="170" y="130" width="100" height="50" fill="#000" fill-opacity="0"></rect>
+            <ellipse class="box-shape" cx="210" cy="155" rx="34" ry="16" fill="url(#hvGradPurple)" stroke="#C084FC" stroke-width="2.5" filter="url(#hvElevate)"></ellipse>
+            <text x="210" y="159" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">الثلاثي</text>
+          </g>
+
+          <!-- mitral valve (left, between LA/LV) -->
+          <g class="hotspot" data-component="mitralValve" tabindex="0" role="button" aria-label="الصمام التاجي (ذو الشرفتين)">
+            <rect class="hit-area" x="270" y="130" width="100" height="50" fill="#000" fill-opacity="0"></rect>
+            <ellipse class="box-shape" cx="330" cy="155" rx="34" ry="16" fill="url(#hvGradPurple)" stroke="#C084FC" stroke-width="2.5" filter="url(#hvElevate)"></ellipse>
+            <text x="330" y="159" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">التاجي</text>
+          </g>
+
+          <!-- wall layers -->
+          <g class="hotspot" data-component="wallLayers" tabindex="0" role="button" aria-label="جدران القلب">
+            <rect class="hit-area" x="150" y="190" width="240" height="200" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 150,240 Q 150,335 270,375 Q 390,335 390,240"
+                  fill="none" stroke="#F43F5E" stroke-width="10" stroke-linecap="round" filter="url(#hvElevate)"></path>
+            <path d="M 155,235 Q 155,320 270,357 Q 385,320 385,235"
+                  fill="none" stroke="#7c2d3f" stroke-width="3" stroke-dasharray="3 5"></path>
+            <text x="270" y="350" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">Myocardium</text>
+          </g>
+
+          <!-- flow arrows -->
+          <g class="link" data-link="tricuspidValve" data-link-to="pulmonaryValve">
+            <path d="M 210,140 L 210,90 L 230,90 L 230,80" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#hv-arrow)"></path>
+            <path class="trail trail-cyan" d="M 210,140 L 210,90 L 230,90 L 230,78" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="mitralValve" data-link-to="aorticValve">
+            <path d="M 330,140 L 330,90 L 350,90 L 350,80" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#hv-arrow)"></path>
+            <path class="trail trail-red" d="M 330,140 L 330,90 L 350,90 L 350,78" fill="none" stroke="#FB7185" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="210" cy="140" r="5" fill="#22D3EE" filter="url(#hvGlow)" style="--tx:20px; --ty:-60px; --particle-delay:0.1s; --particle-duration:0.6s"></circle>
+            <circle class="flow-particle" cx="330" cy="140" r="5" fill="#FB7185" filter="url(#hvGlow)" style="--tx:20px; --ty:-60px; --particle-delay:0.6s; --particle-duration:0.6s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="tricuspidValve"><span class="status-dot dot-purple"></span><span class="status-label">الصمام الثلاثي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="mitralValve"><span class="status-dot dot-purple"></span><span class="status-label">الصمام التاجي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pulmonaryValve"><span class="status-dot dot-gold"></span><span class="status-label">الهلالي الرئوي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="aorticValve"><span class="status-dot dot-gold"></span><span class="status-label">الهلالي الأبهري</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="wallLayers"><span class="status-dot dot-red"></span><span class="status-label">جدران القلب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي صمام أو جدار لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>صمامات ذات شرفتين</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#FBBF24"></span>صمامات هلالية</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F43F5E"></span>جدار القلب</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#hvElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#hvElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#hvGlow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes hv-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: hv-particle-move var(--particle-duration, 0.6s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes hv-shape-activate { to { filter: url(#hvElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes hv-reveal-trail { to { opacity: 0.9; } }
+    @keyframes hv-status-value-on { to { opacity: 1; } }
+    @keyframes hv-status-value-off { to { opacity: 0; } }
+    @keyframes hv-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes hv-dot-on-gold { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes hv-dot-on-red { to { background: #F43F5E; box-shadow: 0 0 8px 1px rgba(244, 63, 94, 0.8); } }
+
+    .playing [data-component="tricuspidValve"] .box-shape { animation: hv-shape-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="tricuspidValve"] .status-dot { animation: hv-dot-on-purple 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tricuspidValve"] .value-on { animation: hv-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tricuspidValve"] .value-off { animation: hv-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="tricuspidValve"] .trail { animation: hv-reveal-trail 0.3s ease-out 0.3s forwards; }
+
+    .playing [data-component="mitralValve"] .box-shape { animation: hv-shape-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="mitralValve"] .status-dot { animation: hv-dot-on-purple 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="mitralValve"] .value-on { animation: hv-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="mitralValve"] .value-off { animation: hv-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="mitralValve"] .trail { animation: hv-reveal-trail 0.3s ease-out 0.8s forwards; }
+
+    .playing [data-component="pulmonaryValve"] .box-shape { animation: hv-shape-activate 0.5s ease-out 0.7s forwards; }
+    .playing [data-status="pulmonaryValve"] .status-dot { animation: hv-dot-on-gold 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="pulmonaryValve"] .value-on { animation: hv-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="pulmonaryValve"] .value-off { animation: hv-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="aorticValve"] .box-shape { animation: hv-shape-activate 0.5s ease-out 1.2s forwards; }
+    .playing [data-status="aorticValve"] .status-dot { animation: hv-dot-on-gold 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="aorticValve"] .value-on { animation: hv-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="aorticValve"] .value-off { animation: hv-status-value-off 0.4s ease-out 1.2s forwards; }
+
+    .playing [data-component="wallLayers"] .box-shape { animation: hv-shape-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-status="wallLayers"] .status-dot { animation: hv-dot-on-red 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="wallLayers"] .value-on { animation: hv-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="wallLayers"] .value-off { animation: hv-status-value-off 0.4s ease-out 1.7s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    tricuspidValve: {
+      title: "الصمام الثلاثي (Tricuspid)",
+      // src/data/chapter-03/page-02.json #heart-p2 (excerpt)
+      text: "لايستطيع الدم في البطين ان يرجع مرة أخرى الى الأذين في حالة انقباض البطين، وذلك لأنه صمام ذو اتجاه واحد ويسمى الصمام الثلاثي لأنه يتكون من ثلاثة أغشية تشبه الاهلة.",
+    },
+    mitralValve: {
+      title: "الصمام التاجي / ذو الشرفتين (Mitral)",
+      // src/data/chapter-03/page-02.json #valves-p1 (excerpt)
+      text: "الصمام الموجود بين الأذين الأيسر والبطين الأيسر يسمى ذو الشرفتين أو الصمام التاجي (Mitral) لكي يمنع الدم من الرجوع الى الخلف.",
+    },
+    pulmonaryValve: {
+      title: "الصمام الهلالي الرئوي (Pulmonary)",
+      // src/data/chapter-03/page-02.json #heart-p2 (excerpt)
+      text: "للشريان الرئوي أيضا صمام يوقف رجوع الدم من الرئتين الى البطين، ويسمى هذا الصمام الهلالي.",
+    },
+    aorticValve: {
+      title: "الصمام الهلالي الأبهري (Aortic)",
+      // src/data/chapter-03/page-02.json #valves-p1 (excerpt)
+      text: "يقوم البطين الأيسر بضخ الدم خارج القلب عبر مجموعة من الصمامات الهلالية الى داخل الشريان الابهر (Aorta)، وهكذا فان الصمامات تضمن سريان الدم في اتجاه واحد في كل وقت.",
+    },
+    wallLayers: {
+      title: "جدران القلب (Myocardium)",
+      // src/data/chapter-03/page-03.json #walls-p1 (excerpt)
+      text: "يتكون القلب من كتلة عضلية كبيرة تسمى عضلة القلب (Myocardium) يغلف سطحها الخارجي غشاء يسمى التامور (Pericardium) أما سطحها الداخلي فيبطنه الغشاء الداخلي للقلب (Endocardium)، وهو طبقة رقيقة تنثني في بعض الأماكن لتكون صمامات القلب.",
+    },
+  };
+
+  wireDiagramSimulator(".heart-valves-diagram", { cycleMs: 2200, componentInfo: COMPONENT_INFO });
+</script>

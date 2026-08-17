@@ -1,0 +1,319 @@
+---
+// Figure 1-3 (المظهر الخارجي للقلب) rebuilt as a dark neumorphic
+// interactive simulator, following the exact Chapter 1/2 system
+// (src/styles/diagram-simulator.css + src/scripts/diagramSimulator.js).
+//
+// The textbook's figure is a photorealistic anatomical illustration with
+// no labeled interactive structure of its own — rebuilt here as a clean
+// schematic heart with the chambers/vessels the chapter's own text (3-1,
+// 3-2, 3-3) actually names, each hotspot sourced verbatim from that text.
+//
+// Color mapping (new for Chapter 3, cardiac/physiological, not the
+// electrical 5-color palette): crimson/red = oxygenated blood chambers
+// and vessels (left side), cyan/blue = deoxygenated blood chambers and
+// vessels (right side), gold = coronary arteries (muscle's own supply).
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft heart-anatomy-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تركيب القلب الخارجي</span>
+      <span class="simulator-subtitle">شكل 1-3 — الأذينان والبطينان والأوعية الكبرى</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ha-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="720"
+          height="480"
+          viewBox="0 0 720 480"
+          role="img"
+          aria-label="المظهر الخارجي للقلب"
+        >
+          <defs>
+            <marker id="ha-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="haBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="haGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="haGradRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a1420"></stop>
+              <stop offset="100%" stop-color="#1c0a10"></stop>
+            </linearGradient>
+            <linearGradient id="haGradCyan" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0e3238"></stop>
+              <stop offset="100%" stop-color="#07181c"></stop>
+            </linearGradient>
+            <linearGradient id="haGradGold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332a10"></stop>
+              <stop offset="100%" stop-color="#1a1508"></stop>
+            </linearGradient>
+
+            <filter id="haElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#ffb4c6" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="4" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="4" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-3" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="haGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="720" height="480" rx="20" fill="url(#haBgGrad)"></rect>
+          <rect x="0" y="0" width="720" height="480" rx="20" fill="url(#haGrid)"></rect>
+
+          <!-- great vessels at top -->
+          <g class="hotspot" data-component="aorta" tabindex="0" role="button" aria-label="الشريان الأبهر">
+            <rect class="hit-area" x="330" y="30" width="130" height="80" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 350,105 L 350,55 Q 350,35 380,35 L 420,35 Q 450,35 450,55 L 450,105" fill="url(#haGradRed)" stroke="#FB7185" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="400" y="25" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FB7185" text-anchor="middle" direction="rtl">الشريان الأبهر</text>
+          </g>
+
+          <g class="hotspot" data-component="pulmonaryArtery" tabindex="0" role="button" aria-label="الشريان الرئوي">
+            <rect class="hit-area" x="235" y="30" width="95" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 260,110 L 260,60 Q 260,40 285,40 L 300,40 Q 320,40 320,60 L 320,110" fill="url(#haGradCyan)" stroke="#22D3EE" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="265" y="27" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#22D3EE" text-anchor="middle" direction="rtl">الشريان الرئوي</text>
+          </g>
+
+          <!-- atria -->
+          <g class="hotspot" data-component="leftAtrium" tabindex="0" role="button" aria-label="الأذين الأيسر">
+            <rect class="hit-area" x="330" y="100" width="150" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 340,190 Q 335,110 405,105 Q 475,110 470,190 Z" fill="url(#haGradRed)" stroke="#FB7185" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="405" y="150" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">الأذين الأيسر</text>
+          </g>
+
+          <g class="hotspot" data-component="rightAtrium" tabindex="0" role="button" aria-label="الأذين الأيمن">
+            <rect class="hit-area" x="180" y="100" width="150" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 190,190 Q 185,110 255,105 Q 325,110 320,190 Z" fill="url(#haGradCyan)" stroke="#22D3EE" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="255" y="150" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">الأذين الأيمن</text>
+          </g>
+
+          <!-- ventricles -->
+          <g class="hotspot" data-component="leftVentricle" tabindex="0" role="button" aria-label="البطين الأيسر">
+            <rect class="hit-area" x="335" y="185" width="160" height="220" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 340,190 L 470,190 Q 480,290 415,395 Q 400,410 380,395 Q 345,300 340,190 Z" fill="url(#haGradRed)" stroke="#F43F5E" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="405" y="290" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">البطين الأيسر</text>
+          </g>
+
+          <g class="hotspot" data-component="rightVentricle" tabindex="0" role="button" aria-label="البطين الأيمن">
+            <rect class="hit-area" x="175" y="185" width="160" height="200" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 190,190 L 320,190 Q 330,280 300,370 Q 280,390 250,375 Q 195,300 190,190 Z" fill="url(#haGradCyan)" stroke="#38BDF8" stroke-width="2.5" filter="url(#haElevate)"></path>
+            <text x="255" y="290" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="rtl">البطين الأيمن</text>
+          </g>
+
+          <!-- coronary arteries overlay -->
+          <g class="hotspot" data-component="coronaryArteries" tabindex="0" role="button" aria-label="الشرايين التاجية">
+            <rect class="hit-area" x="378" y="192" width="55" height="45" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 405,195 Q 380,240 360,300 M 405,195 Q 420,250 400,330" fill="none" stroke="#FBBF24" stroke-width="4" stroke-linecap="round" filter="url(#haGlow)"></path>
+            <text x="480" y="215" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="start" direction="rtl">الشرايين التاجية</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle heartbeat-pulse" cx="400" cy="290" r="10" fill="none" stroke="#FB7185" stroke-width="3" filter="url(#haGlow)"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="rightAtrium"><span class="status-dot dot-cyan"></span><span class="status-label">الأذين الأيمن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leftAtrium"><span class="status-dot dot-red"></span><span class="status-label">الأذين الأيسر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rightVentricle"><span class="status-dot dot-cyan"></span><span class="status-label">البطين الأيمن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leftVentricle"><span class="status-dot dot-red"></span><span class="status-label">البطين الأيسر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pulmonaryArtery"><span class="status-dot dot-cyan"></span><span class="status-label">الشريان الرئوي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="aorta"><span class="status-dot dot-red"></span><span class="status-label">الشريان الأبهر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="coronaryArteries"><span class="status-dot dot-gold"></span><span class="status-label">الشرايين التاجية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء من القلب لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#FB7185"></span>الجانب الأيسر (دم مؤكسج)</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#22D3EE"></span>الجانب الأيمن (دم غير مؤكسج)</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#FBBF24"></span>الشرايين التاجية</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#haElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#haElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .heartbeat-pulse {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ha-pulse-beat {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      70% { transform: scale(1.9); opacity: 0; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+    .playing .heartbeat-pulse {
+      animation: ha-pulse-beat 1s ease-out infinite;
+    }
+
+    @keyframes ha-shape-activate { to { filter: url(#haElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes ha-status-value-on { to { opacity: 1; } }
+    @keyframes ha-status-value-off { to { opacity: 0; } }
+    @keyframes ha-dot-on-red { to { background: #FB7185; box-shadow: 0 0 8px 1px rgba(251, 113, 133, 0.8); } }
+    @keyframes ha-dot-on-cyan { to { background: #22D3EE; box-shadow: 0 0 8px 1px rgba(34, 211, 238, 0.8); } }
+    @keyframes ha-dot-on-gold { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="rightAtrium"] .box-shape { animation: ha-shape-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="rightAtrium"] .status-dot { animation: ha-dot-on-cyan 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="rightAtrium"] .value-on { animation: ha-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="rightAtrium"] .value-off { animation: ha-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="leftAtrium"] .box-shape { animation: ha-shape-activate 0.5s ease-out 0.4s forwards; }
+    .playing [data-status="leftAtrium"] .status-dot { animation: ha-dot-on-red 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="leftAtrium"] .value-on { animation: ha-status-value-on 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="leftAtrium"] .value-off { animation: ha-status-value-off 0.4s ease-out 0.4s forwards; }
+
+    .playing [data-component="rightVentricle"] .box-shape { animation: ha-shape-activate 0.5s ease-out 0.9s forwards; }
+    .playing [data-status="rightVentricle"] .status-dot { animation: ha-dot-on-cyan 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="rightVentricle"] .value-on { animation: ha-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="rightVentricle"] .value-off { animation: ha-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="leftVentricle"] .box-shape { animation: ha-shape-activate 0.5s ease-out 1.2s forwards; }
+    .playing [data-status="leftVentricle"] .status-dot { animation: ha-dot-on-red 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="leftVentricle"] .value-on { animation: ha-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="leftVentricle"] .value-off { animation: ha-status-value-off 0.4s ease-out 1.2s forwards; }
+
+    .playing [data-component="pulmonaryArtery"] .box-shape { animation: ha-shape-activate 0.5s ease-out 1.7s forwards; }
+    .playing [data-status="pulmonaryArtery"] .status-dot { animation: ha-dot-on-cyan 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="pulmonaryArtery"] .value-on { animation: ha-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="pulmonaryArtery"] .value-off { animation: ha-status-value-off 0.4s ease-out 1.7s forwards; }
+
+    .playing [data-component="aorta"] .box-shape { animation: ha-shape-activate 0.5s ease-out 2s forwards; }
+    .playing [data-status="aorta"] .status-dot { animation: ha-dot-on-red 0.4s ease-out 2s forwards; }
+    .playing [data-status="aorta"] .value-on { animation: ha-status-value-on 0.4s ease-out 2s forwards; }
+    .playing [data-status="aorta"] .value-off { animation: ha-status-value-off 0.4s ease-out 2s forwards; }
+
+    .playing [data-component="coronaryArteries"] .box-shape { animation: ha-shape-activate 0.5s ease-out 2.4s forwards; }
+    .playing [data-status="coronaryArteries"] .status-dot { animation: ha-dot-on-gold 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="coronaryArteries"] .value-on { animation: ha-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="coronaryArteries"] .value-off { animation: ha-status-value-off 0.4s ease-out 2.4s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    rightAtrium: {
+      title: "الأذين الأيمن (Right Atrium)",
+      // src/data/chapter-03/page-04.json #electrical-p3 (excerpt)
+      text: "التجويفان العلويان هما الأذنان الأيسر والأيمن. يتجمع الدم في الوريدين الأجوفين ويمر الى الأذين الأيمن الذي ينقبض فيضخ الدم الى البطين الأيمن.",
+    },
+    leftAtrium: {
+      title: "الأذين الأيسر (Left Atrium)",
+      // src/data/chapter-03/page-02.json #valves-p1 (excerpt)
+      text: "يمر الدم الذي يترك البطين الأيمن الى الرئتين ليعود الى القلب فيدخل الأذين الأيسر، ويضخ حينئذ في البطين الأيسر.",
+    },
+    rightVentricle: {
+      title: "البطين الأيمن (Right Ventricle)",
+      // src/data/chapter-03/page-02.json #valves-p2 (excerpt)
+      text: "يضخ الأذين الأيمن الدم الى البطين الأيمن من خلال الصمام الثلاثي (Tricuspid)، ومنه يضخ البطين الأيمن الدم عبر الشريان الرئوي الى الرئتين.",
+    },
+    leftVentricle: {
+      title: "البطين الأيسر (Left Ventricle)",
+      // src/data/chapter-03/page-02.json #valves-p1 (excerpt)
+      text: "يقوم البطين الأيسر بضخ الدم خارج القلب عبر مجموعة من الصمامات الهلالية الى داخل الشريان الابهر (Aorta) الذي يؤدي الى الشرايين التي توصل الدم الى الجسم كله.",
+    },
+    pulmonaryArtery: {
+      title: "الشريان الرئوي (Pulmonary Artery)",
+      // src/data/chapter-03/page-02.json #heart-p2 (excerpt)
+      text: "وللشريان الرئوي صمام يوقف رجوع الدم من الرئتين الى البطين، ويسمى هذا الصمام الهلالي (Tricuspid) لأنه يتكون من ثلاثة أغشية تشبه الاهلة.",
+    },
+    aorta: {
+      title: "الشريان الأبهر (Aorta)",
+      // src/data/chapter-03/page-02.json #valves-p1 (excerpt)
+      text: "الشريان الابهر (Aorta) يؤدي الى الشرايين التي توصل الدم الى الجسم كله، وهكذا فان الصمامات تضمن سريان الدم في اتجاه واحد في كل وقت.",
+    },
+    coronaryArteries: {
+      title: "الشرايين التاجية (Coronary Arteries)",
+      // src/data/chapter-03/page-03.json #walls-p2 (excerpt)
+      text: "يعبر على سطح القلب الشريانين التاجيين الأيمن والأيسر (Right and Left Coronary Arteries) اللذان يحملان الدم من الشريان الابهر الى عضلة القلب.",
+    },
+  };
+
+  wireDiagramSimulator(".heart-anatomy-diagram", { cycleMs: 3000, componentInfo: COMPONENT_INFO });
+</script>

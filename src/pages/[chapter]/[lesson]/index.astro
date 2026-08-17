@@ -69,6 +69,38 @@ const chapter02Lesson01Pages = [
   c2page25,
 ];
 
+import c3page00 from "../../../data/chapter-03/page-00.json";
+import c3page01 from "../../../data/chapter-03/page-01.json";
+import c3page02 from "../../../data/chapter-03/page-02.json";
+import c3page03 from "../../../data/chapter-03/page-03.json";
+import c3page04 from "../../../data/chapter-03/page-04.json";
+import c3page05 from "../../../data/chapter-03/page-05.json";
+import c3page06 from "../../../data/chapter-03/page-06.json";
+import c3page07 from "../../../data/chapter-03/page-07.json";
+import c3page08 from "../../../data/chapter-03/page-08.json";
+import c3page09 from "../../../data/chapter-03/page-09.json";
+import c3page10 from "../../../data/chapter-03/page-10.json";
+import c3page11 from "../../../data/chapter-03/page-11.json";
+import c3page12 from "../../../data/chapter-03/page-12.json";
+import c3page13 from "../../../data/chapter-03/page-13.json";
+import c3page14 from "../../../data/chapter-03/page-14.json";
+import c3page15 from "../../../data/chapter-03/page-15.json";
+import c3page16 from "../../../data/chapter-03/page-16.json";
+import c3page17 from "../../../data/chapter-03/page-17.json";
+import c3page18 from "../../../data/chapter-03/page-18.json";
+import c3page19 from "../../../data/chapter-03/page-19.json";
+import c3page20 from "../../../data/chapter-03/page-20.json";
+import c3page21 from "../../../data/chapter-03/page-21.json";
+import c3page22 from "../../../data/chapter-03/page-22.json";
+
+const chapter03Lesson01Pages = [
+  c3page00, c3page01, c3page02, c3page03, c3page04,
+  c3page05, c3page06, c3page07, c3page08, c3page09,
+  c3page10, c3page11, c3page12, c3page13, c3page14,
+  c3page15, c3page16, c3page17, c3page18, c3page19,
+  c3page20, c3page21, c3page22,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -82,8 +114,13 @@ const { chapter, lesson } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson-01";
 const isChapter02Lesson01 = chapter.id === "chapter-02" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01;
-const lessonPages = isChapter01Lesson01 ? chapter01Lesson01Pages : chapter02Lesson01Pages;
+const isChapter03Lesson01 = chapter.id === "chapter-03" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01;
+const lessonPages = isChapter01Lesson01
+  ? chapter01Lesson01Pages
+  : isChapter02Lesson01
+    ? chapter02Lesson01Pages
+    : chapter03Lesson01Pages;
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>

@@ -1,0 +1,352 @@
+---
+// Figures 6-3 (مواقع العقد العصبية للقلب) and 7-3 (الإشارة القلبية
+// P-Q-R-S-T) combined into one dark neumorphic interactive simulator,
+// following the exact Chapter 1/2 system.
+//
+// This is the chapter's flagship animated diagram: the electrical
+// impulse travels SA node -> AV node -> Bundle of His -> Purkinje fibers
+// on the left, while the P-QRS-T trace draws on the right in the same
+// timeline — directly demonstrating how each conduction step produces
+// its corresponding wave, per the book's own section 3-5/3-6 causality.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft cardiac-conduction-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة النبضة الكهربائية للقلب</span>
+      <span class="simulator-subtitle">شكل 6-3، 7-3 — من العقدة الجيبية الأذينية الى الإشارة (P-QRS-T)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="cc-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="مواقع العقد العصبية للقلب والإشارة القلبية"
+        >
+          <defs>
+            <marker id="cc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="ccBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="ccGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <pattern id="ccPaperGrid" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0 H0 V12" fill="none" stroke="rgba(244, 63, 94, 0.16)" stroke-width="1"></path>
+            </pattern>
+
+            <linearGradient id="ccGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="ccGradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="ccGradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+
+            <filter id="ccElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#c8ffcf" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="ccGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#ccBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#ccGrid)"></rect>
+
+          <!-- left: heart with conduction system -->
+          <path d="M 90,130 Q 90,60 170,60 Q 230,60 240,110 Q 250,60 310,60 Q 390,60 390,130 L 390,180 Q 390,300 240,370 Q 90,300 90,180 Z"
+                fill="none" stroke="#3a4258" stroke-width="2"></path>
+          <line x1="240" y1="110" x2="240" y2="370" stroke="#2a3145" stroke-width="1.5" stroke-dasharray="4 6"></line>
+
+          <g class="hotspot" data-component="sa" tabindex="0" role="button" aria-label="العقدة الجيبية الأذينية SA">
+            <rect class="hit-area" x="150" y="95" width="90" height="70" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="195" cy="130" r="18" fill="url(#ccGradGreen)" stroke="#4ADE80" stroke-width="2.5" filter="url(#ccElevate)"></circle>
+            <text x="195" y="100" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">SA</text>
+          </g>
+
+          <g class="hotspot" data-component="av" tabindex="0" role="button" aria-label="العقدة الأذينية البطينية AV">
+            <rect class="hit-area" x="195" y="155" width="90" height="60" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="240" cy="185" r="15" fill="url(#ccGradOrange)" stroke="#FB923C" stroke-width="2.5" filter="url(#ccElevate)"></circle>
+            <text x="278" y="190" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FB923C" text-anchor="start" direction="ltr">AV</text>
+          </g>
+
+          <g class="hotspot" data-component="bundleOfHis" tabindex="0" role="button" aria-label="حزمة هس">
+            <rect class="hit-area" x="200" y="195" width="80" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 240,200 L 240,275" fill="none" stroke="#38BDF8" stroke-width="5" stroke-linecap="round" filter="url(#ccElevate)"></path>
+            <text x="290" y="245" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="start" direction="rtl">حزمة هس</text>
+          </g>
+
+          <g class="hotspot" data-component="purkinjeFibers" tabindex="0" role="button" aria-label="ألياف بركنجي">
+            <rect class="hit-area" x="130" y="265" width="220" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 240,275 Q 180,300 150,340 M 240,275 Q 200,310 170,350 M 240,275 Q 300,300 330,340 M 240,275 Q 280,310 310,350"
+                  fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" filter="url(#ccGlow)"></path>
+            <text x="240" y="360" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">ألياف بركنجي</text>
+          </g>
+
+          <!-- right: ECG trace panel -->
+          <rect x="470" y="40" width="400" height="340" rx="14" fill="#1c0e14" fill-opacity="0.5" stroke="rgba(244,63,94,0.25)" stroke-width="1.5"></rect>
+          <rect x="470" y="40" width="400" height="340" rx="14" fill="url(#ccPaperGrid)"></rect>
+          <line x1="490" y1="210" x2="850" y2="210" stroke="#5b6478" stroke-width="1.5" marker-end="url(#cc-arrow)"></line>
+          <text x="855" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">t</text>
+
+          <g class="hotspot" data-component="waveP" tabindex="0" role="button" aria-label="الموجة P">
+            <rect class="hit-area" x="500" y="180" width="70" height="60" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-p" d="M 505,210 Q 525,190 545,210" fill="none" stroke="#4ADE80" stroke-width="3" filter="url(#ccGlow)"></path>
+            <text x="522" y="175" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">P</text>
+          </g>
+
+          <g class="hotspot" data-component="waveQRS" tabindex="0" role="button" aria-label="المركب QRS">
+            <rect class="hit-area" x="580" y="80" width="100" height="160" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-qrs" d="M 590,210 L 605,212 L 625,90 L 645,235 L 665,210" fill="none" stroke="#38BDF8" stroke-width="3" filter="url(#ccGlow)"></path>
+            <text x="625" y="75" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">QRS</text>
+          </g>
+
+          <g class="hotspot" data-component="waveT" tabindex="0" role="button" aria-label="الموجة T">
+            <rect class="hit-area" x="680" y="170" width="90" height="70" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-t" d="M 685,210 Q 725,170 765,210" fill="none" stroke="#C084FC" stroke-width="3" filter="url(#ccGlow)"></path>
+            <text x="725" y="163" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">T</text>
+          </g>
+
+          <line class="trace-baseline-after" x1="765" y1="210" x2="850" y2="210" stroke="#5b6478" stroke-width="2"></line>
+
+          <text x="670" y="330" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">1mm أفقي = 0.04sec | 1mm عمودي = 0.1mV</text>
+
+          <g class="link" data-link="sa" data-link-to="waveP">
+            <path d="M 213,130 Q 350,110 522,180" fill="none" stroke="#5b6478" stroke-width="1.5" stroke-dasharray="2 4" marker-end="url(#cc-arrow)"></path>
+          </g>
+          <g class="link" data-link="bundleOfHis" data-link-to="waveQRS">
+            <path d="M 240,240 Q 400,190 625,90" fill="none" stroke="#5b6478" stroke-width="1.5" stroke-dasharray="2 4" marker-end="url(#cc-arrow)"></path>
+          </g>
+          <g class="link" data-link="purkinjeFibers" data-link-to="waveT">
+            <path d="M 240,355 Q 450,380 725,170" fill="none" stroke="#5b6478" stroke-width="1.5" stroke-dasharray="2 4" marker-end="url(#cc-arrow)"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="195" cy="130" r="6" fill="#4ADE80" filter="url(#ccGlow)" style="--tx:45px; --ty:55px; --particle-delay:0.1s; --particle-duration:0.5s"></circle>
+            <circle class="flow-particle" cx="240" cy="185" r="5" fill="#FB923C" filter="url(#ccGlow)" style="--tx:0px; --ty:15px; --particle-delay:0.7s; --particle-duration:0.3s"></circle>
+            <circle class="flow-particle" cx="240" cy="200" r="5" fill="#38BDF8" filter="url(#ccGlow)" style="--tx:0px; --ty:75px; --particle-delay:1.1s; --particle-duration:0.5s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="sa"><span class="status-dot dot-green"></span><span class="status-label">العقدة SA</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="av"><span class="status-dot dot-orange"></span><span class="status-label">العقدة AV</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="bundleOfHis"><span class="status-dot dot-blue"></span><span class="status-label">حزمة هس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="purkinjeFibers"><span class="status-dot dot-purple"></span><span class="status-label">ألياف بركنجي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="waveP"><span class="status-dot dot-green"></span><span class="status-label">الموجة P</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="waveQRS"><span class="status-dot dot-blue"></span><span class="status-label">المركب QRS</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="waveT"><span class="status-dot dot-purple"></span><span class="status-label">الموجة T</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على عقدة أو موجة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>SA — تقلص الاذنين (P)</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>AV — تأخير قصير</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>حزمة هس — تقلص البطينين (QRS)</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>بركنجي — استرخاء العضلة (T)</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#ccElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#ccElevate) saturate(1.4) brightness(1.5);
+  }
+
+  .trace-p, .trace-qrs, .trace-t {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+  }
+
+  .trace-baseline-after {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes cc-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: cc-particle-move var(--particle-duration, 0.5s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes cc-shape-activate { to { filter: url(#ccElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes cc-status-value-on { to { opacity: 1; } }
+    @keyframes cc-status-value-off { to { opacity: 0; } }
+    @keyframes cc-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes cc-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes cc-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes cc-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes cc-draw-trace { to { stroke-dashoffset: 0; } }
+    @keyframes cc-reveal { to { opacity: 1; } }
+
+    .playing [data-component="sa"] .box-shape { animation: cc-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sa"] .status-dot { animation: cc-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sa"] .value-on { animation: cc-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sa"] .value-off { animation: cc-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="waveP"] .trace-p { animation: cc-draw-trace 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="waveP"] .status-dot { animation: cc-dot-on-green 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="waveP"] .value-on { animation: cc-status-value-on 0.4s ease-out 0.3s forwards; }
+    .playing [data-status="waveP"] .value-off { animation: cc-status-value-off 0.4s ease-out 0.3s forwards; }
+
+    .playing [data-component="av"] .box-shape { animation: cc-shape-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="av"] .status-dot { animation: cc-dot-on-orange 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="av"] .value-on { animation: cc-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="av"] .value-off { animation: cc-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="bundleOfHis"] .box-shape { animation: cc-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="bundleOfHis"] .status-dot { animation: cc-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="bundleOfHis"] .value-on { animation: cc-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="bundleOfHis"] .value-off { animation: cc-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="waveQRS"] .trace-qrs { animation: cc-draw-trace 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="waveQRS"] .status-dot { animation: cc-dot-on-blue 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="waveQRS"] .value-on { animation: cc-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="waveQRS"] .value-off { animation: cc-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing [data-component="purkinjeFibers"] .box-shape { animation: cc-shape-activate 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="purkinjeFibers"] .status-dot { animation: cc-dot-on-purple 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="purkinjeFibers"] .value-on { animation: cc-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="purkinjeFibers"] .value-off { animation: cc-status-value-off 0.4s ease-out 1.8s forwards; }
+
+    .playing [data-component="waveT"] .trace-t { animation: cc-draw-trace 0.5s ease-out 2.2s forwards; }
+    .playing [data-status="waveT"] .status-dot { animation: cc-dot-on-purple 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="waveT"] .value-on { animation: cc-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="waveT"] .value-off { animation: cc-status-value-off 0.4s ease-out 2.2s forwards; }
+
+    .playing .trace-baseline-after { animation: cc-reveal 0.3s ease-out 2.7s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    sa: {
+      title: "العقدة الجيبية الأذينية (SA Node)",
+      // src/data/chapter-03/page-04.json #electrical-p3 (excerpt)
+      text: "يرتبط العصبان السمبثاوي والباراسمبثاوي بالقلب في نقطة تسمى العقدة (SA)، وموقعها بين الاذنين من جهة الأذين الأيمن، فأن التحفيز الكهربائي الناتج من هذه العقدة سينتشر على الاذنين مما يؤدي الى تقلصهما.",
+    },
+    av: {
+      title: "العقدة الأذينية البطينية (AV Node)",
+      // src/data/chapter-03/page-04.json #electrical-p3 (excerpt)
+      text: "تصل الإشارة من العقدة (SA) الى عقدة ثانية تسمى العقدة (AV) وموقعها أسفل الاذينين، وتصل الإشارة الى هذه العقدة بعد فترة زمنية قصيرة نتيجة طبيعة الإشارة الكهربائية للأعصاب.",
+    },
+    bundleOfHis: {
+      title: "حزمة هس (Bundle of His)",
+      // src/data/chapter-03/page-04.json #electrical-p4 (excerpt)
+      text: "من العقدة (AV) تخرج حزمة من الأعصاب تسري بين البطينين حتى تصل نهاية القلب، وهي المسؤولة عن نقل الإشارة الى البطينين لتقلصهما.",
+    },
+    purkinjeFibers: {
+      title: "ألياف بركنجي (Purkinje Fibers)",
+      // src/data/chapter-03/page-04.json #electrical-p4 (excerpt)
+      text: "من حزمة هس تنتشر الإشارة على جميع أجزاء البطينان عبر تفرعات عصبية تنتهي على العضلة القلبية، ونتيجة لذلك سوف يتقلص البطينان.",
+    },
+    waveP: {
+      title: "الموجة P",
+      // src/data/chapter-03/page-05.json #wave-p (excerpt)
+      text: "الموجة (P) تمثل تقلص الاذنين، وهي أول نتوء في الإشارة القلبية ينتج عن انتشار التحفيز الكهربائي من العقدة (SA) على الاذنين.",
+    },
+    waveQRS: {
+      title: "المركب QRS",
+      // src/data/chapter-03/page-05.json #wave-qrs (excerpt)
+      text: "المركب (Q-R-S) يمثل تقلص البطينين، وينتج عن انتشار الإشارة عبر حزمة هس وألياف بركنجي على عضلة البطينين.",
+    },
+    waveT: {
+      title: "الموجة T",
+      // src/data/chapter-03/page-05.json #wave-t (excerpt)
+      text: "الموجة (T) تمثل استرخاء العضلة القلبية، وهي المرحلة التي تعيد فيها الخلايا القلبية استقطابها الطبيعي (Repolarization) بعد تقلص البطينين.",
+    },
+  };
+
+  wireDiagramSimulator(".cardiac-conduction-diagram", { cycleMs: 3400, componentInfo: COMPONENT_INFO });
+</script>
