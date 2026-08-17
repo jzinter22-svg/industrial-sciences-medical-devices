@@ -76,6 +76,14 @@ import ICDImplantDiagram from "./diagrams/ICDImplantDiagram.astro";
 import EMGBlockDiagram from "./diagrams/EMGBlockDiagram.astro";
 import EMGAmplifierFilterDiagram from "./diagrams/EMGAmplifierFilterDiagram.astro";
 import EMGStimulatorCircuitDiagram from "./diagrams/EMGStimulatorCircuitDiagram.astro";
+import IncubatorBlockDiagram from "./diagrams/IncubatorBlockDiagram.astro";
+import NonLinearControlDiagram from "./diagrams/NonLinearControlDiagram.astro";
+import ProportionalControlDiagram from "./diagrams/ProportionalControlDiagram.astro";
+import WheatstoneBridgeDiagram from "./diagrams/WheatstoneBridgeDiagram.astro";
+import HeaterWaveformDiagram from "./diagrams/HeaterWaveformDiagram.astro";
+import HumiditySystemDiagram from "./diagrams/HumiditySystemDiagram.astro";
+import RespirationSensorDiagram from "./diagrams/RespirationSensorDiagram.astro";
+import RespirationMonitorCircuitDiagram from "./diagrams/RespirationMonitorCircuitDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -155,6 +163,21 @@ const chapter5AnimatedDiagrams: Record<string, any> = {
   "c5-fig-5-7": EMGStimulatorCircuitDiagram,
 };
 
+// Chapter 6 diagram ids (c6-fig-6-X) that have a hand-built animated
+// replacement, same rationale as the Chapter 1-5 tables above. Figures
+// 6-6 and 6-7 (humidity system + surface-area mechanism) share one
+// component per the established diagram-consolidation precedent.
+const chapter6AnimatedDiagrams: Record<string, any> = {
+  "c6-fig-6-1": IncubatorBlockDiagram,
+  "c6-fig-6-2": NonLinearControlDiagram,
+  "c6-fig-6-3": ProportionalControlDiagram,
+  "c6-fig-6-4": WheatstoneBridgeDiagram,
+  "c6-fig-6-5": HeaterWaveformDiagram,
+  "c6-fig-6-6": HumiditySystemDiagram,
+  "c6-fig-6-8": RespirationSensorDiagram,
+  "c6-fig-6-9": RespirationMonitorCircuitDiagram,
+};
+
 // Chapter 1 device ids (device-0N) that have a hand-built animated
 // inline-SVG illustration, rendered through DeviceCard's "illustration"
 // slot. Any device not listed here falls back to DeviceCard's existing
@@ -189,6 +212,7 @@ const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[bloc
 const Chapter3Diagram = block.type === "diagram" ? chapter3AnimatedDiagrams[block.id] : undefined;
 const Chapter4Diagram = block.type === "diagram" ? chapter4AnimatedDiagrams[block.id] : undefined;
 const Chapter5Diagram = block.type === "diagram" ? chapter5AnimatedDiagrams[block.id] : undefined;
+const Chapter6Diagram = block.type === "diagram" ? chapter6AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -275,13 +299,18 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter5Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter6Diagram && (
+  <Chapter6Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
   !Chapter2Diagram &&
   !Chapter3Diagram &&
   !Chapter4Diagram &&
-  !Chapter5Diagram && (
+  !Chapter5Diagram &&
+  !Chapter6Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 
