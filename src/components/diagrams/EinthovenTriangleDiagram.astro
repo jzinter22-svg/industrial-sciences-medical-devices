@@ -1,0 +1,253 @@
+---
+// Figures 13-3 / 14-3 (مثلث آين هوفن، المتجهات نسبةً الى القلب) rebuilt
+// as a dark neumorphic interactive simulator, following the exact
+// Chapter 1/2 system.
+//
+// The three limb electrodes (RA, LA, LL) form Einthoven's triangle; its
+// three sides are the standard limb leads (I, II, III), and the three
+// vectors toward its centroid are the augmented leads (AVR, AVL, AVF) —
+// exactly the six vector states the book's own section 3-9 derives.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft einthoven-triangle-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مثلث آين هوفن</span>
+      <span class="simulator-subtitle">شكل 13-3، 14-3 — المتجهات الكهربائية الستة للقلب</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="et-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="620"
+          height="420"
+          viewBox="0 0 620 420"
+          role="img"
+          aria-label="مثلث آين هوفن"
+        >
+          <defs>
+            <marker id="et-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path>
+            </marker>
+
+            <linearGradient id="etBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="etGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+
+            <filter id="etGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="620" height="420" rx="20" fill="url(#etBgGrad)"></rect>
+          <rect x="0" y="0" width="620" height="420" rx="20" fill="url(#etGrid)"></rect>
+
+          <!-- vertices -->
+          <circle cx="160" cy="100" r="9" fill="#f4f6fb"></circle>
+          <text x="160" y="75" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="ltr">RA</text>
+          <circle cx="460" cy="100" r="9" fill="#f4f6fb"></circle>
+          <text x="460" y="75" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="ltr">LA</text>
+          <circle cx="310" cy="330" r="9" fill="#f4f6fb"></circle>
+          <text x="310" y="360" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#f4f6fb" text-anchor="middle" direction="ltr">LL</text>
+
+          <!-- Lead I: RA -> LA -->
+          <g class="hotspot" data-component="leadI" tabindex="0" role="button" aria-label="Lead I">
+            <rect class="hit-area" x="180" y="70" width="260" height="50" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="169" y1="100" x2="451" y2="100" stroke="#F87171" stroke-width="3" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#F87171"></line>
+            <text x="310" y="90" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">I</text>
+          </g>
+
+          <!-- Lead II: RA -> LL -->
+          <g class="hotspot" data-component="leadII" tabindex="0" role="button" aria-label="Lead II">
+            <rect class="hit-area" x="150" y="110" width="140" height="220" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="163" y1="107" x2="303" y2="323" stroke="#4ADE80" stroke-width="3" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#4ADE80"></line>
+            <text x="220" y="220" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">II</text>
+          </g>
+
+          <!-- Lead III: LA -> LL -->
+          <g class="hotspot" data-component="leadIII" tabindex="0" role="button" aria-label="Lead III">
+            <rect class="hit-area" x="325" y="110" width="140" height="220" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="457" y1="107" x2="317" y2="323" stroke="#38BDF8" stroke-width="3" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#38BDF8"></line>
+            <text x="400" y="220" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">III</text>
+          </g>
+
+          <!-- centroid -->
+          <circle cx="310" cy="177" r="4" fill="#8b94aa"></circle>
+
+          <!-- AVR: centroid -> RA -->
+          <g class="hotspot" data-component="avr" tabindex="0" role="button" aria-label="AVR">
+            <rect class="hit-area" x="210" y="130" width="90" height="60" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="300" y1="170" x2="180" y2="115" stroke="#FBBF24" stroke-width="2.5" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#FBBF24" stroke-dasharray="5 5"></line>
+            <text x="230" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">AVR</text>
+          </g>
+
+          <!-- AVL: centroid -> LA -->
+          <g class="hotspot" data-component="avl" tabindex="0" role="button" aria-label="AVL">
+            <rect class="hit-area" x="320" y="130" width="90" height="60" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="320" y1="170" x2="440" y2="115" stroke="#C084FC" stroke-width="2.5" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#C084FC" stroke-dasharray="5 5"></line>
+            <text x="390" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">AVL</text>
+          </g>
+
+          <!-- AVF: centroid -> LL -->
+          <g class="hotspot" data-component="avf" tabindex="0" role="button" aria-label="AVF">
+            <rect class="hit-area" x="285" y="185" width="50" height="130" fill="#000" fill-opacity="0"></rect>
+            <line class="box-shape" x1="310" y1="181" x2="310" y2="315" stroke="#FB923C" stroke-width="2.5" marker-end="url(#et-arrow)" filter="url(#etGlow)" color="#FB923C" stroke-dasharray="5 5"></line>
+            <text x="330" y="260" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">AVF</text>
+          </g>
+
+          <text x="480" y="380" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">الرجل اليمنى (RL) = الأرضي العائم</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="leadI"><span class="status-dot" style="background:#3a4258"></span><span class="status-label">Lead I</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leadII"><span class="status-dot dot-green"></span><span class="status-label">Lead II</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leadIII"><span class="status-dot dot-blue"></span><span class="status-label">Lead III</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avr"><span class="status-dot dot-yellow"></span><span class="status-label">AVR</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avl"><span class="status-dot dot-purple"></span><span class="status-label">AVL</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avf"><span class="status-dot dot-orange"></span><span class="status-label">AVF</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي متجه لعرض تعريفه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>Lead I</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>Lead II</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>Lead III</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>AVR</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>AVL</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>AVF</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    transition: filter 0.2s ease, stroke-width 0.2s ease;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    stroke-width: 4.5;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes et-line-activate { to { filter: url(#etGlow) brightness(1.7); } }
+    @keyframes et-status-value-on { to { opacity: 1; } }
+    @keyframes et-status-value-off { to { opacity: 0; } }
+    @keyframes et-dot-on-neutral { to { background: #f4f6fb; box-shadow: 0 0 8px 1px rgba(244, 246, 251, 0.8); } }
+    @keyframes et-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes et-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes et-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes et-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes et-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="leadI"] .box-shape { animation: et-line-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .status-dot { animation: et-dot-on-neutral 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .value-on { animation: et-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .value-off { animation: et-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="leadII"] .box-shape { animation: et-line-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadII"] .status-dot { animation: et-dot-on-green 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadII"] .value-on { animation: et-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadII"] .value-off { animation: et-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="leadIII"] .box-shape { animation: et-line-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="leadIII"] .status-dot { animation: et-dot-on-blue 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="leadIII"] .value-on { animation: et-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="leadIII"] .value-off { animation: et-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="avr"] .box-shape { animation: et-line-activate 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="avr"] .status-dot { animation: et-dot-on-yellow 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="avr"] .value-on { animation: et-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="avr"] .value-off { animation: et-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing [data-component="avl"] .box-shape { animation: et-line-activate 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="avl"] .status-dot { animation: et-dot-on-purple 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="avl"] .value-on { animation: et-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="avl"] .value-off { animation: et-status-value-off 0.4s ease-out 1.7s forwards; }
+
+    .playing [data-component="avf"] .box-shape { animation: et-line-activate 0.4s ease-out 2s forwards; }
+    .playing [data-status="avf"] .status-dot { animation: et-dot-on-orange 0.4s ease-out 2s forwards; }
+    .playing [data-status="avf"] .value-on { animation: et-status-value-on 0.4s ease-out 2s forwards; }
+    .playing [data-status="avf"] .value-off { animation: et-status-value-off 0.4s ease-out 2s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    leadI: {
+      title: "Lead (I)",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (I)] يؤخذ من (RA) الى (LA)، وهو أحد أضلاع مثلث آين هوفن الثلاثة.",
+    },
+    leadII: {
+      title: "Lead (II)",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (II)] يؤخذ من (RA) الى (LL). نلاحظ ان (Lead II) اكبر من (Lead I) و(Lead III) لأنه يكون تقريبا مطابق لمحصلة الإحداثيات القلبية جميعها.",
+    },
+    leadIII: {
+      title: "Lead (III)",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (III)] يؤخذ من (LA) الى (LL).",
+    },
+    avr: {
+      title: "AVR",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVR)] يؤخذ من (RA) الى [(LA)+(LL)].",
+    },
+    avl: {
+      title: "AVL",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVL)] يؤخذ من (LA) الى [(RA)+(LL)]. يكون (AVL) اقل من (AVR) و(AVF) لأنه يكون تقريبا عموديا على محصلة الإحداثيات.",
+    },
+    avf: {
+      title: "AVF",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVF)] يؤخذ من (LL) الى [(RA)+(LA)].",
+    },
+  };
+
+  wireDiagramSimulator(".einthoven-triangle-diagram", { cycleMs: 2400, componentInfo: COMPONENT_INFO });
+</script>

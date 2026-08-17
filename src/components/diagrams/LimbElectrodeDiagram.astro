@@ -1,0 +1,257 @@
+---
+// Figure 9-3 (مواقع ربط الإطراف في جهاز E.C.G) rebuilt as a dark
+// neumorphic interactive simulator, following the exact Chapter 1/2
+// system.
+//
+// Geometry: a schematic body silhouette with the four limb electrodes
+// (RA, LA, RL, LL) marked at wrist/ankle position, matching the book's
+// own figure. Color mapping follows the book's own electrode-color
+// convention noted in section 3-7/3-8 (red=RA, yellow=LA, black=RL,
+// green=LL), reused here as the hotspot accent colors.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft limb-electrode-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة ربط أقطاب الإطراف</span>
+      <span class="simulator-subtitle">شكل 9-3 — مواقع الأقطاب الأربعة على الرسغين والكاحلين</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="le-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="480"
+          height="440"
+          viewBox="0 0 480 440"
+          role="img"
+          aria-label="مواقع ربط الإطراف في جهاز E.C.G"
+        >
+          <defs>
+            <linearGradient id="leBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="leGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="leGradRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a1420"></stop>
+              <stop offset="100%" stop-color="#1c0a10"></stop>
+            </linearGradient>
+            <linearGradient id="leGradYellow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332c10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
+            <linearGradient id="leGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="leGradGray" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2a2f3d"></stop>
+              <stop offset="100%" stop-color="#15181f"></stop>
+            </linearGradient>
+
+            <filter id="leElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="leGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="480" height="440" rx="20" fill="url(#leBgGrad)"></rect>
+          <rect x="0" y="0" width="480" height="440" rx="20" fill="url(#leGrid)"></rect>
+
+          <!-- body silhouette -->
+          <circle cx="240" cy="55" r="26" fill="none" stroke="#4b5468" stroke-width="2"></circle>
+          <path d="M 240,81 L 240,230 M 240,110 L 170,90 M 170,90 L 150,180 M 240,110 L 310,90 M 310,90 L 330,180
+                    M 240,230 L 195,250 M 195,250 L 175,380 M 240,230 L 285,250 M 285,250 L 305,380"
+                fill="none" stroke="#4b5468" stroke-width="10" stroke-linecap="round"></path>
+
+          <!-- RA: right arm (viewer's left per RTL body-facing-viewer convention, matches book figure) -->
+          <g class="hotspot" data-component="ra" tabindex="0" role="button" aria-label="اليد اليمنى RA">
+            <rect class="hit-area" x="115" y="150" width="70" height="60" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="130" y="170" width="40" height="20" rx="6" fill="url(#leGradRed)" stroke="#F87171" stroke-width="2.5" filter="url(#leElevate)"></rect>
+            <text x="150" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">RA</text>
+          </g>
+
+          <!-- LA: left arm -->
+          <g class="hotspot" data-component="la" tabindex="0" role="button" aria-label="اليد اليسرى LA">
+            <rect class="hit-area" x="295" y="150" width="70" height="60" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="310" y="170" width="40" height="20" rx="6" fill="url(#leGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#leElevate)"></rect>
+            <text x="330" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">LA</text>
+          </g>
+
+          <!-- RL: right leg -->
+          <g class="hotspot" data-component="rl" tabindex="0" role="button" aria-label="الرجل اليمنى RL">
+            <rect class="hit-area" x="140" y="365" width="70" height="55" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="155" y="380" width="40" height="20" rx="6" fill="url(#leGradGray)" stroke="#9CA3AF" stroke-width="2.5" filter="url(#leElevate)"></rect>
+            <text x="175" y="420" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#9CA3AF" text-anchor="middle" direction="ltr">RL</text>
+          </g>
+
+          <!-- LL: left leg -->
+          <g class="hotspot" data-component="ll" tabindex="0" role="button" aria-label="الرجل اليسرى LL">
+            <rect class="hit-area" x="270" y="365" width="70" height="55" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="285" y="380" width="40" height="20" rx="6" fill="url(#leGradGreen)" stroke="#4ADE80" stroke-width="2.5" filter="url(#leElevate)"></rect>
+            <text x="305" y="420" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">LL</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="150" cy="180" r="4" fill="#F87171" filter="url(#leGlow)"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="ra"><span class="status-dot dot-red"></span><span class="status-label">اليد اليمنى RA</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="la"><span class="status-dot dot-yellow"></span><span class="status-label">اليد اليسرى LA</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rl"><span class="status-dot dot-gray"></span><span class="status-label">الرجل اليمنى RL</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="ll"><span class="status-dot dot-green"></span><span class="status-label">الرجل اليسرى LL</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي قطب لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>RA</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>LA</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#9CA3AF"></span>RL (الأرضي)</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>LL</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#leElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#leElevate) saturate(1.4) brightness(1.5);
+    transform: scale(1.15);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes le-shape-activate { to { filter: url(#leElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes le-status-value-on { to { opacity: 1; } }
+    @keyframes le-status-value-off { to { opacity: 0; } }
+    @keyframes le-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes le-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes le-dot-on-gray { to { background: #9CA3AF; box-shadow: 0 0 8px 1px rgba(156, 163, 175, 0.8); } }
+    @keyframes le-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="ra"] .box-shape { animation: le-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="ra"] .status-dot { animation: le-dot-on-red 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="ra"] .value-on { animation: le-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="ra"] .value-off { animation: le-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="la"] .box-shape { animation: le-shape-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="la"] .status-dot { animation: le-dot-on-yellow 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="la"] .value-on { animation: le-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="la"] .value-off { animation: le-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="rl"] .box-shape { animation: le-shape-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="rl"] .status-dot { animation: le-dot-on-gray 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="rl"] .value-on { animation: le-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="rl"] .value-off { animation: le-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="ll"] .box-shape { animation: le-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="ll"] .status-dot { animation: le-dot-on-green 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="ll"] .value-on { animation: le-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="ll"] .value-off { animation: le-status-value-off 0.4s ease-out 1.3s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    ra: {
+      title: "اليد اليمنى (RA — Right Arm)",
+      // src/data/chapter-03/page-08.json #list-limb-abbrev (excerpt)
+      text: "(RA) التي تمثل اليد اليمنى (Right Arm)، أحد أقطاب الإطراف الأربعة التي تربط على جسم المريض بشكل صفيحة مستطيلة الشكل لها طرف فيه فتحة لربط كيبل المريض.",
+    },
+    la: {
+      title: "اليد اليسرى (LA — Left Arm)",
+      // src/data/chapter-03/page-08.json #list-limb-abbrev (excerpt)
+      text: "(LA) التي تمثل اليد اليسرى (Left Arm)، تربط في منطقة الرسغ فوق مفصل الكاحل مثل بقية أقطاب الإطراف.",
+    },
+    rl: {
+      title: "الرجل اليمنى (RL — Right Leg)",
+      // src/data/chapter-03/page-06.json #electrodes-p3 (excerpt)
+      text: "الأقطاب التي تربط على الإطراف هي أربعة، اثنان على اليدان في منطقة الرسغ، واثنان على الأرجل فوق مفصل الكاحل. والرجل اليمنى (RL) تمثل الأرضي أو الفولتية المرجعية للجهاز لأنها أبعد نقطة عن القلب.",
+    },
+    ll: {
+      title: "الرجل اليسرى (LL — Left Leg)",
+      // src/data/chapter-03/page-08.json #list-leg-abbrev (excerpt)
+      text: "(LL) التي تمثل الرجل اليسرى (Left Leg)، أحد أقطاب مجموعة الأرجل الموصولة بجهاز تخطيط القلب.",
+    },
+  };
+
+  wireDiagramSimulator(".limb-electrode-diagram", { cycleMs: 1900, componentInfo: COMPONENT_INFO });
+</script>

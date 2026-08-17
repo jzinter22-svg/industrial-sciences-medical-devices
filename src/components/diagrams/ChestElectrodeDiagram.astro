@@ -1,0 +1,260 @@
+---
+// Figure 10-3 (مواقع أقطاب الصدر في جهاز E.C.G) rebuilt as a dark
+// neumorphic interactive simulator, following the exact Chapter 1/2
+// system.
+//
+// Geometry: a schematic ribcage with the six chest electrodes (C1-C6)
+// marked at the positions the book's own text (section 3-7) precisely
+// describes.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft chest-electrode-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة ربط أقطاب الصدر</span>
+      <span class="simulator-subtitle">شكل 10-3 — مواقع الأقطاب الستة (C1-C6)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ce-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="560"
+          height="380"
+          viewBox="0 0 560 380"
+          role="img"
+          aria-label="مواقع أقطاب الصدر في جهاز E.C.G"
+        >
+          <defs>
+            <linearGradient id="ceBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="ceGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="ceGradYellow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332c10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
+
+            <filter id="ceElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="7" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-3" dy="-3" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#ffe9a8" flood-opacity="0.2" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="1.5" dy="2.5" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-1.5" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="560" height="380" rx="20" fill="url(#ceBgGrad)"></rect>
+          <rect x="0" y="0" width="560" height="380" rx="20" fill="url(#ceGrid)"></rect>
+
+          <!-- ribcage outline -->
+          <path d="M 200,60 Q 280,40 360,60 L 375,300 Q 280,330 185,300 Z" fill="none" stroke="#3a4258" stroke-width="2"></path>
+          <path d="M 205,90 Q 280,75 355,90 M 200,130 Q 280,113 360,130 M 197,170 Q 280,152 363,170 M 192,210 Q 280,192 368,210 M 188,250 Q 280,233 372,250"
+                fill="none" stroke="#2a3145" stroke-width="1.5"></path>
+
+          <g class="hotspot" data-component="c1" tabindex="0" role="button" aria-label="القطب C1">
+            <rect class="hit-area" x="185" y="150" width="55" height="50" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="212" cy="175" r="12" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="212" y="179" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">1</text>
+            <text x="140" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C1</text>
+          </g>
+
+          <g class="hotspot" data-component="c2" tabindex="0" role="button" aria-label="القطب C2">
+            <rect class="hit-area" x="325" y="150" width="55" height="50" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="352" cy="175" r="12" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="352" y="179" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">2</text>
+            <text x="420" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C2</text>
+          </g>
+
+          <g class="hotspot" data-component="c3" tabindex="0" role="button" aria-label="القطب C3">
+            <rect class="hit-area" x="278" y="175" width="55" height="45" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="303" cy="197" r="11" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="303" y="200" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">3</text>
+            <text x="303" y="235" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C3</text>
+          </g>
+
+          <g class="hotspot" data-component="c4" tabindex="0" role="button" aria-label="القطب C4">
+            <rect class="hit-area" x="255" y="200" width="55" height="45" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="280" cy="222" r="11" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="280" y="225" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">4</text>
+            <text x="230" y="255" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C4</text>
+          </g>
+
+          <g class="hotspot" data-component="c5" tabindex="0" role="button" aria-label="القطب C5">
+            <rect class="hit-area" x="303" y="205" width="55" height="45" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="328" cy="227" r="11" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="328" y="230" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">5</text>
+            <text x="380" y="255" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C5</text>
+          </g>
+
+          <g class="hotspot" data-component="c6" tabindex="0" role="button" aria-label="القطب C6">
+            <rect class="hit-area" x="335" y="215" width="55" height="45" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="358" cy="237" r="11" fill="url(#ceGradYellow)" stroke="#FBBF24" stroke-width="2.5" filter="url(#ceElevate)"></circle>
+            <text x="358" y="240" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#0a0f1a" text-anchor="middle" direction="ltr">6</text>
+            <text x="440" y="260" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">C6</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="c1"><span class="status-dot dot-yellow"></span><span class="status-label">C1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="c2"><span class="status-dot dot-yellow"></span><span class="status-label">C2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="c3"><span class="status-dot dot-yellow"></span><span class="status-label">C3</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="c4"><span class="status-dot dot-yellow"></span><span class="status-label">C4</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="c5"><span class="status-dot dot-yellow"></span><span class="status-label">C5</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="c6"><span class="status-dot dot-yellow"></span><span class="status-label">C6</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي قطب لعرض موقعه بالتفصيل</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>أقطاب الصدر الكأسية (C1-C6)</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#ceElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#ceElevate) saturate(1.4) brightness(1.5);
+    transform: scale(1.2);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ce-shape-activate { to { filter: url(#ceElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes ce-status-value-on { to { opacity: 1; } }
+    @keyframes ce-status-value-off { to { opacity: 0; } }
+    @keyframes ce-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="c1"] .box-shape { animation: ce-shape-activate 0.35s ease-out 0.1s forwards; }
+    .playing [data-status="c1"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="c1"] .value-on { animation: ce-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="c1"] .value-off { animation: ce-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="c2"] .box-shape { animation: ce-shape-activate 0.35s ease-out 0.4s forwards; }
+    .playing [data-status="c2"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="c2"] .value-on { animation: ce-status-value-on 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="c2"] .value-off { animation: ce-status-value-off 0.4s ease-out 0.4s forwards; }
+
+    .playing [data-component="c3"] .box-shape { animation: ce-shape-activate 0.35s ease-out 0.7s forwards; }
+    .playing [data-status="c3"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="c3"] .value-on { animation: ce-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="c3"] .value-off { animation: ce-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="c4"] .box-shape { animation: ce-shape-activate 0.35s ease-out 1s forwards; }
+    .playing [data-status="c4"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 1s forwards; }
+    .playing [data-status="c4"] .value-on { animation: ce-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="c4"] .value-off { animation: ce-status-value-off 0.4s ease-out 1s forwards; }
+
+    .playing [data-component="c5"] .box-shape { animation: ce-shape-activate 0.35s ease-out 1.3s forwards; }
+    .playing [data-status="c5"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="c5"] .value-on { animation: ce-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="c5"] .value-off { animation: ce-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="c6"] .box-shape { animation: ce-shape-activate 0.35s ease-out 1.6s forwards; }
+    .playing [data-status="c6"] .status-dot { animation: ce-dot-on-yellow 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="c6"] .value-on { animation: ce-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="c6"] .value-off { animation: ce-status-value-off 0.4s ease-out 1.6s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    c1: {
+      title: "القطب C1",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C1) يكون في الفراغ بين الضلع الرابع والخامس من الجهة اليمنى للصدر وهو الوحيد على الجهة اليمنى للصدر.",
+    },
+    c2: {
+      title: "القطب C2",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C2) يكون في الفراغ بين الضلع الرابع والخامس من الجهة اليسرى للصدر.",
+    },
+    c3: {
+      title: "القطب C3",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C3) يكون في منتصف المسافة بين (C2) و(C4).",
+    },
+    c4: {
+      title: "القطب C4",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C4) يكون تحت الضلع الخامس في التقاطع بين محورين: الأفقي هو نهاية عظم القص والعمودي من بداية الرقبة الى نهاية الثدي.",
+    },
+    c5: {
+      title: "القطب C5",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C5) يكون على امتداد (C4) في منطقة نهاية الثدي.",
+    },
+    c6: {
+      title: "القطب C6",
+      // src/data/chapter-03/page-07.json #list-chest-positions (excerpt)
+      text: "الموقع (C6) يكون على امتداد (C4) في منطقة تحت الإبط.",
+    },
+  };
+
+  wireDiagramSimulator(".chest-electrode-diagram", { cycleMs: 1900, componentInfo: COMPONENT_INFO });
+</script>

@@ -1,0 +1,299 @@
+---
+// Figure 15-3 (أ، ب) — طريقة ربط جهاز E.C.G على أطراف وصدر المريض لكل
+// حالة (Lead) — rebuilt as a dark neumorphic interactive simulator,
+// following the exact Chapter 1/2 system.
+//
+// The book draws seven near-identical wiring schematics (one per lead
+// state: I, II, III, AVR, AVL, AVF, C1-C6), each just re-wiring the same
+// body -> buffers -> C.M. amplifier topology to a different combination
+// of electrodes. Consolidated here into one shared topology with seven
+// lead-selector hotspots, each hotspot's info sourced verbatim from the
+// book's own combination formula for that lead.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft lead-wiring-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة اختيار حالات الربط (Lead)</span>
+      <span class="simulator-subtitle">شكل 15-3 — سبع حالات ربط الى المكبر المتعادل</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="lw-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="360"
+          viewBox="0 0 820 360"
+          role="img"
+          aria-label="طريقة ربط جهاز E.C.G على أطراف وصدر المريض"
+        >
+          <defs>
+            <marker id="lw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="lwBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="lwGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="lwGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+
+            <filter id="lwElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#c8ffcf" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="lwGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#lwBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#lwGrid)"></rect>
+
+          <!-- body silhouette -->
+          <circle cx="120" cy="90" r="20" fill="none" stroke="#4b5468" stroke-width="2"></circle>
+          <path d="M 120,110 L 120,220 M 120,130 L 75,150 M 120,130 L 165,150 M 120,220 L 90,270 M 120,220 L 150,270"
+                fill="none" stroke="#4b5468" stroke-width="8" stroke-linecap="round"></path>
+          <text x="65" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">RA</text>
+          <text x="175" y="150" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">LA</text>
+          <text x="85" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle" direction="ltr">RL</text>
+          <text x="155" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">LL</text>
+          <text x="120" y="200" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">C1-C6</text>
+
+          <!-- buffers box -->
+          <rect x="230" y="150" width="120" height="60" rx="10" fill="url(#lwGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#lwElevate)"></rect>
+          <text x="290" y="175" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبرات متعادلة</text>
+          <text x="290" y="195" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Buffers</text>
+
+          <line x1="160" y1="150" x2="230" y2="170" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw-arrow)"></line>
+          <line x1="160" y1="220" x2="230" y2="190" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw-arrow)"></line>
+
+          <!-- lead selector row -->
+          <g class="hotspot" data-component="leadI" tabindex="0" role="button" aria-label="Lead I">
+            <rect class="hit-area box-shape" x="430" y="40" width="70" height="45" rx="8" fill="#241624" stroke="#F87171" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="465" y="67" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">I</text>
+          </g>
+          <g class="hotspot" data-component="leadII" tabindex="0" role="button" aria-label="Lead II">
+            <rect class="hit-area box-shape" x="510" y="40" width="70" height="45" rx="8" fill="#162419" stroke="#4ADE80" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="545" y="67" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">II</text>
+          </g>
+          <g class="hotspot" data-component="leadIII" tabindex="0" role="button" aria-label="Lead III">
+            <rect class="hit-area box-shape" x="590" y="40" width="70" height="45" rx="8" fill="#16232b" stroke="#38BDF8" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="625" y="67" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">III</text>
+          </g>
+          <g class="hotspot" data-component="avr" tabindex="0" role="button" aria-label="AVR">
+            <rect class="hit-area box-shape" x="430" y="100" width="70" height="45" rx="8" fill="#2b2416" stroke="#FBBF24" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="465" y="127" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">AVR</text>
+          </g>
+          <g class="hotspot" data-component="avl" tabindex="0" role="button" aria-label="AVL">
+            <rect class="hit-area box-shape" x="510" y="100" width="70" height="45" rx="8" fill="#241f2b" stroke="#C084FC" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="545" y="127" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">AVL</text>
+          </g>
+          <g class="hotspot" data-component="avf" tabindex="0" role="button" aria-label="AVF">
+            <rect class="hit-area box-shape" x="590" y="100" width="70" height="45" rx="8" fill="#2b2016" stroke="#FB923C" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="625" y="127" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">AVF</text>
+          </g>
+          <g class="hotspot" data-component="chestLeads" tabindex="0" role="button" aria-label="C1-C6">
+            <rect class="hit-area box-shape" x="470" y="160" width="150" height="45" rx="8" fill="#0f2530" stroke="#22D3EE" stroke-width="2" filter="url(#lwElevate)"></rect>
+            <text x="545" y="187" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#22D3EE" text-anchor="middle" direction="ltr">C1 – C6</text>
+          </g>
+
+          <line x1="350" y1="180" x2="700" y2="180" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="3 5"></line>
+          <text x="700" y="270" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">مكبر الوضع المشترك</text>
+          <text x="700" y="290" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">C.M. Amplifier</text>
+          <rect x="640" y="220" width="120" height="50" rx="10" fill="#1a1420" stroke="#C084FC" stroke-width="1.5"></rect>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="leadI"><span class="status-dot" style="background:#3a4258"></span><span class="status-label">Lead I</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leadII"><span class="status-dot dot-green"></span><span class="status-label">Lead II</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leadIII"><span class="status-dot dot-blue"></span><span class="status-label">Lead III</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avr"><span class="status-dot dot-yellow"></span><span class="status-label">AVR</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avl"><span class="status-dot dot-purple"></span><span class="status-label">AVL</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="avf"><span class="status-dot dot-orange"></span><span class="status-label">AVF</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="chestLeads"><span class="status-dot dot-cyan"></span><span class="status-label">C1-C6</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي حالة (Lead) لعرض طريقة ربطها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>مكبرات متعادلة (Buffers)</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#C084FC"></span>مكبر الوضع المشترك</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#lwElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#lwElevate) saturate(1.4) brightness(1.5);
+    transform: translateY(-2px) scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes lw-shape-activate { to { filter: url(#lwElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes lw-status-value-on { to { opacity: 1; } }
+    @keyframes lw-status-value-off { to { opacity: 0; } }
+    @keyframes lw-dot-on-neutral { to { background: #f4f6fb; box-shadow: 0 0 8px 1px rgba(244, 246, 251, 0.8); } }
+    @keyframes lw-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes lw-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes lw-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes lw-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes lw-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes lw-dot-on-cyan { to { background: #22D3EE; box-shadow: 0 0 8px 1px rgba(34, 211, 238, 0.8); } }
+
+    .playing [data-component="leadI"] .box-shape { animation: lw-shape-activate 0.35s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .status-dot { animation: lw-dot-on-neutral 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .value-on { animation: lw-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="leadI"] .value-off { animation: lw-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="leadII"] .box-shape { animation: lw-shape-activate 0.35s ease-out 0.4s forwards; }
+    .playing [data-status="leadII"] .status-dot { animation: lw-dot-on-green 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="leadII"] .value-on { animation: lw-status-value-on 0.4s ease-out 0.4s forwards; }
+    .playing [data-status="leadII"] .value-off { animation: lw-status-value-off 0.4s ease-out 0.4s forwards; }
+
+    .playing [data-component="leadIII"] .box-shape { animation: lw-shape-activate 0.35s ease-out 0.7s forwards; }
+    .playing [data-status="leadIII"] .status-dot { animation: lw-dot-on-blue 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="leadIII"] .value-on { animation: lw-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="leadIII"] .value-off { animation: lw-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="avr"] .box-shape { animation: lw-shape-activate 0.35s ease-out 1s forwards; }
+    .playing [data-status="avr"] .status-dot { animation: lw-dot-on-yellow 0.4s ease-out 1s forwards; }
+    .playing [data-status="avr"] .value-on { animation: lw-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="avr"] .value-off { animation: lw-status-value-off 0.4s ease-out 1s forwards; }
+
+    .playing [data-component="avl"] .box-shape { animation: lw-shape-activate 0.35s ease-out 1.3s forwards; }
+    .playing [data-status="avl"] .status-dot { animation: lw-dot-on-purple 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="avl"] .value-on { animation: lw-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="avl"] .value-off { animation: lw-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="avf"] .box-shape { animation: lw-shape-activate 0.35s ease-out 1.6s forwards; }
+    .playing [data-status="avf"] .status-dot { animation: lw-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="avf"] .value-on { animation: lw-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="avf"] .value-off { animation: lw-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-component="chestLeads"] .box-shape { animation: lw-shape-activate 0.35s ease-out 1.9s forwards; }
+    .playing [data-status="chestLeads"] .status-dot { animation: lw-dot-on-cyan 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="chestLeads"] .value-on { animation: lw-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="chestLeads"] .value-off { animation: lw-status-value-off 0.4s ease-out 1.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    leadI: {
+      title: "Lead I",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (I)] يؤخذ من (RA) الى (LA).",
+    },
+    leadII: {
+      title: "Lead II",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (II)] يؤخذ من (RA) الى (LL).",
+    },
+    leadIII: {
+      title: "Lead III",
+      // src/data/chapter-03/page-09.json #list-lead-basic (excerpt)
+      text: "[Lead (III)] يؤخذ من (LA) الى (LL).",
+    },
+    avr: {
+      title: "AVR",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVR)] يؤخذ من (RA) الى [(LA)+(LL)].",
+    },
+    avl: {
+      title: "AVL",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVL)] يؤخذ من (LA) الى [(RA)+(LL)].",
+    },
+    avf: {
+      title: "AVF",
+      // src/data/chapter-03/page-10.json #list-lead-augmented (excerpt)
+      text: "[(AVF)] يؤخذ من (LL) الى [(RA)+(LA)].",
+    },
+    chestLeads: {
+      title: "أقطاب الصدر (C1 – C6)",
+      // src/data/chapter-03/page-10.json #list-lead-chest (excerpt)
+      text: "أما احداثيات الصدر فتكون حالات ستة فتؤخذ الاطراف سويا الى القطب الكأسي: [C1] يؤخذ من القطب (C1) الى [(RA)+(LA)+(LL)]، وكذلك بقية أقطاب (C2) الى (C6).",
+    },
+  };
+
+  wireDiagramSimulator(".lead-wiring-diagram", { cycleMs: 2200, componentInfo: COMPONENT_INFO });
+</script>
