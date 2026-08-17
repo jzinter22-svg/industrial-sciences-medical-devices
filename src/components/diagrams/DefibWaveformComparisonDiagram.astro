@@ -1,0 +1,295 @@
+---
+// Figure 4-10 (أ) الموجة الأحادية والثنائية (ب) حركة التيار في الموجة
+// الثنائية — built on the established dark neumorphic "interactive
+// simulator" system (oscilloscope-trace variant, see
+// ScanTypesTraceDiagram.astro / CardiacConductionDiagram.astro, plus the
+// embossed "elevate" filter recipe from ECGDeviceBlockDiagram.astro for
+// the electrode paddles).
+//
+// Panel (a): two side-by-side mini traces comparing a single positive
+// monophasic pulse against a biphasic pulse (positive phase then a
+// reversed negative phase). Panel (b): a paddle/electrode schematic
+// whose current-direction arrow draws toward the positive electrode
+// then is replaced by a second arrow drawn in the reverse direction,
+// depicting the biphasic current reversal described in mono-bi-p1.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft defib-waveform-comparison-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الموجة الأحادية والثنائية</span>
+      <span class="simulator-subtitle">شكل 4-10 (أ) الموجة الأحادية والثنائية (ب) حركة التيار في الموجة الثنائية</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="wf10-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="460"
+          viewBox="0 0 900 460"
+          role="img"
+          aria-label="مقارنة الموجة الأحادية والثنائية، وحركة التيار بين قطبي جهاز الرجة في الموجة الثنائية"
+        >
+          <defs>
+            <marker id="wf10-arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#C084FC"></path>
+            </marker>
+
+            <linearGradient id="wf10BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="wf10Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <pattern id="wf10PaperGrid" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0 H0 V12" fill="none" stroke="rgba(56, 189, 248, 0.12)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="wf10Panel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
+            <linearGradient id="wf10GradPaddle" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#20283c"></stop>
+              <stop offset="100%" stop-color="#12182a"></stop>
+            </linearGradient>
+
+            <filter id="wf10Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+
+            <filter id="wf10Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#c9b6ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="460" rx="20" fill="url(#wf10BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="460" rx="20" fill="url(#wf10Grid)"></rect>
+
+          <!-- panel (a): waveform comparison -->
+          <rect x="30" y="20" width="840" height="240" rx="14" fill="url(#wf10Panel)" stroke="#2a3550" stroke-width="1.5"></rect>
+          <rect x="30" y="20" width="840" height="240" rx="14" fill="url(#wf10PaperGrid)"></rect>
+          <text x="55" y="42" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">(أ)</text>
+          <text x="450" y="42" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقارنة الموجة الأحادية والثنائية</text>
+
+          <g class="link">
+            <line x1="450" y1="55" x2="450" y2="245" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="3 5"></line>
+          </g>
+
+          <!-- monophasic wave -->
+          <g class="hotspot" data-component="monophasicWave" tabindex="0" role="button" aria-label="الموجة الأحادية">
+            <rect class="hit-area" x="45" y="60" width="390" height="180" fill="#000" fill-opacity="0"></rect>
+            <text x="240" y="80" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">أحادي القطبية</text>
+            <g class="link">
+              <line x1="70" y1="185" x2="420" y2="185" stroke="#5b6478" stroke-width="1.5"></line>
+            </g>
+            <path class="trace-mono" d="M 90,185 L 110,185 L 125,108 L 300,108 L 315,185 L 400,185" fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#wf10Glow)"></path>
+            <text x="240" y="225" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">Monophasic</text>
+          </g>
+
+          <!-- biphasic wave -->
+          <g class="hotspot" data-component="biphasicWave" tabindex="0" role="button" aria-label="الموجة الثنائية">
+            <rect class="hit-area" x="465" y="60" width="390" height="180" fill="#000" fill-opacity="0"></rect>
+            <text x="655" y="80" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="rtl">ثنائي القطبية</text>
+            <g class="link">
+              <line x1="480" y1="185" x2="830" y2="185" stroke="#5b6478" stroke-width="1.5"></line>
+            </g>
+            <path class="trace-bi-pos" d="M 500,185 L 520,185 L 535,108 L 620,108 L 635,185" fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#wf10Glow)"></path>
+            <path class="trace-bi-neg" d="M 635,185 L 650,185 L 665,245 L 750,245 L 765,185 L 800,185" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#wf10Glow)"></path>
+            <text x="655" y="225" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">Biphasic</text>
+          </g>
+
+          <!-- panel (b): current direction schematic -->
+          <rect x="30" y="280" width="840" height="160" rx="14" fill="url(#wf10Panel)" stroke="#2a3550" stroke-width="1.5"></rect>
+          <text x="55" y="302" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">(ب)</text>
+          <text x="450" y="302" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">حركة التيار في الموجة الثنائية</text>
+
+          <g class="hotspot" data-component="currentDirection" tabindex="0" role="button" aria-label="حركة التيار بين القطبين">
+            <rect class="hit-area" x="60" y="315" width="780" height="115" fill="#000" fill-opacity="0"></rect>
+
+            <circle class="paddle-shape" cx="170" cy="378" r="40" fill="url(#wf10GradPaddle)" stroke="#8b94aa" stroke-width="2.5" filter="url(#wf10Elevate)"></circle>
+            <text x="170" y="386" font-family="Cairo, sans-serif" font-size="22" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">−</text>
+            <text x="170" y="432" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">القطب السالب</text>
+
+            <circle class="paddle-shape" cx="730" cy="378" r="40" fill="url(#wf10GradPaddle)" stroke="#8b94aa" stroke-width="2.5" filter="url(#wf10Elevate)"></circle>
+            <text x="730" y="386" font-family="Cairo, sans-serif" font-size="22" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">+</text>
+            <text x="730" y="432" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">القطب الموجب</text>
+
+            <path class="trace-arrow-forward" d="M 220,368 L 680,368" fill="none" stroke="#C084FC" stroke-width="4" stroke-linecap="round" marker-end="url(#wf10-arrow-purple)" filter="url(#wf10Glow)"></path>
+            <path class="trace-arrow-reverse" d="M 680,388 L 220,388" fill="none" stroke="#C084FC" stroke-width="4" stroke-linecap="round" marker-end="url(#wf10-arrow-purple)" filter="url(#wf10Glow)"></path>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="monophasicWave"><span class="status-dot dot-blue"></span><span class="status-label">أحادي القطبية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="biphasicWave"><span class="status-dot dot-green"></span><span class="status-label">ثنائي القطبية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="currentDirection"><span class="status-dot dot-purple"></span><span class="status-label">حركة التيار</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي موجة أو على مخطط الأقطاب لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>أحادي</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span><span class="legend-swatch legend-green"></span>ثنائي</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>اتجاه التيار</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .trace-mono, .trace-bi-pos, .trace-bi-neg {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+  }
+
+  .paddle-shape {
+    filter: url(#wf10Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .paddle-shape,
+  .hotspot:focus-visible .paddle-shape,
+  .hotspot.is-selected .paddle-shape {
+    filter: url(#wf10Elevate) saturate(1.35) brightness(1.4);
+  }
+
+  .trace-arrow-forward {
+    stroke-dasharray: 480;
+    stroke-dashoffset: 480;
+    opacity: 1;
+  }
+
+  .trace-arrow-reverse {
+    stroke-dasharray: 480;
+    stroke-dashoffset: 480;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes wf10-draw-trace { to { stroke-dashoffset: 0; } }
+    @keyframes wf10-status-value-on { to { opacity: 1; } }
+    @keyframes wf10-status-value-off { to { opacity: 0; } }
+    @keyframes wf10-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes wf10-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes wf10-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes wf10-paddle-activate { to { filter: url(#wf10Elevate) saturate(1.35) brightness(1.4); } }
+
+    @keyframes wf10-arrow-forward-cycle {
+      0% { opacity: 1; stroke-dashoffset: 480; }
+      55% { opacity: 1; stroke-dashoffset: 0; }
+      80% { opacity: 1; stroke-dashoffset: 0; }
+      100% { opacity: 0; stroke-dashoffset: 0; }
+    }
+    @keyframes wf10-arrow-reverse-cycle {
+      0% { opacity: 0; stroke-dashoffset: 480; }
+      2% { opacity: 1; }
+      100% { opacity: 1; stroke-dashoffset: 0; }
+    }
+
+    .playing [data-component="monophasicWave"] .trace-mono { animation: wf10-draw-trace 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="monophasicWave"] .status-dot { animation: wf10-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="monophasicWave"] .value-on { animation: wf10-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="monophasicWave"] .value-off { animation: wf10-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="biphasicWave"] .trace-bi-pos { animation: wf10-draw-trace 0.45s ease-out 0.8s forwards; }
+    .playing [data-component="biphasicWave"] .trace-bi-neg { animation: wf10-draw-trace 0.45s ease-out 1.3s forwards; }
+    .playing [data-status="biphasicWave"] .status-dot { animation: wf10-dot-on-green 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="biphasicWave"] .value-on { animation: wf10-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="biphasicWave"] .value-off { animation: wf10-status-value-off 0.4s ease-out 0.8s forwards; }
+
+    .playing [data-component="currentDirection"] .paddle-shape { animation: wf10-paddle-activate 0.3s ease-out 1.7s forwards; }
+    .playing [data-status="currentDirection"] .status-dot { animation: wf10-dot-on-purple 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="currentDirection"] .value-on { animation: wf10-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="currentDirection"] .value-off { animation: wf10-status-value-off 0.4s ease-out 1.7s forwards; }
+    .playing [data-component="currentDirection"] .trace-arrow-forward { animation: wf10-arrow-forward-cycle 0.45s linear 1.9s forwards; }
+    .playing [data-component="currentDirection"] .trace-arrow-reverse { animation: wf10-arrow-reverse-cycle 0.45s linear 2.35s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    monophasicWave: {
+      title: "الموجة الأحادية",
+      // src/data/chapter-04/page-08.json #mono-bi-p1 (excerpt)
+      text: "الموجة الأحادية — ينتقل التيار باتجاه واحد فقط من قطب الى القطب الآخر.",
+    },
+    biphasicWave: {
+      title: "الموجة الثنائية",
+      // src/data/chapter-04/page-08.json #mono-bi-p1 (excerpt)
+      text: "الموجة الثنائية — ينتقل التيار نحو القطب الموجب ثم ينعكس ويرجع، وتحقق عملية الرجة عند مستويات طاقة واطئة فهي أكثر فعالية من الموجة الأحادية.",
+    },
+    currentDirection: {
+      title: "حركة التيار في الموجة الثنائية",
+      // src/data/chapter-04/page-08.json #mono-bi-p1 (excerpt)
+      text: "حركة التيار في الموجة الثنائية — يتجه التيار أولا نحو القطب الموجب، ثم ينعكس اتجاهه ليعود عبر نفس المسار.",
+    },
+  };
+
+  wireDiagramSimulator(".defib-waveform-comparison-diagram", { cycleMs: 2800, componentInfo: COMPONENT_INFO });
+</script>

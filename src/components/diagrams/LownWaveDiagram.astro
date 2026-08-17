@@ -81,17 +81,27 @@ const { caption } = Astro.props;
           <rect x="30" y="30" width="640" height="280" rx="14" fill="url(#lw9PaperGrid)"></rect>
 
           <!-- axes -->
-          <line x1="110" y1="60" x2="110" y2="270" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          <g class="link">
+            <line x1="110" y1="60" x2="110" y2="270" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          </g>
           <text x="110" y="50" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">V (kV)</text>
-          <line x1="110" y1="220" x2="630" y2="220" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          <g class="link">
+            <line x1="110" y1="220" x2="630" y2="220" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          </g>
           <text x="640" y="225" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">t (ms)</text>
 
           <!-- gridline ticks -->
-          <line x1="104" y1="90" x2="116" y2="90" stroke="#8b94aa" stroke-width="1.5"></line>
+          <g class="link">
+            <line x1="104" y1="90" x2="116" y2="90" stroke="#8b94aa" stroke-width="1.5"></line>
+          </g>
           <text x="94" y="94" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="end" direction="ltr">3</text>
-          <line x1="104" y1="220" x2="116" y2="220" stroke="#8b94aa" stroke-width="1.5"></line>
+          <g class="link">
+            <line x1="104" y1="220" x2="116" y2="220" stroke="#8b94aa" stroke-width="1.5"></line>
+          </g>
           <text x="94" y="224" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="end" direction="ltr">0</text>
-          <line x1="280" y1="214" x2="280" y2="226" stroke="#8b94aa" stroke-width="1.5"></line>
+          <g class="link">
+            <line x1="280" y1="214" x2="280" y2="226" stroke="#8b94aa" stroke-width="1.5"></line>
+          </g>
           <text x="280" y="240" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">5</text>
 
           <!-- peak voltage marker -->
@@ -113,7 +123,9 @@ const { caption } = Astro.props;
             <path class="trace-reversal" d="M 280,220 C 305,255 335,255 360,235 C 380,222 395,220 410,220" fill="none" stroke="#F87171" stroke-width="3.5" stroke-linecap="round" filter="url(#lw9Glow)"></path>
           </g>
 
-          <line class="trace-baseline-after" x1="410" y1="220" x2="600" y2="220" stroke="#5b6478" stroke-width="2"></line>
+          <g class="link">
+            <line class="trace-baseline-after" x1="410" y1="220" x2="600" y2="220" stroke="#5b6478" stroke-width="2"></line>
+          </g>
 
           <text x="360" y="290" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تنخفض الفولتية بعد الذروة خلال (5) ملي ثانية تقريبا ثم تنعكس قطبيتها</text>
         </svg>
