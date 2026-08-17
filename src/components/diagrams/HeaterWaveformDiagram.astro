@@ -1,0 +1,289 @@
+---
+// Figure 6-5 (أشكال الإشارات V1 الى V5 لدائرة السيطرة التناسبية على
+// حرارة المسخن) — built on the established dark neumorphic "interactive
+// simulator" oscilloscope-trace system (see LownWaveDiagram.astro /
+// DefibWaveformComparisonDiagram.astro for the panel/grid/glow-trace
+// scaffold). Five stacked voltage-vs-time channels, swept left-to-right
+// in lockstep so a reader can see V3's pulse width shrink and V5's
+// heater-conduction segment shrink together, matching the book's own
+// "زمن طويل / متوسط / قصير" callouts.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft heater-waveform-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة إشارات التحكم بحرارة المسخن</span>
+      <span class="simulator-subtitle">شكل 6-5 — من V1 الى V5: كيف يتغير زمن تشغيل المسخن تناسبيا</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="hw5-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="460"
+          viewBox="0 0 820 460"
+          role="img"
+          aria-label="خمس إشارات V1 الى V5 توضح كيف يتناسب عرض نبضة المقارن وزمن توصيل المسخن مع اختلاف درجة الحرارة"
+        >
+          <defs>
+            <linearGradient id="hw5BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="hw5Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <pattern id="hw5PaperGrid" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0 H0 V12" fill="none" stroke="rgba(148,163,184,0.10)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="hw5Panel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1729"></stop>
+              <stop offset="100%" stop-color="#080c16"></stop>
+            </linearGradient>
+
+            <filter id="hw5Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="hw5GlowStrong" x="-280%" y="-280%" width="660%" height="660%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4.2" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="460" rx="20" fill="url(#hw5BgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="460" rx="20" fill="url(#hw5Grid)"></rect>
+
+          <!-- five channel panels -->
+          <rect x="100" y="40" width="680" height="64" rx="8" fill="url(#hw5Panel)" stroke="rgba(148,163,184,0.18)" stroke-width="1.2"></rect>
+          <rect x="100" y="40" width="680" height="64" rx="8" fill="url(#hw5PaperGrid)"></rect>
+          <rect x="100" y="116" width="680" height="64" rx="8" fill="url(#hw5Panel)" stroke="rgba(148,163,184,0.18)" stroke-width="1.2"></rect>
+          <rect x="100" y="116" width="680" height="64" rx="8" fill="url(#hw5PaperGrid)"></rect>
+          <rect x="100" y="192" width="680" height="64" rx="8" fill="url(#hw5Panel)" stroke="rgba(148,163,184,0.18)" stroke-width="1.2"></rect>
+          <rect x="100" y="192" width="680" height="64" rx="8" fill="url(#hw5PaperGrid)"></rect>
+          <rect x="100" y="268" width="680" height="64" rx="8" fill="url(#hw5Panel)" stroke="rgba(148,163,184,0.18)" stroke-width="1.2"></rect>
+          <rect x="100" y="268" width="680" height="64" rx="8" fill="url(#hw5PaperGrid)"></rect>
+          <rect x="100" y="344" width="680" height="64" rx="8" fill="url(#hw5Panel)" stroke="rgba(148,163,184,0.18)" stroke-width="1.2"></rect>
+          <rect x="100" y="344" width="680" height="64" rx="8" fill="url(#hw5PaperGrid)"></rect>
+
+          <!-- time-group dividers spanning all five panels -->
+          <g class="link">
+            <line x1="330" y1="30" x2="330" y2="415" stroke="#3a4258" stroke-width="1.2" stroke-dasharray="3 5"></line>
+            <line x1="550" y1="30" x2="550" y2="415" stroke="#3a4258" stroke-width="1.2" stroke-dasharray="3 5"></line>
+          </g>
+
+          <!-- V1: amplifier output error signal, slowly declining -->
+          <g class="hotspot" data-component="v1Trace" tabindex="0" role="button" aria-label="V1 فولتية خرج المكبر">
+            <rect class="hit-area" x="100" y="40" width="680" height="64" fill="#000" fill-opacity="0"></rect>
+            <text x="90" y="76" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="end" direction="ltr">V1</text>
+            <text x="90" y="89" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">الخطأ</text>
+            <path class="trace-line trace-v1" d="M110,55 C300,60 500,75 760,88" fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"></path>
+          </g>
+
+          <!-- V2: sawtooth generator, 1 Hz reference ramp -->
+          <g class="hotspot" data-component="v2Trace" tabindex="0" role="button" aria-label="V2 فولتية مولد سن المنشار">
+            <rect class="hit-area" x="100" y="116" width="680" height="64" fill="#000" fill-opacity="0"></rect>
+            <g class="link"><line x1="100" y1="170" x2="780" y2="170" stroke="#3a4258" stroke-width="1.2"></line></g>
+            <text x="90" y="152" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="end" direction="ltr">V2</text>
+            <text x="90" y="165" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">المنشار</text>
+            <path class="trace-line trace-v2" d="M110,170 L218,125 L220,170 L328,125 L330,170 L438,125 L440,170 L548,125 L550,170 L658,125 L660,170 L768,125 L770,170" fill="none" stroke="#4ADE80" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+
+          <!-- V3: comparator output — pulse width shrinks as V1 declines toward V2 -->
+          <g class="hotspot" data-component="v3Trace" tabindex="0" role="button" aria-label="V3 فولتية خرج دائرة المقارن">
+            <rect class="hit-area" x="100" y="192" width="680" height="64" fill="#000" fill-opacity="0"></rect>
+            <g class="link"><line x1="100" y1="246" x2="780" y2="246" stroke="#3a4258" stroke-width="1.2"></line></g>
+            <text x="90" y="228" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FB923C" text-anchor="end" direction="ltr">V3</text>
+            <text x="90" y="241" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">المقارن</text>
+            <path class="trace-line trace-v3" d="M110,246 L110,201 L205,201 L205,246 L220,246 L220,201 L310,201 L310,246 L330,246 L330,201 L385,201 L385,246 L440,246 L440,201 L490,201 L490,246 L550,246 L550,201 L572,201 L572,246 L660,246 L660,201 L678,201 L678,246 L770,246" fill="none" stroke="#FB923C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+
+          <!-- V4: thyristor gate trigger-pulse clusters, one cluster per V3 window -->
+          <g class="hotspot" data-component="v4Trace" tabindex="0" role="button" aria-label="V4 فولتية خرج مولد نبضات قدح الثايرستور">
+            <rect class="hit-area" x="100" y="268" width="680" height="64" fill="#000" fill-opacity="0"></rect>
+            <g class="link"><line x1="100" y1="322" x2="780" y2="322" stroke="#3a4258" stroke-width="1.2"></line></g>
+            <text x="90" y="304" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#FBBF24" text-anchor="end" direction="ltr">V4</text>
+            <text x="90" y="317" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">القدح</text>
+            <path class="trace-line trace-v4" d="M112,322 L112,278 M124,322 L124,278 M136,322 L136,278 M148,322 L148,278 M160,322 L160,278 M172,322 L172,278 M184,322 L184,278 M196,322 L196,278 M222,322 L222,278 M234,322 L234,278 M246,322 L246,278 M258,322 L258,278 M270,322 L270,278 M282,322 L282,278 M294,322 L294,278 M306,322 L306,278 M332,322 L332,278 M344,322 L344,278 M356,322 L356,278 M368,322 L368,278 M380,322 L380,278 M442,322 L442,278 M454,322 L454,278 M466,322 L466,278 M478,322 L478,278 M552,322 L552,278 M560,322 L560,278 M568,322 L568,278 M662,322 L662,278 M670,322 L670,278" fill="none" stroke="#FBBF24" stroke-width="2.4" stroke-linecap="round"></path>
+          </g>
+
+          <!-- V5: phase-controlled thyristor output feeding the heater -->
+          <g class="hotspot" data-component="v5Trace" tabindex="0" role="button" aria-label="V5 فولتية خرج الثايرستور المستخدمة لتشغيل المسخن">
+            <rect class="hit-area" x="100" y="344" width="680" height="64" fill="#000" fill-opacity="0"></rect>
+            <g class="link"><line x1="100" y1="376" x2="780" y2="376" stroke="#3a4258" stroke-width="1.2"></line></g>
+            <text x="90" y="380" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#F87171" text-anchor="end" direction="ltr">V5</text>
+            <text x="90" y="393" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#8b94aa" text-anchor="end" direction="rtl">المسخن</text>
+            <path class="trace-line trace-v5" d="M110,376 C134,348 181,348 205,376 L220,376 C243,350 288,350 310,376 L330,376 C344,360 371,360 385,376 L440,376 C453,361 478,361 490,376 L550,376 C556,370 567,370 572,376 L660,376 C665,371 674,371 678,376 L770,376" fill="none" stroke="#F87171" stroke-width="2.8" stroke-linecap="round"></path>
+          </g>
+
+          <!-- sweep cursor: crosses all five panels in lockstep with the trace draw -->
+          <g class="flow-layer" aria-hidden="true">
+            <line class="sweep-cursor" x1="110" y1="30" x2="110" y2="415" stroke="#eef1f8" stroke-width="2" filter="url(#hw5GlowStrong)" style="--sweep-tx:660px"></line>
+          </g>
+
+          <!-- time-region callouts, matching the book's own labels -->
+          <text x="220" y="430" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">زمن طويل لتشغيل المسخن</text>
+          <text x="440" y="430" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">زمن متوسط</text>
+          <text x="660" y="430" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">زمن قصير</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="v1Trace"><span class="status-dot dot-blue"></span><span class="status-label">V1 خطأ الحرارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="v2Trace"><span class="status-dot dot-green"></span><span class="status-label">V2 سن المنشار</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="v3Trace"><span class="status-dot dot-orange"></span><span class="status-label">V3 خرج المقارن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="v4Trace"><span class="status-dot dot-amber"></span><span class="status-label">V4 نبضات القدح</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="v5Trace"><span class="status-dot dot-red"></span><span class="status-label">V5 تغذية المسخن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي إشارة (V1 الى V5) لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>V1 إشارة الخطأ</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>V2 سن المنشار</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>V3 نبضة المقارن</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>V4 نبضات القدح</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>V5 قدرة المسخن</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .trace-line {
+    filter: url(#hw5Glow);
+    transition: filter 0.2s ease;
+  }
+  .hotspot:hover .trace-line,
+  .hotspot:focus-visible .trace-line,
+  .hotspot.is-selected .trace-line {
+    filter: url(#hw5GlowStrong);
+  }
+
+  .trace-v1 { stroke-dasharray: 660; stroke-dashoffset: 660; }
+  .trace-v2 { stroke-dasharray: 970; stroke-dashoffset: 970; }
+  .trace-v3 { stroke-dasharray: 1200; stroke-dashoffset: 1200; }
+  .trace-v4 { stroke-dasharray: 1320; stroke-dashoffset: 1320; }
+  .trace-v5 { stroke-dasharray: 710; stroke-dashoffset: 710; }
+
+  .sweep-cursor {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes hw5-draw-trace { to { stroke-dashoffset: 0; } }
+    @keyframes hw5-status-value-on { to { opacity: 1; } }
+    @keyframes hw5-status-value-off { to { opacity: 0; } }
+    @keyframes hw5-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes hw5-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes hw5-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes hw5-dot-on-amber { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes hw5-dot-on-red { to { background: #F87171; box-shadow: 0 0 10px 2px rgba(248, 113, 113, 0.9); } }
+
+    @keyframes hw5-sweep-move {
+      0% { transform: translateX(0); opacity: 0; }
+      4% { opacity: 0.85; }
+      96% { opacity: 0.85; }
+      100% { transform: translateX(var(--sweep-tx)); opacity: 0; }
+    }
+    .playing .sweep-cursor {
+      animation: hw5-sweep-move 2.8s linear 0.2s forwards;
+    }
+
+    /* all five channels sweep together, in lockstep, so pulse-width and
+       conduction-time changes read as one synchronized event */
+    .playing [data-component="v1Trace"] .trace-v1 { animation: hw5-draw-trace 2.8s linear 0.2s forwards; }
+    .playing [data-status="v1Trace"] .status-dot { animation: hw5-dot-on-blue 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v1Trace"] .value-on { animation: hw5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v1Trace"] .value-off { animation: hw5-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="v2Trace"] .trace-v2 { animation: hw5-draw-trace 2.8s linear 0.2s forwards; }
+    .playing [data-status="v2Trace"] .status-dot { animation: hw5-dot-on-green 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v2Trace"] .value-on { animation: hw5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v2Trace"] .value-off { animation: hw5-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="v3Trace"] .trace-v3 { animation: hw5-draw-trace 2.8s linear 0.2s forwards; }
+    .playing [data-status="v3Trace"] .status-dot { animation: hw5-dot-on-orange 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v3Trace"] .value-on { animation: hw5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v3Trace"] .value-off { animation: hw5-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="v4Trace"] .trace-v4 { animation: hw5-draw-trace 2.8s linear 0.2s forwards; }
+    .playing [data-status="v4Trace"] .status-dot { animation: hw5-dot-on-amber 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v4Trace"] .value-on { animation: hw5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v4Trace"] .value-off { animation: hw5-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="v5Trace"] .trace-v5 { animation: hw5-draw-trace 2.8s linear 0.2s forwards; }
+    .playing [data-status="v5Trace"] .status-dot { animation: hw5-dot-on-red 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v5Trace"] .value-on { animation: hw5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="v5Trace"] .value-off { animation: hw5-status-value-off 0.4s ease-out 0.2s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    v1Trace: {
+      title: "V1 — فولتية خرج المكبر",
+      // src/data/chapter-06/page-04.json #v-value-1 (excerpt)
+      text: "V1 يتناسب مع الفرق بين درجة حرارة هواء التغذية وبين الـ Set Point، فكلما اقتربت الكابينة من نقطة التشغيل قلّت قيمة V1.",
+    },
+    v2Trace: {
+      title: "V2 — فولتية مولد سن المنشار",
+      // src/data/chapter-06/page-04.json #v-value-2 (excerpt)
+      text: "V2 نبضات سن المنشار بتردد 1 Hz، تقارن مع V1 في دائرة المقارن لتحديد عرض نبضة V3.",
+    },
+    v3Trace: {
+      title: "V3 — فولتية خرج دائرة المقارن",
+      // src/data/chapter-06/page-04.json #v-value-3 (excerpt); src/data/chapter-06/page-06.json #case-2, #case-3 (excerpt)
+      text: "V3 خرج المقارن عندما يكون V1 اكبر من V2، فيصبح موجباً ويشغّل دائرة مولد النبضات؛ يقل عرض هذه النبضة كلما قلت قيمة V1 مقارنة بذروة V2.",
+    },
+    v4Trace: {
+      title: "V4 — نبضات قدح الثايرستور",
+      // src/data/chapter-06/page-04.json #v-value-4 (excerpt)
+      text: "V4 نبضات تشغيل مفتاح التحكم، تصدر بشكل حزمة نبضات خلال فترة توصيل V3 فقط.",
+    },
+    v5Trace: {
+      title: "V5 — جهد تغذية السخان",
+      // src/data/chapter-06/page-04.json #v-value-5 (excerpt); src/data/chapter-06/page-06.json #case-2, #case-3 (excerpt)
+      text: "V5 جهد تغذية السخان (Heater)؛ يمر تيار في المسخن طوال فترة توصيل الثايرستور فقط، فيطول زمن التشغيل أو يقصر تبعاً لعرض نبضة V3.",
+    },
+  };
+
+  wireDiagramSimulator(".heater-waveform-diagram", { cycleMs: 3400, componentInfo: COMPONENT_INFO });
+</script>

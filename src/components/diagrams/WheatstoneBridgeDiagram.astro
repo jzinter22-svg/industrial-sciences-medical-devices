@@ -1,0 +1,357 @@
+---
+// Figure 6-4 (دائرة قنطرة ويتستون) — built on the established dark
+// neumorphic "interactive simulator" system (see
+// StylusHeatControlDiagram.astro for the box-shape/status/info/legend
+// scaffold, GalvanometerDriverDiagram.astro for the galvanometer
+// circle+needle icon). Unlike most circuit diagrams in this book (which
+// draw each stage as a labeled box), the Wheatstone bridge is drawn as
+// its actual textbook topology — a diamond of four zig-zag resistor
+// arms with a galvanometer across one diagonal and a current source
+// completing the loop below — because the diamond shape IS the
+// scientific content of this figure (see part-1-p1/p2).
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft wheatstone-bridge-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة قنطرة ويتستون</span>
+      <span class="simulator-subtitle">شكل 6-4 — كيف يكشف اختلال التوازن عن تغير درجة الحرارة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="wb4-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="780"
+          height="460"
+          viewBox="0 0 780 460"
+          role="img"
+          aria-label="دائرة قنطرة ويتستون: مقاومتان معلومتان ومقاومة متغيرة وثيرمستور مرتبة على شكل معين، وكلفانوميتر يقيس اختلال التوازن"
+        >
+          <defs>
+            <marker id="wb4-arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#4ADE80"></path>
+            </marker>
+
+            <linearGradient id="wb4BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="wb4Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="wb4GradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+
+            <filter id="wb4Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#c9b6ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="wb4Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="wb4GlowStrong" x="-280%" y="-280%" width="660%" height="660%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="780" height="460" rx="20" fill="url(#wb4BgGrad)"></rect>
+          <rect x="0" y="0" width="780" height="460" rx="20" fill="url(#wb4Grid)"></rect>
+
+          <!-- static wiring: node junctions, galvanometer leads, current-source loop -->
+          <g class="link">
+            <circle cx="390" cy="70" r="4.5" fill="#5b6478"></circle>
+            <circle cx="190" cy="220" r="4.5" fill="#5b6478"></circle>
+            <circle cx="590" cy="220" r="4.5" fill="#5b6478"></circle>
+            <circle cx="390" cy="370" r="4.5" fill="#5b6478"></circle>
+
+            <line x1="390" y1="70" x2="390" y2="194" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="390" y1="246" x2="390" y2="370" stroke="#5b6478" stroke-width="2"></line>
+
+            <line x1="190" y1="220" x2="190" y2="400" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="190" y1="400" x2="370" y2="400" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="410" y1="400" x2="590" y2="400" stroke="#5b6478" stroke-width="2"></line>
+            <line x1="590" y1="400" x2="590" y2="220" stroke="#5b6478" stroke-width="2"></line>
+          </g>
+
+          <!-- R1: top-left arm (known standard resistor) -->
+          <g class="hotspot" data-component="resistorR1" tabindex="0" role="button" aria-label="مقاومة معلومة R1">
+            <rect class="hit-area" x="155" y="115" width="270" height="60" fill="#000" fill-opacity="0" transform="rotate(-36.9 290 145)"></rect>
+            <path class="resistor-shape" d="M390,70 L350,100 L317.6,106.8 L310.4,147.2 L269.6,142.8 L262.4,183.2 L230,190 L190,220" fill="none" stroke="#38BDF8" stroke-width="3.2"></path>
+            <text x="235" y="100" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة معلومة</text>
+            <text x="235" y="116" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">R1</text>
+          </g>
+
+          <!-- R2: top-right arm (known standard resistor) -->
+          <g class="hotspot" data-component="resistorR2" tabindex="0" role="button" aria-label="مقاومة معلومة R2">
+            <rect class="hit-area" x="355" y="115" width="270" height="60" fill="#000" fill-opacity="0" transform="rotate(36.9 490 145)"></rect>
+            <path class="resistor-shape" d="M390,70 L430,100 L445.6,129.2 L486.4,124.8 L493.6,165.2 L534.4,160.8 L550,190 L590,220" fill="none" stroke="#38BDF8" stroke-width="3.2"></path>
+            <text x="545" y="100" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة معلومة</text>
+            <text x="545" y="116" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">R2</text>
+          </g>
+
+          <!-- RV: bottom-left arm (variable calibration resistor, with adjustability arrow) -->
+          <g class="hotspot" data-component="resistorRV" tabindex="0" role="button" aria-label="مقاومة متغيرة RV للمعايرة">
+            <rect class="hit-area" x="155" y="265" width="270" height="60" fill="#000" fill-opacity="0" transform="rotate(36.9 290 295)"></rect>
+            <path class="resistor-shape" d="M190,220 L230,250 L245.6,279.2 L286.4,274.8 L293.6,315.2 L334.4,310.8 L350,340 L390,370" fill="none" stroke="#4ADE80" stroke-width="3.2"></path>
+            <line x1="252" y1="330" x2="328" y2="254" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" marker-end="url(#wb4-arrow-green)"></line>
+            <text x="235" y="338" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة متغيرة</text>
+            <text x="235" y="354" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">RV</text>
+          </g>
+
+          <!-- RU: bottom-right arm (thermistor / unknown resistance) -->
+          <g class="hotspot" data-component="resistorRU" tabindex="0" role="button" aria-label="ثيرمستور RU متحسس للحرارة">
+            <rect class="hit-area" x="355" y="265" width="270" height="60" fill="#000" fill-opacity="0" transform="rotate(-36.9 490 295)"></rect>
+            <path class="resistor-shape" d="M590,220 L550,250 L517.6,256.8 L510.4,297.2 L469.6,292.8 L462.4,333.2 L430,340 L390,370" fill="none" stroke="#F87171" stroke-width="3.2"></path>
+            <text x="545" y="338" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ثيرمستور (مجهولة)</text>
+            <text x="545" y="354" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">RU</text>
+          </g>
+
+          <!-- galvanometer: bridges the top-bottom diagonal -->
+          <g class="hotspot" data-component="galvanometer" tabindex="0" role="button" aria-label="كلفانوميتر يقيس اختلال توازن القنطرة">
+            <rect class="hit-area" x="345" y="175" width="90" height="90" fill="#000" fill-opacity="0"></rect>
+            <circle class="galvo-body" cx="390" cy="220" r="26" fill="url(#wb4GradPurple)" stroke="#C084FC" stroke-width="2.5"></circle>
+            <line class="galvo-needle" x1="390" y1="220" x2="390" y2="196" stroke="#C084FC" stroke-width="3" stroke-linecap="round"></line>
+            <circle cx="390" cy="220" r="3" fill="#C084FC"></circle>
+            <text x="460" y="228" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">كلفانوميتر</text>
+          </g>
+
+          <!-- current source: closes the loop across the left-right diagonal -->
+          <g class="hotspot" data-component="currentSource" tabindex="0" role="button" aria-label="مصدر التيار المغذي للقنطرة">
+            <rect class="hit-area" x="335" y="376" width="110" height="54" fill="#000" fill-opacity="0"></rect>
+            <line class="battery-shape" x1="370" y1="385" x2="370" y2="415" stroke="#FBBF24" stroke-width="3"></line>
+            <line class="battery-shape" x1="410" y1="392" x2="410" y2="408" stroke="#FBBF24" stroke-width="6"></line>
+            <text x="390" y="432" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">مصدر التيار</text>
+          </g>
+
+          <!-- current-flow particle: travels through the galvanometer branch once the bridge unbalances -->
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="390" cy="200" r="6" fill="#F87171" filter="url(#wb4GlowStrong)" style="--tx:0px; --ty:130px; --particle-delay:1.7s; --particle-duration:0.5s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="currentSource"><span class="status-dot dot-amber"></span><span class="status-label">مصدر التيار</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="resistorR1"><span class="status-dot dot-blue"></span><span class="status-label">R1 معلومة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="resistorR2"><span class="status-dot dot-blue"></span><span class="status-label">R2 معلومة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="resistorRV"><span class="status-dot dot-green"></span><span class="status-label">RV متغيرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="resistorRU"><span class="status-dot dot-red"></span><span class="status-label">RU ثيرمستور</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="galvanometer"><span class="status-dot dot-purple"></span><span class="status-label">كلفانوميتر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مقاومة أو الكلفانوميتر لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>مقاومات معلومة</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>معايرة متغيرة</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>ثيرمستور مجهول</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>كلفانوميتر</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مصدر التيار</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .resistor-shape {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: url(#wb4Glow);
+    transition: filter 0.2s ease, stroke-width 0.2s ease;
+  }
+  .hotspot:hover .resistor-shape,
+  .hotspot:focus-visible .resistor-shape,
+  .hotspot.is-selected .resistor-shape {
+    filter: url(#wb4GlowStrong);
+  }
+
+  .battery-shape {
+    filter: url(#wb4Glow);
+    transition: filter 0.2s ease;
+  }
+  .hotspot:hover .battery-shape,
+  .hotspot:focus-visible .battery-shape,
+  .hotspot.is-selected .battery-shape {
+    filter: url(#wb4GlowStrong);
+  }
+
+  .galvo-body {
+    filter: url(#wb4Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .galvo-body,
+  .hotspot:focus-visible .galvo-body,
+  .hotspot.is-selected .galvo-body {
+    filter: url(#wb4Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .galvo-needle {
+    transform-box: fill-box;
+    transform-origin: 100% 100%;
+    transition: none;
+  }
+
+  .flow-particle {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes wb4-status-value-on { to { opacity: 1; } }
+    @keyframes wb4-status-value-off { to { opacity: 0; } }
+    @keyframes wb4-dot-on-amber { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes wb4-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes wb4-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes wb4-dot-on-red { to { background: #F87171; box-shadow: 0 0 10px 2px rgba(248, 113, 113, 0.9); } }
+    @keyframes wb4-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    @keyframes wb4-resistor-activate { to { filter: url(#wb4GlowStrong); } }
+    @keyframes wb4-ru-activate { to { filter: url(#wb4GlowStrong); stroke-width: 5; } }
+    @keyframes wb4-battery-activate { to { filter: url(#wb4GlowStrong); } }
+    @keyframes wb4-needle-deflect { to { transform: rotate(34deg); } }
+    @keyframes wb4-galvo-glow { to { filter: url(#wb4Elevate) saturate(1.5) brightness(1.6); } }
+
+    @keyframes wb4-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: wb4-particle-move var(--particle-duration, 0.5s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    .playing [data-component="currentSource"] .battery-shape { animation: wb4-battery-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="currentSource"] .status-dot { animation: wb4-dot-on-amber 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="currentSource"] .value-on { animation: wb4-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="currentSource"] .value-off { animation: wb4-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="resistorR1"] .resistor-shape { animation: wb4-resistor-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR1"] .status-dot { animation: wb4-dot-on-blue 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR1"] .value-on { animation: wb4-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR1"] .value-off { animation: wb4-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="resistorR2"] .resistor-shape { animation: wb4-resistor-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR2"] .status-dot { animation: wb4-dot-on-blue 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR2"] .value-on { animation: wb4-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="resistorR2"] .value-off { animation: wb4-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="resistorRV"] .resistor-shape { animation: wb4-resistor-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="resistorRV"] .status-dot { animation: wb4-dot-on-green 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="resistorRV"] .value-on { animation: wb4-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="resistorRV"] .value-off { animation: wb4-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="resistorRU"] .resistor-shape { animation: wb4-ru-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="resistorRU"] .status-dot { animation: wb4-dot-on-red 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="resistorRU"] .value-on { animation: wb4-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="resistorRU"] .value-off { animation: wb4-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="galvanometer"] .galvo-needle { animation: wb4-needle-deflect 0.4s ease-out 2.1s forwards; }
+    .playing [data-component="galvanometer"] .galvo-body { animation: wb4-galvo-glow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="galvanometer"] .status-dot { animation: wb4-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="galvanometer"] .value-on { animation: wb4-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="galvanometer"] .value-off { animation: wb4-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    resistorR1: {
+      title: "مقاومة معلومة R1",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "مقاومتان معلومتا القيمة (StandardValue) نستخدمهما كمرجع ثابت في دائرة قنطرة ويتستون، الى جانب مقاومة متغيرة للمعايرة ومقاومة رابعة هي الثيرمستور.",
+    },
+    resistorR2: {
+      title: "مقاومة معلومة R2",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "مقاومتان معلومتا القيمة (StandardValue) نستخدمهما كمرجع ثابت في دائرة قنطرة ويتستون، الى جانب مقاومة متغيرة للمعايرة ومقاومة رابعة هي الثيرمستور.",
+    },
+    resistorRV: {
+      title: "مقاومة متغيرة RV",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "مقاومة متغيرة (Variable Resistance) تستخدم من أجل المعايرة؛ نقوم بتغيير قيمتها على درجة حرارة ملائمة لجسم الطفل الخديج حتى نحصل على قراءة مقياس صفر أمبير، أي دائرة مستقرة (Stablestate).",
+    },
+    resistorRU: {
+      title: "ثيرمستور RU (المقاومة المجهولة)",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "أما المقاومة الرابعة فهي عبارة عن ثيرمستور متحسس للحرارة، فأي تغير يحدث في درجة الحرارة يؤدي إلى تغير قيمة مقاومته أي يؤدي الى اختلال استقرار القنطرة.",
+    },
+    galvanometer: {
+      title: "الكلفانوميتر (Galvanometer)",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "عند الاستقرار (Stablestate) تكون قراءة مقياس التيار صفر أمبير، وعندها فإن أي اختلال في التوازن ينتج عنه تيار معلوم يمر من خلال مقياس التيار.",
+    },
+    currentSource: {
+      title: "مصدر التيار",
+      // src/data/chapter-06/page-05.json #part-1-p1 (excerpt) — الدائرة
+      // تتكون من مقاومات وثيرمستور، وهذا العنصر يزودها بتيار التغذية
+      // اللازم لظهور فرق الجهد عبر مقياس التيار عند اختلال التوازن.
+      text: "يزود دائرة قنطرة ويتستون بتيار التغذية الذي يمر عبر المقاومات الأربع، وهو الذي يظهر خلاله التيار المعلوم عند اختلال توازن القنطرة.",
+    },
+  };
+
+  wireDiagramSimulator(".wheatstone-bridge-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>

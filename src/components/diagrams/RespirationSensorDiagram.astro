@@ -1,0 +1,309 @@
+---
+// Figure 6-8 (الحساسات على صدر وبطن الطفل) rebuilt as a dark
+// neumorphic interactive simulator, following the exact Chapter 1/2
+// system used across the book (mirrors ChestElectrodeDiagram.astro /
+// LimbElectrodeDiagram.astro's anatomical-placement pattern).
+//
+// Geometry: a simplified infant torso outline with two pressure-sensor
+// belt bands (chest + abdomen) wired via lead wires to a piezoelectric
+// sensor box, which drives a synchronized status lamp — matching the
+// book's own section on Monitoring Respiration Rates (page-09).
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft respiration-sensor-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة موضع حساسات مراقبة التنفس</span>
+      <span class="simulator-subtitle">شكل 6-8 — الحساسات على صدر وبطن الطفل</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="rs8-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="560"
+          height="400"
+          viewBox="0 0 560 400"
+          role="img"
+          aria-label="الحساسات على صدر وبطن الطفل"
+        >
+          <defs>
+            <marker id="rs8-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="rs8BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rs8Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="rs8GradBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="rs8GradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+            <linearGradient id="rs8GradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+
+            <filter id="rs8Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="7" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-3" dy="-3" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="1.5" dy="2.5" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-1.5" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.32" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="rs8Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="560" height="400" rx="20" fill="url(#rs8BgGrad)"></rect>
+          <rect x="0" y="0" width="560" height="400" rx="20" fill="url(#rs8Grid)"></rect>
+
+          <!-- infant torso silhouette -->
+          <circle cx="230" cy="55" r="30" fill="none" stroke="#4b5468" stroke-width="2"></circle>
+          <path d="M 230,85 Q 165,100 155,150 L 150,320 Q 230,345 310,320 L 305,150 Q 295,100 230,85 Z"
+                fill="none" stroke="#4b5468" stroke-width="2"></path>
+          <path d="M 165,140 L 120,190 M 295,140 L 340,190" fill="none" stroke="#4b5468" stroke-width="8" stroke-linecap="round"></path>
+
+          <!-- chest belt -->
+          <g class="hotspot" data-component="chestBelt" tabindex="0" role="button" aria-label="حزام الصدر">
+            <rect class="hit-area" x="130" y="130" width="200" height="65" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="152" y="150" width="156" height="26" rx="13" fill="url(#rs8GradBlue)" stroke="#38BDF8" stroke-width="2.5" filter="url(#rs8Elevate)"></rect>
+            <circle cx="152" cy="163" r="6" fill="#0a1c26" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <circle cx="308" cy="163" r="6" fill="#0a1c26" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <text x="230" y="140" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">حزام الصدر</text>
+          </g>
+
+          <!-- abdomen belt -->
+          <g class="hotspot" data-component="abdomenBelt" tabindex="0" role="button" aria-label="حزام البطن">
+            <rect class="hit-area" x="140" y="205" width="180" height="65" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="160" y="225" width="140" height="26" rx="13" fill="url(#rs8GradBlue)" stroke="#38BDF8" stroke-width="2.5" filter="url(#rs8Elevate)"></rect>
+            <circle cx="160" cy="238" r="6" fill="#0a1c26" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <circle cx="300" cy="238" r="6" fill="#0a1c26" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <text x="230" y="268" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">حزام البطن</text>
+          </g>
+
+          <!-- piezoelectric sensor box -->
+          <g class="hotspot" data-component="piezoSensor" tabindex="0" role="button" aria-label="الحساس الكهروضغطي">
+            <rect class="box-shape" x="400" y="155" width="130" height="70" rx="10" fill="url(#rs8GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#rs8Elevate)"></rect>
+            <text x="465" y="182" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الحساس</text>
+            <text x="465" y="199" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الكهروضغطي</text>
+            <text x="465" y="213" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Piezo Sensor</text>
+          </g>
+
+          <!-- status lamp -->
+          <g class="hotspot" data-component="statusLamp" tabindex="0" role="button" aria-label="مصباح التزامن">
+            <rect class="hit-area" x="415" y="270" width="100" height="90" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="465" cy="300" r="15" fill="#0a1c12" stroke="#4ADE80" stroke-width="2.5" filter="url(#rs8Glow)"></circle>
+            <text x="465" y="332" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مصباح</text>
+            <text x="465" y="347" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">التزامن</text>
+          </g>
+
+          <!-- lead wires -->
+          <g class="link" data-link="chestBelt" data-link-to="piezoSensor">
+            <path d="M 308,163 L 400,175" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rs8-arrow)"></path>
+            <path class="trail trail-blue" d="M 308,163 L 398,175" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="abdomenBelt" data-link-to="piezoSensor">
+            <path d="M 300,238 L 400,205" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rs8-arrow)"></path>
+            <path class="trail trail-blue" d="M 300,238 L 398,205" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="piezoSensor" data-link-to="statusLamp">
+            <path d="M 465,225 L 465,270" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rs8-arrow)"></path>
+            <path class="trail trail-purple" d="M 465,225 L 465,268" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="308" cy="163" r="4.5" fill="#38BDF8" filter="url(#rs8Glow)" style="--tx:92px; --ty:12px; --particle-delay:0.5s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="300" cy="238" r="4.5" fill="#38BDF8" filter="url(#rs8Glow)" style="--tx:100px; --ty:-33px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="465" cy="225" r="4.5" fill="#C084FC" filter="url(#rs8Glow)" style="--tx:0px; --ty:45px; --particle-delay:1.4s; --particle-duration:0.3s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="chestBelt"><span class="status-dot dot-blue"></span><span class="status-label">حزام الصدر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="abdomenBelt"><span class="status-dot dot-blue"></span><span class="status-label">حزام البطن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="piezoSensor"><span class="status-dot dot-purple"></span><span class="status-label">الحساس الكهروضغطي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="statusLamp"><span class="status-dot dot-green"></span><span class="status-label">مصباح التزامن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي حساس لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>حزام الصدر</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>حزام البطن</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الحساس الكهروضغطي</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>مصباح التزامن</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#rs8Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#rs8Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#rs8Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes rs8-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: rs8-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes rs8-shape-activate { to { filter: url(#rs8Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes rs8-breathe {
+      0%, 100% { transform: scaleX(1); }
+      50% { transform: scaleX(1.05); }
+    }
+    @keyframes rs8-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @keyframes rs8-reveal-trail { to { opacity: 0.85; } }
+    @keyframes rs8-status-value-on { to { opacity: 1; } }
+    @keyframes rs8-status-value-off { to { opacity: 0; } }
+    @keyframes rs8-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes rs8-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes rs8-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="chestBelt"] .box-shape {
+      animation: rs8-shape-activate 0.4s ease-out 0.1s forwards, rs8-breathe 1.3s ease-in-out 0.5s infinite;
+      transform-box: fill-box; transform-origin: center;
+    }
+    .playing [data-status="chestBelt"] .status-dot { animation: rs8-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="chestBelt"] .value-on { animation: rs8-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="chestBelt"] .value-off { animation: rs8-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="chestBelt"] .trail { animation: rs8-reveal-trail 0.3s ease-out 0.5s forwards; }
+
+    .playing [data-component="abdomenBelt"] .box-shape {
+      animation: rs8-shape-activate 0.4s ease-out 0.1s forwards, rs8-breathe 1.3s ease-in-out 0.5s infinite;
+      transform-box: fill-box; transform-origin: center;
+    }
+    .playing [data-status="abdomenBelt"] .status-dot { animation: rs8-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="abdomenBelt"] .value-on { animation: rs8-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="abdomenBelt"] .value-off { animation: rs8-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="abdomenBelt"] .trail { animation: rs8-reveal-trail 0.3s ease-out 0.6s forwards; }
+
+    .playing [data-component="piezoSensor"] .box-shape { animation: rs8-shape-activate 0.4s ease-out 1s forwards; }
+    .playing [data-status="piezoSensor"] .status-dot { animation: rs8-dot-on-purple 0.4s ease-out 1s forwards; }
+    .playing [data-status="piezoSensor"] .value-on { animation: rs8-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="piezoSensor"] .value-off { animation: rs8-status-value-off 0.4s ease-out 1s forwards; }
+    .playing [data-link="piezoSensor"] .trail { animation: rs8-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="statusLamp"] .box-shape {
+      animation: rs8-shape-activate 0.4s ease-out 1.7s forwards, rs8-blink 1.3s ease-in-out 1.7s infinite;
+    }
+    .playing [data-status="statusLamp"] .status-dot { animation: rs8-dot-on-green 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="statusLamp"] .value-on { animation: rs8-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="statusLamp"] .value-off { animation: rs8-status-value-off 0.4s ease-out 1.7s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    chestBelt: {
+      title: "حزام الصدر",
+      // src/data/chapter-06/page-09.json #accessory-c-p1 (excerpt)
+      text: "يوضع متحسس للتنفس على صدر الطفل يتحسس بحركة الشهيق والزفير، حيث تتحول هذه الحركة الى اشارة كهربائية تعتمد على حركة الرئتين وذلك بالفارق الزمني بين الشهيق والزفير.",
+    },
+    abdomenBelt: {
+      title: "حزام البطن",
+      // src/data/chapter-06/page-09.json #sensor-placement-p1 (excerpt)
+      text: "يوضع حساس (Sensor) خاص لقياس التغيرات الحاصلة في الضغوط على صدر الطفل وبطنه.",
+    },
+    piezoSensor: {
+      title: "الحساس الكهروضغطي (Piezoelectric)",
+      // src/data/chapter-06/page-09.json #sensor-placement-p1 (excerpt)
+      text: "يمكن استخدام أنواع من هذه الحساسات وذلك حسب طريقة توصيلها، فمنها ما يحول تغير الضغط إلى تغيرات في المقاومة أو يعتمد مبدأ عمله على الفعل (الكهروضغطي).",
+    },
+    statusLamp: {
+      title: "مصباح التزامن ومنبه الانذار",
+      // src/data/chapter-06/page-09.json #accessory-c-p1 (excerpt)
+      text: "يربط مع المتحسس مصباح يطفأ ويضيء بالتزامن مع التنفس الطبيعي للطفل، اما اذا كان تنفس الطفل غير طبيعي فسوف يعمل منبه صوتي يشير لهذه الحالة.",
+    },
+  };
+
+  wireDiagramSimulator(".respiration-sensor-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>

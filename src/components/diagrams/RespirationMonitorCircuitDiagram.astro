@@ -1,0 +1,465 @@
+---
+// Figure 6-9 (المخطط الكتلوي لدائرة مراقبة تنفس الطفل) rebuilt as the
+// chapter's flagship dark neumorphic interactive simulator, following
+// the exact Chapter 1/2 system (mirrors the role of ECGDeviceBlockDiagram
+// in Chapter 3).
+//
+// Geometry mirrors the book's own block diagram: sensor (op-amp symbol
+// with Rf/Cf feedback, matching InitialAmplifierDiagram's convention) ->
+// low pass filter -> amplifier, which then splits into the book's own
+// two described sections — the low-frequency comparator/measurement/
+// delayed-alarm path (choking detection) and the high-frequency
+// increase-rate/immediate-alarm path.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft respiration-monitor-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي لدائرة مراقبة تنفس الطفل</span>
+      <span class="simulator-subtitle">شكل 6-9 — من الحساس الى دائرتي الانذار الفوري والمتأخر</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="rmc9-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1160"
+          height="560"
+          viewBox="0 0 1160 560"
+          role="img"
+          aria-label="المخطط الكتلوي لدائرة مراقبة تنفس الطفل"
+        >
+          <defs>
+            <marker id="rmc9-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="rmc9BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rmc9Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="rmc9GradBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="rmc9GradPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+            <linearGradient id="rmc9GradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="rmc9GradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="rmc9GradYellow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332c10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
+            <linearGradient id="rmc9GradRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a1420"></stop>
+              <stop offset="100%" stop-color="#1c0a10"></stop>
+            </linearGradient>
+
+            <filter id="rmc9Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="rmc9Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1160" height="560" rx="20" fill="url(#rmc9BgGrad)"></rect>
+          <rect x="0" y="0" width="1160" height="560" rx="20" fill="url(#rmc9Grid)"></rect>
+
+          <!-- sensor: op-amp symbol with Rf/Cf feedback -->
+          <g class="hotspot" data-component="sensor" tabindex="0" role="button" aria-label="الحساس">
+            <rect class="hit-area" x="45" y="30" width="185" height="170" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 70,105 L 70,175 L 170,140 Z" fill="url(#rmc9GradBlue)" stroke="#38BDF8" stroke-width="2.5" filter="url(#rmc9Glow)"></path>
+            <path d="M 170,140 L 170,60 L 90,60 L 90,105" fill="none" stroke="#38BDF8" stroke-width="1.4"></path>
+            <path d="M 100,60 l 6,-8 l 10,16 l 10,-16 l 10,16 l 6,-8" fill="none" stroke="#38BDF8" stroke-width="1.6"></path>
+            <line x1="160" y1="92" x2="180" y2="92" stroke="#38BDF8" stroke-width="1.6"></line>
+            <line x1="160" y1="100" x2="180" y2="100" stroke="#38BDF8" stroke-width="1.6"></line>
+            <text x="122" y="48" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Rf</text>
+            <text x="196" y="99" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="start" direction="ltr">Cf</text>
+            <text x="120" y="190" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الحساس</text>
+            <text x="120" y="70" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Sensor</text>
+          </g>
+
+          <!-- low pass filter -->
+          <g class="hotspot" data-component="lowPassFilter" tabindex="0" role="button" aria-label="مرشح امرار منخفض">
+            <rect class="box-shape" x="260" y="105" width="150" height="70" rx="10" fill="url(#rmc9GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="335" y="133" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مرشح امرار منخفض</text>
+            <text x="335" y="152" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Low Pass Filter</text>
+          </g>
+
+          <!-- amplifier (desired frequencies) -->
+          <g class="hotspot" data-component="desiredFreqAmp" tabindex="0" role="button" aria-label="مكبر الترددات المرغوبة">
+            <rect class="box-shape" x="460" y="105" width="150" height="70" rx="10" fill="url(#rmc9GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="535" y="133" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر الترددات</text>
+            <text x="535" y="152" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Amplifier</text>
+          </g>
+
+          <!-- primary / low-frequency measurement path -->
+          <g class="hotspot" data-component="comparatorCircuit" tabindex="0" role="button" aria-label="دائرة مقارن">
+            <rect class="box-shape" x="670" y="210" width="150" height="70" rx="10" fill="url(#rmc9GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="745" y="238" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة مقارن</text>
+            <text x="745" y="257" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Comparator</text>
+          </g>
+
+          <g class="hotspot" data-component="respirationRateMeasure" tabindex="0" role="button" aria-label="دائرة قياس معدل التنفس">
+            <rect class="box-shape" x="860" y="210" width="150" height="70" rx="10" fill="url(#rmc9GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="935" y="233" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قياس معدل</text>
+            <text x="935" y="251" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">التنفس</text>
+            <text x="935" y="266" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Rate Measure</text>
+          </g>
+
+          <g class="hotspot" data-component="meterIndicator" tabindex="0" role="button" aria-label="مؤشر للقياس">
+            <rect class="hit-area" x="1020" y="190" width="115" height="120" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="1075" cy="245" r="42" fill="url(#rmc9GradPurple)" stroke="#C084FC" stroke-width="2.5" filter="url(#rmc9Glow)"></circle>
+            <path d="M 1075,245 L 1075,215 M 1075,245 L 1046,258 M 1075,245 L 1104,258 M 1075,245 L 1050,232 M 1075,245 L 1100,232"
+                  fill="none" stroke="#C084FC" stroke-width="1.2" opacity="0.7"></path>
+            <line class="meter-needle" x1="1075" y1="245" x2="1075" y2="220" stroke="#eef1f8" stroke-width="2" stroke-linecap="round" style="transform-box: fill-box; transform-origin: 1075px 245px;"></line>
+            <text x="1075" y="300" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤشر</text>
+          </g>
+
+          <!-- delayed-alarm sub-branch (choking detection) -->
+          <g class="hotspot" data-component="timeDelay" tabindex="0" role="button" aria-label="مؤخر زمني">
+            <rect class="box-shape" x="860" y="350" width="150" height="70" rx="10" fill="url(#rmc9GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="935" y="378" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤخر زمني</text>
+            <text x="935" y="397" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Time Delay</text>
+          </g>
+
+          <g class="hotspot" data-component="delayedAlarm" tabindex="0" role="button" aria-label="دائرة انذار متأخر">
+            <rect class="box-shape" x="1030" y="350" width="100" height="70" rx="10" fill="url(#rmc9GradRed)" stroke="#F87171" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="1080" y="378" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انذار</text>
+            <text x="1080" y="393" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">متأخر</text>
+          </g>
+
+          <!-- high-frequency / immediate-alarm path -->
+          <g class="hotspot" data-component="increaseRateMonitor" tabindex="0" role="button" aria-label="دائرة مراقبة زيادة معدل التنفس">
+            <rect class="box-shape" x="670" y="450" width="150" height="70" rx="10" fill="url(#rmc9GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="745" y="473" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مراقبة زيادة</text>
+            <text x="745" y="491" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">معدل التنفس</text>
+            <text x="745" y="506" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Rate Increase</text>
+          </g>
+
+          <g class="hotspot" data-component="immediateAlarm" tabindex="0" role="button" aria-label="دائرة انذار فوري">
+            <rect class="box-shape" x="860" y="450" width="150" height="70" rx="10" fill="url(#rmc9GradRed)" stroke="#F87171" stroke-width="2" filter="url(#rmc9Elevate)"></rect>
+            <text x="935" y="478" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">انذار فوري</text>
+            <text x="935" y="497" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">Immediate Alarm</text>
+          </g>
+
+          <!-- connectors -->
+          <g class="link" data-link="sensor" data-link-to="lowPassFilter">
+            <line x1="170" y1="140" x2="260" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-blue" x1="170" y1="140" x2="258" y2="140" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="lowPassFilter" data-link-to="desiredFreqAmp">
+            <line x1="410" y1="140" x2="460" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-purple" x1="410" y1="140" x2="458" y2="140" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="link" data-link="desiredFreqAmp" data-link-to="comparatorCircuit">
+            <path d="M 535,175 L 535,245 L 670,245" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></path>
+            <path class="trail trail-orange" d="M 535,175 L 535,245 L 668,245" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="desiredFreqAmp" data-link-to="increaseRateMonitor">
+            <path d="M 535,175 L 535,485 L 670,485" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></path>
+            <path class="trail trail-orange" d="M 535,175 L 535,485 L 668,485" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <g class="link" data-link="comparatorCircuit" data-link-to="respirationRateMeasure">
+            <line x1="820" y1="245" x2="860" y2="245" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-green" x1="820" y1="245" x2="858" y2="245" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="respirationRateMeasure" data-link-to="meterIndicator">
+            <line x1="1010" y1="245" x2="1032" y2="245" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-blue" x1="1010" y1="245" x2="1030" y2="245" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="link" data-link="respirationRateMeasure" data-link-to="timeDelay">
+            <path d="M 935,280 L 935,350" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></path>
+            <path class="trail trail-yellow" d="M 935,280 L 935,348" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="timeDelay" data-link-to="delayedAlarm">
+            <line x1="1010" y1="385" x2="1032" y2="385" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-yellow" x1="1010" y1="385" x2="1030" y2="385" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="link" data-link="increaseRateMonitor" data-link-to="immediateAlarm">
+            <line x1="820" y1="485" x2="860" y2="485" stroke="#5b6478" stroke-width="2" marker-end="url(#rmc9-arrow)"></line>
+            <line class="trail trail-yellow" x1="820" y1="485" x2="858" y2="485" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <text x="745" y="200" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">مسار الترددات المنخفضة (القياس والتأخير)</text>
+          <text x="745" y="440" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">مسار الترددات العالية (الانذار الفوري)</text>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="170" cy="140" r="5" fill="#38BDF8" filter="url(#rmc9Glow)" style="--tx:80px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="410" cy="140" r="5" fill="#C084FC" filter="url(#rmc9Glow)" style="--tx:40px; --ty:0px; --particle-delay:0.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="820" cy="245" r="5" fill="#4ADE80" filter="url(#rmc9Glow)" style="--tx:30px; --ty:0px; --particle-delay:1.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="1010" cy="245" r="4.5" fill="#38BDF8" filter="url(#rmc9Glow)" style="--tx:16px; --ty:0px; --particle-delay:2.4s; --particle-duration:0.3s"></circle>
+            <circle class="flow-particle" cx="820" cy="485" r="5" fill="#FBBF24" filter="url(#rmc9Glow)" style="--tx:30px; --ty:0px; --particle-delay:3.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="1010" cy="385" r="4.5" fill="#FBBF24" filter="url(#rmc9Glow)" style="--tx:16px; --ty:0px; --particle-delay:3.4s; --particle-duration:0.3s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="sensor"><span class="status-dot dot-blue"></span><span class="status-label">الحساس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="lowPassFilter"><span class="status-dot dot-purple"></span><span class="status-label">مرشح امرار منخفض</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="desiredFreqAmp"><span class="status-dot dot-orange"></span><span class="status-label">مكبر الترددات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="comparatorCircuit"><span class="status-dot dot-green"></span><span class="status-label">دائرة مقارن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="respirationRateMeasure"><span class="status-dot dot-blue"></span><span class="status-label">قياس معدل التنفس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="meterIndicator"><span class="status-dot dot-purple"></span><span class="status-label">مؤشر القياس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="timeDelay"><span class="status-dot dot-yellow"></span><span class="status-label">مؤخر زمني</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="delayedAlarm"><span class="status-dot dot-red"></span><span class="status-label">انذار متأخر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="increaseRateMonitor"><span class="status-dot dot-yellow"></span><span class="status-label">مراقبة زيادة التنفس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="immediateAlarm"><span class="status-dot dot-red"></span><span class="status-label">انذار فوري</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الإشارة المتحسسة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الترشيح</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التكبير</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المقارنة والسيطرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التوقيت</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>الانذار</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#rmc9Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#rmc9Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#rmc9Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes rmc9-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: rmc9-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes rmc9-shape-activate { to { filter: url(#rmc9Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes rmc9-glow-activate { to { filter: url(#rmc9Glow) brightness(1.4); } }
+    @keyframes rmc9-reveal-trail { to { opacity: 0.85; } }
+    @keyframes rmc9-status-value-on { to { opacity: 1; } }
+    @keyframes rmc9-status-value-off { to { opacity: 0; } }
+    @keyframes rmc9-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes rmc9-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes rmc9-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes rmc9-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes rmc9-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes rmc9-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+    @keyframes rmc9-needle-sweep {
+      0%, 100% { transform: rotate(-18deg); }
+      50% { transform: rotate(18deg); }
+    }
+    @keyframes rmc9-alarm-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+
+    .playing [data-component="sensor"] .box-shape { animation: rmc9-glow-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sensor"] .status-dot { animation: rmc9-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sensor"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="sensor"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="sensor"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="lowPassFilter"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="lowPassFilter"] .status-dot { animation: rmc9-dot-on-purple 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="lowPassFilter"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="lowPassFilter"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="lowPassFilter"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="desiredFreqAmp"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="desiredFreqAmp"] .status-dot { animation: rmc9-dot-on-orange 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="desiredFreqAmp"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="desiredFreqAmp"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="desiredFreqAmp"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="comparatorCircuit"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparatorCircuit"] .status-dot { animation: rmc9-dot-on-green 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparatorCircuit"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparatorCircuit"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="comparatorCircuit"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="respirationRateMeasure"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="respirationRateMeasure"] .status-dot { animation: rmc9-dot-on-blue 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="respirationRateMeasure"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="respirationRateMeasure"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="respirationRateMeasure"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="meterIndicator"] .box-shape { animation: rmc9-glow-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-component="meterIndicator"] .meter-needle { animation: rmc9-needle-sweep 1.4s ease-in-out 2.6s infinite; }
+    .playing [data-status="meterIndicator"] .status-dot { animation: rmc9-dot-on-purple 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="meterIndicator"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="meterIndicator"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 2.6s forwards; }
+
+    .playing [data-component="increaseRateMonitor"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="increaseRateMonitor"] .status-dot { animation: rmc9-dot-on-yellow 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="increaseRateMonitor"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="increaseRateMonitor"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="increaseRateMonitor"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 3.4s forwards; }
+
+    .playing [data-component="immediateAlarm"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 3.6s forwards, rmc9-alarm-pulse 0.6s ease-in-out 3.6s infinite; }
+    .playing [data-status="immediateAlarm"] .status-dot { animation: rmc9-dot-on-red 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="immediateAlarm"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="immediateAlarm"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 3.6s forwards; }
+
+    .playing [data-component="timeDelay"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="timeDelay"] .status-dot { animation: rmc9-dot-on-yellow 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="timeDelay"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="timeDelay"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="timeDelay"] .trail { animation: rmc9-reveal-trail 0.3s ease-out 3.4s forwards; }
+
+    .playing [data-component="delayedAlarm"] .box-shape { animation: rmc9-shape-activate 0.4s ease-out 3.6s forwards, rmc9-alarm-pulse 0.6s ease-in-out 3.6s infinite; }
+    .playing [data-status="delayedAlarm"] .status-dot { animation: rmc9-dot-on-red 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="delayedAlarm"] .value-on { animation: rmc9-status-value-on 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="delayedAlarm"] .value-off { animation: rmc9-status-value-off 0.4s ease-out 3.6s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    sensor: {
+      title: "الحساس (Sensor)",
+      // src/data/chapter-06/page-09.json #circuit-principle-p1 (excerpt)
+      text: "يتم تحويل إشارة التنفس عن طريق الحساس إلى إشارة مربعة (SquareWave) تدخل إلى مرشح امرار منخفض.",
+    },
+    lowPassFilter: {
+      title: "مرشح امرار منخفض (Low Pass Filter)",
+      // src/data/chapter-06/page-09.json #circuit-principle-p1 (excerpt)
+      text: "يعمل مرشح امرار منخفض على إزالة الضوضاء (Noise) من الاشارة، ويمرر الترددات العالية غير المرغوبة الى الارضي ويسمح بمرور الترددات المرغوبة التي نريد مراقبتها.",
+    },
+    desiredFreqAmp: {
+      title: "مكبر الترددات المرغوبة",
+      // src/data/chapter-06/page-09.json #circuit-principle-p1 (excerpt)
+      text: "بعد تنقية الاشارة تقسم الدائرة الى قسمين: قسم يأخذ الترددات المنخفضة للمقارنة والقياس، وقسم يأخذ الترددات العالية لمراقبة زيادة معدل التنفس.",
+    },
+    comparatorCircuit: {
+      title: "دائرة مقارن (Comparator)",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-low (excerpt)
+      text: "قسم يعمل على أخذ الترددات المنخفضة ومقارنتها مع قيمة مرجعية من خلال دارة المقارن.",
+    },
+    respirationRateMeasure: {
+      title: "دائرة قياس معدل التنفس",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-low (excerpt)
+      text: "بعد المقارنة، تقوم هذه الدائرة بقياس معدل التنفس وتغذية المؤشر بالقراءة الصحيحة، وفي حال الانخفاض الحاد في معدل التنفس أو انعدامه يتم تشغيل نظام الانذار.",
+    },
+    meterIndicator: {
+      title: "مؤشر للقياس",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-low (excerpt)
+      text: "هناك مؤشر يقوم بإعطاء القراءة الصحيحة لمعدل تنفس الطفل.",
+    },
+    timeDelay: {
+      title: "مؤخر زمني (Time Delay)",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-low (excerpt)
+      text: "في حال الانخفاض الحاد في معدل التنفس أو انعدامه يقوم نظام خاص بتشغيل إنذار على الفور مع إضافة زمن تأخير لضمان عدم عمله بشكل عشوائي، وهو مهم لمراقبة حالات الاختناق.",
+    },
+    delayedAlarm: {
+      title: "دائرة انذار (متأخر زمنيا)",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-low (excerpt)
+      text: "يعمل هذا الانذار بعد فترة التأخير الزمني لضمان عدم عمله بشكل عشوائي، وهو مهم لمراقبة حالات الاختناق عند الطفل.",
+    },
+    increaseRateMonitor: {
+      title: "دائرة مراقبة زيادة معدل التنفس",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-high (excerpt)
+      text: "قسم يعمل على أخذ الترددات العالية ويعمل على مراقبة زيادة نسبة التنفس.",
+    },
+    immediateAlarm: {
+      title: "دائرة انذار فوري",
+      // src/data/chapter-06/page-09.json #list-circuit-parts circuit-part-high (excerpt)
+      text: "يحتوي هذا القسم على نظام إنذار فوري في حال ارتفاع نسبة التنفس عن الحد المسموح به، وهي حالات الاضطرابات التي تصيب الطفل.",
+    },
+  };
+
+  wireDiagramSimulator(".respiration-monitor-circuit-diagram", { cycleMs: 4000, componentInfo: COMPONENT_INFO });
+</script>
