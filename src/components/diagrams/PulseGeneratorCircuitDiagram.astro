@@ -1,0 +1,283 @@
+---
+// Figure 4-5 (c4-fig-4-5) — دائرة مولد النبضات الالكترونية غير التزامنية
+// (blocking-oscillator pacemaker pulse generator, Q1/Q2 + transformer
+// feedback), built as a dark neumorphic interactive simulator following
+// the exact Chapter 1-3 "circuit-level" system established by
+// StylusHeatControlDiagram.astro (box hotspots in a left-to-right
+// signal-path chain) and MotorSpeedControlDiagram.astro (dashed
+// feedback/return path). All SVG ids are prefixed "pgc5" to stay unique
+// site-wide.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft pulse-generator-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة مولد النبضات الالكترونية</span>
+      <span class="simulator-subtitle">شكل 4-5 — دائرة مولد النبضات الغير تزامني بالترانزستورين Q1 و Q2</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pgc5-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="380"
+          viewBox="0 0 900 380"
+          role="img"
+          aria-label="دائرة مولد النبضات الالكترونية غير التزامنية"
+        >
+          <defs>
+            <marker id="pgc5-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="pgc5BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pgc5Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pgc5GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332b10"></stop><stop offset="100%" stop-color="#1a1508"></stop></linearGradient>
+            <linearGradient id="pgc5GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="pgc5GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="pgc5GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <filter id="pgc5Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pgc5Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="380" rx="20" fill="url(#pgc5BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="380" rx="20" fill="url(#pgc5Grid)"></rect>
+
+          <g class="hotspot" data-component="powerSwitch" tabindex="0" role="button" aria-label="مفتاح مصدر القدرة S">
+            <rect class="box-shape" x="20" y="115" width="90" height="70" rx="10" fill="url(#pgc5GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <text x="65" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح القدرة</text>
+            <text x="65" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">S</text>
+          </g>
+
+          <g class="hotspot" data-component="biasResistor" tabindex="0" role="button" aria-label="مقاومة الانحياز R1">
+            <rect class="box-shape" x="145" y="115" width="110" height="70" rx="10" fill="url(#pgc5GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <text x="200" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة الانحياز</text>
+            <text x="200" y="163" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">R1</text>
+          </g>
+
+          <g class="hotspot" data-component="transistorQ1" tabindex="0" role="button" aria-label="ترانزستور Q1">
+            <rect class="box-shape" x="290" y="115" width="130" height="70" rx="10" fill="url(#pgc5GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <text x="355" y="145" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ترانزستور Q1</text>
+            <text x="355" y="163" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">توصيل بانحياز أمامي</text>
+          </g>
+
+          <g class="hotspot" data-component="couplingResistor" tabindex="0" role="button" aria-label="مقاومة الاقتران R2">
+            <rect class="box-shape" x="455" y="115" width="100" height="70" rx="10" fill="url(#pgc5GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <text x="505" y="145" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة R2</text>
+            <text x="505" y="163" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">تيار قاعدة Q2</text>
+          </g>
+
+          <g class="hotspot" data-component="transistorQ2" tabindex="0" role="button" aria-label="ترانزستور Q2 — خرج النبضات">
+            <rect class="box-shape" x="590" y="115" width="140" height="70" rx="10" fill="url(#pgc5GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <text x="660" y="145" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ترانزستور Q2</text>
+            <text x="660" y="163" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">نبضة للأقطاب</text>
+          </g>
+
+          <g class="hotspot" data-component="transformerFeedback" tabindex="0" role="button" aria-label="الملف الثانوي L2 والمتسعة C1">
+            <rect class="box-shape" x="290" y="260" width="160" height="70" rx="10" fill="url(#pgc5GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#pgc5Elevate)"></rect>
+            <path d="M 310,278 q6,-8 12,0 q6,8 12,0 q6,-8 12,0" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.75"></path>
+            <text x="370" y="298" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الملف الثانوي L2</text>
+            <text x="370" y="315" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">تفريغ C1</text>
+          </g>
+
+          <!-- decorative output icon (not a hotspot): pulse reaching electrodes on the heart -->
+          <g aria-hidden="true">
+            <path d="M 790,150 q10,-26 26,-14 q16,-14 30,4 q-18,26 -30,34 q-14,-10 -26,-24 z" fill="none" stroke="#F87171" stroke-width="2" opacity="0.85" filter="url(#pgc5Glow)"></path>
+            <path d="M 760,150 l 14,0 l 6,-16 l 8,28 l 8,-20 l 6,8 l 20,0" fill="none" stroke="#F87171" stroke-width="1.6" opacity="0.6"></path>
+            <text x="815" y="205" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">الى الأقطاب</text>
+            <text x="815" y="220" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">المغروسة بالقلب</text>
+          </g>
+
+          <g class="link">
+            <line x1="110" y1="150" x2="145" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+            <line x1="255" y1="150" x2="290" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+            <line x1="420" y1="150" x2="455" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+            <line x1="555" y1="150" x2="590" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+            <line x1="730" y1="150" x2="760" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+            <line x1="355" y1="185" x2="355" y2="260" stroke="#5b6478" stroke-width="2" marker-end="url(#pgc5-arrow)"></line>
+          </g>
+
+          <g class="link" data-link="transformerFeedback" data-link-to="transistorQ1">
+            <path class="trail" d="M 290,295 L 110,295 L 110,165 L 290,165" fill="none" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4 6" marker-end="url(#pgc5-arrow)"></path>
+          </g>
+          <text x="200" y="345" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تفريغ شحنة (C1) يوقف Q1 عكسيا</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="powerSwitch"><span class="status-dot" style="background:#FBBF24"></span><span class="status-label">مفتاح القدرة S</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">مغلق</span></span></li>
+          <li class="status-row" data-status="biasResistor"><span class="status-dot dot-orange"></span><span class="status-label">مقاومة الانحياز R1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transistorQ1"><span class="status-dot dot-orange"></span><span class="status-label">ترانزستور Q1</span><span class="status-value"><span class="value-off">مقفل</span><span class="value-on">موصل</span></span></li>
+          <li class="status-row" data-status="couplingResistor"><span class="status-dot dot-orange"></span><span class="status-label">مقاومة R2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transistorQ2"><span class="status-dot dot-purple"></span><span class="status-label">ترانزستور Q2</span><span class="status-value"><span class="value-off">مقفل</span><span class="value-on">نبضة خرج</span></span></li>
+          <li class="status-row" data-status="transformerFeedback"><span class="status-dot dot-blue"></span><span class="status-label">الملف الثانوي / C1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">تفريغ</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مفتاح القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الانحياز والتكبير</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مفتاح خرج النبضة</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التغذية العكسية (Feedback)</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#pgc5Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#pgc5Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .trail {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pgc5-activate { to { filter: url(#pgc5Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes pgc5-reveal-trail { to { opacity: 0.9; } }
+    @keyframes pgc5-status-value-on { to { opacity: 1; } }
+    @keyframes pgc5-status-value-off { to { opacity: 0; } }
+    @keyframes pgc5-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes pgc5-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pgc5-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes pgc5-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="powerSwitch"] .box-shape { animation: pgc5-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .status-dot { animation: pgc5-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="biasResistor"] .box-shape { animation: pgc5-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="biasResistor"] .status-dot { animation: pgc5-dot-on-orange 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="biasResistor"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="biasResistor"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="transistorQ1"] .box-shape { animation: pgc5-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="transistorQ1"] .status-dot { animation: pgc5-dot-on-orange 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="transistorQ1"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="transistorQ1"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="couplingResistor"] .box-shape { animation: pgc5-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="couplingResistor"] .status-dot { animation: pgc5-dot-on-orange 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="couplingResistor"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="couplingResistor"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .playing [data-component="transistorQ2"] .box-shape { animation: pgc5-activate 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="transistorQ2"] .status-dot { animation: pgc5-dot-on-purple 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="transistorQ2"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="transistorQ2"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 1.7s forwards; }
+
+    .playing [data-component="transformerFeedback"] .box-shape { animation: pgc5-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="transformerFeedback"] .status-dot { animation: pgc5-dot-on-blue 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="transformerFeedback"] .value-on { animation: pgc5-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="transformerFeedback"] .value-off { animation: pgc5-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    .playing [data-link="transformerFeedback"] .trail { animation: pgc5-reveal-trail 0.4s ease-out 2.3s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    powerSwitch: {
+      title: "مفتاح مصدر القدرة (S)",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "عند غلق مفتاح مصدر القدرة (S)، تجهز المقاومة (R1) تيار الانحياز الامامي الى قاعدة الترانزستور (Q1).",
+    },
+    biasResistor: {
+      title: "مقاومة الانحياز (R1)",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "تجهز المقاومة (R1) تيار الانحياز الامامي الى قاعدة الترانزستور (Q1) عند غلق مفتاح مصدر القدرة (S). كما تدخل مع (L2, C1) في تحديد ثابت الزمن لدورة النبضة.",
+    },
+    transistorQ1: {
+      title: "الترانزستور Q1",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "يصبح (Q1) في حالة توصيل بعد وصول تيار الانحياز الامامي الى قاعدته، ويسري تيار الباعث خلال المقاومة (R2) ليولد تيار قاعدة الترانزستور (Q2).",
+    },
+    couplingResistor: {
+      title: "مقاومة الاقتران (R2)",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "يسري تيار الباعث للترانزستور (Q1) خلال المقاومة (R2) ليولد تيار قاعدة الترانزستور (Q2)؛ وهي أحد العناصر (L2, C1, R1) التي تحدد عرض النبضة وترددها.",
+    },
+    transistorQ2: {
+      title: "الترانزستور Q2 — مفتاح خرج النبضات",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "يعمل (Q2) على تكبير تيار قاعدته ويعطي نبضة لخرج المذبذب، حيث يعمل (Q2) كمفتاح لإعطاء النبضات للأقطاب المغروسة في القلب.",
+    },
+    transformerFeedback: {
+      title: "الملف الثانوي (L2) والمتسعة (C1)",
+      // src/data/chapter-04/page-03.json #circuit-p1 (excerpt)
+      text: "عندما يمر تيار الجامع للترانزستور (Q1) خلال الملف الابتدائي للمحولة يولد فولتية محتثة في الملف الثانوي بقطبية معاكسة (سالبة)، تسبب تفريغ شحنة المتسعة (C1) فيتوقف (Q1) وكذلك يتوقف (Q2)، ثم تتعاقب الدائرة بتوليد النبضات.",
+    },
+  };
+
+  wireDiagramSimulator(".pulse-generator-circuit-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>

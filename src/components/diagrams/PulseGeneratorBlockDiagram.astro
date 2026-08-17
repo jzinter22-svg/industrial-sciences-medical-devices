@@ -1,0 +1,294 @@
+---
+// Figure 4-4 (المخطط الكتلوي لمولد النبضات الغير تزامني) built as a
+// dark neumorphic interactive simulator, following the exact Chapter
+// 1/2/3 system (see ECGDeviceBlockDiagram.astro / MotorSpeedControlDiagram.astro).
+//
+// Signal path: power source -> oscillator -> power amplifier ->
+// electrodes -> (terminates in) the right ventricle. This is the
+// simplest asynchronous pulse generator (no sensing/feedback loop),
+// matching the book's own description of it as "من الأجهزة البسيطة
+// (الغير متزامنة)".
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft pulse-generator-block-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي لمولد النبضات الغير تزامني</span>
+      <span class="simulator-subtitle">شكل 4-4 — من مصدر القدرة الى القطب المغروس في القلب</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pgb4-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="980"
+          height="220"
+          viewBox="0 0 980 220"
+          role="img"
+          aria-label="المخطط الكتلوي لمولد النبضات الغير تزامني"
+        >
+          <defs>
+            <marker id="pgb4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="pgb4BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pgb4Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pgb4GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="pgb4GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="pgb4GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="pgb4GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="pgb4GradRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a141c"></stop><stop offset="100%" stop-color="#180a0d"></stop></linearGradient>
+
+            <filter id="pgb4Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pgb4Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="980" height="220" rx="20" fill="url(#pgb4BgGrad)"></rect>
+          <rect x="0" y="0" width="980" height="220" rx="20" fill="url(#pgb4Grid)"></rect>
+
+          <g class="hotspot" data-component="powerSource" tabindex="0" role="button" aria-label="مصدر القدرة">
+            <rect class="box-shape" x="40" y="75" width="140" height="70" rx="10" fill="url(#pgb4GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pgb4Elevate)"></rect>
+            <text x="110" y="100" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مصدر قدرة</text>
+            <text x="110" y="118" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Power Source</text>
+          </g>
+
+          <g class="hotspot" data-component="oscillator" tabindex="0" role="button" aria-label="المذبذب">
+            <rect class="box-shape" x="240" y="75" width="120" height="70" rx="10" fill="url(#pgb4GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#pgb4Elevate)"></rect>
+            <text x="300" y="100" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مذبذب</text>
+            <text x="300" y="118" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Oscillator</text>
+          </g>
+
+          <g class="hotspot" data-component="powerAmplifier" tabindex="0" role="button" aria-label="مكبر القدرة">
+            <rect class="box-shape" x="420" y="75" width="150" height="70" rx="10" fill="url(#pgb4GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pgb4Elevate)"></rect>
+            <text x="495" y="100" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر قدرة</text>
+            <text x="495" y="118" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Power Amplifier</text>
+          </g>
+
+          <g class="hotspot" data-component="electrodes" tabindex="0" role="button" aria-label="الأقطاب">
+            <rect class="box-shape" x="630" y="75" width="120" height="70" rx="10" fill="url(#pgb4GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#pgb4Elevate)"></rect>
+            <text x="690" y="100" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">أقطاب</text>
+            <text x="690" y="118" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Electrodes</text>
+          </g>
+
+          <!-- receiving heart icon (not a hotspot): the pulse terminates in the ventricle -->
+          <g class="heart-icon" aria-hidden="true">
+            <path class="heart-shape" d="M865,137 C820,83 820,29 865,65 C910,29 910,83 865,137 Z" fill="url(#pgb4GradRose)" stroke="#FB7185" stroke-width="2" filter="url(#pgb4Elevate)"></path>
+            <circle class="heart-pulse-ring" cx="865" cy="90" r="6" fill="none" stroke="#FB7185" stroke-width="2" filter="url(#pgb4Glow)"></circle>
+            <text x="865" y="163" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">البطين</text>
+            <text x="865" y="177" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FB7185" text-anchor="middle" direction="ltr">(Ventricle)</text>
+          </g>
+
+          <g class="link" data-link="powerSource" data-link-to="oscillator">
+            <line x1="180" y1="110" x2="240" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#pgb4-arrow)"></line>
+            <line class="trail trail-green" x1="180" y1="110" x2="238" y2="110" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="oscillator" data-link-to="powerAmplifier">
+            <line x1="360" y1="110" x2="420" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#pgb4-arrow)"></line>
+            <line class="trail trail-orange" x1="360" y1="110" x2="418" y2="110" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="powerAmplifier" data-link-to="electrodes">
+            <line x1="570" y1="110" x2="630" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#pgb4-arrow)"></line>
+            <line class="trail trail-purple" x1="570" y1="110" x2="628" y2="110" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="electrodes">
+            <line x1="750" y1="110" x2="818" y2="110" stroke="#5b6478" stroke-width="2" marker-end="url(#pgb4-arrow)"></line>
+            <line class="trail trail-rose" x1="750" y1="110" x2="816" y2="110" stroke="#FB7185" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="180" cy="110" r="5" fill="#FBBF24" filter="url(#pgb4Glow)" style="--tx:60px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="360" cy="110" r="5" fill="#4ADE80" filter="url(#pgb4Glow)" style="--tx:60px; --ty:0px; --particle-delay:0.85s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="570" cy="110" r="5" fill="#FB923C" filter="url(#pgb4Glow)" style="--tx:60px; --ty:0px; --particle-delay:1.3s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="750" cy="110" r="5" fill="#C084FC" filter="url(#pgb4Glow)" style="--tx:68px; --ty:0px; --particle-delay:1.75s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="powerSource"><span class="status-dot dot-yellow"></span><span class="status-label">مصدر القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="oscillator"><span class="status-dot dot-green"></span><span class="status-label">المذبذب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="powerAmplifier"><span class="status-dot dot-orange"></span><span class="status-label">مكبر القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="electrodes"><span class="status-dot dot-purple"></span><span class="status-label">الأقطاب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مصدر القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المذبذب</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>مكبر القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الأقطاب</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape,
+  .heart-shape {
+    filter: url(#pgb4Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#pgb4Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#pgb4Glow);
+  }
+
+  .heart-pulse-ring {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pgb4-shape-activate { to { filter: url(#pgb4Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes pgb4-reveal-trail { to { opacity: 0.85; } }
+    @keyframes pgb4-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: pgb4-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+    @keyframes pgb4-status-value-on { to { opacity: 1; } }
+    @keyframes pgb4-status-value-off { to { opacity: 0; } }
+    @keyframes pgb4-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes pgb4-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes pgb4-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pgb4-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes pgb4-heart-pulse {
+      0% { opacity: 0.9; transform: scale(0.6); }
+      70% { opacity: 0; transform: scale(2.6); }
+      100% { opacity: 0; transform: scale(2.6); }
+    }
+
+    .playing [data-component="powerSource"] .box-shape { animation: pgb4-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSource"] .status-dot { animation: pgb4-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSource"] .value-on { animation: pgb4-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSource"] .value-off { animation: pgb4-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="powerSource"] .trail { animation: pgb4-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="oscillator"] .box-shape { animation: pgb4-shape-activate 0.4s ease-out 0.55s forwards; }
+    .playing [data-status="oscillator"] .status-dot { animation: pgb4-dot-on-green 0.4s ease-out 0.55s forwards; }
+    .playing [data-status="oscillator"] .value-on { animation: pgb4-status-value-on 0.4s ease-out 0.55s forwards; }
+    .playing [data-status="oscillator"] .value-off { animation: pgb4-status-value-off 0.4s ease-out 0.55s forwards; }
+    .playing [data-link="oscillator"] .trail { animation: pgb4-reveal-trail 0.3s ease-out 0.85s forwards; }
+
+    .playing [data-component="powerAmplifier"] .box-shape { animation: pgb4-shape-activate 0.4s ease-out 1s forwards; }
+    .playing [data-status="powerAmplifier"] .status-dot { animation: pgb4-dot-on-orange 0.4s ease-out 1s forwards; }
+    .playing [data-status="powerAmplifier"] .value-on { animation: pgb4-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="powerAmplifier"] .value-off { animation: pgb4-status-value-off 0.4s ease-out 1s forwards; }
+    .playing [data-link="powerAmplifier"] .trail { animation: pgb4-reveal-trail 0.3s ease-out 1.3s forwards; }
+
+    .playing [data-component="electrodes"] .box-shape { animation: pgb4-shape-activate 0.4s ease-out 1.45s forwards; }
+    .playing [data-status="electrodes"] .status-dot { animation: pgb4-dot-on-purple 0.4s ease-out 1.45s forwards; }
+    .playing [data-status="electrodes"] .value-on { animation: pgb4-status-value-on 0.4s ease-out 1.45s forwards; }
+    .playing [data-status="electrodes"] .value-off { animation: pgb4-status-value-off 0.4s ease-out 1.45s forwards; }
+    .playing [data-link="electrodes"] .trail { animation: pgb4-reveal-trail 0.3s ease-out 1.75s forwards; }
+
+    .playing .heart-shape { animation: pgb4-shape-activate 0.4s ease-out 1.9s forwards; }
+    .playing .heart-pulse-ring { animation: pgb4-heart-pulse 0.6s ease-out 1.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    powerSource: {
+      title: "مصدر القدرة (Power Source)",
+      // src/data/chapter-04/page-02.json #list-generator-parts (excerpt)
+      text: "أول أجزاء مولد النبضات الغير تزامني، وهو الجزء الذي يجهز الطاقة الكهربائية اللازمة لتشغيل بقية دوائر المولد.",
+    },
+    oscillator: {
+      title: "المذبذب (Oscillator)",
+      // src/data/chapter-04/page-02.json #async-p2 (excerpt)
+      text: "المكون الرئيسي لجهاز تنظيم ضربات القلب، ومن أنواعه المستعملة: مذبذب المنع (Blocking Oscillator)، والمذبذب الغير مستقر (Astable Multivibrator)، والمذبذب أحادي الاستقرار (Monostable Multivibrator).",
+    },
+    powerAmplifier: {
+      title: "مكبر القدرة (Power Amplifier)",
+      // src/data/chapter-04/page-02.json #list-oscillator-types (excerpt)
+      text: "الجزء الثالث من مولد النبضات، يستلم نبضة المذبذب ويكبرها لتصبح قادرة على تنبيه عضلة القلب عبر الأقطاب.",
+    },
+    electrodes: {
+      title: "الأقطاب (Electrodes)",
+      // src/data/chapter-04/page-03.json #electrodes-title (excerpt)
+      text: "تصنع من سبيكة لا تصدأ تتحمل جميع الظروف الكيمياوية من أملاح وأحماض داخل القلب، وتكون من النوع الابري، وعلى نوعين: أقطاب مغروسة في الجدار الخارجي لعضلة القلب (Myocardial) أو في الجدار الداخلي (Endocardial).",
+    },
+  };
+
+  wireDiagramSimulator(".pulse-generator-block-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>
