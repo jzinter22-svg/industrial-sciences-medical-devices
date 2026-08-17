@@ -1,0 +1,75 @@
+{
+  "id": "page-05",
+  "pageNumber": 95,
+  "chapterNumber": 5,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الخامس",
+    "printedPage": 95
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط العضلات",
+    "en": "ElectroMyoGraphy (EMG)"
+  },
+
+  "sections": [
+    {
+      "id": "section-5-4-figure",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "electrode-types-intro",
+          "content": {
+            "ar": "والشكل (5 – 4) يوضح الأقطاب المستخدمة في جهاز تخطيط العضلات (E.M.G.)."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c5-fig-5-4",
+          "src": "/assets/diagrams/chapter-05/fig-04-electrode-types.jpg",
+          "alt": "الأقطاب المستخدمة في جهاز تخطيط العضلات: أقطاب سطحية لاصقة، قطب مشبكي، مجموعة أقطاب أبرية، حزمة أسلاك التوصيل",
+          "caption": {
+            "ar": "شكل 5 – 4 الأقطاب المستخدمة في جهاز تخطيط العضلات"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-5-5",
+      "number": "5 – 5",
+      "title": {
+        "ar": "المراحل الاساسية لجهاز تخطيط العضلات"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "stages-intro",
+          "content": {
+            "ar": "يمكن شرح مكونات جهاز تخطيط العضلات (Electro Myo Graph) حسب الشكل (5 – 5) كالتالي :-"
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c5-fig-5-5",
+          "caption": {
+            "ar": "شكل 5 – 5 المخطط الكتلوي لجهاز تخطيط العضلات"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

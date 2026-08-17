@@ -1,0 +1,94 @@
+{
+  "id": "page-00",
+  "pageNumber": 90,
+  "chapterNumber": 5,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الخامس",
+    "printedPage": 90
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط العضلات",
+    "en": "ElectroMyoGraphy (EMG)"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "general-goal",
+          "content": {
+            "ar": "الهدف العام : تعرف الطالب على مكونات جهاز تخطيط العضلات ومبدأ عمله وأجزائه."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "specific-goals-intro",
+          "content": {
+            "ar": "الأهداف الخاصة : بعد ان ينهي الطالب هذا الفصل سيكون قادرا على أن يتعرف على :-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            { "id": "objective-01", "content": { "ar": "الأقطاب المستخدمة في تسجيل أشارة تخطيط العضلات EMG." } },
+            { "id": "objective-02", "content": { "ar": "مكونات جهاز تخطيط العضلات EMG." } },
+            { "id": "objective-03", "content": { "ar": "مبدأ عمل جهاز تخطيط العضلات EMG." } },
+            { "id": "objective-04", "content": { "ar": "دوائر معالجة أشارة تخطيط العضلات EMG." } }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل الخامس"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            { "id": "toc-5-1", "number": "1 – 5", "content": { "ar": "النسيج العضلي" } },
+            { "id": "toc-5-2", "number": "2 – 5", "content": { "ar": "جهد الخلية العضلية" } },
+            { "id": "toc-5-3", "number": "3 – 5", "content": { "ar": "جهاز تخطيط العضلات" } },
+            { "id": "toc-5-4", "number": "4 – 5", "content": { "ar": "كيفية قياس جهد الخلية بواسطة جهاز تخطيط العضلات" } },
+            { "id": "toc-5-5", "number": "5 – 5", "content": { "ar": "المراحل الاساسية لجهاز تخطيط العضلات" } },
+            { "id": "toc-5-6", "number": "6 – 5", "content": { "ar": "الاجزاء المختلفة" } },
+            { "id": "toc-5-questions", "number": "", "content": { "ar": "أسئلة الفصل" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c5-fig-opener",
+          "src": "/assets/diagrams/chapter-05/fig-00-opener-emg-procedure.jpg",
+          "alt": "تسجيل إشارة تخطيط العضلات (Electromyogram) بواسطة قطب أبري مغروس في العضلة وعرضها على شاشة الحاسوب",
+          "caption": {
+            "ar": "تسجيل إشارة تخطيط العضلات (Electromyogram) وعرضها على شاشة الحاسوب"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

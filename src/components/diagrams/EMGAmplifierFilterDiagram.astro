@@ -1,0 +1,321 @@
+---
+// Figure 5-6 (دائرة المكبر والمرشح في جهاز تخطيط العضلات) rebuilt as a
+// dark neumorphic interactive simulator, following the exact Chapter
+// 1-4 system. Geometry mirrors the book's own 4 op-amp circuit: OP1/OP2
+// input buffers (VA/VB), OP3 differential (subtractor) stage, and OP4
+// as the shared output stage driving both the high-frequency-pass
+// filter (C1/R8) and the low-frequency-pass filter (C2/R11) explained
+// in the book's own trailing paragraph.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft emg-amp-filter-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة المكبر والمرشح</span>
+      <span class="simulator-subtitle">شكل 5-6 — من مكبري الدخل الى مرشحي الترددات العالية والواطئة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="emgf-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="960"
+          height="420"
+          viewBox="0 0 960 420"
+          role="img"
+          aria-label="دائرة المكبر والمرشح في جهاز تخطيط العضلات"
+        >
+          <defs>
+            <marker id="emgf6-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="emgf6BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="emgf6Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="emgf6GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="emgf6GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="emgf6GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="emgf6GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <filter id="emgf6Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="emgf6Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="960" height="420" rx="20" fill="url(#emgf6BgGrad)"></rect>
+          <rect x="0" y="0" width="960" height="420" rx="20" fill="url(#emgf6Grid)"></rect>
+
+          <!-- input buffer stage: OP1 (VA) + OP2 (VB) with gain-setting resistor ladder R1-R6 -->
+          <g class="hotspot" data-component="inputStage" tabindex="0" role="button" aria-label="مرحلة مكبري الدخل OP1 و OP2">
+            <rect class="hit-area" x="40" y="40" width="230" height="300" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 90,70 L 90,120 L 150,95 Z" fill="url(#emgf6GradBlue)" stroke="#38BDF8" stroke-width="2.2" filter="url(#emgf6Elevate)"></path>
+            <text x="112" y="99" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">OP1</text>
+            <text x="55" y="80" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">V_A</text>
+
+            <path class="box-shape" d="M 90,240 L 90,290 L 150,265 Z" fill="url(#emgf6GradBlue)" stroke="#38BDF8" stroke-width="2.2" filter="url(#emgf6Elevate)"></path>
+            <text x="112" y="269" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">OP2</text>
+            <text x="55" y="280" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">V_B</text>
+
+            <!-- gain resistor ladder R1-R6 (schematic zig-zags, decorative — matches book layout) -->
+            <path d="M 175,120 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <path d="M 175,150 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <path d="M 175,200 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <path d="M 175,240 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <text x="245" y="122" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R1</text>
+            <text x="245" y="152" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R2</text>
+            <text x="245" y="202" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R3</text>
+            <text x="245" y="242" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R4</text>
+          </g>
+
+          <!-- differential (subtractor) stage: OP3 -->
+          <g class="hotspot" data-component="differentialStage" tabindex="0" role="button" aria-label="مرحلة الطرح التفاضلي OP3">
+            <rect class="hit-area" x="290" y="130" width="150" height="150" fill="#000" fill-opacity="0"></rect>
+            <path d="M 300,175 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <text x="335" y="163" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R7</text>
+            <path class="box-shape" d="M 355,155 L 355,205 L 415,180 Z" fill="url(#emgf6GradGreen)" stroke="#4ADE80" stroke-width="2.2" filter="url(#emgf6Elevate)"></path>
+            <text x="380" y="184" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">OP3</text>
+            <path d="M 320,240 l 6,10 l 8,-20 l 8,20 l 8,-20 l 8,20 l 6,-10" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <text x="360" y="270" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">R5 / R6</text>
+          </g>
+
+          <!-- shared output + filter stage: OP4 with C1/R8 (high-pass) and C2/R11 (low-pass) -->
+          <g class="hotspot" data-component="highFreqFilter" tabindex="0" role="button" aria-label="مرشح الترددات العالية C1 و R8">
+            <rect class="hit-area" x="440" y="190" width="140" height="120" fill="#000" fill-opacity="0"></rect>
+            <line x1="440" y1="220" x2="460" y2="220" stroke="#5b6478" stroke-width="1.6"></line>
+            <line x1="464" y1="212" x2="464" y2="228" stroke="#FB923C" stroke-width="2.4"></line>
+            <line x1="470" y1="212" x2="470" y2="228" stroke="#FB923C" stroke-width="2.4"></line>
+            <text x="467" y="205" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">C1</text>
+            <path d="M 495,240 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#FB923C" stroke-width="1.8"></path>
+            <text x="525" y="290" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">R8</text>
+            <line x1="527" y1="248" x2="527" y2="275" stroke="#FB923C" stroke-width="1.6"></line>
+            <text x="510" y="235" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">مرشح عالي</text>
+          </g>
+
+          <g class="hotspot" data-component="lowFreqFilter" tabindex="0" role="button" aria-label="مرشح الترددات الواطئة C2 و R11">
+            <rect class="hit-area" x="580" y="40" width="160" height="120" fill="#000" fill-opacity="0"></rect>
+            <path d="M 610,70 l 6,-8 l 6,16 l 6,-16 l 6,16 l 6,-8 l 6,0" fill="none" stroke="#C084FC" stroke-width="1.8"></path>
+            <text x="645" y="58" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">R11</text>
+            <line x1="672" y1="62" x2="692" y2="62" stroke="#5b6478" stroke-width="1.6"></line>
+            <line x1="696" y1="54" x2="696" y2="70" stroke="#C084FC" stroke-width="2.4"></line>
+            <line x1="702" y1="54" x2="702" y2="70" stroke="#C084FC" stroke-width="2.4"></line>
+            <text x="699" y="48" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">C2</text>
+            <text x="655" y="95" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">مرشح واطئ</text>
+          </g>
+
+          <g class="hotspot" data-component="outputStage" tabindex="0" role="button" aria-label="مكبر الخرج OP4 والخرج Vo">
+            <rect class="hit-area" x="600" y="170" width="150" height="130" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 645,190 L 645,240 L 705,215 Z" fill="url(#emgf6GradPurple)" stroke="#C084FC" stroke-width="2.2" filter="url(#emgf6Elevate)"></path>
+            <text x="668" y="219" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">OP4</text>
+            <circle cx="775" cy="215" r="5" fill="#C084FC" filter="url(#emgf6Glow)"></circle>
+            <text x="775" y="200" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">V_O</text>
+          </g>
+
+          <!-- connections -->
+          <g class="link" data-link="inputStage" data-link-to="differentialStage">
+            <line x1="270" y1="200" x2="300" y2="200" stroke="#5b6478" stroke-width="2" marker-end="url(#emgf6-arrow)"></line>
+            <line class="trail trail-blue" x1="270" y1="200" x2="298" y2="200" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="differentialStage" data-link-to="highFreqFilter">
+            <line x1="415" y1="200" x2="440" y2="220" stroke="#5b6478" stroke-width="2" marker-end="url(#emgf6-arrow)"></line>
+            <line class="trail trail-green" x1="415" y1="202" x2="438" y2="219" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="highFreqFilter" data-link-to="outputStage">
+            <line x1="580" y1="220" x2="645" y2="220" stroke="#5b6478" stroke-width="2" marker-end="url(#emgf6-arrow)"></line>
+            <line class="trail trail-orange" x1="580" y1="220" x2="643" y2="220" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="lowFreqFilter" data-link-to="outputStage">
+            <path d="M 700,70 L 775,70 L 775,190" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#emgf6-arrow)"></path>
+            <path class="trail" style="stroke:#C084FC" d="M 700,70 L 775,70 L 775,192" fill="none" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="outputStage" data-link-to="lowFreqFilter">
+            <path d="M 705,215 L 705,120 L 645,80" fill="none" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="3 5"></path>
+          </g>
+          <text x="705" y="145" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تغذية عكسية</text>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="270" cy="200" r="5" fill="#38BDF8" filter="url(#emgf6Glow)" style="--tx:30px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="415" cy="201" r="5" fill="#4ADE80" filter="url(#emgf6Glow)" style="--tx:23px; --ty:19px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="580" cy="220" r="5" fill="#FB923C" filter="url(#emgf6Glow)" style="--tx:63px; --ty:0px; --particle-delay:1.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="700" cy="70" r="5" fill="#C084FC" filter="url(#emgf6Glow)" style="--tx:75px; --ty:0px; --particle-delay:2.6s; --particle-duration:0.35s"></circle>
+            <circle class="flow-particle" cx="775" cy="105" r="5" fill="#C084FC" filter="url(#emgf6Glow)" style="--tx:0px; --ty:85px; --particle-delay:2.95s; --particle-duration:0.35s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="inputStage"><span class="status-dot dot-blue"></span><span class="status-label">مكبرا الدخل OP1 و OP2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="differentialStage"><span class="status-dot dot-green"></span><span class="status-label">الطرح التفاضلي OP3</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="highFreqFilter"><span class="status-dot dot-orange"></span><span class="status-label">مرشح الترددات العالية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">يمرر</span></span></li>
+          <li class="status-row" data-status="lowFreqFilter"><span class="status-dot dot-purple"></span><span class="status-label">مرشح الترددات الواطئة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">يمرر</span></span></li>
+          <li class="status-row" data-status="outputStage"><span class="status-dot dot-purple"></span><span class="status-label">مكبر الخرج OP4 (V_O)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في الدائرة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>مكبرا الدخل</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الطرح التفاضلي</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الترددات العالية</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الترددات الواطئة والخرج</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#emgf6Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#emgf6Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#emgf6Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes emgf6-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: emgf6-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes emgf6-activate { to { filter: url(#emgf6Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes emgf6-reveal-trail { to { opacity: 0.85; } }
+    @keyframes emgf6-status-value-on { to { opacity: 1; } }
+    @keyframes emgf6-status-value-off { to { opacity: 0; } }
+    @keyframes emgf6-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes emgf6-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes emgf6-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes emgf6-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="inputStage"] .box-shape { animation: emgf6-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inputStage"] .status-dot { animation: emgf6-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inputStage"] .value-on { animation: emgf6-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inputStage"] .value-off { animation: emgf6-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="inputStage"] .trail { animation: emgf6-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="differentialStage"] .box-shape { animation: emgf6-activate 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="differentialStage"] .status-dot { animation: emgf6-dot-on-green 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="differentialStage"] .value-on { animation: emgf6-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="differentialStage"] .value-off { animation: emgf6-status-value-off 0.4s ease-out 0.8s forwards; }
+    .playing [data-link="differentialStage"] .trail { animation: emgf6-reveal-trail 0.3s ease-out 1.1s forwards; }
+
+    .playing [data-component="highFreqFilter"] .box-shape { animation: emgf6-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="highFreqFilter"] .status-dot { animation: emgf6-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="highFreqFilter"] .value-on { animation: emgf6-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="highFreqFilter"] .value-off { animation: emgf6-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="highFreqFilter"] .trail { animation: emgf6-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="lowFreqFilter"] .box-shape { animation: emgf6-activate 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="lowFreqFilter"] .status-dot { animation: emgf6-dot-on-purple 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="lowFreqFilter"] .value-on { animation: emgf6-status-value-on 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="lowFreqFilter"] .value-off { animation: emgf6-status-value-off 0.4s ease-out 2.3s forwards; }
+    .playing [data-link="lowFreqFilter"] .trail { animation: emgf6-reveal-trail 0.3s ease-out 2.6s forwards; }
+
+    .playing [data-component="outputStage"] .box-shape { animation: emgf6-activate 0.4s ease-out 2s forwards; }
+    .playing [data-status="outputStage"] .status-dot { animation: emgf6-dot-on-purple 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="outputStage"] .value-on { animation: emgf6-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="outputStage"] .value-off { animation: emgf6-status-value-off 0.4s ease-out 2.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    inputStage: {
+      title: "مكبرا الدخل OP1 و OP2",
+      // src/data/chapter-05/page-06.json #amplifiers-p1 (excerpt)
+      text: "نظرا لصغر قيمة جهد الخلية وترددها فأنه يحتاج الى وحدة لتكبير هذه الاشارة الصغيرة، ويجب ان يكون ربح هذه المكبرات عالي (High Gain) وبدون ضوضاء وممانعة دخل عالية.",
+    },
+    differentialStage: {
+      title: "مرحلة الطرح التفاضلي OP3",
+      // src/data/chapter-05/page-06.json #amplifiers-p1 (excerpt)
+      text: "تتشابه هذه المكبرات تشابها كبيرا جدا مع أجهزة تخطيط القلب (E.C.G.) ومع جهاز تخطيط الدماغ (E.E.G.) وتعمل مرحلة الطرح على استخلاص فرق الجهد بين القطبين وطرح التداخل المشترك بينهما.",
+    },
+    highFreqFilter: {
+      title: "مرشح الترددات العالية (C1، R8)",
+      // src/data/chapter-05/page-06.json #amplifiers-p2 (excerpt)
+      text: "إن المتسعة (C1) والمقاومة (R8) مع مكبر العمليات (OP4) تمثل دائرة مرشح أمرار الترددات العالية.",
+    },
+    lowFreqFilter: {
+      title: "مرشح الترددات الواطئة (C2، R11)",
+      // src/data/chapter-05/page-06.json #amplifiers-p2 (excerpt)
+      text: "والمتسعة (C2) والمقاومة (R11) مع مكبر العمليات (OP4) تمثل دائرة مرشح أمرار الترددات الواطئة.",
+    },
+    outputStage: {
+      title: "مكبر الخرج OP4 (V_O)",
+      // src/data/chapter-05/page-04.json #emg-signal-origin-p1 (excerpt)
+      text: "تخرج من هذه المرحلة الإشارة بعد تكبيرها وترشيحها من التشويش، جاهزة للتسجيل بواسطة جهاز تخطيط العضلات (EMG) الذي يتراوح مدى ترددها بين (10 – 500 Hz).",
+    },
+  };
+
+  wireDiagramSimulator(".emg-amp-filter-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
+</script>

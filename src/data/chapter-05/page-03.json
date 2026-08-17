@@ -1,0 +1,80 @@
+{
+  "id": "page-03",
+  "pageNumber": 93,
+  "chapterNumber": 5,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الخامس",
+    "printedPage": 93
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط العضلات",
+    "en": "ElectroMyoGraphy (EMG)"
+  },
+
+  "sections": [
+    {
+      "id": "section-5-2",
+      "number": "2 – 5",
+      "title": {
+        "ar": "جهد الخلية العضلية",
+        "en": "Potential Muscle"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "cell-potential-p1",
+          "content": {
+            "ar": "تتراوح جهود الخلية حسب مكانها وطريقة عملها وبعدها عن مركز الأعصاب حيث أن ناقل الايعاز أو الجهد هو العصب الذي ينقل من الدماغ الى الخلية العضلية وتتراوح قيم الجهود من (1mV – 50μV) وبتردد مقداره (10 Hz – 3k Hz)."
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-5-3",
+      "number": "3 – 5",
+      "title": {
+        "ar": "جهاز تخطيط العضلات",
+        "en": "Electro Myo Graph (E.M.G.)"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "emg-intro-p1",
+          "content": {
+            "ar": "وهو جهاز الكتروني طبي كما موضح بالشكل (5 – 2) يستخدم لقياس ومعرفة سلامة وفعالية وقوة عضلات الجسم ومدى سرعة استجابة العضلات للمحفزات الخارجية والداخلية من خلال تخطيط الجهد الكهربائي للعضلة والذي يدعى بالجهد الكهروحياتي (Bioelectric Potential) والذي يمكن قياسه بهذا الجهاز وذلك بوضع أقطاب (Electrodes) على العضلة أو بداخلها حسب نوع القطب وكما مر سابقا في المرحلة الأولى في كتاب العلوم الصناعية أن الأقطاب نوعان :-"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-electrode-kinds",
+          "items": [
+            { "id": "electrode-kind-1", "content": { "ar": "أقطاب سطح الجسم (Surface Electrodes) والتي توضع على سطح الجسم." } },
+            { "id": "electrode-kind-2", "content": { "ar": "أقطاب أبرية (Needle Electrodes) والتي تخترق الجلد وتصل مباشرة الى العضلة." } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c5-fig-5-2",
+          "src": "/assets/diagrams/chapter-05/fig-02-emg-device.jpg",
+          "alt": "جهاز تخطيط العضلات: شاشة العرض، الذراع الحامل، الصندوق الخارجي لتوصيل جسم المريض والجهاز، لوحة التحكم بشدة التحفيز، عربة التنقل، لوحة المفاتيح، صندوق الحاسبة، الطابعة، سلة لحمل ملحقات الجهاز، مفتاح القدم",
+          "caption": {
+            "ar": "شكل 5 – 2 جهاز تخطيط العضلات"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

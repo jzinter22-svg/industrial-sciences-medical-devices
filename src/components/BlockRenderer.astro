@@ -73,6 +73,9 @@ import SyncDefibrillatorBlockDiagram from "./diagrams/SyncDefibrillatorBlockDiag
 import DefibOutputCircuitDiagram from "./diagrams/DefibOutputCircuitDiagram.astro";
 import DefibControlCircuitDiagram from "./diagrams/DefibControlCircuitDiagram.astro";
 import ICDImplantDiagram from "./diagrams/ICDImplantDiagram.astro";
+import EMGBlockDiagram from "./diagrams/EMGBlockDiagram.astro";
+import EMGAmplifierFilterDiagram from "./diagrams/EMGAmplifierFilterDiagram.astro";
+import EMGStimulatorCircuitDiagram from "./diagrams/EMGStimulatorCircuitDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -143,6 +146,15 @@ const chapter4AnimatedDiagrams: Record<string, any> = {
   "c4-fig-4-16": ICDImplantDiagram,
 };
 
+// Chapter 5 diagram ids (c5-fig-5-X) that have a hand-built animated
+// replacement, same rationale as the Chapter 1-4 tables above — the
+// rest (photographic figures) fall back to the generic DiagramBlock.
+const chapter5AnimatedDiagrams: Record<string, any> = {
+  "c5-fig-5-5": EMGBlockDiagram,
+  "c5-fig-5-6": EMGAmplifierFilterDiagram,
+  "c5-fig-5-7": EMGStimulatorCircuitDiagram,
+};
+
 // Chapter 1 device ids (device-0N) that have a hand-built animated
 // inline-SVG illustration, rendered through DeviceCard's "illustration"
 // slot. Any device not listed here falls back to DeviceCard's existing
@@ -176,6 +188,7 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
 const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[block.id] : undefined;
 const Chapter3Diagram = block.type === "diagram" ? chapter3AnimatedDiagrams[block.id] : undefined;
 const Chapter4Diagram = block.type === "diagram" ? chapter4AnimatedDiagrams[block.id] : undefined;
+const Chapter5Diagram = block.type === "diagram" ? chapter5AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -258,12 +271,17 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter4Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter5Diagram && (
+  <Chapter5Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
   !Chapter2Diagram &&
   !Chapter3Diagram &&
-  !Chapter4Diagram && (
+  !Chapter4Diagram &&
+  !Chapter5Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 

@@ -1,0 +1,45 @@
+{
+  "id": "page-02",
+  "pageNumber": 92,
+  "chapterNumber": 5,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الخامس",
+    "printedPage": 92
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط العضلات",
+    "en": "ElectroMyoGraphy (EMG)"
+  },
+
+  "sections": [
+    {
+      "id": "section-5-1-figure",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c5-fig-5-1",
+          "src": "/assets/diagrams/chapter-05/fig-01-muscle-types.jpg",
+          "alt": "أنواع العضلات في جسم الأنسان: ألياف عضلية هيكلية (مقطع طولي)، ألياف عضلية ملساء (مقطع طولي)، ألياف عضلية قلبية (مقطع طولي)",
+          "caption": {
+            "ar": "شكل 5 – 1 أنواع العضلات في جسم الأنسان"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

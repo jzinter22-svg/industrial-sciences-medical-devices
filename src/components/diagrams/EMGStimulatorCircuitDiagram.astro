@@ -1,0 +1,301 @@
+---
+// Figure 5-7 (دائرة الكترونية لتحفيز العضلات) rebuilt as a dark
+// neumorphic interactive simulator, following the exact Chapter 1-4
+// system. Geometry mirrors the book's own circuit: battery/switch power
+// -> 555 monostable timer (IC1) -> buffer transistor T1 (impedance
+// matching) -> driver transistor T2 (common-emitter, with VR1/R3 gain
+// trim and R4/LED1 indicator) -> step-up transformer X1 -> surface
+// electrodes on the patient.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft emg-stimulator-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة تحفيز العضلات</span>
+      <span class="simulator-subtitle">شكل 5-7 — من المؤقت أحادي الأستقرار الى الأقطاب المغروسة في العضلة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="emgs-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="960"
+          height="380"
+          viewBox="0 0 960 380"
+          role="img"
+          aria-label="دائرة الكترونية لتحفيز العضلات"
+        >
+          <defs>
+            <marker id="emgs7-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="emgs7BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="emgs7Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="emgs7GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="emgs7GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="emgs7GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="emgs7GradRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1420"></stop><stop offset="100%" stop-color="#1c0a10"></stop></linearGradient>
+            <filter id="emgs7Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="emgs7Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="960" height="380" rx="20" fill="url(#emgs7BgGrad)"></rect>
+          <rect x="0" y="0" width="960" height="380" rx="20" fill="url(#emgs7Grid)"></rect>
+
+          <!-- power: 3V battery + S1 ON/OFF switch -->
+          <g class="hotspot" data-component="powerSwitch" tabindex="0" role="button" aria-label="مصدر القدرة والمفتاح S1">
+            <rect class="box-shape" x="40" y="150" width="120" height="70" rx="10" fill="url(#emgs7GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#emgs7Elevate)"></rect>
+            <text x="100" y="178" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">3V + مفتاح</text>
+            <text x="100" y="196" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">S1 ON/OFF</text>
+          </g>
+
+          <!-- 555 monostable timer IC1 -->
+          <g class="hotspot" data-component="timerIC" tabindex="0" role="button" aria-label="الدائرة المدمجة IC1 555">
+            <rect class="box-shape" x="220" y="120" width="140" height="130" rx="10" fill="url(#emgs7GradGreen)" stroke="#4ADE80" stroke-width="2.2" filter="url(#emgs7Elevate)"></rect>
+            <text x="290" y="175" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">IC1</text>
+            <text x="290" y="195" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">555</text>
+            <text x="290" y="145" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مؤقت أحادي الأستقرار</text>
+          </g>
+
+          <!-- buffer transistor T1 -->
+          <g class="hotspot" data-component="bufferTransistor" tabindex="0" role="button" aria-label="ترانزستور العزل T1">
+            <rect class="box-shape" x="410" y="70" width="130" height="70" rx="10" fill="url(#emgs7GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#emgs7Elevate)"></rect>
+            <text x="475" y="98" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">T1 (Buffer)</text>
+            <text x="475" y="116" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">مكبر عزل</text>
+          </g>
+
+          <!-- driver transistor T2 with VR1/R3 gain trim and R4/LED1 indicator -->
+          <g class="hotspot" data-component="driveTransistor" tabindex="0" role="button" aria-label="ترانزستور القدح T2">
+            <rect class="hit-area" x="405" y="150" width="200" height="150" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="410" y="180" width="130" height="70" rx="10" fill="url(#emgs7GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#emgs7Elevate)"></rect>
+            <text x="475" y="208" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">T2</text>
+            <text x="475" y="226" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="rtl">القدح والتكبير</text>
+            <path d="M 470,260 l 5,-7 l 5,14 l 5,-14 l 5,14 l 5,-7 l 5,0" fill="none" stroke="#5b6478" stroke-width="1.6"></path>
+            <text x="500" y="290" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">VR1 / R3 / R4</text>
+            <circle cx="580" cy="265" r="7" fill="#F87171" filter="url(#emgs7Glow)"></circle>
+            <text x="580" y="290" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">LED1</text>
+          </g>
+
+          <!-- step-up transformer X1 + surface electrodes to muscle -->
+          <g class="hotspot" data-component="transformerOutput" tabindex="0" role="button" aria-label="المحول X1 والأقطاب">
+            <rect class="hit-area" x="610" y="90" width="320" height="200" fill="#000" fill-opacity="0"></rect>
+            <rect class="box-shape" x="630" y="140" width="70" height="110" rx="8" fill="url(#emgs7GradGreen)" stroke="#4ADE80" stroke-width="2.2" filter="url(#emgs7Elevate)"></rect>
+            <text x="665" y="190" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">X1</text>
+            <text x="665" y="208" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="rtl">محول رافع</text>
+
+            <path class="box-shape" d="M 760,110 Q 800,105 840,115 L 850,150 Q 810,175 790,220 L 830,270 Q 800,280 760,270" fill="url(#emgs7GradRose)" stroke="#FB7185" stroke-width="2.2" filter="url(#emgs7Elevate)"></path>
+            <circle cx="775" cy="150" r="4.5" fill="#F43F5E" filter="url(#emgs7Glow)"></circle>
+            <circle cx="795" cy="230" r="4.5" fill="#F43F5E" filter="url(#emgs7Glow)"></circle>
+            <text x="805" y="100" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">العضلة</text>
+            <text x="900" y="150" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB7185" text-anchor="middle" direction="rtl">قطب</text>
+            <text x="900" y="230" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB7185" text-anchor="middle" direction="rtl">قطب</text>
+          </g>
+
+          <!-- connections -->
+          <g class="link" data-link="powerSwitch" data-link-to="timerIC">
+            <line x1="160" y1="185" x2="220" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#emgs7-arrow)"></line>
+            <line class="trail trail-yellow" x1="160" y1="185" x2="218" y2="185" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="timerIC" data-link-to="bufferTransistor">
+            <path d="M 360,150 L 410,105" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#emgs7-arrow)"></path>
+            <path class="trail trail-green" d="M 360,150 L 408,106" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="bufferTransistor" data-link-to="driveTransistor">
+            <line x1="475" y1="140" x2="475" y2="180" stroke="#5b6478" stroke-width="2" marker-end="url(#emgs7-arrow)"></line>
+            <line class="trail trail-orange" x1="475" y1="140" x2="475" y2="178" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="driveTransistor" data-link-to="transformerOutput">
+            <line x1="540" y1="215" x2="630" y2="195" stroke="#5b6478" stroke-width="2" marker-end="url(#emgs7-arrow)"></line>
+            <line class="trail trail-orange" x1="540" y1="215" x2="628" y2="196" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="160" cy="185" r="5" fill="#FBBF24" filter="url(#emgs7Glow)" style="--tx:56px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="362" cy="150" r="5" fill="#4ADE80" filter="url(#emgs7Glow)" style="--tx:46px; --ty:-44px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="475" cy="140" r="5" fill="#FB923C" filter="url(#emgs7Glow)" style="--tx:0px; --ty:38px; --particle-delay:1.15s; --particle-duration:0.35s"></circle>
+            <circle class="flow-particle" cx="540" cy="215" r="5" fill="#FB923C" filter="url(#emgs7Glow)" style="--tx:88px; --ty:-19px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="700" cy="180" r="5" fill="#FB7185" filter="url(#emgs7Glow)" style="--tx:75px; --ty:-30px; --particle-delay:2.15s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="powerSwitch"><span class="status-dot dot-yellow"></span><span class="status-label">مصدر القدرة (3V)</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">موصول</span></span></li>
+          <li class="status-row" data-status="timerIC"><span class="status-dot dot-green"></span><span class="status-label">المؤقت IC1 555</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">يولد نبضة</span></span></li>
+          <li class="status-row" data-status="bufferTransistor"><span class="status-dot dot-orange"></span><span class="status-label">ترانزستور العزل T1</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="driveTransistor"><span class="status-dot dot-orange"></span><span class="status-label">ترانزستور القدح T2</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transformerOutput"><span class="status-dot" style="background:#FB7185"></span><span class="status-label">المحول X1 والأقطاب</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">تحفيز!</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>توليد النبضة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التضخيم والقدح</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#FB7185"></span>التحفيز في العضلة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#emgs7Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#emgs7Elevate) saturate(1.4) brightness(1.5);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#emgs7Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes emgs7-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: emgs7-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes emgs7-activate { to { filter: url(#emgs7Elevate) saturate(1.4) brightness(1.45); } }
+    @keyframes emgs7-reveal-trail { to { opacity: 0.85; } }
+    @keyframes emgs7-status-value-on { to { opacity: 1; } }
+    @keyframes emgs7-status-value-off { to { opacity: 0; } }
+    @keyframes emgs7-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes emgs7-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes emgs7-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes emgs7-dot-on-rose { to { background: #FB7185; box-shadow: 0 0 8px 1px rgba(251, 113, 133, 0.8); } }
+
+    .playing [data-component="powerSwitch"] .box-shape { animation: emgs7-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .status-dot { animation: emgs7-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .value-on { animation: emgs7-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="powerSwitch"] .value-off { animation: emgs7-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="powerSwitch"] .trail { animation: emgs7-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="timerIC"] .box-shape { animation: emgs7-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="timerIC"] .status-dot { animation: emgs7-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="timerIC"] .value-on { animation: emgs7-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="timerIC"] .value-off { animation: emgs7-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="timerIC"] .trail { animation: emgs7-reveal-trail 0.3s ease-out 1.1s forwards; }
+
+    .playing [data-component="bufferTransistor"] .box-shape { animation: emgs7-activate 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="bufferTransistor"] .status-dot { animation: emgs7-dot-on-orange 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="bufferTransistor"] .value-on { animation: emgs7-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="bufferTransistor"] .value-off { animation: emgs7-status-value-off 0.4s ease-out 1.2s forwards; }
+    .playing [data-link="bufferTransistor"] .trail { animation: emgs7-reveal-trail 0.3s ease-out 1.5s forwards; }
+
+    .playing [data-component="driveTransistor"] .box-shape { animation: emgs7-activate 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="driveTransistor"] .status-dot { animation: emgs7-dot-on-orange 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="driveTransistor"] .value-on { animation: emgs7-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="driveTransistor"] .value-off { animation: emgs7-status-value-off 0.4s ease-out 1.7s forwards; }
+    .playing [data-link="driveTransistor"] .trail { animation: emgs7-reveal-trail 0.3s ease-out 2.2s forwards; }
+
+    .playing [data-component="transformerOutput"] .box-shape { animation: emgs7-activate 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="transformerOutput"] .status-dot { animation: emgs7-dot-on-rose 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="transformerOutput"] .value-on { animation: emgs7-status-value-on 0.4s ease-out 2.3s forwards; }
+    .playing [data-status="transformerOutput"] .value-off { animation: emgs7-status-value-off 0.4s ease-out 2.3s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    powerSwitch: {
+      title: "مصدر القدرة والمفتاح (S1، 3V)",
+      // src/data/chapter-05/page-07.json #pulse-generator-p1 (excerpt)
+      text: "عندما يغلق المفتاح (S1) توصل فولتية الى كل من الدائرة المدمجة (IC1 555) وباعث الترانزستور (T1).",
+    },
+    timerIC: {
+      title: "الدائرة المدمجة IC1 555 (مؤقت أحادي الأستقرار)",
+      // src/data/chapter-05/page-07.json #pulse-generator-p1 (excerpt)
+      text: "تعمل دائرة تحفيز العضلات على أستخدام دائرة المؤقت أحادي الأستقرار ومجموعة من الترانزستورات لزيادة التيار وتوليد نبضة التحفيز.",
+    },
+    bufferTransistor: {
+      title: "ترانزستور العزل T1 (Buffer)",
+      // src/data/chapter-05/page-07.json #pulse-generator-p1 (excerpt)
+      text: "باعث الترانزستور (T1) هو مكبر عزل (Buffer) لتحقيق المواءمة بين مقاومة الخرج للمؤقت أحادي الأستقرار في نقطة الخرج من الدائرة المدمجة ودخول المكبر (T2).",
+    },
+    driveTransistor: {
+      title: "ترانزستور القدح والتكبير T2",
+      // src/data/chapter-05/page-07.json #pulse-generator-p1 (excerpt)
+      text: "(T2) من النوع الباعث المشترك حمله الملف الثانوي للمحول (X1) والمقاومة (R4) والثنائي الانبعاث الضوئي الذي يعطي ضوء عند مرور تيار الجامع.",
+    },
+    transformerOutput: {
+      title: "المحول X1 والأقطاب",
+      // src/data/chapter-05/page-07.json #pulse-generator-p1 (excerpt)
+      text: "تنتقل النبضات الى الملف الثانوي للمحول بالحث المتبادل الى الأقطاب لتحفيز العضلة.",
+    },
+  };
+
+  wireDiagramSimulator(".emg-stimulator-circuit-diagram", { cycleMs: 3100, componentInfo: COMPONENT_INFO });
+</script>

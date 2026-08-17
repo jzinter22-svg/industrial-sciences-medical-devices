@@ -125,6 +125,22 @@ const chapter04Lesson01Pages = [
   c4page15,
 ];
 
+import c5page00 from "../../../data/chapter-05/page-00.json";
+import c5page01 from "../../../data/chapter-05/page-01.json";
+import c5page02 from "../../../data/chapter-05/page-02.json";
+import c5page03 from "../../../data/chapter-05/page-03.json";
+import c5page04 from "../../../data/chapter-05/page-04.json";
+import c5page05 from "../../../data/chapter-05/page-05.json";
+import c5page06 from "../../../data/chapter-05/page-06.json";
+import c5page07 from "../../../data/chapter-05/page-07.json";
+import c5page08 from "../../../data/chapter-05/page-08.json";
+import c5page09 from "../../../data/chapter-05/page-09.json";
+
+const chapter05Lesson01Pages = [
+  c5page00, c5page01, c5page02, c5page03, c5page04,
+  c5page05, c5page06, c5page07, c5page08, c5page09,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -140,14 +156,17 @@ const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson
 const isChapter02Lesson01 = chapter.id === "chapter-02" && lesson.id === "lesson-01";
 const isChapter03Lesson01 = chapter.id === "chapter-03" && lesson.id === "lesson-01";
 const isChapter04Lesson01 = chapter.id === "chapter-04" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01;
+const isChapter05Lesson01 = chapter.id === "chapter-05" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01;
 const lessonPages = isChapter01Lesson01
   ? chapter01Lesson01Pages
   : isChapter02Lesson01
     ? chapter02Lesson01Pages
     : isChapter03Lesson01
       ? chapter03Lesson01Pages
-      : chapter04Lesson01Pages;
+      : isChapter04Lesson01
+        ? chapter04Lesson01Pages
+        : chapter05Lesson01Pages;
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>
