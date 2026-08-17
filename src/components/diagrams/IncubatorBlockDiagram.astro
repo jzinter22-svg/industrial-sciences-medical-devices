@@ -1,0 +1,397 @@
+---
+// Figure 1-6 (المخطط الكتلوي للحاضنة) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-5 system (see
+// ECGDeviceBlockDiagram.astro / DemandPacemakerBlockDiagram.astro).
+//
+// Geometry: a wide cross-section of the incubator. The mechanical stack
+// (bottom row) shows the airflow path in the order air actually travels
+// through the machine (bacteria filter -> fan -> heater -> thermostat
+// sensor -> humidity reservoir), rising into the infant chamber (large
+// box, top-center) which contains the two hand-access ports and the
+// baby's bed, then out through the air-exit vent above the chamber. The
+// oxygen meter is a side accessory near the chamber, not part of the
+// main airflow chain.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft incubator-block-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي للحاضنة</span>
+      <span class="simulator-subtitle">شكل 1-6 — من دخول الهواء الى كابينة الطفل</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="icb1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1000"
+          height="560"
+          viewBox="0 0 1000 560"
+          role="img"
+          aria-label="المخطط الكتلوي للحاضنة"
+        >
+          <defs>
+            <marker id="icb1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="icb1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="icb1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="icb1GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="icb1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="icb1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="icb1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="icb1GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+
+            <filter id="icb1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="icb1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1000" height="560" rx="20" fill="url(#icb1BgGrad)"></rect>
+          <rect x="0" y="0" width="1000" height="560" rx="20" fill="url(#icb1Grid)"></rect>
+
+          <!-- air exit vent (top) -->
+          <g class="hotspot" data-component="airExit" tabindex="0" role="button" aria-label="خروج الهواء">
+            <path d="M 350,42 L 375,35 L 375,49 Z" fill="none" stroke="#C084FC" stroke-width="2" stroke-linejoin="round"></path>
+            <path d="M 650,42 L 625,35 L 625,49 Z" fill="none" stroke="#C084FC" stroke-width="2" stroke-linejoin="round"></path>
+            <rect class="box-shape" x="390" y="15" width="220" height="55" rx="12" fill="url(#icb1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <text x="500" y="38" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">خروج الهواء</text>
+            <text x="500" y="55" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Air Exit (both sides)</text>
+          </g>
+
+          <!-- oxygen meter accessory -->
+          <g class="hotspot" data-component="oxygenMeter" tabindex="0" role="button" aria-label="مقياس الاوكسجين">
+            <rect class="hit-area" x="850" y="8" width="120" height="95" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="912" cy="45" r="20" fill="url(#icb1GradPurple)" stroke="#C084FC" stroke-width="2.5" filter="url(#icb1Elevate)"></circle>
+            <line x1="912" y1="45" x2="922" y2="34" stroke="#C084FC" stroke-width="2" stroke-linecap="round"></line>
+            <circle cx="912" cy="45" r="2.4" fill="#C084FC"></circle>
+            <text x="912" y="74" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="rtl">مقياس الاوكسجين</text>
+            <text x="912" y="89" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">O2 Meter</text>
+          </g>
+
+          <!-- infant chamber -->
+          <g class="hotspot" data-component="infantChamber" tabindex="0" role="button" aria-label="كابينة الطفل">
+            <rect class="box-shape" x="220" y="90" width="560" height="200" rx="18" fill="url(#icb1GradOrange)" stroke="#FB923C" stroke-width="2.5" filter="url(#icb1Elevate)"></rect>
+            <text x="500" y="122" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">كابينة الطفل</text>
+            <text x="500" y="141" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Infant Chamber</text>
+
+            <!-- hand-access ports -->
+            <circle cx="290" cy="185" r="16" fill="url(#icb1BgGrad)" stroke="#FB923C" stroke-width="1.5"></circle>
+            <circle cx="290" cy="185" r="9" fill="none" stroke="#FB923C" stroke-width="1" stroke-dasharray="2 2"></circle>
+            <text x="290" y="212" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">منفذ اليد</text>
+            <circle cx="710" cy="185" r="16" fill="url(#icb1BgGrad)" stroke="#FB923C" stroke-width="1.5"></circle>
+            <circle cx="710" cy="185" r="9" fill="none" stroke="#FB923C" stroke-width="1" stroke-dasharray="2 2"></circle>
+            <text x="710" y="212" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">منفذ اليد</text>
+
+            <!-- baby's bed -->
+            <rect x="430" y="232" width="140" height="42" rx="10" fill="url(#icb1BgGrad)" stroke="#FB923C" stroke-width="1.5"></rect>
+            <text x="500" y="257" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#dbe0ec" text-anchor="middle" direction="rtl">سرير الطفل</text>
+          </g>
+
+          <!-- mechanical stack: bacteria filter -> fan -> heater -> thermostat sensor -> humidity reservoir -->
+          <g class="hotspot" data-component="bacteriaFilter" tabindex="0" role="button" aria-label="مرشح الهواء من البكتيريا">
+            <rect class="box-shape" x="80" y="380" width="150" height="70" rx="10" fill="url(#icb1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <line x1="130" y1="393" x2="180" y2="393" stroke="#C084FC" stroke-width="1.3"></line>
+            <line x1="130" y1="398" x2="180" y2="398" stroke="#C084FC" stroke-width="1.3"></line>
+            <line x1="130" y1="403" x2="180" y2="403" stroke="#C084FC" stroke-width="1.3"></line>
+            <text x="155" y="420" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مرشح البكتيريا</text>
+            <text x="155" y="436" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Micro Filter</text>
+          </g>
+
+          <g class="hotspot" data-component="fan" tabindex="0" role="button" aria-label="المروحة">
+            <rect class="box-shape" x="260" y="380" width="120" height="70" rx="10" fill="url(#icb1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <circle cx="320" cy="396" r="11" fill="none" stroke="#38BDF8" stroke-width="1.4"></circle>
+            <path d="M 320,388 Q 326,396 320,404 Q 314,396 320,388 Z" fill="#38BDF8" opacity="0.8"></path>
+            <path d="M 312,396 Q 320,390 328,396" fill="none" stroke="#38BDF8" stroke-width="1.2"></path>
+            <text x="320" y="424" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المروحة</text>
+            <text x="320" y="440" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Fan</text>
+          </g>
+
+          <g class="hotspot" data-component="heater" tabindex="0" role="button" aria-label="المسخن">
+            <rect class="box-shape" x="410" y="380" width="130" height="70" rx="10" fill="url(#icb1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <path d="M 455,398 L 462,390 L 469,398 L 476,390 L 483,398 L 490,390" fill="none" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round"></path>
+            <text x="475" y="422" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المسخن</text>
+            <text x="475" y="439" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Heater</text>
+          </g>
+
+          <g class="hotspot" data-component="thermostatSensor" tabindex="0" role="button" aria-label="حساس الثرموستات">
+            <rect class="box-shape" x="570" y="380" width="150" height="70" rx="10" fill="url(#icb1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <line x1="645" y1="388" x2="645" y2="400" stroke="#4ADE80" stroke-width="1.6"></line>
+            <circle cx="645" cy="403" r="3.5" fill="#4ADE80"></circle>
+            <text x="645" y="424" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">حساس الثرموستات</text>
+            <text x="645" y="440" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Thermostat Sensor</text>
+          </g>
+
+          <g class="hotspot" data-component="humidityReservoir" tabindex="0" role="button" aria-label="حوض الرطوبة والماء المقطر">
+            <rect class="box-shape" x="750" y="380" width="170" height="70" rx="10" fill="url(#icb1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#icb1Elevate)"></rect>
+            <path d="M 815,398 Q 822,392 829,398 Q 836,404 843,398" fill="none" stroke="#38BDF8" stroke-width="1.5"></path>
+            <path d="M 829,388 q 4,6 0,10 q -4,-4 0,-10 Z" fill="#38BDF8" opacity="0.85"></path>
+            <text x="835" y="424" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">حوض الرطوبة</text>
+            <text x="835" y="440" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Humidity Tank</text>
+          </g>
+
+          <!-- connections: full airflow path -->
+          <g class="link" data-link="bacteriaFilter" data-link-to="fan">
+            <line x1="230" y1="415" x2="260" y2="415" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></line>
+            <line class="trail trail-blue" x1="230" y1="415" x2="258" y2="415" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="fan" data-link-to="heater">
+            <line x1="380" y1="415" x2="410" y2="415" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></line>
+            <line class="trail trail-yellow" x1="380" y1="415" x2="408" y2="415" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="heater" data-link-to="thermostatSensor">
+            <line x1="540" y1="415" x2="570" y2="415" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></line>
+            <line class="trail trail-green" x1="540" y1="415" x2="568" y2="415" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="thermostatSensor" data-link-to="humidityReservoir">
+            <line x1="720" y1="415" x2="750" y2="415" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></line>
+            <line class="trail trail-blue" x1="720" y1="415" x2="748" y2="415" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="humidityReservoir" data-link-to="infantChamber">
+            <path d="M 835,380 L 835,330 L 700,330 L 700,290" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></path>
+            <path class="trail trail-orange" d="M 835,380 L 835,330 L 700,330 L 700,292" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="infantChamber" data-link-to="airExit">
+            <path d="M 500,90 L 500,72" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#icb1-arrow)"></path>
+            <path class="trail trail-purple" d="M 500,90 L 500,74" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="230" cy="415" r="5" fill="#38BDF8" filter="url(#icb1Glow)" style="--tx:30px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="380" cy="415" r="5" fill="#FBBF24" filter="url(#icb1Glow)" style="--tx:30px; --ty:0px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="540" cy="415" r="5" fill="#4ADE80" filter="url(#icb1Glow)" style="--tx:30px; --ty:0px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="720" cy="415" r="5" fill="#38BDF8" filter="url(#icb1Glow)" style="--tx:30px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="500" cy="88" r="4.5" fill="#C084FC" filter="url(#icb1Glow)" style="--tx:0px; --ty:-16px; --particle-delay:2.6s; --particle-duration:0.35s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="bacteriaFilter"><span class="status-dot dot-purple"></span><span class="status-label">مرشح البكتيريا</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="fan"><span class="status-dot dot-blue"></span><span class="status-label">المروحة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="heater"><span class="status-dot dot-yellow"></span><span class="status-label">المسخن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="thermostatSensor"><span class="status-dot dot-green"></span><span class="status-label">حساس الثرموستات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="humidityReservoir"><span class="status-dot dot-blue"></span><span class="status-label">حوض الرطوبة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="infantChamber"><span class="status-dot dot-orange"></span><span class="status-label">كابينة الطفل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="airExit"><span class="status-dot dot-purple"></span><span class="status-label">خروج الهواء</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="oxygenMeter"><span class="status-dot dot-purple"></span><span class="status-label">مقياس الاوكسجين</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الترشيح</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التهوية</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التسخين</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>التحسس</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الكابينة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#icb1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#icb1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#icb1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes icb1-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: icb1-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes icb1-shape-activate { to { filter: url(#icb1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes icb1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes icb1-status-value-on { to { opacity: 1; } }
+    @keyframes icb1-status-value-off { to { opacity: 0; } }
+    @keyframes icb1-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes icb1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes icb1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes icb1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes icb1-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="bacteriaFilter"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="bacteriaFilter"] .status-dot { animation: icb1-dot-on-purple 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="bacteriaFilter"] .value-on { animation: icb1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="bacteriaFilter"] .value-off { animation: icb1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="bacteriaFilter"] .trail { animation: icb1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="fan"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="fan"] .status-dot { animation: icb1-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="fan"] .value-on { animation: icb1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="fan"] .value-off { animation: icb1-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="fan"] .trail { animation: icb1-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="heater"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="heater"] .status-dot { animation: icb1-dot-on-yellow 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="heater"] .value-on { animation: icb1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="heater"] .value-off { animation: icb1-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="heater"] .trail { animation: icb1-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="thermostatSensor"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="thermostatSensor"] .status-dot { animation: icb1-dot-on-green 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="thermostatSensor"] .value-on { animation: icb1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="thermostatSensor"] .value-off { animation: icb1-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="thermostatSensor"] .trail { animation: icb1-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="humidityReservoir"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="humidityReservoir"] .status-dot { animation: icb1-dot-on-blue 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="humidityReservoir"] .value-on { animation: icb1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="humidityReservoir"] .value-off { animation: icb1-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="humidityReservoir"] .trail { animation: icb1-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="infantChamber"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="infantChamber"] .status-dot { animation: icb1-dot-on-orange 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="infantChamber"] .value-on { animation: icb1-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="infantChamber"] .value-off { animation: icb1-status-value-off 0.4s ease-out 2.6s forwards; }
+    .playing [data-link="infantChamber"] .trail { animation: icb1-reveal-trail 0.3s ease-out 2.9s forwards; }
+
+    .playing [data-component="airExit"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="airExit"] .status-dot { animation: icb1-dot-on-purple 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="airExit"] .value-on { animation: icb1-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="airExit"] .value-off { animation: icb1-status-value-off 0.4s ease-out 3.1s forwards; }
+
+    .playing [data-component="oxygenMeter"] .box-shape { animation: icb1-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="oxygenMeter"] .status-dot { animation: icb1-dot-on-purple 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="oxygenMeter"] .value-on { animation: icb1-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="oxygenMeter"] .value-off { animation: icb1-status-value-off 0.4s ease-out 3.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    bacteriaFilter: {
+      title: "مرشح الهواء من البكتيريا (Micro Filter)",
+      // src/data/chapter-06/page-02.json #air-part-b-p1 (excerpt)
+      text: "يوضع المرشح الدقيق خلف الحاضنة ويتكون من ثلاث طبقات من مادة الياف، ووظيفته تنقية الهواء من الجراثيم قبل دخوله الى الحاضنة، ويجب تغييره كل ثلاثة أشهر.",
+    },
+    fan: {
+      title: "المروحة (Fan)",
+      // src/data/chapter-06/page-02.json #air-part-a-p1 (excerpt)
+      text: "تعمل المروحة على دفع الهواء والاوكسجين من خارج الحاضنة الى داخلها عبر المرشح الدقيق.",
+    },
+    heater: {
+      title: "المسخن (Heater)",
+      // src/data/chapter-06/page-02.json #heat-part-a-p1 (excerpt)
+      text: "نحصل على هواء مسخن الى درجة الحرارة المطلوبة بتمرير الهواء على صفائح أو ملف ساخن، ويتم ضبط حرارة المسخن بواسطة دائرة الكترونية.",
+    },
+    thermostatSensor: {
+      title: "حساس الثرموستات (Control Thermostat)",
+      // src/data/chapter-06/page-03.json #heat-part-b-p1 (excerpt)
+      text: "متحسس للحرارة الفعلية للهواء المسحوب الى كابينة الطفل، يوضع اسفل الكابينة وهو مقاومة حرارية تتغير قيمتها تبعا لتغير درجة حرارة الهواء.",
+    },
+    humidityReservoir: {
+      title: "حوض الرطوبة والماء المقطر",
+      // src/data/chapter-06/page-07.json #humidification-p1 (excerpt)
+      text: "عند مرور الهواء الى حوض الهواء والماء المقطر يتبخر الماء فتزداد نسبة الرطوبة داخل الكابينة، ويستبدل الماء المقطر كل 24 ساعة.",
+    },
+    infantChamber: {
+      title: "كابينة الطفل (Infant Chamber)",
+      // src/data/chapter-06/page-08.json #infant-chamber-p1 (excerpt)
+      text: "غلاف الحاضنة الخارجي الذي يعزل الطفل عن المحيط الخارجي، مصنوع من بلاستك شفاف، وبه منفذان لليدين وسرير الطفل.",
+    },
+    airExit: {
+      title: "خروج الهواء",
+      // general note (no single verbatim block): completes the airflow
+      // loop described across src/data/chapter-06/page-02.json #air-part-a-p1
+      // and #air-part-b-p1 (air enters through the filter/fan, is
+      // conditioned, then exits the chamber to renew circulation)
+      text: "بعد دورانه داخل كابينة الطفل يخرج الهواء المتداول من جانبي الحاضنة، لتُستكمل دورة سحب هواء جديد وتنقيته وتسخينه من جديد.",
+    },
+    oxygenMeter: {
+      title: "مقياس الاوكسجين",
+      // src/data/chapter-06/page-08.json #accessory-b-p1 (excerpt)
+      text: "يقيس نسبة الاوكسجين داخل الكابينة عن طريق متحسس (خلية كيميائية) تتاكسد عند مرور الاوكسجين عليها فينتج جهد كهربائي تشير قراءته الى نسبة الاوكسجين.",
+    },
+  };
+
+  wireDiagramSimulator(".incubator-block-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
+</script>

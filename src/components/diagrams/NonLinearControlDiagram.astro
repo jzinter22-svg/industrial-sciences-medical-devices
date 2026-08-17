@@ -1,0 +1,351 @@
+---
+// Figure 6-2 (الطريقة اللاخطية في السيطرة على حرارة الكابينة) built as
+// a dark neumorphic interactive simulator, following the exact Chapter
+// 1-5 system (see ECGDeviceBlockDiagram.astro / DemandPacemakerBlockDiagram.astro).
+//
+// Geometry mirrors the book's own two-row block diagram: the body probe
+// and the air-temperature probe each feed their own electronic circuit
+// (top row / bottom row), both of which converge into a single
+// comparator, whose output drives the heater circuit and, finally, the
+// meter that reads the chamber's relative temperature state.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft nonlinear-control-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الطريقة اللاخطية في السيطرة على حرارة الكابينة</span>
+      <span class="simulator-subtitle">شكل 6-2 — مقارنة حرارة جسم الطفل مع حرارة الكابينة لتشغيل المسخن</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="nlc2-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="980"
+          height="380"
+          viewBox="0 0 980 380"
+          role="img"
+          aria-label="المخطط الكتلوي للطريقة اللاخطية في السيطرة على حرارة الكابينة"
+        >
+          <defs>
+            <marker id="nlc2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="nlc2BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="nlc2Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="nlc2GradRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a141c"></stop><stop offset="100%" stop-color="#180a0d"></stop></linearGradient>
+            <linearGradient id="nlc2GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="nlc2GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="nlc2GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="nlc2GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+
+            <filter id="nlc2Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="nlc2Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="980" height="380" rx="20" fill="url(#nlc2BgGrad)"></rect>
+          <rect x="0" y="0" width="980" height="380" rx="20" fill="url(#nlc2Grid)"></rect>
+
+          <!-- top row: body probe -> top electronic circuit -->
+          <g class="hotspot" data-component="probeBody" tabindex="0" role="button" aria-label="القطب العلوي على جسم الطفل">
+            <rect class="box-shape" x="30" y="50" width="140" height="60" rx="10" fill="url(#nlc2GradRose)" stroke="#FB7185" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <circle cx="52" cy="80" r="4" fill="#FB7185"></circle>
+            <text x="100" y="76" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قطب جسم الطفل</text>
+            <text x="100" y="93" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB7185" text-anchor="middle" direction="ltr">Probe (Body)</text>
+          </g>
+
+          <g class="hotspot" data-component="electronicCircuitTop" tabindex="0" role="button" aria-label="الدائرة الالكترونية العليا">
+            <rect class="box-shape" x="210" y="50" width="150" height="60" rx="10" fill="url(#nlc2GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <text x="285" y="76" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة الكترونية</text>
+            <text x="285" y="93" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Electronic Circuit</text>
+          </g>
+
+          <!-- bottom row: air probe -> bottom electronic circuit -->
+          <g class="hotspot" data-component="probeAir" tabindex="0" role="button" aria-label="القطب السفلي لحرارة الجو">
+            <rect class="box-shape" x="30" y="270" width="140" height="60" rx="10" fill="url(#nlc2GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <circle cx="52" cy="300" r="4" fill="#38BDF8"></circle>
+            <text x="100" y="296" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قطب حرارة الجو</text>
+            <text x="100" y="313" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Probe (Air Temp.)</text>
+          </g>
+
+          <g class="hotspot" data-component="electronicCircuitBottom" tabindex="0" role="button" aria-label="الدائرة الالكترونية السفلى">
+            <rect class="box-shape" x="210" y="270" width="150" height="60" rx="10" fill="url(#nlc2GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <text x="285" y="296" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة الكترونية</text>
+            <text x="285" y="313" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Electronic Circuit</text>
+          </g>
+
+          <!-- comparator (center) -->
+          <g class="hotspot" data-component="comparator" tabindex="0" role="button" aria-label="دائرة المقارن العددي">
+            <rect class="box-shape" x="420" y="120" width="150" height="100" rx="14" fill="url(#nlc2GradGreen)" stroke="#4ADE80" stroke-width="2.2" filter="url(#nlc2Elevate)"></rect>
+            <text x="495" y="163" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقارن عددي</text>
+            <text x="495" y="182" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Comparator</text>
+          </g>
+
+          <!-- heater circuit -->
+          <g class="hotspot" data-component="heaterCircuit" tabindex="0" role="button" aria-label="دائرة المسخن">
+            <rect class="box-shape" x="620" y="140" width="150" height="60" rx="10" fill="url(#nlc2GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <text x="695" y="166" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة المسخن</text>
+            <text x="695" y="183" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Heater Circuit</text>
+          </g>
+
+          <!-- meter -->
+          <g class="hotspot" data-component="meter" tabindex="0" role="button" aria-label="جهاز القياس">
+            <rect class="box-shape" x="820" y="140" width="130" height="60" rx="10" fill="url(#nlc2GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#nlc2Elevate)"></rect>
+            <circle cx="885" cy="163" r="9" fill="none" stroke="#C084FC" stroke-width="1.4"></circle>
+            <line x1="885" y1="163" x2="890" y2="157" stroke="#C084FC" stroke-width="1.4" stroke-linecap="round"></line>
+            <text x="885" y="183" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Meter</text>
+          </g>
+
+          <!-- connections -->
+          <g class="link" data-link="probeBody" data-link-to="electronicCircuitTop">
+            <line x1="170" y1="80" x2="210" y2="80" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-rose" x1="170" y1="80" x2="208" y2="80" stroke="#FB7185" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="probeAir" data-link-to="electronicCircuitBottom">
+            <line x1="170" y1="300" x2="210" y2="300" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-blue" x1="170" y1="300" x2="208" y2="300" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="electronicCircuitTop" data-link-to="comparator">
+            <line x1="360" y1="88" x2="428" y2="145" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-blue" x1="360" y1="88" x2="424" y2="141" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="electronicCircuitBottom" data-link-to="comparator">
+            <line x1="360" y1="292" x2="428" y2="196" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-blue" x1="360" y1="292" x2="424" y2="200" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="comparator" data-link-to="heaterCircuit">
+            <line x1="570" y1="170" x2="620" y2="170" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-green" x1="570" y1="170" x2="618" y2="170" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="heaterCircuit" data-link-to="meter">
+            <line x1="770" y1="170" x2="820" y2="170" stroke="#5b6478" stroke-width="2" marker-end="url(#nlc2-arrow)"></line>
+            <line class="trail trail-orange" x1="770" y1="170" x2="818" y2="170" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="170" cy="80" r="5" fill="#FB7185" filter="url(#nlc2Glow)" style="--tx:38px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="170" cy="300" r="5" fill="#38BDF8" filter="url(#nlc2Glow)" style="--tx:38px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="360" cy="88" r="5" fill="#38BDF8" filter="url(#nlc2Glow)" style="--tx:64px; --ty:53px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="360" cy="292" r="5" fill="#38BDF8" filter="url(#nlc2Glow)" style="--tx:64px; --ty:-92px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="570" cy="170" r="5" fill="#4ADE80" filter="url(#nlc2Glow)" style="--tx:50px; --ty:0px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="770" cy="170" r="5" fill="#FB923C" filter="url(#nlc2Glow)" style="--tx:50px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="probeBody"><span class="status-dot dot-rose"></span><span class="status-label">قطب جسم الطفل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="probeAir"><span class="status-dot dot-blue"></span><span class="status-label">قطب حرارة الجو</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="electronicCircuitTop"><span class="status-dot dot-blue"></span><span class="status-label">دائرة الكترونية (علوية)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="electronicCircuitBottom"><span class="status-dot dot-blue"></span><span class="status-label">دائرة الكترونية (سفلى)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="comparator"><span class="status-dot dot-green"></span><span class="status-label">المقارن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="heaterCircuit"><span class="status-dot dot-orange"></span><span class="status-label">دائرة المسخن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="meter"><span class="status-dot dot-purple"></span><span class="status-label">جهاز القياس</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#FB7185"></span>تحسس جسم الطفل</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>تحسس حرارة الجو / الدوائر</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المقارنة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التسخين</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>القياس</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#nlc2Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#nlc2Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#nlc2Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes nlc2-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: nlc2-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes nlc2-shape-activate { to { filter: url(#nlc2Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes nlc2-reveal-trail { to { opacity: 0.85; } }
+    @keyframes nlc2-status-value-on { to { opacity: 1; } }
+    @keyframes nlc2-status-value-off { to { opacity: 0; } }
+    @keyframes nlc2-dot-on-rose { to { background: #FB7185; box-shadow: 0 0 8px 1px rgba(251, 113, 133, 0.8); } }
+    @keyframes nlc2-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes nlc2-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes nlc2-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes nlc2-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="probeBody"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeBody"] .status-dot { animation: nlc2-dot-on-rose 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeBody"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeBody"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="probeBody"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="probeAir"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeAir"] .status-dot { animation: nlc2-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeAir"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="probeAir"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="probeAir"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="electronicCircuitTop"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitTop"] .status-dot { animation: nlc2-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitTop"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitTop"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="electronicCircuitTop"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="electronicCircuitBottom"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitBottom"] .status-dot { animation: nlc2-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitBottom"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="electronicCircuitBottom"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="electronicCircuitBottom"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="comparator"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="comparator"] .status-dot { animation: nlc2-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="comparator"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="comparator"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="comparator"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="heaterCircuit"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="heaterCircuit"] .status-dot { animation: nlc2-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="heaterCircuit"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="heaterCircuit"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="heaterCircuit"] .trail { animation: nlc2-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="meter"] .box-shape { animation: nlc2-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="meter"] .status-dot { animation: nlc2-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="meter"] .value-on { animation: nlc2-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="meter"] .value-off { animation: nlc2-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    probeBody: {
+      title: "القطب العلوي — على جسم الطفل (Probe)",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt)
+      text: "يوضع القطب العلوي (Probe) على جسم الطفل ويكون عبارة عن متحسس (Sensor) ومحول طاقة (Transducer) يقوم بتحويل الحرارة المستلمة من الطفل الى اشارة الكترونية.",
+    },
+    electronicCircuitTop: {
+      title: "الدائرة الالكترونية العليا",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt/paraphrase)
+      text: "تستلم هذه الدائرة الاشارة القادمة من قطب جسم الطفل، وتُخرج فولتية ذات قيمة معينة تُقارن لاحقا بفولتية حرارة الجو.",
+    },
+    probeAir: {
+      title: "القطب السفلي — حرارة الجو (Probe)",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt)
+      text: "القطب الاسفل (Probe) هو أيضا مقاومة متغيرة توضع في مكان معين من كابينة الطفل لقياس درجة الحرارة المحيطة بالطفل (Air temp.).",
+    },
+    electronicCircuitBottom: {
+      title: "الدائرة الالكترونية السفلى",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt/paraphrase)
+      text: "تستلم هذه الدائرة اشارة حرارة الجو داخل الكابينة، وتُخرج فولتية تُقارن مع الفولتية القادمة من قطب جسم الطفل.",
+    },
+    comparator: {
+      title: "دائرة المقارن العددي (Comparator)",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt)
+      text: "تقارن هاتان القيمتان (الفولتيتان) في دائرة مقارن عددي؛ فاذا كانت حرارة الطفل اعلى من حرارة الكابينة يكون خرج المقارن اشارة تغذي دائرة المسخن، واذا تساوت الحرارتان يكون الخرج صفراً فيتوقف المسخن.",
+    },
+    heaterCircuit: {
+      title: "دائرة المسخن (Heater Circuit)",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt)
+      text: "تستلم دائرة المسخن اشارة خرج المقارن فتعمل على تسخين الكابينة، وعند انخفاض حرارة الكابينة ثانية لأي سبب يعمل المسخن من جديد لحين الوصول الى درجة الحرارة المطلوبة.",
+    },
+    meter: {
+      title: "جهاز القياس (Meter)",
+      // src/data/chapter-06/page-03.json #nonlinear-explanation-p1 (excerpt)
+      text: "يوجد جهاز قياس (Meter) يربط مع دائرة المسخن يقيس درجة حرارة الكابينة حسب القيم (1, 0.5, 0.25, 0) دون تدريج مئوي.",
+    },
+  };
+
+  wireDiagramSimulator(".nonlinear-control-diagram", { cycleMs: 2800, componentInfo: COMPONENT_INFO });
+</script>

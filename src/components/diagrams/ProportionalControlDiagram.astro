@@ -1,0 +1,439 @@
+---
+// Figure 6-3 (نظام السيطرة التناسبي على حرارة الكابينة) built as the
+// chapter's flagship dark neumorphic interactive simulator, following
+// the exact Chapter 1-5 system (see ECGDeviceBlockDiagram.astro).
+//
+// Geometry mirrors the book's own block diagram exactly: the thermistor
+// (on the infant's body) and the Set Point resistor feed the Wheatstone
+// bridge -> amp (V1); a free-running sawtooth generator (V2) feeds the
+// same comparator; the comparator's output (V3) drives the pulse
+// generator (V4), which -- together with the 220V/50Hz power line --
+// fires the thyristor switch (V5) that finally drives the heater.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft proportional-control-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام السيطرة التناسبي على حرارة الكابينة</span>
+      <span class="simulator-subtitle">شكل 6-3 — من الثيرمستور الى المسخن عبر التحكم بزاوية توصيل الثايرستور</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pc3-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1180"
+          height="500"
+          viewBox="0 0 1180 500"
+          role="img"
+          aria-label="المخطط الكتلوي لنظام السيطرة التناسبي على حرارة الكابينة"
+        >
+          <defs>
+            <marker id="pc3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="pc3BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pc3Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pc3GradRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a141c"></stop><stop offset="100%" stop-color="#180a0d"></stop></linearGradient>
+            <linearGradient id="pc3GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="pc3GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="pc3GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="pc3GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="pc3GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#180a0a"></stop></linearGradient>
+
+            <filter id="pc3Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pc3Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1180" height="500" rx="20" fill="url(#pc3BgGrad)"></rect>
+          <rect x="0" y="0" width="1180" height="500" rx="20" fill="url(#pc3Grid)"></rect>
+
+          <!-- inputs: thermistor + set point -->
+          <g class="hotspot" data-component="thermistor" tabindex="0" role="button" aria-label="ثيرمستور">
+            <rect class="box-shape" x="30" y="40" width="150" height="60" rx="10" fill="url(#pc3GradRose)" stroke="#FB7185" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <circle cx="52" cy="70" r="4" fill="#FB7185"></circle>
+            <text x="105" y="66" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ثيرمستور</text>
+            <text x="105" y="83" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB7185" text-anchor="middle" direction="ltr">Thermistor</text>
+          </g>
+
+          <g class="hotspot" data-component="setPointResistor" tabindex="0" role="button" aria-label="مقاومة تنظيم الحرارة المطلوبة">
+            <rect class="box-shape" x="30" y="150" width="150" height="60" rx="10" fill="url(#pc3GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <text x="105" y="176" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقاومة الضبط</text>
+            <text x="105" y="193" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Set Point</text>
+          </g>
+
+          <!-- bridge -->
+          <g class="hotspot" data-component="bridge" tabindex="0" role="button" aria-label="قنطرة ويتستون">
+            <rect class="box-shape" x="250" y="70" width="160" height="110" rx="14" fill="url(#pc3GradBlue)" stroke="#38BDF8" stroke-width="2.2" filter="url(#pc3Elevate)"></rect>
+            <text x="330" y="115" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قنطرة ويتستون</text>
+            <text x="330" y="133" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Bridge</text>
+          </g>
+
+          <!-- amp (V1) -->
+          <g class="hotspot" data-component="amp" tabindex="0" role="button" aria-label="مكبر">
+            <rect class="box-shape" x="480" y="95" width="140" height="60" rx="10" fill="url(#pc3GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <text x="550" y="121" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر</text>
+            <text x="550" y="138" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Amp</text>
+            <rect x="597" y="85" width="26" height="18" rx="4" fill="#0a0f1a" stroke="#FB923C" stroke-width="1.2"></rect>
+            <text x="610" y="98" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">V1</text>
+          </g>
+
+          <!-- sawtooth generator (V2), free-running -->
+          <g class="hotspot" data-component="sawtoothGenerator" tabindex="0" role="button" aria-label="مولد موجة سن المنشار">
+            <rect class="box-shape" x="480" y="260" width="180" height="60" rx="10" fill="url(#pc3GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <path d="M 500,300 L 512,285 L 512,300 L 524,285 L 524,300 L 536,285" fill="none" stroke="#4ADE80" stroke-width="1.4"></path>
+            <text x="590" y="290" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مولد سن المنشار</text>
+            <text x="590" y="307" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Sawtooth Gen.</text>
+            <rect x="637" y="250" width="26" height="18" rx="4" fill="#0a0f1a" stroke="#4ADE80" stroke-width="1.2"></rect>
+            <text x="650" y="263" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">V2</text>
+          </g>
+
+          <!-- comparator (V3) -->
+          <g class="hotspot" data-component="comparator" tabindex="0" role="button" aria-label="مقارن">
+            <rect class="box-shape" x="730" y="155" width="160" height="110" rx="14" fill="url(#pc3GradBlue)" stroke="#38BDF8" stroke-width="2.2" filter="url(#pc3Elevate)"></rect>
+            <text x="810" y="203" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقارن</text>
+            <text x="810" y="221" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Comparator</text>
+            <rect x="864" y="163" width="26" height="18" rx="4" fill="#0a0f1a" stroke="#38BDF8" stroke-width="1.2"></rect>
+            <text x="877" y="176" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">V3</text>
+          </g>
+
+          <!-- pulse generator (V4) -->
+          <g class="hotspot" data-component="pulseGenerator" tabindex="0" role="button" aria-label="بوابة مولد نبضات">
+            <rect class="box-shape" x="960" y="180" width="170" height="60" rx="10" fill="url(#pc3GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <text x="1045" y="206" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مولد نبضات</text>
+            <text x="1045" y="223" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Pulse Generator</text>
+            <rect x="1097" y="188" width="26" height="18" rx="4" fill="#0a0f1a" stroke="#FB923C" stroke-width="1.2"></rect>
+            <text x="1110" y="201" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">V4</text>
+          </g>
+
+          <!-- power line -->
+          <g class="hotspot" data-component="powerLine" tabindex="0" role="button" aria-label="تغذية القدرة 220 فولت">
+            <rect class="box-shape" x="760" y="300" width="150" height="50" rx="8" fill="url(#pc3GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <path d="M 785,325 L 793,315 L 800,325 L 808,315" fill="none" stroke="#FBBF24" stroke-width="1.4"></path>
+            <text x="855" y="321" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">تغذية القدرة</text>
+            <text x="855" y="337" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">220V — 50Hz</text>
+          </g>
+
+          <!-- thyristor (V5) -->
+          <g class="hotspot" data-component="thyristor" tabindex="0" role="button" aria-label="ثايرستور">
+            <rect class="box-shape" x="760" y="390" width="150" height="60" rx="10" fill="url(#pc3GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pc3Elevate)"></rect>
+            <text x="835" y="416" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ثايرستور</text>
+            <text x="835" y="433" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Thyristor</text>
+            <rect x="887" y="398" width="26" height="18" rx="4" fill="#0a0f1a" stroke="#FBBF24" stroke-width="1.2"></rect>
+            <text x="900" y="411" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">V5</text>
+          </g>
+
+          <!-- heater -->
+          <g class="hotspot" data-component="heater" tabindex="0" role="button" aria-label="المسخن">
+            <rect class="box-shape" x="970" y="390" width="150" height="60" rx="10" fill="url(#pc3GradRed)" stroke="#F87171" stroke-width="2.2" filter="url(#pc3Elevate)"></rect>
+            <text x="1045" y="406" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المسخن</text>
+            <path d="M 1031,426 L 1038,414 L 1045,426 L 1052,414 L 1059,426" fill="none" stroke="#F87171" stroke-width="1.5" stroke-linecap="round"></path>
+            <text x="1045" y="442" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">Heater</text>
+          </g>
+
+          <!-- connections -->
+          <g class="link" data-link="thermistor" data-link-to="bridge">
+            <line x1="180" y1="70" x2="256" y2="105" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-rose" x1="180" y1="70" x2="252" y2="102" stroke="#FB7185" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="setPointResistor" data-link-to="bridge">
+            <line x1="180" y1="180" x2="256" y2="150" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-green" x1="180" y1="180" x2="252" y2="153" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="bridge" data-link-to="amp">
+            <line x1="410" y1="125" x2="480" y2="125" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-blue" x1="410" y1="125" x2="478" y2="125" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="amp" data-link-to="comparator">
+            <line x1="620" y1="140" x2="734" y2="195" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-orange" x1="620" y1="140" x2="730" y2="192" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="sawtoothGenerator" data-link-to="comparator">
+            <line x1="660" y1="285" x2="734" y2="235" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-green" x1="660" y1="285" x2="730" y2="238" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="comparator" data-link-to="pulseGenerator">
+            <line x1="890" y1="210" x2="960" y2="210" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-blue" x1="890" y1="210" x2="958" y2="210" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="pulseGenerator" data-link-to="thyristor">
+            <path d="M 1045,240 L 1045,340 L 835,340 L 835,390" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></path>
+            <path class="trail trail-orange" d="M 1045,240 L 1045,340 L 835,340 L 835,388" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="powerLine" data-link-to="thyristor">
+            <line x1="835" y1="350" x2="835" y2="390" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-yellow" x1="835" y1="350" x2="835" y2="388" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="thyristor" data-link-to="heater">
+            <line x1="910" y1="420" x2="970" y2="420" stroke="#5b6478" stroke-width="2" marker-end="url(#pc3-arrow)"></line>
+            <line class="trail trail-yellow" x1="910" y1="420" x2="968" y2="420" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="180" cy="70" r="5" fill="#FB7185" filter="url(#pc3Glow)" style="--tx:72px; --ty:32px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="180" cy="180" r="5" fill="#4ADE80" filter="url(#pc3Glow)" style="--tx:72px; --ty:-27px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="410" cy="125" r="5" fill="#38BDF8" filter="url(#pc3Glow)" style="--tx:68px; --ty:0px; --particle-delay:0.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="620" cy="140" r="5" fill="#FB923C" filter="url(#pc3Glow)" style="--tx:110px; --ty:52px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="660" cy="285" r="5" fill="#4ADE80" filter="url(#pc3Glow)" style="--tx:70px; --ty:-47px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="890" cy="210" r="5" fill="#38BDF8" filter="url(#pc3Glow)" style="--tx:68px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="835" cy="350" r="5" fill="#FBBF24" filter="url(#pc3Glow)" style="--tx:0px; --ty:38px; --particle-delay:2.1s; --particle-duration:0.35s"></circle>
+            <circle class="flow-particle" cx="910" cy="420" r="5" fill="#FBBF24" filter="url(#pc3Glow)" style="--tx:58px; --ty:0px; --particle-delay:2.6s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="thermistor"><span class="status-dot dot-rose"></span><span class="status-label">ثيرمستور</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="setPointResistor"><span class="status-dot dot-green"></span><span class="status-label">مقاومة Set Point</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="bridge"><span class="status-dot dot-blue"></span><span class="status-label">قنطرة ويتستون</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="amp"><span class="status-dot dot-orange"></span><span class="status-label">مكبر (V1)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="sawtoothGenerator"><span class="status-dot dot-green"></span><span class="status-label">سن المنشار (V2)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="comparator"><span class="status-dot dot-blue"></span><span class="status-label">مقارن (V3)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="pulseGenerator"><span class="status-dot dot-orange"></span><span class="status-label">مولد نبضات (V4)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="powerLine"><span class="status-dot dot-yellow"></span><span class="status-label">تغذية القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="thyristor"><span class="status-dot dot-yellow"></span><span class="status-label">ثايرستور (V5)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="heater"><span class="status-dot dot-red"></span><span class="status-label">المسخن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#FB7185"></span>التحسس</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المرجع / الضبط</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>المقارنة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التكبير</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التحويل بالقدرة</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>خرج التسخين</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#pc3Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#pc3Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#pc3Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pc3-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: pc3-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes pc3-shape-activate { to { filter: url(#pc3Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes pc3-reveal-trail { to { opacity: 0.85; } }
+    @keyframes pc3-status-value-on { to { opacity: 1; } }
+    @keyframes pc3-status-value-off { to { opacity: 0; } }
+    @keyframes pc3-dot-on-rose { to { background: #FB7185; box-shadow: 0 0 8px 1px rgba(251, 113, 133, 0.8); } }
+    @keyframes pc3-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes pc3-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes pc3-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pc3-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes pc3-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+
+    .playing [data-component="thermistor"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="thermistor"] .status-dot { animation: pc3-dot-on-rose 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="thermistor"] .value-on { animation: pc3-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="thermistor"] .value-off { animation: pc3-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="thermistor"] .trail { animation: pc3-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="setPointResistor"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="setPointResistor"] .status-dot { animation: pc3-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="setPointResistor"] .value-on { animation: pc3-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="setPointResistor"] .value-off { animation: pc3-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="setPointResistor"] .trail { animation: pc3-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="bridge"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bridge"] .status-dot { animation: pc3-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bridge"] .value-on { animation: pc3-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bridge"] .value-off { animation: pc3-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="bridge"] .trail { animation: pc3-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="amp"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="amp"] .status-dot { animation: pc3-dot-on-orange 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="amp"] .value-on { animation: pc3-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="amp"] .value-off { animation: pc3-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="amp"] .trail { animation: pc3-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="sawtoothGenerator"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="sawtoothGenerator"] .status-dot { animation: pc3-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="sawtoothGenerator"] .value-on { animation: pc3-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="sawtoothGenerator"] .value-off { animation: pc3-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="sawtoothGenerator"] .trail { animation: pc3-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="comparator"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparator"] .status-dot { animation: pc3-dot-on-blue 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparator"] .value-on { animation: pc3-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="comparator"] .value-off { animation: pc3-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="comparator"] .trail { animation: pc3-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="pulseGenerator"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="pulseGenerator"] .status-dot { animation: pc3-dot-on-orange 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="pulseGenerator"] .value-on { animation: pc3-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="pulseGenerator"] .value-off { animation: pc3-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="pulseGenerator"] .trail { animation: pc3-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="powerLine"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="powerLine"] .status-dot { animation: pc3-dot-on-yellow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="powerLine"] .value-on { animation: pc3-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="powerLine"] .value-off { animation: pc3-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="powerLine"] .trail { animation: pc3-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="thyristor"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="thyristor"] .status-dot { animation: pc3-dot-on-yellow 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="thyristor"] .value-on { animation: pc3-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="thyristor"] .value-off { animation: pc3-status-value-off 0.4s ease-out 2.6s forwards; }
+    .playing [data-link="thyristor"] .trail { animation: pc3-reveal-trail 0.3s ease-out 2.9s forwards; }
+
+    .playing [data-component="heater"] .box-shape { animation: pc3-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="heater"] .status-dot { animation: pc3-dot-on-red 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="heater"] .value-on { animation: pc3-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="heater"] .value-off { animation: pc3-status-value-off 0.4s ease-out 3.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    thermistor: {
+      title: "الثيرمستور (Thermistor)",
+      // src/data/chapter-06/page-05.json #part-1-p2 + page-06.json #part-6-p1 (excerpt)
+      text: "توضع المقاومة الحرارية (الثيرمستور) على جسم الطفل الخديج، وأي تغير في درجة حرارته يغيّر قيمة مقاومة الثيرمستور فيؤدي الى اختلال استقرار قنطرة ويتستون.",
+    },
+    setPointResistor: {
+      title: "مقاومة تنظيم الحرارة المطلوبة (Set Point)",
+      // src/data/chapter-06/page-05.json #part-1-p2 (excerpt)
+      text: "مقاومة معايرة تُضبط على درجة الحرارة الملائمة لجسم الطفل، وتُستخدم للحصول على قراءة (صفر) أمبير أي دائرة مستقرة (Stable State) قبل حدوث أي تغير.",
+    },
+    bridge: {
+      title: "قنطرة ويتستون (Wheatstone Bridge)",
+      // src/data/chapter-06/page-05.json #part-1-p1 + #part-1-p2 (excerpt)
+      text: "تتكون دائرة قنطرة ويتستون من مقاومات وثيرمستور، وأي تغير يحدث في درجة الحرارة يؤدي إلى تغير قيمة مقاومة الثيرمستور أي اختلال الاستقرار، وينتج عن هذا تيار معلوم يمر من خلال مقياس التيار.",
+    },
+    amp: {
+      title: "المكبر (Amp) — V1",
+      // src/data/chapter-06/page-05.json #part-2-p1 + page-04.json #v-value-1 (excerpt)
+      text: "أكثر أنواع المكبرات شيوعاً هو مكبر العمليات (Operational Amplifier) OP، وخرجه (V1) يتناسب مع الفرق بين درجة حرارة هواء التغذية وبين الـ Set Point.",
+    },
+    sawtoothGenerator: {
+      title: "مولد موجة سن المنشار (Sawtooth Generator) — V2",
+      // src/data/chapter-06/page-05.json #part-4-p1 + page-04.json #v-value-2 (excerpt)
+      text: "نحصل من مولد نبضات سن المنشار على موجة سن المنشار (V2 بتردد 1Hz) توصل الى دخل (Input) دائرة المقارن لتُقارن مع خرج المكبر.",
+    },
+    comparator: {
+      title: "المقارن (Comparator) — V3",
+      // src/data/chapter-06/page-05.json #part-3-p1 + page-04.json #v-value-3 (excerpt)
+      text: "يستخدم المقارن للمقارنة بين قيمتي فولتيتين (V1 وV2) ويكون خرجه (output) إما سالباً أو موجباً؛ V3 هو خرج المقارن عندما يكون V1 أكبر من V2.",
+    },
+    pulseGenerator: {
+      title: "بوابة مولد النبضات (Gate Pulse Generator) — V4",
+      // src/data/chapter-06/page-06.json #part-5-p1 + page-04.json #v-value-4 (excerpt)
+      text: "تقوم هذه الدائرة بتوليد نبضات (V4) تستخدم لتشغيل مفتاح التحكم (الثايرستور).",
+    },
+    powerLine: {
+      title: "تغذية القدرة (220V — 50Hz)",
+      // general note grounded in src/data/chapter-06/page-06.json #part-6-p1
+      // (the control switch/thyristor context); no dedicated verbatim block
+      text: "خط التغذية الكهربائية الرئيسي الذي يزوّد دائرة الثايرستور بالجهد اللازم لتمرير التيار الى المسخن عند تشغيل مفتاح التحكم.",
+    },
+    thyristor: {
+      title: "الثايرستور / مفتاح التحكم (Thyristor) — V5",
+      // src/data/chapter-06/page-06.json #part-6-p1 + page-04.json #v-value-5 (excerpt)
+      text: "عبارة عن مفتاح (Switch) يتم تشغيله بوساطة مولد النبضات، وهو عبارة عن ترانزستور أو ثايرستور؛ خرجه (V5) هو جهد تغذية السخان.",
+    },
+    heater: {
+      title: "المسخن (Heater)",
+      // src/data/chapter-06/page-06.json #case-2 (excerpt)
+      text: "يمر تيار في المسخن نتيجة عمل مفتاح التحكم، فيعمل المسخن بدوره على زيادة درجة الحرارة إلى أن تعود الى الحالة الطبيعية.",
+    },
+  };
+
+  wireDiagramSimulator(".proportional-control-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
+</script>
