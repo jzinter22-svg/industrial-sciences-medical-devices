@@ -1,0 +1,298 @@
+---
+// Figures 32-3 (المخطط الكتلوي لمرحلة تجهيز القدرة) and 33-3 (المخطط
+// الكتلوي لدائرة تنظيم الفولتية) rebuilt as one dark neumorphic
+// interactive simulator, following the exact Chapter 1/2 system — the
+// two final stages (7 and 8) per the book's own section 3-12.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft power-supply-stages-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تجهيز القدرة وتنظيم الفولتية</span>
+      <span class="simulator-subtitle">شكل 32-3، 33-3 — من 220V AC الى Vcc± منظمة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ps-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="920"
+          height="300"
+          viewBox="0 0 920 300"
+          role="img"
+          aria-label="مرحلتا تجهيز القدرة وتنظيم الفولتية"
+        >
+          <defs>
+            <marker id="ps-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="psBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="psGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="psGradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="psGradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="psGradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="psGradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <filter id="psElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#ffe9a8" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="920" height="300" rx="20" fill="url(#psBgGrad)"></rect>
+          <rect x="0" y="0" width="920" height="300" rx="20" fill="url(#psGrid)"></rect>
+
+          <text x="460" y="35" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">مرحلة تجهيز القدرة (7)</text>
+
+          <text x="45" y="90" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">220V</text>
+
+          <g class="hotspot" data-component="transformer" tabindex="0" role="button" aria-label="محولة خافضة">
+            <rect class="box-shape" x="110" y="60" width="110" height="60" rx="10" fill="url(#psGradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="165" y="85" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محولة خافضة</text>
+            <text x="165" y="102" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Transformer</text>
+          </g>
+
+          <g class="hotspot" data-component="rectifier" tabindex="0" role="button" aria-label="قنطرة توحيد">
+            <rect class="box-shape" x="255" y="60" width="110" height="60" rx="10" fill="url(#psGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="310" y="85" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">قنطرة توحيد</text>
+            <text x="310" y="102" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Rectifier</text>
+          </g>
+
+          <g class="hotspot" data-component="filter1" tabindex="0" role="button" aria-label="مرشح">
+            <rect class="box-shape" x="400" y="60" width="110" height="60" rx="10" fill="url(#psGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="455" y="85" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مرشح</text>
+            <text x="455" y="102" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">Filter</text>
+          </g>
+
+          <text x="600" y="95" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="start" direction="ltr">DC</text>
+
+          <line x1="80" y1="90" x2="110" y2="90" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="220" y1="90" x2="255" y2="90" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="365" y1="90" x2="400" y2="90" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="510" y1="90" x2="590" y2="90" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+
+          <line x1="0" y1="145" x2="920" y2="145" stroke="#2a3145" stroke-width="1.5" stroke-dasharray="4 6"></line>
+          <text x="460" y="170" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">مرحلة تنظيم الفولتية (8)</text>
+
+          <g class="hotspot" data-component="oscillator2" tabindex="0" role="button" aria-label="مذبذب">
+            <rect class="box-shape" x="60" y="200" width="100" height="55" rx="10" fill="url(#psGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="110" y="232" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مذبذب</text>
+          </g>
+
+          <g class="hotspot" data-component="transformer2" tabindex="0" role="button" aria-label="محولة">
+            <rect class="box-shape" x="195" y="200" width="100" height="55" rx="10" fill="url(#psGradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="245" y="232" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محولة</text>
+          </g>
+
+          <g class="hotspot" data-component="rectifier2" tabindex="0" role="button" aria-label="موحد">
+            <rect class="box-shape" x="330" y="200" width="100" height="55" rx="10" fill="url(#psGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="380" y="232" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">موحد</text>
+          </g>
+
+          <g class="hotspot" data-component="filter2" tabindex="0" role="button" aria-label="مرشح">
+            <rect class="box-shape" x="465" y="200" width="100" height="55" rx="10" fill="url(#psGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="515" y="232" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مرشح</text>
+          </g>
+
+          <g class="hotspot" data-component="regulator" tabindex="0" role="button" aria-label="منظم فولتية">
+            <rect class="box-shape" x="600" y="195" width="120" height="65" rx="10" fill="url(#psGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#psElevate)"></rect>
+            <text x="660" y="222" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">منظم فولتية</text>
+            <text x="660" y="240" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Regulator</text>
+          </g>
+
+          <line x1="160" y1="227" x2="195" y2="227" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="295" y1="227" x2="330" y2="227" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="430" y1="227" x2="465" y2="227" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="565" y1="227" x2="600" y2="227" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <text x="800" y="220" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">+Vcc</text>
+          <text x="800" y="245" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">-Vcc</text>
+          <line x1="720" y1="215" x2="770" y2="215" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+          <line x1="720" y1="240" x2="770" y2="240" stroke="#5b6478" stroke-width="2" marker-end="url(#ps-arrow)"></line>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="transformer"><span class="status-dot dot-yellow"></span><span class="status-label">محولة خافضة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rectifier"><span class="status-dot dot-green"></span><span class="status-label">قنطرة توحيد</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filter1"><span class="status-dot dot-blue"></span><span class="status-label">مرشح (7)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="oscillator2"><span class="status-dot dot-green"></span><span class="status-label">مذبذب (8)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="transformer2"><span class="status-dot dot-yellow"></span><span class="status-label">محولة (8)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rectifier2"><span class="status-dot dot-green"></span><span class="status-label">موحد (8)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filter2"><span class="status-dot dot-blue"></span><span class="status-label">مرشح (8)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="regulator"><span class="status-dot dot-orange"></span><span class="status-label">منظم الفولتية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>محولات</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>التوحيد</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الترشيح</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التنظيم</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#psElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#psElevate) saturate(1.4) brightness(1.5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ps-activate { to { filter: url(#psElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes ps-status-value-on { to { opacity: 1; } }
+    @keyframes ps-status-value-off { to { opacity: 0; } }
+    @keyframes ps-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes ps-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes ps-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes ps-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="transformer"] .box-shape { animation: ps-activate 0.35s ease-out 0.1s forwards; }
+    .playing [data-status="transformer"] .status-dot { animation: ps-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="transformer"] .value-on { animation: ps-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="transformer"] .value-off { animation: ps-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="rectifier"] .box-shape { animation: ps-activate 0.35s ease-out 0.5s forwards; }
+    .playing [data-status="rectifier"] .status-dot { animation: ps-dot-on-green 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="rectifier"] .value-on { animation: ps-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="rectifier"] .value-off { animation: ps-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="filter1"] .box-shape { animation: ps-activate 0.35s ease-out 0.9s forwards; }
+    .playing [data-status="filter1"] .status-dot { animation: ps-dot-on-blue 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="filter1"] .value-on { animation: ps-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="filter1"] .value-off { animation: ps-status-value-off 0.4s ease-out 0.9s forwards; }
+
+    .playing [data-component="oscillator2"] .box-shape { animation: ps-activate 0.35s ease-out 1.4s forwards; }
+    .playing [data-status="oscillator2"] .status-dot { animation: ps-dot-on-green 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="oscillator2"] .value-on { animation: ps-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="oscillator2"] .value-off { animation: ps-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing [data-component="transformer2"] .box-shape { animation: ps-activate 0.35s ease-out 1.8s forwards; }
+    .playing [data-status="transformer2"] .status-dot { animation: ps-dot-on-yellow 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="transformer2"] .value-on { animation: ps-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="transformer2"] .value-off { animation: ps-status-value-off 0.4s ease-out 1.8s forwards; }
+
+    .playing [data-component="rectifier2"] .box-shape { animation: ps-activate 0.35s ease-out 2.2s forwards; }
+    .playing [data-status="rectifier2"] .status-dot { animation: ps-dot-on-green 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="rectifier2"] .value-on { animation: ps-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="rectifier2"] .value-off { animation: ps-status-value-off 0.4s ease-out 2.2s forwards; }
+
+    .playing [data-component="filter2"] .box-shape { animation: ps-activate 0.35s ease-out 2.6s forwards; }
+    .playing [data-status="filter2"] .status-dot { animation: ps-dot-on-blue 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="filter2"] .value-on { animation: ps-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="filter2"] .value-off { animation: ps-status-value-off 0.4s ease-out 2.6s forwards; }
+
+    .playing [data-component="regulator"] .box-shape { animation: ps-activate 0.35s ease-out 3s forwards; }
+    .playing [data-status="regulator"] .status-dot { animation: ps-dot-on-orange 0.4s ease-out 3s forwards; }
+    .playing [data-status="regulator"] .value-on { animation: ps-status-value-on 0.4s ease-out 3s forwards; }
+    .playing [data-status="regulator"] .value-off { animation: ps-status-value-off 0.4s ease-out 3s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    transformer: {
+      title: "محولة خافضة",
+      // src/data/chapter-03/page-21.json #stage7-p1 (excerpt)
+      text: "في مرحلة تجهيز القدرة يتم تحويل (220V-AC) الى DC أكثر بقليل من الجهد التصميمي، وتتألف الدائرة من محولة خافضة وقنطرة توحيد ودائرة ترشيح.",
+    },
+    rectifier: {
+      title: "قنطرة توحيد",
+      // src/data/chapter-03/page-21.json #stage7-p1 (excerpt)
+      text: "توحيد قنطرة يحول الفولتية المتناوبة (AC) الخارجة من المحولة الخافضة الى فولتية مستمرة (DC).",
+    },
+    filter1: {
+      title: "مرشح",
+      // src/data/chapter-03/page-21.json #stage7-p1 (excerpt)
+      text: "دائرة ترشيح لتصفية الجهد المستمر (DC) الخارج من القنطرة، ليستخدم في تشغيل مكبر العمليات وتوفير الانحياز للترانزستورات وتجهيز القلم الحراري والمحرك.",
+    },
+    oscillator2: {
+      title: "مذبذب (مرحلة تنظيم الفولتية)",
+      // src/data/chapter-03/page-21.json #stage8-p1 (excerpt)
+      text: "مرحلة تنظيم الفولتية DC تقوم بتحويل الفولتية من DC الى AC باستخدام مذبذب ذي محولة، وذلك لعزل المريض عن دائرة تجهيز القدرة.",
+    },
+    transformer2: {
+      title: "محولة (مرحلة تنظيم الفولتية)",
+      // src/data/chapter-03/page-21.json #stage8-p1 (excerpt)
+      text: "تصل المحولة الملف الثانوي الى موحد لتحويل الفولتية من AC الى DC مرة أخرى، وهي معزولة كهربائيا عن دائرة الـ (220V) ومرتبطة بها مغناطيسيا فقط.",
+    },
+    rectifier2: {
+      title: "موحد (مرحلة تنظيم الفولتية)",
+      // src/data/chapter-03/page-21.json #stage8-p1 (excerpt)
+      text: "موحد (مقوم Rectifier) يحول الفولتية من AC الى DC القادمة من الملف الثانوي للمحولة.",
+    },
+    filter2: {
+      title: "مرشح (مرحلة تنظيم الفولتية)",
+      // src/data/chapter-03/page-21.json #stage8-p1 (excerpt)
+      text: "ترشح باستعمال متسعة كيمياوية للحصول على فولتية مستمرة بدون تموجات.",
+    },
+    regulator: {
+      title: "منظم الفولتية (Voltage Regulator)",
+      // src/data/chapter-03/page-21.json #stage8-p1 (excerpt)
+      text: "منظم الفولتية يثبت الفولتية الخارجة (+Vcc) و(-Vcc)، وهذه الفولتيات الثابتة (100%) يستفاد منها في تجهيز الانحياز للترانزستورات والمكبرات لان أي زيادة أو نقصان فيها سوف يؤدي الى تشويه في تكبير الإشارة القلبية.",
+    },
+  };
+
+  wireDiagramSimulator(".power-supply-stages-diagram", { cycleMs: 3400, componentInfo: COMPONENT_INFO });
+</script>

@@ -1,0 +1,232 @@
+---
+// Figure 24-3 (المخطط الكتلوي لمرحلة المكبر الاولي) rebuilt as a dark
+// neumorphic interactive simulator, following the exact Chapter 1/2
+// system.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft initial-amplifier-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مرحلة المكبر الأولي</span>
+      <span class="simulator-subtitle">شكل 24-3 — شبكة ولسن، اختيار الليدات، ومفتاح المعايرة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ia-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="340"
+          viewBox="0 0 820 340"
+          role="img"
+          aria-label="المخطط الكتلوي لمرحلة المكبر الاولي"
+        >
+          <defs>
+            <marker id="ia-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="iaBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="iaGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="iaGradGreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"></stop>
+              <stop offset="100%" stop-color="#0a1712"></stop>
+            </linearGradient>
+            <linearGradient id="iaGradOrange" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="iaGradYellow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332c10"></stop>
+              <stop offset="100%" stop-color="#1a1608"></stop>
+            </linearGradient>
+            <filter id="iaElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="iaGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="340" rx="20" fill="url(#iaBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="340" rx="20" fill="url(#iaGrid)"></rect>
+
+          <g class="hotspot" data-component="wilsonNetwork" tabindex="0" role="button" aria-label="شبكة ولسن">
+            <rect class="box-shape" x="50" y="130" width="120" height="70" rx="10" fill="url(#iaGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#iaElevate)"></rect>
+            <text x="110" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">شبكة ولسن</text>
+            <text x="110" y="176" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Wilson</text>
+          </g>
+
+          <g class="hotspot" data-component="leadSelector" tabindex="0" role="button" aria-label="مفتاح اختيار الليدات">
+            <rect class="box-shape" x="220" y="130" width="120" height="70" rx="10" fill="url(#iaGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#iaElevate)"></rect>
+            <text x="280" y="158" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">اختيار الليدات</text>
+            <text x="280" y="176" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Lead Selector</text>
+          </g>
+
+          <g class="hotspot" data-component="opAmp" tabindex="0" role="button" aria-label="مكبر العمليات الأولي">
+            <rect class="hit-area" x="390" y="80" width="180" height="180" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 420,140 L 420,220 L 500,180 Z" fill="#241530" stroke="#FB923C" stroke-width="2.5" filter="url(#iaGlow)"></path>
+            <line x1="500" y1="180" x2="540" y2="180" stroke="#FB923C" stroke-width="2" marker-end="url(#ia-arrow)"></line>
+            <path d="M 460,140 Q 500,120 540,140" fill="none" stroke="#FB923C" stroke-width="1.5" marker-end="url(#ia-arrow)"></path>
+            <text x="500" y="105" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">RF</text>
+            <text x="500" y="90" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر العمليات</text>
+          </g>
+
+          <g class="hotspot" data-component="calibrationSwitch" tabindex="0" role="button" aria-label="مفتاح المعايرة">
+            <rect class="box-shape" x="420" y="30" width="130" height="40" rx="8" fill="url(#iaGradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#iaElevate)"></rect>
+            <text x="485" y="55" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="ltr">1mV Calibration</text>
+          </g>
+
+          <line x1="170" y1="165" x2="220" y2="165" stroke="#5b6478" stroke-width="2" marker-end="url(#ia-arrow)"></line>
+          <line x1="340" y1="165" x2="420" y2="175" stroke="#5b6478" stroke-width="2" marker-end="url(#ia-arrow)"></line>
+          <line x1="485" y1="70" x2="485" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#ia-arrow)"></line>
+          <text x="600" y="200" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الى المكبر الرئيسي</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="wilsonNetwork"><span class="status-dot dot-green"></span><span class="status-label">شبكة ولسن</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="leadSelector"><span class="status-dot dot-green"></span><span class="status-label">اختيار الليدات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="opAmp"><span class="status-dot dot-orange"></span><span class="status-label">مكبر العمليات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="calibrationSwitch"><span class="status-dot dot-yellow"></span><span class="status-label">مفتاح المعايرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>اختيار الإشارة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التكبير عشر مرات</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>المعايرة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#iaElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#iaElevate) saturate(1.4) brightness(1.5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ia-activate { to { filter: url(#iaElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes ia-status-value-on { to { opacity: 1; } }
+    @keyframes ia-status-value-off { to { opacity: 0; } }
+    @keyframes ia-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes ia-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes ia-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="wilsonNetwork"] .box-shape { animation: ia-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wilsonNetwork"] .status-dot { animation: ia-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wilsonNetwork"] .value-on { animation: ia-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wilsonNetwork"] .value-off { animation: ia-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="leadSelector"] .box-shape { animation: ia-activate 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadSelector"] .status-dot { animation: ia-dot-on-green 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadSelector"] .value-on { animation: ia-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="leadSelector"] .value-off { animation: ia-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="opAmp"] .box-shape { animation: ia-activate 0.4s ease-out 1s forwards; }
+    .playing [data-status="opAmp"] .status-dot { animation: ia-dot-on-orange 0.4s ease-out 1s forwards; }
+    .playing [data-status="opAmp"] .value-on { animation: ia-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="opAmp"] .value-off { animation: ia-status-value-off 0.4s ease-out 1s forwards; }
+
+    .playing [data-component="calibrationSwitch"] .box-shape { animation: ia-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="calibrationSwitch"] .status-dot { animation: ia-dot-on-yellow 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="calibrationSwitch"] .value-on { animation: ia-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="calibrationSwitch"] .value-off { animation: ia-status-value-off 0.4s ease-out 1.5s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    wilsonNetwork: {
+      title: "شبكة ولسن (Wilson Network)",
+      // src/data/chapter-03/page-14.json #stage1-a-p1 (excerpt)
+      text: "مجموعة مقاومات تمثل مقاومات الدخول للمكبر الأولي، تستلم الإشارة من المكبر المتعادل.",
+    },
+    leadSelector: {
+      title: "مفتاح اختيار الليدات (Lead Selector)",
+      // src/data/chapter-03/page-15.json #stage2-p1 (excerpt)
+      text: "يقوم هذا المفتاح باختيار مقاومات معينة من شبكة ولسن وادخالها الى احد مداخل مكبر العمليات.",
+    },
+    opAmp: {
+      title: "مكبر العمليات الأولي",
+      // src/data/chapter-03/page-15.json #stage2-p1 (excerpt)
+      text: "تتكون هذه المرحلة من مكبر عمليات يعمل على تكبير الاشارة القلبية عشر مرات، وله مقاومة تغذية عكسية RF اكبر من مقاومة الدخول بعشر مرات.",
+    },
+    calibrationSwitch: {
+      title: "مفتاح المعايرة (1mV Calibration)",
+      // src/data/chapter-03/page-15.json #stage2-p2 (excerpt)
+      text: "مفتاح (N.C) يربط على طرفيه متسعة والطرف الآخر يربط بمصدر جهد (D.C)، يستعمل لادخال موجة مربعة فولتية ثابتة الى مدخل المكبر الأولي لاختبار عمل المكبرين قبل دخول الإشارة القلبية.",
+    },
+  };
+
+  wireDiagramSimulator(".initial-amplifier-diagram", { cycleMs: 2000, componentInfo: COMPONENT_INFO });
+</script>

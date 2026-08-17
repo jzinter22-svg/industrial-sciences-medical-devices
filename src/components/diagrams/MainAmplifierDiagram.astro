@@ -1,0 +1,168 @@
+---
+// Figures 25-3 (دائرة تأريض الاشارة القلبية) and 26-3 (مكبر الفرق)
+// rebuilt as one dark neumorphic interactive simulator, following the
+// exact Chapter 1/2 system — both circuits are the two halves of stage 3
+// (main amplifier) per the book's own section 3-12.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft main-amplifier-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مرحلة المكبر الرئيسي</span>
+      <span class="simulator-subtitle">شكل 25-3، 26-3 — تأريض الإشارة ومكبر الفرق (FET)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ma-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="340"
+          viewBox="0 0 820 340"
+          role="img"
+          aria-label="دائرة تأريض الاشارة القلبية ومكبر الفرق"
+        >
+          <defs>
+            <marker id="ma-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="maBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="maGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <filter id="maGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="340" rx="20" fill="url(#maBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="340" rx="20" fill="url(#maGrid)"></rect>
+
+          <!-- FET grounding -->
+          <g class="hotspot" data-component="fetGrounding" tabindex="0" role="button" aria-label="دائرة تأريض الاشارة">
+            <rect class="hit-area" x="40" y="60" width="320" height="220" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape">
+              <line x1="70" y1="140" x2="150" y2="140" stroke="#38BDF8" stroke-width="2" marker-end="url(#ma-arrow)"></line>
+              <line x1="200" y1="140" x2="270" y2="140" stroke="#38BDF8" stroke-width="2" marker-end="url(#ma-arrow)"></line>
+              <circle cx="175" cy="160" r="34" fill="#0a1c26" stroke="#38BDF8" stroke-width="2.5" filter="url(#maGlow)"></circle>
+              <text x="175" y="150" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">FET</text>
+              <text x="150" y="200" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">S</text>
+              <text x="200" y="200" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">D</text>
+              <line x1="175" y1="194" x2="175" y2="230" stroke="#38BDF8" stroke-width="2"></line>
+              <line x1="175" y1="126" x2="175" y2="100" stroke="#38BDF8" stroke-width="2"></line>
+              <text x="175" y="90" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">G</text>
+            </g>
+            <text x="175" y="255" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">تأريض عند تحويل Lead</text>
+          </g>
+
+          <!-- differential amp -->
+          <g class="hotspot" data-component="differentialAmp" tabindex="0" role="button" aria-label="مكبر الفرق">
+            <rect class="hit-area" x="440" y="50" width="340" height="240" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape">
+              <circle cx="530" cy="150" r="26" fill="#241530" stroke="#C084FC" stroke-width="2.5" filter="url(#maGlow)"></circle>
+              <text x="530" y="154" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">FET2</text>
+              <circle cx="630" cy="150" r="26" fill="#241530" stroke="#C084FC" stroke-width="2.5" filter="url(#maGlow)"></circle>
+              <text x="630" y="154" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">FET1</text>
+              <line x1="530" y1="124" x2="530" y2="90" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="630" y1="124" x2="630" y2="90" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="530" y1="90" x2="630" y2="90" stroke="#C084FC" stroke-width="2"></line>
+              <text x="580" y="80" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">+Vcc</text>
+              <line x1="530" y1="176" x2="530" y2="220" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="630" y1="176" x2="630" y2="220" stroke="#C084FC" stroke-width="2"></line>
+              <line x1="530" y1="220" x2="630" y2="220" stroke="#C084FC" stroke-width="2"></line>
+              <text x="580" y="240" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">-Vcc</text>
+              <line x1="656" y1="150" x2="710" y2="150" stroke="#C084FC" stroke-width="2" marker-end="url(#ma-arrow)"></line>
+            </g>
+            <text x="500" y="150" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="end" direction="rtl">دخول الإشارة</text>
+            <text x="720" y="145" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">خروج مكبرة</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="fetGrounding"><span class="status-dot dot-blue"></span><span class="status-label">تأريض الإشارة (FET)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="differentialAmp"><span class="status-dot dot-purple"></span><span class="status-label">مكبر الفرق</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي دائرة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>تأريض بين الليدات</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>تكبير مئة مرة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape { transition: filter 0.2s ease; }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape { filter: url(#maGlow) brightness(1.5); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ma-activate { to { filter: url(#maGlow) brightness(1.45); } }
+    @keyframes ma-status-value-on { to { opacity: 1; } }
+    @keyframes ma-status-value-off { to { opacity: 0; } }
+    @keyframes ma-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes ma-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="fetGrounding"] .box-shape { animation: ma-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="fetGrounding"] .status-dot { animation: ma-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="fetGrounding"] .value-on { animation: ma-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="fetGrounding"] .value-off { animation: ma-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="differentialAmp"] .box-shape { animation: ma-activate 0.4s ease-out 1s forwards; }
+    .playing [data-status="differentialAmp"] .status-dot { animation: ma-dot-on-purple 0.4s ease-out 1s forwards; }
+    .playing [data-status="differentialAmp"] .value-on { animation: ma-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="differentialAmp"] .value-off { animation: ma-status-value-off 0.4s ease-out 1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    fetGrounding: {
+      title: "دائرة تأريض الاشارة القلبية",
+      // src/data/chapter-03/page-16.json #stage3-a-p1 (excerpt)
+      text: "تقوم هذه الدائرة بتأريض الاشارة القلبية لفترة قصيرة جدا أثناء تحويل مفتاح Lead، لتخليص المكبر من بقايا فولتية الـ Lead السابق. المكون الرئيس ترانزستور تأثير المجال (FET): المصدر (S) يربط بدخول الاشارة، المصرف (D) بالأرضي العائم، والبوابة (G) من مفتاح اختيار Leads.",
+    },
+    differentialAmp: {
+      title: "مكبر الفرق (وحدة المكبر الرئيسي)",
+      // src/data/chapter-03/page-17.json #stage3-b-p1 (excerpt)
+      text: "يقوم مكبر الفرق بتكبير الاشارة القلبية مئة مرة، وله مدخلان (الإشارة القلبية وجهد صفر فولت) ومخرج واحد، حيث يطرح فولتية المدخلين ويكبرها مئة مرة.",
+    },
+  };
+
+  wireDiagramSimulator(".main-amplifier-diagram", { cycleMs: 1900, componentInfo: COMPONENT_INFO });
+</script>

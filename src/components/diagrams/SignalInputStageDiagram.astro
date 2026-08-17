@@ -1,0 +1,165 @@
+---
+// Figures 22-3 (المكبر المتعادل) and 23-3 (دائرة الرجل اليمنى) rebuilt
+// as one dark neumorphic interactive simulator, following the exact
+// Chapter 1/2 system — both circuits are the two halves of stage 1
+// (signal input) per the book's own section 3-12.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft signal-input-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مرحلة إدخال الإشارة</span>
+      <span class="simulator-subtitle">شكل 22-3، 23-3 — المكبر المتعادل ودائرة الرجل اليمنى</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="si-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="360"
+          viewBox="0 0 820 360"
+          role="img"
+          aria-label="المكبر المتعادل ودائرة الرجل اليمنى"
+        >
+          <defs>
+            <marker id="si-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="siBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="siGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <filter id="siGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#siBgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="360" rx="20" fill="url(#siGrid)"></rect>
+
+          <!-- buffer amp (transistor pair) -->
+          <g class="hotspot" data-component="bufferAmp" tabindex="0" role="button" aria-label="المكبر المتعادل">
+            <rect class="hit-area" x="50" y="40" width="320" height="220" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape">
+              <line x1="150" y1="100" x2="150" y2="60" stroke="#4ADE80" stroke-width="2"></line>
+              <text x="150" y="50" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">+Vcc</text>
+              <line x1="150" y1="100" x2="230" y2="100" stroke="#4ADE80" stroke-width="2"></line>
+              <circle cx="150" cy="140" r="26" fill="#0f1c14" stroke="#4ADE80" stroke-width="2" filter="url(#siGlow)"></circle>
+              <text x="150" y="144" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Q1</text>
+              <circle cx="270" cy="140" r="26" fill="#0f1c14" stroke="#4ADE80" stroke-width="2" filter="url(#siGlow)"></circle>
+              <text x="270" y="144" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Q2</text>
+              <line x1="270" y1="114" x2="270" y2="60" stroke="#4ADE80" stroke-width="2"></line>
+              <line x1="296" y1="140" x2="330" y2="140" stroke="#4ADE80" stroke-width="2" marker-end="url(#si-arrow)"></line>
+              <line x1="70" y1="140" x2="124" y2="140" stroke="#4ADE80" stroke-width="2" marker-end="url(#si-arrow)"></line>
+              <line x1="150" y1="166" x2="150" y2="220" stroke="#4ADE80" stroke-width="2"></line>
+            </g>
+            <text x="150" y="230" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دخول الإشارة القلبية</text>
+            <text x="330" y="130" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="start" direction="rtl">خروج (Vo)</text>
+          </g>
+
+          <!-- RL driver op-amp -->
+          <g class="hotspot" data-component="rlDriver" tabindex="0" role="button" aria-label="دائرة الرجل اليمنى">
+            <rect class="hit-area" x="450" y="60" width="320" height="220" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape">
+              <path d="M 520,150 L 520,210 L 590,180 Z" fill="#140f24" stroke="#FB923C" stroke-width="2" filter="url(#siGlow)"></path>
+              <text x="480" y="170" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">RA</text>
+              <text x="480" y="200" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">LA/LL</text>
+              <line x1="500" y1="165" x2="520" y2="165" stroke="#FB923C" stroke-width="2"></line>
+              <line x1="500" y1="195" x2="520" y2="195" stroke="#FB923C" stroke-width="2"></line>
+              <line x1="590" y1="180" x2="640" y2="180" stroke="#FB923C" stroke-width="2" marker-end="url(#si-arrow)"></line>
+              <line x1="700" y1="180" x2="700" y2="240" stroke="#FB923C" stroke-width="2"></line>
+              <text x="700" y="255" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">الى الرجل اليمنى (RL)</text>
+            </g>
+            <text x="600" y="130" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مقارن — الأرضي العائم</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="bufferAmp"><span class="status-dot dot-green"></span><span class="status-label">المكبر المتعادل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rlDriver"><span class="status-dot dot-orange"></span><span class="status-label">دائرة الرجل اليمنى</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي دائرة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>المكبر المتعادل (Buffer)</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>معادلة الرجل اليمنى</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape { transition: filter 0.2s ease; }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape { filter: url(#siGlow) brightness(1.5); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes si-activate { to { filter: url(#siGlow) brightness(1.45); } }
+    @keyframes si-status-value-on { to { opacity: 1; } }
+    @keyframes si-status-value-off { to { opacity: 0; } }
+    @keyframes si-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes si-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="bufferAmp"] .box-shape { animation: si-activate 0.5s ease-out 0.1s forwards; }
+    .playing [data-status="bufferAmp"] .status-dot { animation: si-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="bufferAmp"] .value-on { animation: si-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="bufferAmp"] .value-off { animation: si-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="rlDriver"] .box-shape { animation: si-activate 0.5s ease-out 1s forwards; }
+    .playing [data-status="rlDriver"] .status-dot { animation: si-dot-on-orange 0.4s ease-out 1s forwards; }
+    .playing [data-status="rlDriver"] .value-on { animation: si-status-value-on 0.4s ease-out 1s forwards; }
+    .playing [data-status="rlDriver"] .value-off { animation: si-status-value-off 0.4s ease-out 1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    bufferAmp: {
+      title: "المكبر المتعادل / العزل (Buffer Amplifier)",
+      // src/data/chapter-03/page-14.json #stage1-a-p1 (excerpt)
+      text: "يقوم هذا المكبر باستقبال الإشارة القلبية من قابلو المريض وارسالها الى شبكة ولسن (Wilson Network). تكون نسبة تكبيره (1:1)، وله ممانعة دخول عالية جدا لكي يستلم الإشارة القلبية الواصلة الى جلد الإنسان دون فقدان.",
+    },
+    rlDriver: {
+      title: "دائرة الرجل اليمنى (Left Leg Circuit)",
+      // src/data/chapter-03/page-15.json #stage1-b-p1 (excerpt)
+      text: "تتكون من مقارن يدخل في احد طرفيه العاكس خطوط ثلاثة من مخرج ثلاثة مكبرات متعادلة (اليد اليمنى، اليد اليسرى، الرجل اليسرى) وتقارن مع الأرضي العائم، اما خرج المقارن فيرسل الى الرجل اليمنى لكي تعادل الفولتية على جسم الإنسان.",
+    },
+  };
+
+  wireDiagramSimulator(".signal-input-diagram", { cycleMs: 1900, componentInfo: COMPONENT_INFO });
+</script>

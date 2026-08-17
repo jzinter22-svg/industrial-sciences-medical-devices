@@ -1,0 +1,224 @@
+---
+// Figures 27-3 (محدد ارتفاع الاشارة), 28-3 (المخطط الكتلوي لمرحلة تكبير
+// قدرة الإشارة) and 29-3 (مخطط الكلفانوميتر) rebuilt as one dark
+// neumorphic interactive simulator, following the exact Chapter 1/2
+// system — the three parts of stage 4 (galvanometer driver) per the
+// book's own section 3-12.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft galvanometer-driver-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مرحلة تسويق الإشارة القلبية</span>
+      <span class="simulator-subtitle">شكل 27-3، 28-3، 29-3 — من محدد الارتفاع الى الكلفانوميتر</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="gd-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="340"
+          viewBox="0 0 900 340"
+          role="img"
+          aria-label="مرحلة تسويق الإشارة القلبية"
+        >
+          <defs>
+            <marker id="gd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="gdBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="gdGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="gdGradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="gdGradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="gdGradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="gdGradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <filter id="gdElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="gdGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="340" rx="20" fill="url(#gdBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="340" rx="20" fill="url(#gdGrid)"></rect>
+
+          <g class="hotspot" data-component="heightLimiter" tabindex="0" role="button" aria-label="محدد ارتفاع الإشارة">
+            <rect class="box-shape" x="40" y="120" width="130" height="70" rx="10" fill="url(#gdGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#gdElevate)"></rect>
+            <text x="105" y="148" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محدد الارتفاع</text>
+            <text x="105" y="166" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Sensitivity</text>
+          </g>
+
+          <g class="hotspot" data-component="polarityDeterminer" tabindex="0" role="button" aria-label="محدد قطبية الإشارة">
+            <rect class="box-shape" x="220" y="120" width="130" height="70" rx="10" fill="url(#gdGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#gdElevate)"></rect>
+            <text x="285" y="148" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">محدد القطبية</text>
+            <text x="285" y="166" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Limiter</text>
+          </g>
+
+          <g class="hotspot" data-component="powerAmp" tabindex="0" role="button" aria-label="مكبر القدرة">
+            <rect class="box-shape" x="400" y="120" width="130" height="70" rx="10" fill="url(#gdGradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#gdElevate)"></rect>
+            <text x="465" y="148" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مكبر القدرة</text>
+            <text x="465" y="166" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" text-anchor="middle" direction="ltr">Power Amp</text>
+          </g>
+
+          <g class="hotspot" data-component="galvanometer" tabindex="0" role="button" aria-label="الكلفانوميتر">
+            <rect class="hit-area" x="590" y="70" width="270" height="170" fill="#000" fill-opacity="0"></rect>
+            <g class="box-shape">
+              <path d="M 700,90 A 60,60 0 1 1 699,90" fill="none" stroke="#38BDF8" stroke-width="14" stroke-linecap="round" stroke-dasharray="180 60" filter="url(#gdGlow)"></path>
+              <circle cx="700" cy="150" r="20" fill="#0a1c26" stroke="#FBBF24" stroke-width="2.5"></circle>
+              <line x1="700" y1="150" x2="760" y2="100" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"></line>
+            </g>
+            <text x="700" y="220" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مغناطيس ثابت وملف متحرك</text>
+          </g>
+
+          <line x1="170" y1="155" x2="220" y2="155" stroke="#5b6478" stroke-width="2" marker-end="url(#gd-arrow)"></line>
+          <line x1="350" y1="155" x2="400" y2="155" stroke="#5b6478" stroke-width="2" marker-end="url(#gd-arrow)"></line>
+          <line x1="530" y1="155" x2="640" y2="155" stroke="#5b6478" stroke-width="2" marker-end="url(#gd-arrow)"></line>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="heightLimiter"><span class="status-dot dot-green"></span><span class="status-label">محدد الارتفاع</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="polarityDeterminer"><span class="status-dot dot-orange"></span><span class="status-label">محدد القطبية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="powerAmp"><span class="status-dot dot-purple"></span><span class="status-label">مكبر القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="galvanometer"><span class="status-dot dot-blue"></span><span class="status-label">الكلفانوميتر</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>تحديد الارتفاع</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>القطبية</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>تكبير القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الحركة الميكانيكية</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#gdElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#gdElevate) saturate(1.4) brightness(1.5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes gd-activate { to { filter: url(#gdElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes gd-status-value-on { to { opacity: 1; } }
+    @keyframes gd-status-value-off { to { opacity: 0; } }
+    @keyframes gd-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes gd-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes gd-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes gd-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="heightLimiter"] .box-shape { animation: gd-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="heightLimiter"] .status-dot { animation: gd-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="heightLimiter"] .value-on { animation: gd-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="heightLimiter"] .value-off { animation: gd-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="polarityDeterminer"] .box-shape { animation: gd-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="polarityDeterminer"] .status-dot { animation: gd-dot-on-orange 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="polarityDeterminer"] .value-on { animation: gd-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="polarityDeterminer"] .value-off { animation: gd-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-component="powerAmp"] .box-shape { animation: gd-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmp"] .status-dot { animation: gd-dot-on-purple 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmp"] .value-on { animation: gd-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="powerAmp"] .value-off { animation: gd-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="galvanometer"] .box-shape { animation: gd-activate 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="galvanometer"] .status-dot { animation: gd-dot-on-blue 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="galvanometer"] .value-on { animation: gd-status-value-on 0.4s ease-out 1.7s forwards; }
+    .playing [data-status="galvanometer"] .value-off { animation: gd-status-value-off 0.4s ease-out 1.7s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    heightLimiter: {
+      title: "محدد ارتفاع الإشارة",
+      // src/data/chapter-03/page-17.json #stage4-a-p1 (excerpt)
+      text: "اذا كانت الاشارة المرسومة على الورق كبيرة جدا بحيث خرجت عن حدود الورق، يجب ان نصغرها الى النصف عن طريق مجزئ فولتية بمفتاح خارجي (1) و(1/2).",
+    },
+    polarityDeterminer: {
+      title: "محدد قطبية الإشارة",
+      // src/data/chapter-03/page-18.json #stage4-b-p1 (excerpt)
+      text: "دائرة مقارن تقارن الاشارة القلبية مع الأرضي العائم، وتجعل الاشارة اما (+Vcc) او (-Vcc) حسب قيمتها، وترفع أو تخفض الاشارة لتكون في وسط الورق.",
+    },
+    powerAmp: {
+      title: "مكبر قدرة اشارة التسويق",
+      // src/data/chapter-03/page-18.json #stage4-c-p1 (excerpt)
+      text: "يتكون من مجموعة ترانزستورات قدرة عالية تعمل على تكبير الإشارة الضعيفة الخارجة من المقارن، بمقاومتين متغيرتين لضبط ارتفاع الإشارة وشكلها.",
+    },
+    galvanometer: {
+      title: "الكلفانوميتر (Galvanometer)",
+      // src/data/chapter-03/page-19.json #stage4-d-p1 (excerpt)
+      text: "يستلم الكلفانوميتر الإشارة القلبية الخارجة من مكبر القدرة فيتولد فيه مجال مغناطيسي يتحرك صعودا ونزولا داخل القلب الحديدي المثبت عليه القلم الحراري. هو عبارة عن قلب حديدي بشكل حدوة الفرس بداخله ملف.",
+    },
+  };
+
+  wireDiagramSimulator(".galvanometer-driver-diagram", { cycleMs: 2400, componentInfo: COMPONENT_INFO });
+</script>

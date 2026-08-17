@@ -1,0 +1,222 @@
+---
+// Figure 31-3 (المخطط الكتلوي لمرحلة السيطرة على سرعة المحرك) rebuilt
+// as a dark neumorphic interactive simulator, following the exact
+// Chapter 1/2 system.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft motor-speed-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة السيطرة على سرعة المحرك</span>
+      <span class="simulator-subtitle">شكل 31-3 — دائرة سيطرة تغذى عكسيا من مقاومة الاستشعار</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ms-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="300"
+          viewBox="0 0 760 300"
+          role="img"
+          aria-label="مرحلة السيطرة على سرعة المحرك"
+        >
+          <defs>
+            <marker id="ms-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="msBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="msGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="msGradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="msGradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="msGradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <filter id="msElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="msGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#msBgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#msGrid)"></rect>
+
+          <g class="hotspot" data-component="feedbackControl" tabindex="0" role="button" aria-label="دائرة سيطرة تغذى عكسيا">
+            <rect class="box-shape" x="60" y="100" width="180" height="80" rx="10" fill="url(#msGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#msElevate)"></rect>
+            <text x="150" y="130" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دائرة سيطرة</text>
+            <text x="150" y="150" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">تغذى عكسيا</text>
+          </g>
+
+          <g class="hotspot" data-component="driveTransistor" tabindex="0" role="button" aria-label="ترانزستور التغذية">
+            <rect class="box-shape" x="300" y="100" width="140" height="80" rx="10" fill="url(#msGradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#msElevate)"></rect>
+            <text x="370" y="130" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ترانزستور</text>
+            <text x="370" y="150" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">التغذية</text>
+          </g>
+
+          <g class="hotspot" data-component="motor" tabindex="0" role="button" aria-label="المحرك">
+            <rect class="hit-area" x="480" y="80" width="130" height="120" fill="#000" fill-opacity="0"></rect>
+            <circle class="box-shape" cx="545" cy="140" r="35" fill="#0a1c26" stroke="#38BDF8" stroke-width="3" filter="url(#msGlow)"></circle>
+            <text x="545" y="146" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">M</text>
+          </g>
+
+          <g class="hotspot" data-component="senseResistor" tabindex="0" role="button" aria-label="مقاومة الاستشعار 1 أوم">
+            <rect class="hit-area" x="480" y="205" width="130" height="55" fill="#000" fill-opacity="0"></rect>
+            <path class="box-shape" d="M 500,225 l 8,-10 l 8,20 l 8,-20 l 8,20 l 8,-10 l 8,0" fill="none" stroke="#F87171" stroke-width="2.5" filter="url(#msGlow)"></path>
+            <text x="545" y="250" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">1Ω</text>
+          </g>
+
+          <g class="link">
+            <line x1="240" y1="140" x2="300" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#ms-arrow)"></line>
+            <line x1="440" y1="140" x2="480" y2="140" stroke="#5b6478" stroke-width="2" marker-end="url(#ms-arrow)"></line>
+            <path d="M 545,175 L 545,205" stroke="#5b6478" stroke-width="2"></path>
+            <path d="M 545,232 L 150,232 L 150,180" fill="none" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="3 5" marker-end="url(#ms-arrow)"></path>
+          </g>
+          <text x="330" y="255" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تغذية عكسية حسب الحمل</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="feedbackControl"><span class="status-dot dot-green"></span><span class="status-label">دائرة السيطرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="driveTransistor"><span class="status-dot dot-orange"></span><span class="status-label">ترانزستور التغذية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="motor"><span class="status-dot dot-blue"></span><span class="status-label">المحرك (DC Motor)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="senseResistor"><span class="status-dot" style="background:#F87171"></span><span class="status-label">مقاومة الاستشعار</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>السيطرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التغذية</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>المحرك</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>الاستشعار</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#msElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hotspot:hover .box-shape, .hotspot:focus-visible .box-shape, .hotspot.is-selected .box-shape {
+    filter: url(#msElevate) saturate(1.4) brightness(1.5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes ms-activate { to { filter: url(#msElevate) saturate(1.4) brightness(1.45); } }
+    @keyframes ms-rotate { to { transform: rotate(360deg); } }
+    @keyframes ms-status-value-on { to { opacity: 1; } }
+    @keyframes ms-status-value-off { to { opacity: 0; } }
+    @keyframes ms-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes ms-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes ms-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes ms-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+
+    .playing [data-component="feedbackControl"] .box-shape { animation: ms-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedbackControl"] .status-dot { animation: ms-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedbackControl"] .value-on { animation: ms-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedbackControl"] .value-off { animation: ms-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="driveTransistor"] .box-shape { animation: ms-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="driveTransistor"] .status-dot { animation: ms-dot-on-orange 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="driveTransistor"] .value-on { animation: ms-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="driveTransistor"] .value-off { animation: ms-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-component="motor"] .box-shape { animation: ms-activate 0.4s ease-out 1.1s forwards, ms-rotate 2s linear 1.1s infinite; }
+    .playing [data-status="motor"] .status-dot { animation: ms-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="motor"] .value-on { animation: ms-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="motor"] .value-off { animation: ms-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="senseResistor"] .box-shape { animation: ms-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="senseResistor"] .status-dot { animation: ms-dot-on-red 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="senseResistor"] .value-on { animation: ms-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="senseResistor"] .value-off { animation: ms-status-value-off 0.4s ease-out 1.6s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    feedbackControl: {
+      title: "دائرة سيطرة تغذى عكسيا",
+      // src/data/chapter-03/page-20.json #stage6-p1 (excerpt)
+      text: "تقوم هذه المرحلة بالسيطرة على سرعة المحرك بحيث تكون ثابتة من بداية التخطيط الى نهايته، لانه اذا تغيرت السرعة إثناء التخطيط سوف تتشوه الإشارة القلبية.",
+    },
+    driveTransistor: {
+      title: "ترانزستور التغذية",
+      // src/data/chapter-03/page-20.json #stage6-p2 (excerpt)
+      text: "ترانزستور قدرة يقوم بتوصيل الجهد الـ (DC) الى المحرك، ويزيد توصيله اذا زادت الفولتية على مقاومة الاستشعار (1Ω) نتيجة زيادة تيار المحرك.",
+    },
+    motor: {
+      title: "المحرك (DC Motor)",
+      // src/data/chapter-03/page-20.json #stage6-p1 (excerpt)
+      text: "محرك نوع مستمر (DC Motor) يحرك ورق التخطيط بسرعة ثابتة، وأي تغير في سرعته يشوه الإشارة القلبية المرسومة وقد يفسر خطأً بوجود مرض عند المريض.",
+    },
+    senseResistor: {
+      title: "مقاومة الاستشعار (1Ω)",
+      // src/data/chapter-03/page-20.json #stage6-p2 (excerpt)
+      text: "تقوم هذه المقاومة بتوصيل اشارة تحول الى دائرة إيعاز الترانزستور، وتتغير الفولتية عليها حسب زيادة أو نقصان تيار المحرك الناتج عن وجود تحميل عليه.",
+    },
+  };
+
+  wireDiagramSimulator(".motor-speed-diagram", { cycleMs: 2100, componentInfo: COMPONENT_INFO });
+</script>
