@@ -1,0 +1,143 @@
+{
+  "id": "page-00",
+  "pageNumber": 51,
+  "chapterNumber": 3,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثالث",
+    "printedPage": 51
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط القلب",
+    "en": "E.C.G"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الاهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "يتمكن الطالب من معرفة ما يأتي:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "مكونات القلب والعضلة القلبية والصمامات والدورات الدموية للقلب."
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "الأجزاء الكهربائية والميكانيكية لجهاز تخطيط القلب."
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "كيفية ربط المريض على جهاز تخطيط القلب."
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "طريقة رسم الإشارة القلبية من المفهوم الكهربائي للقلب."
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "الفعالية الكهربائية للقلب وشكل الإشارة القلبية."
+              }
+            },
+            {
+              "id": "objective-06",
+              "content": {
+                "ar": "كيفية استخدام ملحقات الجهاز."
+              }
+            },
+            {
+              "id": "objective-07",
+              "content": {
+                "ar": "المراحل الكهربائية داخل الجهاز."
+              }
+            },
+            {
+              "id": "objective-08",
+              "content": {
+                "ar": "طريقة تكبير الإشارة القلبية."
+              }
+            },
+            {
+              "id": "objective-09",
+              "content": {
+                "ar": "المخططات الكهربائية لكل مرحلة من مراحل تكبير الإشارة والمنظومات الملحقة بالجهاز."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل الثالث"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            { "id": "toc-3-1", "number": "3-1", "content": { "ar": "القلب" } },
+            { "id": "toc-3-2", "number": "3-2", "content": { "ar": "صمامات القلب" } },
+            { "id": "toc-3-3", "number": "3-3", "content": { "ar": "جدران القلب" } },
+            { "id": "toc-3-4", "number": "3-4", "content": { "ar": "الدورتان الدمويتان" } },
+            { "id": "toc-3-5", "number": "3-5", "content": { "ar": "الفعالية الكهربائية للقلب" } },
+            { "id": "toc-3-6", "number": "3-6", "content": { "ar": "النبضة الكهربائية" } },
+            { "id": "toc-3-7", "number": "3-7", "content": { "ar": "ربط الاقطاب" } },
+            { "id": "toc-3-8", "number": "3-8", "content": { "ar": "قابلو المريض" } },
+            { "id": "toc-3-9", "number": "3-9", "content": { "ar": "احداثيات الاشارة القلبية" } },
+            { "id": "toc-3-10", "number": "3-10", "content": { "ar": "جهاز تخطيط القلب" } },
+            { "id": "toc-3-11", "number": "3-11", "content": { "ar": "المخطط الكتلوي لجهاز تخطيط القلب" } },
+            { "id": "toc-3-12", "number": "3-12", "content": { "ar": "مراحل جهاز تخطيط القلب" } },
+            { "id": "toc-3-13", "number": "", "content": { "ar": "الاسئلة" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c3-fig-opener",
+          "src": "/assets/diagrams/chapter-03/fig-00-opener-heart-ecg.jpg",
+          "alt": "القلب ومخطط النبضة الكهربائية بجانب جهاز تخطيط القلب",
+          "caption": {
+            "ar": "جهاز تخطيط القلب (E.C.G)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

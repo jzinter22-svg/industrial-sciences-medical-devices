@@ -1,0 +1,83 @@
+{
+  "id": "page-05",
+  "pageNumber": 56,
+  "chapterNumber": 3,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثالث",
+    "printedPage": 56
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط القلب",
+    "en": "E.C.G"
+  },
+
+  "sections": [
+    {
+      "id": "section-3-5-figure",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c3-fig-3-6",
+          "caption": {
+            "ar": "الشكل 6-3 يمثل مواقع العقد العصبية للقلب"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-3-6",
+      "number": "3-6",
+      "title": {
+        "ar": "النبضة القلبية"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "pulse-p1",
+          "content": {
+            "ar": "هي الإشارة القلبية مرسومة على خطوط بيانية. يكون المحور الأفقي هو محور الزمن ويقاس بالثانية والمحور العمودي هو محور الفولتية ويقاس بالملي فولت (mV). وهذه الإشارة وضع عليها حروف لمعرفة المنطقة المراد التركيز عليها في أثناء قراءة التخطيط من قبل الأطباء المتخصصين وهي تسمى (P- Q-R-S-T) حيث إن لكل نتوء في شكل الإشارة له حرف كما في الشكل (7-3)."
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-wave-meaning",
+          "items": [
+            { "id": "wave-p", "content": { "ar": "(P): تقلص الاذنين" } },
+            { "id": "wave-qrs", "content": { "ar": "(Q-R-S): تقلص البطينين" } },
+            { "id": "wave-t", "content": { "ar": "(T): استرخاء العضلة القلبية" } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "pulse-p2",
+          "content": {
+            "ar": "بما ان الإشارة القلبية مرسومة على ورق بياني فأن كل مربع صغير هو (1mm × 1mm) حيث ان الأبعاد تكون:-"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-mm-values",
+          "items": [
+            { "id": "mm-vertical", "content": { "ar": "1mm عمودي = 0.1 (mV)" } },
+            { "id": "mm-horizontal", "content": { "ar": "1mm أفقي = 0.04 (sec)" } }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

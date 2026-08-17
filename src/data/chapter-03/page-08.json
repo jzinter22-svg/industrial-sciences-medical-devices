@@ -1,0 +1,101 @@
+{
+  "id": "page-08",
+  "pageNumber": 59,
+  "chapterNumber": 3,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثالث",
+    "printedPage": 59
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط القلب",
+    "en": "E.C.G"
+  },
+
+  "sections": [
+    {
+      "id": "section-3-8",
+      "number": "3-8",
+      "title": {
+        "ar": "قابلو المريض",
+        "en": "Patient Cable"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "cable-p1",
+          "content": {
+            "ar": "لنقل الإشارة القلبية من جسم المريض الى جهاز (E.C.G) نحتاج الى قابلو خاص له طرفان الاول يربط بالجهاز والثاني يربط بالأقطاب والطرف الذي يربط بالجهاز يكون شكله دائري بداخله عدد من التوصيلات البارزة التي تدخل في الجهاز والشكل (11-3) يمثل طرف قابلو المريض الذي يثبت بالجهاز."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c3-fig-3-11",
+          "src": "/assets/diagrams/chapter-03/fig-11-patient-cable-connector.jpg",
+          "alt": "الطرف الأول لكيبل المريض الذي يربط بجهاز E.C.G",
+          "caption": {
+            "ar": "شكل 11-3 الطرف الأول لكيبل المريض الذي يربط بجهاز (E.C.G)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "cable-p2",
+          "content": {
+            "ar": "اما الطرف الآخر الذي يربط بأقطاب المريض فيكون بالشكل (12-3) وهذه النهاية لها كما نعلم عشرة أقطاب ففي إطرافها توجد مجموعتين الأولى للأيدي ويكتب عليها بالاختصار:"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-limb-abbrev",
+          "items": [
+            { "id": "abbrev-ra", "content": { "ar": "(RA) التي تمثل اليد اليمنى (Right Arm)" } },
+            { "id": "abbrev-la", "content": { "ar": "(LA) التي تمثل اليد اليسرى (Left Arm)" } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "cable-p3",
+          "content": {
+            "ar": "والمجموعة الثانية للأرجل ويكتب عليها بالاختصار:"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-leg-abbrev",
+          "items": [
+            { "id": "abbrev-ll", "content": { "ar": "(LL) التي تمثل الرجل اليسرى (Left Leg)" } },
+            { "id": "abbrev-rl", "content": { "ar": "(RL) التي تمثل الرجل اليمنى (Right Leg)" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c3-fig-3-12",
+          "src": "/assets/diagrams/chapter-03/fig-12-patient-cable-leads.jpg",
+          "alt": "الطرف الثاني لكيبل المريض الذي يربط بالأقطاب في جهاز E.C.G",
+          "caption": {
+            "ar": "شكل 12-3 الطرف الثاني لكيبل المريض الذي يربط بالأقطاب في جهاز (E.C.G)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "cable-p4",
+          "content": {
+            "ar": "اما مجموعة الصدر فتكون بين هاتين المجموعتين ويكتب عليها بالتسلسل (C1,C2,C3,C4,C5,C6) حيث ان الحرف (C) يعني الصدر (Chest). هذه الأقطاب العشرة تكون ملونة وكل لون يمثل موقع ولكن هذه"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

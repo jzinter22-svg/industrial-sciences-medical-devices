@@ -1,0 +1,71 @@
+{
+  "id": "page-10",
+  "pageNumber": 61,
+  "chapterNumber": 3,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثالث",
+    "printedPage": 61
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز تخطيط القلب",
+    "en": "E.C.G"
+  },
+
+  "sections": [
+    {
+      "id": "section-3-9-continued",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "list",
+          "id": "list-lead-augmented",
+          "items": [
+            { "id": "lead-avr", "content": { "ar": "[(AVR)] يؤخذ من (RA) الى [(LA)+(LL)]" } },
+            { "id": "lead-avl", "content": { "ar": "[(AVL)] يؤخذ من (LA) الى [(RA)+(LL)]" } },
+            { "id": "lead-avf", "content": { "ar": "[(AVF)] يؤخذ من (LL) الى [(RA)+(LA)]" } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "coords-p5",
+          "content": {
+            "ar": "أما احداثيات الصدر فتكون حالات ستة فتؤخذ الاطراف سويا الى القطب الكأسي كما يلي:"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-lead-chest",
+          "items": [
+            { "id": "lead-c1", "content": { "ar": "[C1] يؤخذ من القطب (C1) الى [(RA)+(LA)+(LL)]" } },
+            { "id": "lead-c2", "content": { "ar": "[C2] يؤخذ من القطب (C2) الى [(RA)+(LA)+(LL)]" } },
+            { "id": "lead-c3", "content": { "ar": "[C3] يؤخذ من القطب (C3) الى [(RA)+(LA)+(LL)]" } },
+            { "id": "lead-c4", "content": { "ar": "[C4] يؤخذ من القطب (C4) الى [(RA)+(LA)+(LL)]" } },
+            { "id": "lead-c5", "content": { "ar": "[C5] يؤخذ من القطب (C5) الى [(RA)+(LA)+(LL)]" } },
+            { "id": "lead-c6", "content": { "ar": "[C6] يؤخذ من القطب (C6) الى [(RA)+(LA)+(LL)]" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c3-fig-3-15",
+          "caption": {
+            "ar": "شكل 15-3 طريقة ربط جهاز (E.C.G) على أطراف وصدر المريض لكل حالة (Lead)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}
