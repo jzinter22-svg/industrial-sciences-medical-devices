@@ -1,0 +1,44 @@
+{
+  "id": "page-14",
+  "pageNumber": 88,
+  "chapterNumber": 4,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الرابع",
+    "printedPage": 88
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية"
+  },
+
+  "sections": [
+    {
+      "id": "section-4-10-diagram",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c4-fig-4-17",
+          "src": "/assets/diagrams/chapter-04/fig-17-modern-defibrillator.jpg",
+          "alt": "جهاز الرجة الكهربائية الحديث",
+          "caption": {
+            "ar": "شكل 4 – 17 جهاز الرجة الكهربائية الحديث"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

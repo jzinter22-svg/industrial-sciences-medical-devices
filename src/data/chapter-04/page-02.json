@@ -1,0 +1,144 @@
+{
+  "id": "page-02",
+  "pageNumber": 76,
+  "chapterNumber": 4,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الرابع",
+    "printedPage": 76
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية"
+  },
+
+  "sections": [
+    {
+      "id": "section-4-1-internal",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "pacemaker-internal-title",
+          "content": {
+            "ar": "2 – منظم ضربات القلب الداخلي (Internal)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "pacemaker-internal-p1",
+          "content": {
+            "ar": "ويزرع هذا المنظم بأكمله مع الأقطاب داخل الجسم، وهو ضروري عندما يصبح معدل انخفاض ضربات القلب مزمنا وتدوم الأزمة القلبية لأكثر من بضعة أيام. شكل (4 – 3) يوضح أنواع المنظمات الداخلية."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c4-fig-4-3",
+          "src": "/assets/diagrams/chapter-04/fig-03-internal-pacemaker.jpg",
+          "alt": "منظمات ضربات القلب الداخلية",
+          "caption": {
+            "ar": "الشكل 4 – 3 منظمات ضربات القلب الداخلية"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-4-1-1",
+      "number": "1-1-4",
+      "title": {
+        "ar": "مساوئ استعمال منظم ضربات القلب الخارجي"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "id": "list-external-disadvantages",
+          "items": [
+            { "id": "disadvantage-1", "content": { "ar": "يسبب القطب حرق الجلد لذلك يجب استعمال مادة الهلام (Jelly) لعمل توصيل جيد ومنع الحرق." } },
+            { "id": "disadvantage-2", "content": { "ar": "النبضات الكهربائية تكون مؤلمة." } },
+            { "id": "disadvantage-3", "content": { "ar": "النبضات تسبب انقباض غير مريح لعضلات القلب حول منطقة الأقطاب." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-4-2",
+      "number": "4-2",
+      "title": {
+        "ar": "الأنماط الاساسية لمنظم ضربات القلب"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "id": "list-basic-modes",
+          "items": [
+            { "id": "mode-1", "content": { "ar": "1 – النمط الغير تزامني (Asynchronous)" } },
+            { "id": "mode-2", "content": { "ar": "2 – النمط عند الطلب (Demand Mode)" } },
+            { "id": "mode-3", "content": { "ar": "3 - النمط تزامن الأذينين (Atrial Synchronous Mode)" } },
+            { "id": "mode-4", "content": { "ar": "4 – نمط كبح الموجة (R) (An R-wave Inhibited PacemakerMode)" } },
+            { "id": "mode-5", "content": { "ar": "5 - منظمات ضربات القلب الحديثة" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-4-2-1",
+      "number": "1 - 2 – 4",
+      "title": {
+        "ar": "منظم النمط الغير تزامني"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "async-parts-title",
+          "content": {
+            "ar": "أجزاء مولد النبضات الغير تزامني :"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "async-p1",
+          "content": {
+            "ar": "يتكون جهاز مولد النبضة (النبضات) الكهربائي من الأجزاء الآتية:-"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-generator-parts",
+          "items": [
+            { "id": "part-1", "content": { "ar": "1 – مصدر قدرة (Power Source)." } },
+            { "id": "part-2", "content": { "ar": "2 – مذبذب (Oscillator)." } }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "async-p2",
+          "content": {
+            "ar": "المذبذب هو المكون الرئيسي لجهاز تنظيم ضربات القلب، ومن أنواع المذبذبات المستعملة ما يأتي :-"
+          }
+        },
+        {
+          "type": "list",
+          "id": "list-oscillator-types",
+          "items": [
+            { "id": "osc-a", "content": { "ar": "أ - مذبذب المنع (Blocking Oscillator)" } },
+            { "id": "osc-b", "content": { "ar": "ب - المذبذب الغير مستقر (Astable Multivibrator)" } },
+            { "id": "osc-c", "content": { "ar": "ج - المذبذب أحادي الاستقرار (Monostable Multivibrator)" } },
+            { "id": "part-3", "content": { "ar": "3 – مكبر قدرة (Power Amplifier)" } }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

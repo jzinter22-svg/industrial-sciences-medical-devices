@@ -1,0 +1,72 @@
+{
+  "id": "page-05",
+  "pageNumber": 79,
+  "chapterNumber": 4,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الرابع",
+    "printedPage": 79
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية"
+  },
+
+  "sections": [
+    {
+      "id": "section-4-2-2-single-diagram",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c4-fig-4-6",
+          "caption": {
+            "ar": "شكل 4 – 6 منظم ذو غرفة واحدة وقطبه مغروس في البطين الأيمن"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section-4-2-2-dual",
+      "number": "",
+      "title": { "ar": "" },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "dual-chamber-title",
+          "content": {
+            "ar": "ب- منظم ضربات ثنائي الغرفة-عند الطلب (Dual-Chamber Pacemaker)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "dual-chamber-p1",
+          "content": {
+            "ar": "تم تطوير منظم آحادي الغرفة-عند الطلب، من خلال إضافة دائرتين :( تحكم توقيت ومرحلة خرج) لتنظيم ضربات القلب بثنائي الغرفة ، لذا فله سلكي توصيل، الأول يوضع في الأذين الأيمن والآخر في البطين الأيمن. حيث انه يتحسس الفعالية الكهربائية في الأذين والبطين ومعرفة الحاجة الى تنظيم النبضات في كل من الأذين أو البطين. شكل (4 – 7) يوضح منظم ضربات نوع ألدائمي وكيفية ربط سلكي توصيل الى كل من الأذين والبطين."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c4-fig-4-7",
+          "src": "/assets/diagrams/chapter-04/fig-07-dual-chamber-anatomy.jpg",
+          "alt": "منظم ضربات القلب ثنائي الغرفة",
+          "caption": {
+            "ar": "شكل 4 – 7 منظم ضربات القلب ثنائي الغرفة"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

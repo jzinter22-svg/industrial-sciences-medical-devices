@@ -101,6 +101,30 @@ const chapter03Lesson01Pages = [
   c3page20, c3page21, c3page22,
 ];
 
+import c4page00 from "../../../data/chapter-04/page-00.json";
+import c4page01 from "../../../data/chapter-04/page-01.json";
+import c4page02 from "../../../data/chapter-04/page-02.json";
+import c4page03 from "../../../data/chapter-04/page-03.json";
+import c4page04 from "../../../data/chapter-04/page-04.json";
+import c4page05 from "../../../data/chapter-04/page-05.json";
+import c4page06 from "../../../data/chapter-04/page-06.json";
+import c4page07 from "../../../data/chapter-04/page-07.json";
+import c4page08 from "../../../data/chapter-04/page-08.json";
+import c4page09 from "../../../data/chapter-04/page-09.json";
+import c4page10 from "../../../data/chapter-04/page-10.json";
+import c4page11 from "../../../data/chapter-04/page-11.json";
+import c4page12 from "../../../data/chapter-04/page-12.json";
+import c4page13 from "../../../data/chapter-04/page-13.json";
+import c4page14 from "../../../data/chapter-04/page-14.json";
+import c4page15 from "../../../data/chapter-04/page-15.json";
+
+const chapter04Lesson01Pages = [
+  c4page00, c4page01, c4page02, c4page03, c4page04,
+  c4page05, c4page06, c4page07, c4page08, c4page09,
+  c4page10, c4page11, c4page12, c4page13, c4page14,
+  c4page15,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -115,12 +139,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isChapter01Lesson01 = chapter.id === "chapter-01" && lesson.id === "lesson-01";
 const isChapter02Lesson01 = chapter.id === "chapter-02" && lesson.id === "lesson-01";
 const isChapter03Lesson01 = chapter.id === "chapter-03" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01;
+const isChapter04Lesson01 = chapter.id === "chapter-04" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01;
 const lessonPages = isChapter01Lesson01
   ? chapter01Lesson01Pages
   : isChapter02Lesson01
     ? chapter02Lesson01Pages
-    : chapter03Lesson01Pages;
+    : isChapter03Lesson01
+      ? chapter03Lesson01Pages
+      : chapter04Lesson01Pages;
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>

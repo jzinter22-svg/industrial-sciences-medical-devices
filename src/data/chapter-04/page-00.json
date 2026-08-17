@@ -1,0 +1,99 @@
+{
+  "id": "page-00",
+  "pageNumber": 74,
+  "chapterNumber": 4,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الرابع",
+    "printedPage": 74
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز منظم ضربات القلب الاصطناعي وجهاز الرجة الكهربائية"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "بعد ان يكتمل الفصل يستطيع الطالب أن :-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            { "id": "objective-01", "content": { "ar": "يعرف أنواع وأنماط منظمات القلب الاصطناعية." } },
+            { "id": "objective-02", "content": { "ar": "يعرف مساوئ استعمال منظم ضربات القلب الخارجي." } },
+            { "id": "objective-03", "content": { "ar": "يرسم المخطط الكتلوي للمنظم الاصطناعي غير التزامني والمنظم الاصطناعي عند الطلب." } },
+            { "id": "objective-04", "content": { "ar": "يعرف أنواع المذبذبات المستعملة في أجهزة تنظيم ضربات القلب." } },
+            { "id": "objective-05", "content": { "ar": "يعرف أنواع ومزايا اجهزة الرجة الكهربائية." } },
+            { "id": "objective-06", "content": { "ar": "يعرف تركيب وعمل جهاز الرجة الكهربائية غير المتزامن والمتزامن." } },
+            { "id": "objective-07", "content": { "ar": "يعرف الأشكال الموجية لأجهزة الرجة الكهربائية." } }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل الرابع"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            { "id": "toc-4-1", "number": "4-1", "content": { "ar": "منظم ضربات القلب الاصطناعي" } },
+            { "id": "toc-4-1-1", "number": "1-1-4", "content": { "ar": "مساوئ استعمال منظم ضربات القلب الخارجي" } },
+            { "id": "toc-4-2", "number": "4-2", "content": { "ar": "الأنماط الاساسية لمنظم الضربات" } },
+            { "id": "toc-4-2-2", "number": "2-2-4", "content": { "ar": "منظم ضربات القلب الاصطناعي عند الطلب" } },
+            { "id": "toc-4-2-3", "number": "3-2-4", "content": { "ar": "منظم ضربات تزامن - الأذنين" } },
+            { "id": "toc-4-2-4", "number": "4-2-4", "content": { "ar": "نمط كبح الموجة (R)" } },
+            { "id": "toc-4-2-5", "number": "5-2-4", "content": { "ar": "منظمات ضربات القلب الحديثة" } },
+            { "id": "toc-4-3", "number": "4-3", "content": { "ar": "جهاز الرجة الكهربائية" } },
+            { "id": "toc-4-4", "number": "4-4", "content": { "ar": "أنواع أجهزة الرجة الكهربائية" } },
+            { "id": "toc-4-5", "number": "4-5", "content": { "ar": "الأشكال الموجية المستعملة في أجهزة الرجة الكهربائية" } },
+            { "id": "toc-4-6", "number": "4-6", "content": { "ar": "جهاز الرجة الكهربائية (DC) غير المتزامن" } },
+            { "id": "toc-4-7", "number": "4-7", "content": { "ar": "جهاز الرجة الكهربائية (DC) المتزامن" } },
+            { "id": "toc-4-7-1", "number": "1-7-4", "content": { "ar": "دائرة التحويل الالكتروني" } },
+            { "id": "toc-4-8", "number": "4-8", "content": { "ar": "أجهزة الرجة المزروعة" } },
+            { "id": "toc-4-9", "number": "4-9", "content": { "ar": "أقطاب جهاز الرجة الكهربائية" } },
+            { "id": "toc-4-10", "number": "4-10", "content": { "ar": "مزايا أجهزة الرجة الحديثة" } },
+            { "id": "toc-4-questions", "number": "", "content": { "ar": "الاسئلة" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c4-fig-opener",
+          "src": "/assets/diagrams/chapter-04/fig-00-opener-devices.jpg",
+          "alt": "جهاز الرجة الكهربائية ومنظم ضربات القلب المغروس",
+          "caption": {
+            "ar": "جهاز الرجة الكهربائية ومنظم ضربات القلب المغروس"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

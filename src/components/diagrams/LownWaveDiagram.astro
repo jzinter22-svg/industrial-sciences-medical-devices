@@ -1,0 +1,223 @@
+---
+// Figure 4-9 (موجة لون / Lown Wave) — built on the established dark
+// neumorphic "interactive simulator" oscilloscope-trace system (see
+// ScanTypesTraceDiagram.astro / CardiacConductionDiagram.astro).
+//
+// A single labeled voltage-vs-time discharge trace: starts at the peak
+// (~3kV / 20A across the patient electrodes), decays over ~5ms, then
+// dips into a smaller-amplitude reversed-polarity tail before settling
+// back to zero. Whole trace uses the shock-energy red; the peak point
+// gets a brighter amber accent marker.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft lown-wave-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة موجة لون</span>
+      <span class="simulator-subtitle">شكل 4-9 — موجة لون بفولتية (3kV) وتيار (20A)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="lw9-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="380"
+          viewBox="0 0 700 380"
+          role="img"
+          aria-label="موجة لون: فولتية 3 كيلوفولت تنخفض خلال 5 ملي ثانية ثم تنعكس قطبيتها"
+        >
+          <defs>
+            <marker id="lw9-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="lw9BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="lw9Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <pattern id="lw9PaperGrid" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0 H0 V12" fill="none" stroke="rgba(248, 113, 113, 0.14)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="lw9Panel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1c0e10"></stop>
+              <stop offset="100%" stop-color="#120a0c"></stop>
+            </linearGradient>
+
+            <filter id="lw9Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="lw9GlowStrong" x="-280%" y="-280%" width="660%" height="660%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4.6" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#lw9BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#lw9Grid)"></rect>
+
+          <rect x="30" y="30" width="640" height="280" rx="14" fill="url(#lw9Panel)" fill-opacity="0.6" stroke="rgba(248,113,113,0.22)" stroke-width="1.5"></rect>
+          <rect x="30" y="30" width="640" height="280" rx="14" fill="url(#lw9PaperGrid)"></rect>
+
+          <!-- axes -->
+          <line x1="110" y1="60" x2="110" y2="270" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          <text x="110" y="50" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">V (kV)</text>
+          <line x1="110" y1="220" x2="630" y2="220" stroke="#5b6478" stroke-width="1.5" marker-end="url(#lw9-arrow)"></line>
+          <text x="640" y="225" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">t (ms)</text>
+
+          <!-- gridline ticks -->
+          <line x1="104" y1="90" x2="116" y2="90" stroke="#8b94aa" stroke-width="1.5"></line>
+          <text x="94" y="94" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="end" direction="ltr">3</text>
+          <line x1="104" y1="220" x2="116" y2="220" stroke="#8b94aa" stroke-width="1.5"></line>
+          <text x="94" y="224" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="end" direction="ltr">0</text>
+          <line x1="280" y1="214" x2="280" y2="226" stroke="#8b94aa" stroke-width="1.5"></line>
+          <text x="280" y="240" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">5</text>
+
+          <!-- peak voltage marker -->
+          <g class="hotspot" data-component="peakVoltage" tabindex="0" role="button" aria-label="الذروة — 3kV و20A">
+            <rect class="hit-area" x="95" y="65" width="70" height="60" fill="#000" fill-opacity="0"></rect>
+            <circle class="trace-glow-shape peak-dot" cx="130" cy="90" r="7" fill="#FBBF24" filter="url(#lw9GlowStrong)"></circle>
+            <text x="130" y="70" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">3kV / 20A</text>
+          </g>
+
+          <!-- decay slope: peak down to ~5ms mark at baseline -->
+          <g class="hotspot" data-component="decaySlope" tabindex="0" role="button" aria-label="انحدار الفولتية خلال 5 ملي ثانية">
+            <rect class="hit-area" x="115" y="70" width="175" height="160" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-decay" d="M 130,90 C 175,95 230,140 280,220" fill="none" stroke="#F87171" stroke-width="3.5" stroke-linecap="round" filter="url(#lw9Glow)"></path>
+          </g>
+
+          <!-- polarity reversal: negative dip after decay, back to baseline -->
+          <g class="hotspot" data-component="polarityReversal" tabindex="0" role="button" aria-label="انعكاس القطبية">
+            <rect class="hit-area" x="270" y="210" width="150" height="70" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-reversal" d="M 280,220 C 305,255 335,255 360,235 C 380,222 395,220 410,220" fill="none" stroke="#F87171" stroke-width="3.5" stroke-linecap="round" filter="url(#lw9Glow)"></path>
+          </g>
+
+          <line class="trace-baseline-after" x1="410" y1="220" x2="600" y2="220" stroke="#5b6478" stroke-width="2"></line>
+
+          <text x="360" y="290" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تنخفض الفولتية بعد الذروة خلال (5) ملي ثانية تقريبا ثم تنعكس قطبيتها</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="peakVoltage"><span class="status-dot dot-amber"></span><span class="status-label">الذروة (3kV)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="decaySlope"><span class="status-dot dot-red"></span><span class="status-label">الانحدار</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="polarityReversal"><span class="status-dot dot-red"></span><span class="status-label">انعكاس القطبية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء من الموجة لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>طاقة التفريغ</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#FBBF24"></span>نقطة الذروة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .peak-dot {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .trace-decay, .trace-reversal {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+  }
+
+  .trace-baseline-after {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes lw9-peak-reveal { to { opacity: 1; transform: scale(1.3); } }
+    @keyframes lw9-draw-trace { to { stroke-dashoffset: 0; } }
+    @keyframes lw9-status-value-on { to { opacity: 1; } }
+    @keyframes lw9-status-value-off { to { opacity: 0; } }
+    @keyframes lw9-reveal { to { opacity: 1; } }
+    @keyframes lw9-dot-on-amber { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes lw9-dot-on-red { to { background: #F87171; box-shadow: 0 0 10px 2px rgba(248, 113, 113, 0.9); } }
+
+    .playing [data-component="peakVoltage"] .peak-dot { animation: lw9-peak-reveal 0.3s ease-out 0.1s forwards; }
+    .playing [data-status="peakVoltage"] .status-dot { animation: lw9-dot-on-amber 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="peakVoltage"] .value-on { animation: lw9-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="peakVoltage"] .value-off { animation: lw9-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="decaySlope"] .trace-decay { animation: lw9-draw-trace 0.7s ease-out 0.5s forwards; }
+    .playing [data-status="decaySlope"] .status-dot { animation: lw9-dot-on-red 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="decaySlope"] .value-on { animation: lw9-status-value-on 0.4s ease-out 0.5s forwards; }
+    .playing [data-status="decaySlope"] .value-off { animation: lw9-status-value-off 0.4s ease-out 0.5s forwards; }
+
+    .playing [data-component="polarityReversal"] .trace-reversal { animation: lw9-draw-trace 0.6s ease-out 1.4s forwards; }
+    .playing [data-status="polarityReversal"] .status-dot { animation: lw9-dot-on-red 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="polarityReversal"] .value-on { animation: lw9-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="polarityReversal"] .value-off { animation: lw9-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing .trace-baseline-after { animation: lw9-reveal 0.3s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    peakVoltage: {
+      title: "الذروة",
+      // src/data/chapter-04/page-08.json #lown-p1 (excerpt)
+      text: "الذروة — عند تطبيق فولتية (3kV) وتيار (20A) عبر أقطاب المريض.",
+    },
+    decaySlope: {
+      title: "الانحدار",
+      // src/data/chapter-04/page-08.json #lown-p1 (excerpt)
+      text: "الانحدار — تنخفض الفولتية في فترة قصيرة تقارب (5) ملي ثانية بعد الذروة.",
+    },
+    polarityReversal: {
+      title: "انعكاس القطبية",
+      // src/data/chapter-04/page-08.json #lown-p1 (excerpt)
+      text: "انعكاس القطبية — بعد انخفاض الفولتية، تنعكس قطبيتها (تصبح سالبة) وهذا ما يميز شكل موجة لون.",
+    },
+  };
+
+  wireDiagramSimulator(".lown-wave-diagram", { cycleMs: 2400, componentInfo: COMPONENT_INFO });
+</script>

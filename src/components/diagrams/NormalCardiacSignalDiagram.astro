@@ -1,0 +1,235 @@
+---
+// Figure 4-1 (الإشارات القلبية الطبيعية) — Chapter 4 opening diagram,
+// built on the established dark neumorphic "interactive simulator"
+// system (see ScanTypesTraceDiagram.astro / CardiacConductionDiagram.astro
+// for the oscilloscope-trace variant this file follows).
+//
+// A single normal cardiac cycle drawn left-to-right on an ECG-strip
+// style panel: P wave -> PR segment (the potential fault point that
+// causes cardiac block, per pacemaker-p1) -> QRS complex -> T wave.
+// Each segment is its own hotspot; the trace sweeps/draws in playback
+// order using the stroke-dasharray/dashoffset technique already used
+// by CardiacConductionDiagram's P-QRS-T trace.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft normal-cardiac-signal-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الإشارة القلبية الطبيعية</span>
+      <span class="simulator-subtitle">شكل 1-4 — من موجة P الى موجة QRS و T، ونقطة حدوث الانسداد القلبي</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pm1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="380"
+          viewBox="0 0 700 380"
+          role="img"
+          aria-label="الإشارة القلبية الطبيعية: موجة P، الفترة PR، مركب QRS، موجة T"
+        >
+          <defs>
+            <marker id="pm1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="pm1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pm1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <pattern id="pm1PaperGrid" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M12 0 H0 V12" fill="none" stroke="rgba(244, 63, 94, 0.16)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pm1Panel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1c0e14"></stop>
+              <stop offset="100%" stop-color="#120a10"></stop>
+            </linearGradient>
+
+            <filter id="pm1Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pm1GlowStrong" x="-260%" y="-260%" width="620%" height="620%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4.4" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#pm1BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="380" rx="20" fill="url(#pm1Grid)"></rect>
+
+          <rect x="30" y="30" width="640" height="270" rx="14" fill="url(#pm1Panel)" fill-opacity="0.6" stroke="rgba(244,63,94,0.25)" stroke-width="1.5"></rect>
+          <rect x="30" y="30" width="640" height="270" rx="14" fill="url(#pm1PaperGrid)"></rect>
+
+          <line x1="55" y1="200" x2="645" y2="200" stroke="#5b6478" stroke-width="1.5" marker-end="url(#pm1-arrow)"></line>
+          <text x="655" y="205" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="start" direction="ltr">t</text>
+          <text x="350" y="52" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">دورة قلبية طبيعية واحدة</text>
+
+          <!-- baseline lead-in before P -->
+          <line x1="65" y1="200" x2="110" y2="200" stroke="#5b6478" stroke-width="2"></line>
+
+          <!-- P wave -->
+          <g class="hotspot" data-component="pWave" tabindex="0" role="button" aria-label="موجة P">
+            <rect class="hit-area" x="95" y="150" width="90" height="90" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-p" d="M 110,200 Q 145,168 180,200" fill="none" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="round" filter="url(#pm1Glow)"></path>
+            <text x="145" y="158" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">P</text>
+          </g>
+
+          <!-- PR segment: the flat fault-point interval -->
+          <g class="hotspot" data-component="prInterval" tabindex="0" role="button" aria-label="الفترة PR — نقطة الانسداد المحتمل">
+            <rect class="hit-area" x="180" y="165" width="90" height="70" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-pr" d="M 180,200 L 265,200" fill="none" stroke="#F87171" stroke-width="4" stroke-linecap="round" filter="url(#pm1GlowStrong)"></path>
+            <text x="222" y="182" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">PR</text>
+          </g>
+
+          <!-- QRS complex -->
+          <g class="hotspot" data-component="qrsComplex" tabindex="0" role="button" aria-label="مركب QRS">
+            <rect class="hit-area" x="255" y="80" width="110" height="180" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-qrs" d="M 265,200 L 282,203 L 305,95 L 328,255 L 350,200" fill="none" stroke="#FB7185" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#pm1GlowStrong)"></path>
+            <text x="305" y="80" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#FB7185" text-anchor="middle" direction="ltr">QRS</text>
+          </g>
+
+          <!-- T wave -->
+          <g class="hotspot" data-component="tWave" tabindex="0" role="button" aria-label="موجة T">
+            <rect class="hit-area" x="345" y="155" width="110" height="85" fill="#000" fill-opacity="0"></rect>
+            <path class="trace-t" d="M 350,200 Q 400,160 450,200" fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round" filter="url(#pm1Glow)"></path>
+            <text x="400" y="150" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">T</text>
+          </g>
+
+          <line class="trace-baseline-after" x1="450" y1="200" x2="620" y2="200" stroke="#5b6478" stroke-width="2"></line>
+
+          <text x="350" y="285" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">حدوث خلل في أي جزء من هذه الإشارة يسبب الانسداد القلبي الجزئي أو الكلي</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="pWave"><span class="status-dot dot-gold"></span><span class="status-label">موجة P</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="prInterval"><span class="status-dot dot-red"></span><span class="status-label">الفترة PR (الانسداد)</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="qrsComplex"><span class="status-dot dot-crimson"></span><span class="status-label">مركب QRS</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="tWave"><span class="status-dot dot-cyan"></span><span class="status-label">موجة T</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء من الإشارة لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch" style="background:#FBBF24"></span>موجة P</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>PR — نقطة الانسداد</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#FB7185"></span>مركب QRS</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>موجة T</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .trace-p, .trace-pr, .trace-qrs, .trace-t {
+    stroke-dasharray: 340;
+    stroke-dashoffset: 340;
+  }
+
+  .trace-baseline-after {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pm1-draw-trace { to { stroke-dashoffset: 0; } }
+    @keyframes pm1-status-value-on { to { opacity: 1; } }
+    @keyframes pm1-status-value-off { to { opacity: 0; } }
+    @keyframes pm1-reveal { to { opacity: 1; } }
+    @keyframes pm1-dot-on-gold { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes pm1-dot-on-red { to { background: #F87171; box-shadow: 0 0 10px 2px rgba(248, 113, 113, 0.9); } }
+    @keyframes pm1-dot-on-crimson { to { background: #FB7185; box-shadow: 0 0 8px 1px rgba(251, 113, 133, 0.8); } }
+    @keyframes pm1-dot-on-cyan { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="pWave"] .trace-p { animation: pm1-draw-trace 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="pWave"] .status-dot { animation: pm1-dot-on-gold 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="pWave"] .value-on { animation: pm1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="pWave"] .value-off { animation: pm1-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="prInterval"] .trace-pr { animation: pm1-draw-trace 0.5s ease-out 0.7s forwards; }
+    .playing [data-status="prInterval"] .status-dot { animation: pm1-dot-on-red 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="prInterval"] .value-on { animation: pm1-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="prInterval"] .value-off { animation: pm1-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="qrsComplex"] .trace-qrs { animation: pm1-draw-trace 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="qrsComplex"] .status-dot { animation: pm1-dot-on-crimson 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="qrsComplex"] .value-on { animation: pm1-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="qrsComplex"] .value-off { animation: pm1-status-value-off 0.4s ease-out 1.4s forwards; }
+
+    .playing [data-component="tWave"] .trace-t { animation: pm1-draw-trace 0.5s ease-out 1.9s forwards; }
+    .playing [data-status="tWave"] .status-dot { animation: pm1-dot-on-cyan 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="tWave"] .value-on { animation: pm1-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="tWave"] .value-off { animation: pm1-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing .trace-baseline-after { animation: pm1-reveal 0.3s ease-out 2.4s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    pWave: {
+      title: "موجة P",
+      // src/data/chapter-04/page-01.json #pacemaker-p1 (excerpt)
+      text: "موجة P — تمثل تنبيه الأذينين (الاستقطاب الأذيني) الذي يبدأ من العقدة الجيبية الأذينية.",
+    },
+    prInterval: {
+      title: "الفترة PR — نقطة الانسداد المحتمل",
+      // src/data/chapter-04/page-01.json #pacemaker-p1 (excerpt)
+      text: "التوصيلية الكهربائية بين الأذينين والبطينين — حدوث خلل في هذا الجزء من الإشارة القلبية هو ما يسبب الانسداد القلبي الجزئي أو الكلي، وهو السبب الرئيس لاستخدام منظم ضربات القلب الاصطناعي.",
+    },
+    qrsComplex: {
+      title: "مركب QRS",
+      // src/data/chapter-04/page-01.json #pacemaker-p1 (excerpt)
+      text: "معقد QRS — يمثل تنبيه (استقطاب) البطينين، وهو الجزء المسؤول عن انقباض عضلة القلب الرئيسة لضخ الدم.",
+    },
+    tWave: {
+      title: "موجة T",
+      // src/data/chapter-04/page-01.json #pacemaker-p1 (excerpt)
+      text: "موجة T — تمثل عودة استقطاب (استرخاء) عضلة البطينين استعدادا للنبضة القلبية التالية.",
+    },
+  };
+
+  wireDiagramSimulator(".normal-cardiac-signal-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>
