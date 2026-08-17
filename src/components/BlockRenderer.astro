@@ -61,6 +61,18 @@ import GalvanometerDriverDiagram from "./diagrams/GalvanometerDriverDiagram.astr
 import StylusHeatControlDiagram from "./diagrams/StylusHeatControlDiagram.astro";
 import MotorSpeedControlDiagram from "./diagrams/MotorSpeedControlDiagram.astro";
 import PowerSupplyStagesDiagram from "./diagrams/PowerSupplyStagesDiagram.astro";
+import NormalCardiacSignalDiagram from "./diagrams/NormalCardiacSignalDiagram.astro";
+import PulseGeneratorBlockDiagram from "./diagrams/PulseGeneratorBlockDiagram.astro";
+import PulseGeneratorCircuitDiagram from "./diagrams/PulseGeneratorCircuitDiagram.astro";
+import DemandPacemakerBlockDiagram from "./diagrams/DemandPacemakerBlockDiagram.astro";
+import LownWaveDiagram from "./diagrams/LownWaveDiagram.astro";
+import DefibWaveformComparisonDiagram from "./diagrams/DefibWaveformComparisonDiagram.astro";
+import AsyncDefibrillatorCircuitDiagram from "./diagrams/AsyncDefibrillatorCircuitDiagram.astro";
+import CardioverterCircuitDiagram from "./diagrams/CardioverterCircuitDiagram.astro";
+import SyncDefibrillatorBlockDiagram from "./diagrams/SyncDefibrillatorBlockDiagram.astro";
+import DefibOutputCircuitDiagram from "./diagrams/DefibOutputCircuitDiagram.astro";
+import DefibControlCircuitDiagram from "./diagrams/DefibControlCircuitDiagram.astro";
+import ICDImplantDiagram from "./diagrams/ICDImplantDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -113,6 +125,24 @@ const chapter3AnimatedDiagrams: Record<string, any> = {
   "c3-fig-3-32": PowerSupplyStagesDiagram,
 };
 
+// Chapter 4 diagram ids (c4-fig-4-XX) that have a hand-built animated
+// replacement, same rationale as the Chapter 1/2/3 tables above — the
+// rest (photographic figures) fall back to the generic DiagramBlock.
+const chapter4AnimatedDiagrams: Record<string, any> = {
+  "c4-fig-4-1": NormalCardiacSignalDiagram,
+  "c4-fig-4-4": PulseGeneratorBlockDiagram,
+  "c4-fig-4-5": PulseGeneratorCircuitDiagram,
+  "c4-fig-4-6": DemandPacemakerBlockDiagram,
+  "c4-fig-4-9": LownWaveDiagram,
+  "c4-fig-4-10": DefibWaveformComparisonDiagram,
+  "c4-fig-4-11": AsyncDefibrillatorCircuitDiagram,
+  "c4-fig-4-12": CardioverterCircuitDiagram,
+  "c4-fig-4-13": SyncDefibrillatorBlockDiagram,
+  "c4-fig-4-14": DefibOutputCircuitDiagram,
+  "c4-fig-4-15": DefibControlCircuitDiagram,
+  "c4-fig-4-16": ICDImplantDiagram,
+};
+
 // Chapter 1 device ids (device-0N) that have a hand-built animated
 // inline-SVG illustration, rendered through DeviceCard's "illustration"
 // slot. Any device not listed here falls back to DeviceCard's existing
@@ -145,6 +175,7 @@ const pulseGeneratorVariantByDiagramId: Record<string, string> = {
 
 const Chapter2Diagram = block.type === "diagram" ? chapter2AnimatedDiagrams[block.id] : undefined;
 const Chapter3Diagram = block.type === "diagram" ? chapter3AnimatedDiagrams[block.id] : undefined;
+const Chapter4Diagram = block.type === "diagram" ? chapter4AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -223,11 +254,16 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter3Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter4Diagram && (
+  <Chapter4Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
   !Chapter2Diagram &&
-  !Chapter3Diagram && (
+  !Chapter3Diagram &&
+  !Chapter4Diagram && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 

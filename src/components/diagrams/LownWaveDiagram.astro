@@ -104,13 +104,6 @@ const { caption } = Astro.props;
           </g>
           <text x="280" y="240" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="ltr">5</text>
 
-          <!-- peak voltage marker -->
-          <g class="hotspot" data-component="peakVoltage" tabindex="0" role="button" aria-label="الذروة — 3kV و20A">
-            <rect class="hit-area" x="95" y="65" width="70" height="60" fill="#000" fill-opacity="0"></rect>
-            <circle class="trace-glow-shape peak-dot" cx="130" cy="90" r="7" fill="#FBBF24" filter="url(#lw9GlowStrong)"></circle>
-            <text x="130" y="70" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">3kV / 20A</text>
-          </g>
-
           <!-- decay slope: peak down to ~5ms mark at baseline -->
           <g class="hotspot" data-component="decaySlope" tabindex="0" role="button" aria-label="انحدار الفولتية خلال 5 ملي ثانية">
             <rect class="hit-area" x="115" y="70" width="175" height="160" fill="#000" fill-opacity="0"></rect>
@@ -121,6 +114,13 @@ const { caption } = Astro.props;
           <g class="hotspot" data-component="polarityReversal" tabindex="0" role="button" aria-label="انعكاس القطبية">
             <rect class="hit-area" x="270" y="210" width="150" height="70" fill="#000" fill-opacity="0"></rect>
             <path class="trace-reversal" d="M 280,220 C 305,255 335,255 360,235 C 380,222 395,220 410,220" fill="none" stroke="#F87171" stroke-width="3.5" stroke-linecap="round" filter="url(#lw9Glow)"></path>
+          </g>
+
+          <!-- peak voltage marker (drawn last so its hit-area wins over the decay curve's overlapping hit-area at the same point) -->
+          <g class="hotspot" data-component="peakVoltage" tabindex="0" role="button" aria-label="الذروة — 3kV و20A">
+            <rect class="hit-area" x="95" y="65" width="70" height="60" fill="#000" fill-opacity="0"></rect>
+            <circle class="trace-glow-shape peak-dot" cx="130" cy="90" r="7" fill="#FBBF24" filter="url(#lw9GlowStrong)"></circle>
+            <text x="130" y="70" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">3kV / 20A</text>
           </g>
 
           <g class="link">

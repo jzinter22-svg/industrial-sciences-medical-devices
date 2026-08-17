@@ -1,0 +1,316 @@
+---
+// Figure 4-12 (c4-fig-4-12) — دائرة التحويل الالكتروني (Cardioverter)
+// باستعمال مفتاح السيطرة السليكوني (SCR). Built as a dark neumorphic
+// interactive simulator following the exact Chapter 1-4 "circuit-level"
+// system (StylusHeatControlDiagram.astro): box hotspots in a
+// left-to-right signal-path chain. Like DemandPacemakerBlockDiagram.astro
+// (fig 4-6), this circuit branches on a mode switch (S2: Defibrillate /
+// Cardiovert) — the short dashed path is the simple atrial-fibrillation
+// discharge (S1 only), the primary animated chain is the synchronized
+// ventricular (Cardiovert) path: sensed R-wave -> shaper -> SCR gate ->
+// relay discharge, timed to ~30 μs after the R-wave. All SVG ids are
+// prefixed "cv12" to stay unique site-wide.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft cardioverter-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة التحويل الالكتروني (Cardioverter)</span>
+      <span class="simulator-subtitle">شكل 4-12 — دائرة التزامن باستعمال مفتاح السيطرة السليكوني (SCR)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="cv12-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1000"
+          height="360"
+          viewBox="0 0 1000 360"
+          role="img"
+          aria-label="دائرة التحويل الالكتروني (Cardioverter)"
+        >
+          <defs>
+            <marker id="cv12-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="cv12BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="cv12Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="cv12GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="cv12GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="cv12GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="cv12GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="cv12GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1420"></stop><stop offset="100%" stop-color="#1c0a10"></stop></linearGradient>
+
+            <filter id="cv12Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="cv12Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1000" height="360" rx="20" fill="url(#cv12BgGrad)"></rect>
+          <rect x="0" y="0" width="1000" height="360" rx="20" fill="url(#cv12Grid)"></rect>
+
+          <!-- mode-select switch S2: the branch point -->
+          <g class="hotspot" data-component="modeSwitch" tabindex="0" role="button" aria-label="المفتاح S2 — Defibrillate / Cardiovert">
+            <rect class="box-shape" x="30" y="145" width="140" height="80" rx="10" fill="url(#cv12GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#cv12Elevate)"></rect>
+            <text x="100" y="168" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح S2</text>
+            <text x="100" y="184" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">Defibrillate</text>
+            <text x="100" y="197" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="ltr">/ Cardiovert</text>
+          </g>
+
+          <!-- Path 1 (Defibrillate / atrial): short direct dashed path to relay discharge -->
+          <g class="hotspot" data-component="switchS1" tabindex="0" role="button" aria-label="المفتاح S1">
+            <rect class="box-shape" x="230" y="40" width="120" height="60" rx="10" fill="url(#cv12GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#cv12Elevate)"></rect>
+            <text x="290" y="65" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مفتاح S1</text>
+            <text x="290" y="82" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="rtl">تفريغ فوري</text>
+          </g>
+
+          <g class="link" data-link="modeSwitch" data-link-to="switchS1">
+            <path d="M 170,165 L 200,165 L 200,70 L 230,70" fill="none" stroke="#5b6478" stroke-width="1.6" stroke-dasharray="3 5" marker-end="url(#cv12-arrow)"></path>
+            <path class="trail trail-blue" d="M 170,165 L 200,165 L 200,70 L 228,70" fill="none" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4 6"></path>
+          </g>
+          <text x="200" y="120" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">تقلص الأذنين</text>
+
+          <!-- Path 2 (Cardiovert / ventricular): the main synchronized chain -->
+          <g class="hotspot" data-component="ecgRWave" tabindex="0" role="button" aria-label="نبضة R من جهاز ECG">
+            <rect class="box-shape" x="230" y="145" width="130" height="80" rx="10" fill="url(#cv12GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#cv12Elevate)"></rect>
+            <text x="295" y="170" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">نبضة R</text>
+            <text x="295" y="187" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">E.C.G.</text>
+          </g>
+
+          <g class="hotspot" data-component="signalShaper" tabindex="0" role="button" aria-label="مشكل الإشارة Shaper">
+            <rect class="box-shape" x="410" y="145" width="130" height="80" rx="10" fill="url(#cv12GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#cv12Elevate)"></rect>
+            <text x="475" y="170" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">مشكل الإشارة</text>
+            <text x="475" y="187" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">Shaper</text>
+          </g>
+
+          <g class="hotspot" data-component="scrGate" tabindex="0" role="button" aria-label="بوابة مفتاح السيطرة السليكوني SCR">
+            <rect class="box-shape" x="590" y="145" width="130" height="80" rx="10" fill="url(#cv12GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#cv12Elevate)"></rect>
+            <text x="655" y="170" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">بوابة SCR</text>
+            <text x="655" y="187" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Gate</text>
+          </g>
+
+          <g class="hotspot" data-component="relayDischarge" tabindex="0" role="button" aria-label="المرحل — تفريغ المتسعة الى المريض">
+            <rect class="box-shape" x="800" y="135" width="150" height="100" rx="12" fill="url(#cv12GradRed)" stroke="#F87171" stroke-width="2.5" filter="url(#cv12Elevate)"></rect>
+            <text x="875" y="165" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المرحل</text>
+            <text x="875" y="183" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">تفريغ المتسعة</text>
+            <text x="875" y="198" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">الى المريض</text>
+            <text x="875" y="215" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">~30 μs</text>
+          </g>
+
+          <g class="link" data-link="ecgRWave" data-link-to="signalShaper">
+            <line x1="360" y1="185" x2="410" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#cv12-arrow)"></line>
+            <line class="trail trail-green" x1="360" y1="185" x2="408" y2="185" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="signalShaper" data-link-to="scrGate">
+            <line x1="540" y1="185" x2="590" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#cv12-arrow)"></line>
+            <line class="trail trail-orange" x1="540" y1="185" x2="588" y2="185" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="scrGate" data-link-to="relayDischarge">
+            <line x1="720" y1="185" x2="800" y2="185" stroke="#5b6478" stroke-width="2" marker-end="url(#cv12-arrow)"></line>
+            <line class="trail trail-red" x1="720" y1="185" x2="798" y2="185" stroke="#F87171" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <!-- Path 1 rejoins the shared discharge stage -->
+          <g class="link" data-link="switchS1" data-link-to="relayDischarge">
+            <path d="M 350,70 L 875,70 L 875,135" fill="none" stroke="#5b6478" stroke-width="1.6" stroke-dasharray="3 5" marker-end="url(#cv12-arrow)"></path>
+            <path class="trail trail-blue" d="M 350,70 L 875,70 L 875,133" fill="none" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4 6"></path>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="360" cy="185" r="5" fill="#38BDF8" filter="url(#cv12Glow)" style="--tx:50px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="540" cy="185" r="5" fill="#4ADE80" filter="url(#cv12Glow)" style="--tx:50px; --ty:0px; --particle-delay:0.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="720" cy="185" r="5" fill="#FB923C" filter="url(#cv12Glow)" style="--tx:80px; --ty:0px; --particle-delay:1.4s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="modeSwitch"><span class="status-dot" style="background:#FBBF24"></span><span class="status-label">مفتاح S2</span><span class="status-value"><span class="value-off">غير محدد</span><span class="value-on">Cardiovert</span></span></li>
+          <li class="status-row" data-status="switchS1"><span class="status-dot" style="background:#38BDF8"></span><span class="status-label">مفتاح S1</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">مغلق</span></span></li>
+          <li class="status-row" data-status="ecgRWave"><span class="status-dot dot-blue"></span><span class="status-label">نبضة R</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">وصلت</span></span></li>
+          <li class="status-row" data-status="signalShaper"><span class="status-dot dot-green"></span><span class="status-label">مشكل الإشارة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="scrGate"><span class="status-dot dot-orange"></span><span class="status-label">بوابة SCR</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">مغلق</span></span></li>
+          <li class="status-row" data-status="relayDischarge"><span class="status-dot" style="background:#F87171"></span><span class="status-label">المرحل</span><span class="status-value"><span class="value-off">مستقر</span><span class="value-on">تفريغ!</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>اختيار الوضع (S2)</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>موجة R المتحسسة</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>تحكم مشكل الإشارة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>بوابة SCR</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>تفريغ المتسعة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#cv12Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#cv12Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#cv12Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes cv12-shape-activate { to { filter: url(#cv12Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes cv12-reveal-trail { to { opacity: 0.85; } }
+    @keyframes cv12-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: cv12-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+    @keyframes cv12-status-value-on { to { opacity: 1; } }
+    @keyframes cv12-status-value-off { to { opacity: 0; } }
+    @keyframes cv12-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes cv12-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes cv12-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes cv12-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes cv12-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+
+    /* primary animated sequence: the synchronized Cardiovert (ventricular) path */
+    .playing [data-component="modeSwitch"] .box-shape { animation: cv12-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="modeSwitch"] .status-dot { animation: cv12-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="modeSwitch"] .value-on { animation: cv12-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="modeSwitch"] .value-off { animation: cv12-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="ecgRWave"] .box-shape { animation: cv12-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWave"] .status-dot { animation: cv12-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWave"] .value-on { animation: cv12-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWave"] .value-off { animation: cv12-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="ecgRWave"] .trail { animation: cv12-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="signalShaper"] .box-shape { animation: cv12-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="signalShaper"] .status-dot { animation: cv12-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="signalShaper"] .value-on { animation: cv12-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="signalShaper"] .value-off { animation: cv12-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="signalShaper"] .trail { animation: cv12-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="scrGate"] .box-shape { animation: cv12-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="scrGate"] .status-dot { animation: cv12-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="scrGate"] .value-on { animation: cv12-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="scrGate"] .value-off { animation: cv12-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="scrGate"] .trail { animation: cv12-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="relayDischarge"] .box-shape { animation: cv12-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="relayDischarge"] .status-dot { animation: cv12-dot-on-red 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="relayDischarge"] .value-on { animation: cv12-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="relayDischarge"] .value-off { animation: cv12-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    modeSwitch: {
+      title: "المفتاح S2 — Defibrillate / Cardiovert",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "ففي حالة تقلص الأذنين يكون وضع المفتاح (S2) على (Defibrillate)، أما في حالة التقلص البطيني فيوضع المفتاح (S2) في الموضع (Cardiovert).",
+    },
+    switchS1: {
+      title: "المفتاح S1",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "في حالة تقلص الأذنين، وغلق المفتاح (S1) فستغلق نقاط المرحل المفتوحة، وتفرغ المتسعة شحنتها.",
+    },
+    ecgRWave: {
+      title: "نبضة R من جهاز إشارة النبضة القلبية (E.C.G.)",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "في حالة التقلص البطيني لا يعمل المرحل إلا بواسطة نبضة (R) من جهاز إشارة النبضة القلبية (E.C.G.).",
+    },
+    signalShaper: {
+      title: "مشكل الإشارة (Shaper)",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "تغذى نبضة (R) الى مشكل الإشارة (Shaper) والذي يحولها الى نبضة رقمية كافية لإغلاق المفتاح (SCR) من خلال البوابة.",
+    },
+    scrGate: {
+      title: "بوابة مفتاح السيطرة السليكوني (SCR)",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "تغلق النبضة الرقمية القادمة من مشكل الإشارة مفتاح السيطرة السليكوني (SCR) من خلال البوابة.",
+    },
+    relayDischarge: {
+      title: "المرحل — تفريغ المتسعة الى المريض",
+      // src/data/chapter-04/page-10.json #cardioverter-p2 (excerpt)
+      text: "لا يعمل المرحل إلا عند غلق مفتاح السيطرة السليكوني (SCR)، وعندها فقط يعمل المرحل وتفريغ المتسعة الى المريض بعد حوالي (30 μs) من حدوث نبضة (R).",
+    },
+  };
+
+  wireDiagramSimulator(".cardioverter-circuit-diagram", { cycleMs: 2800, componentInfo: COMPONENT_INFO });
+</script>

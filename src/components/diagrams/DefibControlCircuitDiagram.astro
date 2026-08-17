@@ -1,0 +1,298 @@
+---
+// Figure 4-15 (c4-fig-4-15) — دائرة التحكم (دائرة التحويل الالكتروني
+// بالترانزستور). Built as a dark neumorphic interactive simulator
+// following the exact Chapter 1-4 "circuit-level" system
+// (StylusHeatControlDiagram.astro): box hotspots in a left-to-right
+// signal-path chain. Like CardioverterCircuitDiagram.astro (fig 4-12)
+// and DemandPacemakerBlockDiagram.astro (fig 4-6), this circuit branches
+// on a manual two-position switch — position 1 (atrial) is a short
+// direct dashed path straight to the 12V output; position 2
+// (ventricular) is the main synchronized chain, the primary animated
+// sequence: sensed R-wave -> transistor Q -> relay c / K3 -> 12V output
+// to relays a/b (the discharge). All SVG ids are prefixed "dcc15" to
+// stay unique site-wide.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft defib-control-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة التحكم (دائرة التحويل الالكتروني بالترانزستور)</span>
+      <span class="simulator-subtitle">شكل 4-15 — تزويد دائرة الخرج بالفولتية (12V) حسب حالة تقلص القلب</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dcc15-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1000"
+          height="320"
+          viewBox="0 0 1000 320"
+          role="img"
+          aria-label="دائرة التحكم (دائرة التحويل الالكتروني بالترانزستور)"
+        >
+          <defs>
+            <marker id="dcc15-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="dcc15BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dcc15Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dcc15GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="dcc15GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="dcc15GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332210"></stop><stop offset="100%" stop-color="#1a1108"></stop></linearGradient>
+            <linearGradient id="dcc15GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="dcc15GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1420"></stop><stop offset="100%" stop-color="#1c0a10"></stop></linearGradient>
+
+            <filter id="dcc15Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha"><feFuncA type="table" tableValues="1 0"></feFuncA></feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode><feMergeNode in="haloOuter"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode><feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="dcc15Glow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1000" height="320" rx="20" fill="url(#dcc15BgGrad)"></rect>
+          <rect x="0" y="0" width="1000" height="320" rx="20" fill="url(#dcc15Grid)"></rect>
+
+          <!-- entry: manual two-position switch -->
+          <g class="hotspot" data-component="manualSwitch" tabindex="0" role="button" aria-label="المفتاح اليدوي — نقطة 1 (أذيني) / نقطة 2 (بطيني)">
+            <rect class="box-shape" x="30" y="105" width="140" height="90" rx="10" fill="url(#dcc15GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#dcc15Elevate)"></rect>
+            <text x="100" y="130" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المفتاح اليدوي</text>
+            <text x="100" y="148" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">نقطة 1 (أذيني)</text>
+            <text x="100" y="163" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" text-anchor="middle" direction="rtl">نقطة 2 (بطيني)</text>
+          </g>
+
+          <!-- position 1 (atrial): short direct dashed path -->
+          <text x="330" y="55" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#8b94aa" text-anchor="middle" direction="rtl">نقطة (1) — تقلص الأذنين</text>
+          <g class="link" data-link="manualSwitch" data-link-to="outputVoltage12V">
+            <path d="M 170,120 L 250,120 L 250,70 L 800,70 L 800,140" fill="none" stroke="#5b6478" stroke-width="1.6" stroke-dasharray="3 5" marker-end="url(#dcc15-arrow)"></path>
+            <path class="trail trail-yellow" d="M 170,120 L 250,120 L 250,70 L 800,70 L 800,138" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="4 6"></path>
+          </g>
+
+          <!-- position 2 (ventricular): main synchronized chain -->
+          <g class="hotspot" data-component="ecgRWaveInput" tabindex="0" role="button" aria-label="نبضة R من إشارة ECG">
+            <rect class="box-shape" x="230" y="150" width="120" height="80" rx="10" fill="url(#dcc15GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#dcc15Elevate)"></rect>
+            <text x="290" y="175" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">نبضة R</text>
+            <text x="290" y="192" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" text-anchor="middle" direction="ltr">E.C.G.</text>
+          </g>
+
+          <g class="hotspot" data-component="transistorQ" tabindex="0" role="button" aria-label="الترانزستور Q">
+            <rect class="box-shape" x="400" y="150" width="120" height="80" rx="10" fill="url(#dcc15GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#dcc15Elevate)"></rect>
+            <text x="460" y="175" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">ترانزستور</text>
+            <text x="460" y="192" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FB923C" text-anchor="middle" direction="ltr">Q</text>
+          </g>
+
+          <g class="hotspot" data-component="relayC" tabindex="0" role="button" aria-label="المرحل c — يغلق نقطة الاتصال K3">
+            <rect class="box-shape" x="570" y="150" width="140" height="80" rx="10" fill="url(#dcc15GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#dcc15Elevate)"></rect>
+            <text x="640" y="175" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">المرحل c</text>
+            <text x="640" y="192" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" text-anchor="middle" direction="ltr">closes K3</text>
+          </g>
+
+          <g class="hotspot" data-component="outputVoltage12V" tabindex="0" role="button" aria-label="تشغيل المرحلين a و b — الرجة الكهربائية">
+            <rect class="box-shape" x="750" y="140" width="150" height="100" rx="12" fill="url(#dcc15GradRed)" stroke="#F87171" stroke-width="2.5" filter="url(#dcc15Elevate)"></rect>
+            <text x="825" y="168" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" text-anchor="middle" direction="rtl">تشغيل المرحلين</text>
+            <text x="825" y="185" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#F87171" text-anchor="middle" direction="ltr">a / b — 12V</text>
+            <text x="825" y="202" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#F87171" text-anchor="middle" direction="rtl">الرجة الكهربائية</text>
+          </g>
+
+          <g class="link" data-link="ecgRWaveInput" data-link-to="transistorQ">
+            <line x1="350" y1="190" x2="400" y2="190" stroke="#5b6478" stroke-width="2" marker-end="url(#dcc15-arrow)"></line>
+            <line class="trail trail-blue" x1="350" y1="190" x2="398" y2="190" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="transistorQ" data-link-to="relayC">
+            <line x1="520" y1="190" x2="570" y2="190" stroke="#5b6478" stroke-width="2" marker-end="url(#dcc15-arrow)"></line>
+            <line class="trail trail-orange" x1="520" y1="190" x2="568" y2="190" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+          <g class="link" data-link="relayC" data-link-to="outputVoltage12V">
+            <line x1="710" y1="190" x2="750" y2="190" stroke="#5b6478" stroke-width="2" marker-end="url(#dcc15-arrow)"></line>
+            <line class="trail trail-green" x1="710" y1="190" x2="748" y2="190" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="350" cy="190" r="5" fill="#38BDF8" filter="url(#dcc15Glow)" style="--tx:50px; --ty:0px; --particle-delay:0.4s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="520" cy="190" r="5" fill="#FB923C" filter="url(#dcc15Glow)" style="--tx:50px; --ty:0px; --particle-delay:0.9s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="710" cy="190" r="5" fill="#4ADE80" filter="url(#dcc15Glow)" style="--tx:40px; --ty:0px; --particle-delay:1.4s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="manualSwitch"><span class="status-dot" style="background:#FBBF24"></span><span class="status-label">المفتاح اليدوي</span><span class="status-value"><span class="value-off">غير محدد</span><span class="value-on">نقطة 2</span></span></li>
+          <li class="status-row" data-status="ecgRWaveInput"><span class="status-dot dot-blue"></span><span class="status-label">نبضة R</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">وصلت</span></span></li>
+          <li class="status-row" data-status="transistorQ"><span class="status-dot dot-orange"></span><span class="status-label">ترانزستور Q</span><span class="status-value"><span class="value-off">مقطوع</span><span class="value-on">انحياز أمامي</span></span></li>
+          <li class="status-row" data-status="relayC"><span class="status-dot dot-green"></span><span class="status-label">المرحل c</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">K3 مغلقة</span></span></li>
+          <li class="status-row" data-status="outputVoltage12V"><span class="status-dot" style="background:#F87171"></span><span class="status-label">مرحلا a / b</span><span class="status-value"><span class="value-off">مستقر</span><span class="value-on">رجة!</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>اختيار الوضع</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الإشارة المتحسسة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>ترانزستور التحويل</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>منطق المرحل</li>
+      <li class="legend-item"><span class="legend-swatch" style="background:#F87171"></span>خرج الرجة الكهربائية</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#dcc15Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#dcc15Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#dcc15Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dcc15-shape-activate { to { filter: url(#dcc15Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes dcc15-reveal-trail { to { opacity: 0.85; } }
+    @keyframes dcc15-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: dcc15-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+    @keyframes dcc15-status-value-on { to { opacity: 1; } }
+    @keyframes dcc15-status-value-off { to { opacity: 0; } }
+    @keyframes dcc15-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes dcc15-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes dcc15-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes dcc15-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes dcc15-dot-on-red { to { background: #F87171; box-shadow: 0 0 8px 1px rgba(248, 113, 113, 0.8); } }
+
+    /* primary animated sequence: the synchronized ventricular path */
+    .playing [data-component="manualSwitch"] .box-shape { animation: dcc15-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="manualSwitch"] .status-dot { animation: dcc15-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="manualSwitch"] .value-on { animation: dcc15-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="manualSwitch"] .value-off { animation: dcc15-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="ecgRWaveInput"] .box-shape { animation: dcc15-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWaveInput"] .status-dot { animation: dcc15-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWaveInput"] .value-on { animation: dcc15-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="ecgRWaveInput"] .value-off { animation: dcc15-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="ecgRWaveInput"] .trail { animation: dcc15-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="transistorQ"] .box-shape { animation: dcc15-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="transistorQ"] .status-dot { animation: dcc15-dot-on-orange 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="transistorQ"] .value-on { animation: dcc15-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="transistorQ"] .value-off { animation: dcc15-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="transistorQ"] .trail { animation: dcc15-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="relayC"] .box-shape { animation: dcc15-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayC"] .status-dot { animation: dcc15-dot-on-green 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayC"] .value-on { animation: dcc15-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="relayC"] .value-off { animation: dcc15-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="relayC"] .trail { animation: dcc15-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="outputVoltage12V"] .box-shape { animation: dcc15-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="outputVoltage12V"] .status-dot { animation: dcc15-dot-on-red 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="outputVoltage12V"] .value-on { animation: dcc15-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="outputVoltage12V"] .value-off { animation: dcc15-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    manualSwitch: {
+      title: "المفتاح اليدوي — نقطة (1) أذيني / نقطة (2) بطيني",
+      // src/data/chapter-04/page-12.json #control-circuit-p1 (excerpt)
+      text: "في حالة تقلص الأذنين يتم توصيل المفتاح اليدوي الى النقطة (1) فيتم تزويد مرحلي دائرة الخرج (a) و (b) بالفولتية (12V). أما في حالة التقلص البطيني فيتم توصيل المفتاح الى النقطة (2).",
+    },
+    ecgRWaveInput: {
+      title: "نبضة R من إشارة (E.C.G.)",
+      // src/data/chapter-04/page-12.json #control-circuit-p1 (excerpt)
+      text: "تستلم إشارة (E.C.G.) نبضة (R)، وبعد حدوث نبضة (R) يصبح الترانزستور في الانحياز الامامي.",
+    },
+    transistorQ: {
+      title: "الترانزستور (Q)",
+      // src/data/chapter-04/page-12.json #control-circuit-p1 (excerpt)
+      text: "يستعمل الترانزستور (Q) كمفتاح الكتروني، وبعد حدوث نبضة (R) يصبح الترانزستور في الانحياز الامامي فيعمل على تشغيل المرحل (c).",
+    },
+    relayC: {
+      title: "المرحل (c) — يغلق نقطة الاتصال K3",
+      // src/data/chapter-04/page-12.json #control-circuit-p1 (excerpt)
+      text: "يعمل الترانزستور على تشغيل المرحل (c) وتنغلق النقطة (K3) مما يؤدي الى تشغيل المرحلين (a) و (b).",
+    },
+    outputVoltage12V: {
+      title: "تشغيل المرحلين (a) و (b) — الرجة الكهربائية",
+      // src/data/chapter-04/page-12.json #control-circuit-p1 (excerpt)
+      text: "يؤدي انغلاق النقطة (K3) الى تشغيل المرحلين (a) و (b) وتحدث عملية الرجة الكهربائية من خلال القطبين المربوطين الى جسم المريض.",
+    },
+  };
+
+  wireDiagramSimulator(".defib-control-circuit-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>
