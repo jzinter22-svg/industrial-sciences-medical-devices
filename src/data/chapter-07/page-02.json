@@ -1,0 +1,89 @@
+{
+  "id": "page-02",
+  "pageNumber": 114,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 114
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+
+  "sections": [
+    {
+      "id": "section-7-2-units",
+      "number": "7-2",
+      "title": {
+        "ar": "الوحدات الرئيسة والمساعدة",
+        "en": "Main and Auxiliary Units"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "units-intro",
+          "content": {
+            "ar": "يتألف جهاز الأسنان من:"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-main-units",
+          "number": "أ",
+          "title": {
+            "ar": "الوحدات الرئيسة"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "main-units-list",
+          "items": [
+            { "ar": "وحدة الإنارة (Projector Unit)" },
+            { "ar": "مفتاح القدم (Foot Switch)" },
+            { "ar": "كرسي الأسنان (Dental Chair)" },
+            { "ar": "آلات الحفر (Hand Pieces)" },
+            { "ar": "ساحبة اللعاب (Saliva Ejector)" },
+            { "ar": "المبصقة (Cuspidor)" },
+            { "ar": "السرنج الثلاثي (Triple Syringe)" },
+            { "ar": "القدح (Cup)" },
+            { "ar": "الضاغط (Compressor)" },
+            { "ar": "وحدة السيطرة (Control Unit)" },
+            { "ar": "الصينية والحماالت (Tray and Holder)" }
+          ]
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-auxiliary-units",
+          "number": "ب",
+          "title": {
+            "ar": "الوحدات المساعدة"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "auxiliary-units-list",
+          "items": [
+            { "ar": "الأشعة السينية (X – Ray)" },
+            { "ar": "جهاز يبيض الأسنان (Teeth Bleaching)" },
+            { "ar": "جهاز التعقيم (Autoclave)" },
+            { "ar": "خلاط حشوة الأسنان (Amalgam Mixer)" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}
