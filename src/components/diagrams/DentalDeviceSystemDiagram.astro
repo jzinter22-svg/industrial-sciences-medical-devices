@@ -1,0 +1,274 @@
+---
+// Figure 1-7 (المخطط الكتلوي لجهاز الأسنان) - Dental Device System Overview
+// Interactive block diagram showing the main systems and power flow
+// Follows neumorphic design from Chapters 1-6
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft dental-device-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي لجهاز الأسنان</span>
+      <span class="simulator-subtitle">المنظومات الرئيسة والدوائر الأساسية</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dds-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="500"
+          viewBox="0 0 900 500"
+          role="img"
+          aria-label="نظام جهاز الأسنان"
+        >
+          <defs>
+            <!-- Dark neumorphic gradient -->
+            <linearGradient id="ddsBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+
+            <!-- Grid pattern -->
+            <pattern id="ddsGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+
+            <!-- System color gradients -->
+            <linearGradient id="ddsGradCompressor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#332210"></stop>
+              <stop offset="100%" stop-color="#1a1108"></stop>
+            </linearGradient>
+            <linearGradient id="ddsGradAir" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f3d66"></stop>
+              <stop offset="100%" stop-color="#081d33"></stop>
+            </linearGradient>
+            <linearGradient id="ddsGradWater" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123249"></stop>
+              <stop offset="100%" stop-color="#081826"></stop>
+            </linearGradient>
+            <linearGradient id="ddsGradElectrical" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#241530"></stop>
+              <stop offset="100%" stop-color="#100a18"></stop>
+            </linearGradient>
+            <linearGradient id="ddsGradDrill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a2e1a"></stop>
+              <stop offset="100%" stop-color="#0d170d"></stop>
+            </linearGradient>
+
+            <!-- Arrow marker -->
+            <marker id="ddsArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#8b96a8"></path>
+            </marker>
+
+            <!-- Neumorphic shadow/elevation filter -->
+            <filter id="ddsElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feComponentTransfer in="SourceAlpha" result="invertedAlpha">
+                <feFuncA type="table" tableValues="1 0"></feFuncA>
+              </feComponentTransfer>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="3" result="blurInnerDark"></feGaussianBlur>
+              <feOffset in="blurInnerDark" dx="2" dy="3" result="offsetInnerDark"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.5" result="colorInnerDark"></feFlood>
+              <feComposite in="colorInnerDark" in2="offsetInnerDark" operator="in" result="shadowInnerRaw"></feComposite>
+              <feComposite in="shadowInnerRaw" in2="SourceGraphic" operator="in" result="shadowInner"></feComposite>
+              <feGaussianBlur in="invertedAlpha" stdDeviation="2.5" result="blurInnerLight"></feGaussianBlur>
+              <feOffset in="blurInnerLight" dx="-2" dy="-2" result="offsetInnerLight"></feOffset>
+              <feFlood flood-color="#ffffff" flood-opacity="0.3" result="colorInnerLight"></feFlood>
+              <feComposite in="colorInnerLight" in2="offsetInnerLight" operator="in" result="highlightInnerRaw"></feComposite>
+              <feComposite in="highlightInnerRaw" in2="SourceGraphic" operator="in" result="highlightInner"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowInner"></feMergeNode>
+                <feMergeNode in="highlightInner"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Background -->
+          <rect x="0" y="0" width="900" height="500" rx="20" fill="url(#ddsBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="500" rx="20" fill="url(#ddsGrid)"></rect>
+
+          <!-- Title -->
+          <text x="450" y="30" text-anchor="middle" fill="#cbd5e0" font-size="14" font-weight="600">جهاز الأسنان - المخطط الكتلوي</text>
+
+          <!-- ===== COMPRESSOR SECTION (Left) ===== -->
+          <g class="component-group" data-component="compressor">
+            <!-- Compressor box -->
+            <rect x="20" y="80" width="140" height="100" rx="8" fill="url(#ddsGradCompressor)" stroke="#5b6478" stroke-width="1" filter="url(#ddsElevate)"></rect>
+            <text x="90" y="105" text-anchor="middle" fill="#f5deb3" font-size="12" font-weight="600">ضاغط الهواء</text>
+            <text x="90" y="125" text-anchor="middle" fill="#e6d5a8" font-size="10">Air Compressor</text>
+            <text x="90" y="160" text-anchor="middle" fill="#c9b896" font-size="9">مصدر الضغط</text>
+          </g>
+
+          <!-- Arrow from compressor to air system -->
+          <path d="M 160,130 L 230,130" stroke="#8b96a8" stroke-width="2" fill="none" marker-end="url(#ddsArrow)"></path>
+          <text x="195" y="120" text-anchor="middle" fill="#a1aec3" font-size="9">ضغط</text>
+
+          <!-- ===== AIR SYSTEM (Top Center) ===== -->
+          <g class="component-group" data-component="airSystem">
+            <rect x="230" y="60" width="160" height="140" rx="8" fill="url(#ddsGradAir)" stroke="#5b6478" stroke-width="1" filter="url(#ddsElevate)"></rect>
+            <text x="310" y="85" text-anchor="middle" fill="#9fb4ff" font-size="12" font-weight="600">الدورة الهوائية</text>
+            <text x="310" y="102" text-anchor="middle" fill="#8ca8f5" font-size="9">Air Circuit</text>
+
+            <!-- Air components -->
+            <circle cx="270" cy="130" r="16" fill="#1a4d7f" stroke="#4a7ba7" stroke-width="1"></circle>
+            <text x="270" y="135" text-anchor="middle" fill="#9fb4ff" font-size="8">مرشح</text>
+
+            <circle cx="310" cy="130" r="16" fill="#1a4d7f" stroke="#4a7ba7" stroke-width="1"></circle>
+            <text x="310" y="135" text-anchor="middle" fill="#9fb4ff" font-size="8">مروحة</text>
+
+            <circle cx="350" cy="130" r="16" fill="#1a4d7f" stroke="#4a7ba7" stroke-width="1"></circle>
+            <text x="350" y="135" text-anchor="middle" fill="#9fb4ff" font-size="8">مسخن</text>
+
+            <!-- Drills connection -->
+            <text x="310" y="175" text-anchor="middle" fill="#8ca8f5" font-size="9">إلى آلات الحفر</text>
+          </g>
+
+          <!-- Arrow from air system to drills -->
+          <path d="M 310,200 L 310,260" stroke="#8b96a8" stroke-width="2" fill="none" marker-end="url(#ddsArrow)"></path>
+
+          <!-- ===== WATER SYSTEM (Top Right) ===== -->
+          <g class="component-group" data-component="waterSystem">
+            <rect x="520" y="60" width="140" height="140" rx="8" fill="url(#ddsGradWater)" stroke="#5b6478" stroke-width="1" filter="url(#ddsElevate)"></rect>
+            <text x="590" y="85" text-anchor="middle" fill="#9fb4ff" font-size="12" font-weight="600">الدورة المائية</text>
+            <text x="590" y="102" text-anchor="middle" fill="#8ca8f5" font-size="9">Water Circuit</text>
+
+            <!-- Water components -->
+            <circle cx="570" cy="135" r="14" fill="#164158" stroke="#3a7a8a" stroke-width="1"></circle>
+            <text x="570" y="140" text-anchor="middle" fill="#9fb4ff" font-size="8">مضخة</text>
+
+            <circle cx="610" cy="135" r="14" fill="#164158" stroke="#3a7a8a" stroke-width="1"></circle>
+            <text x="610" y="140" text-anchor="middle" fill="#9fb4ff" font-size="8">خزان</text>
+
+            <!-- Water to drills -->
+            <text x="590" y="175" text-anchor="middle" fill="#8ca8f5" font-size="9">تبريد وتنظيف</text>
+          </g>
+
+          <!-- Arrow from water system to drills -->
+          <path d="M 590,200 L 520,260" stroke="#8b96a8" stroke-width="2" fill="none" marker-end="url(#ddsArrow)"></path>
+
+          <!-- ===== ELECTRICAL SYSTEM (Top Right Corner) ===== -->
+          <g class="component-group" data-component="electricalSystem">
+            <rect x="700" y="80" width="160" height="120" rx="8" fill="url(#ddsGradElectrical)" stroke="#5b6478" stroke-width="1" filter="url(#ddsElevate)"></rect>
+            <text x="780" y="105" text-anchor="middle" fill="#d8b4ff" font-size="12" font-weight="600">الدورة الكهربائية</text>
+            <text x="780" y="122" text-anchor="middle" fill="#c9a8f5" font-size="9">Electrical Circuit</text>
+
+            <!-- Electrical components -->
+            <circle cx="740" cy="155" r="14" fill="#2d1a4d" stroke="#5a4a7d" stroke-width="1"></circle>
+            <text x="740" y="160" text-anchor="middle" fill="#d8b4ff" font-size="8">محول</text>
+
+            <circle cx="780" cy="155" r="14" fill="#2d1a4d" stroke="#5a4a7d" stroke-width="1"></circle>
+            <text x="780" y="160" text-anchor="middle" fill="#d8b4ff" font-size="8">تحكم</text>
+
+            <circle cx="820" cy="155" r="14" fill="#2d1a4d" stroke="#5a4a7d" stroke-width="1"></circle>
+            <text x="820" y="160" text-anchor="middle" fill="#d8b4ff" font-size="8">أسلاك</text>
+          </g>
+
+          <!-- Arrow from electrical to drills -->
+          <path d="M 700,140 L 600,280" stroke="#8b96a8" stroke-width="2" fill="none" marker-end="url(#ddsArrow)"></path>
+
+          <!-- ===== DRILLING MACHINES (Bottom Center) ===== -->
+          <g class="component-group" data-component="drillingMachines">
+            <rect x="280" y="260" width="300" height="180" rx="8" fill="url(#ddsGradDrill)" stroke="#5b6478" stroke-width="1" filter="url(#ddsElevate)"></rect>
+
+            <!-- Title -->
+            <text x="430" y="285" text-anchor="middle" fill="#b4d9b4" font-size="13" font-weight="600">آلات الحفر</text>
+            <text x="430" y="302" text-anchor="middle" fill="#a3d1a3" font-size="9">Drilling Machines</text>
+
+            <!-- Slow-speed drill -->
+            <g data-drill="slow-speed">
+              <rect x="310" y="325" width="110" height="90" rx="6" fill="#1a3d1a" stroke="#3a6d3a" stroke-width="1"></rect>
+              <text x="365" y="350" text-anchor="middle" fill="#b4d9b4" font-size="11" font-weight="600">الحفر البطيء</text>
+              <text x="365" y="367" text-anchor="middle" fill="#8ec98e" font-size="8">Low Speed</text>
+              <text x="365" y="383" text-anchor="middle" fill="#7db97d" font-size="8">1-25 rpm</text>
+              <text x="365" y="405" text-anchor="middle" fill="#6da96d" font-size="8">دقة أعلى</text>
+            </g>
+
+            <!-- High-speed drill -->
+            <g data-drill="high-speed">
+              <rect x="550" y="325" width="110" height="90" rx="6" fill="#1a3d1a" stroke="#3a6d3a" stroke-width="1"></rect>
+              <text x="605" y="350" text-anchor="middle" fill="#b4d9b4" font-size="11" font-weight="600">الحفر السريع</text>
+              <text x="605" y="367" text-anchor="middle" fill="#8ec98e" font-size="8">High Speed</text>
+              <text x="605" y="383" text-anchor="middle" fill="#7db97d" font-size="8">60 m/s</text>
+              <text x="605" y="405" text-anchor="middle" fill="#6da96d" font-size="8">إنتاجية أعلى</text>
+            </g>
+
+            <!-- Central control box -->
+            <rect x="400" y="320" width="60" height="100" rx="4" fill="#0d250d" stroke="#2d5d2d" stroke-width="1"></rect>
+            <text x="430" y="370" text-anchor="middle" fill="#7db97d" font-size="9" font-weight="600">التحكم</text>
+            <text x="430" y="385" text-anchor="middle" fill="#6da96d" font-size="7">Control</text>
+          </g>
+
+          <!-- Legend/Notes -->
+          <text x="20" y="480" fill="#8b96a8" font-size="8">الدخل: هواء مضغوط، ماء، كهرباء | المخرج: حفر سريع وآمن مع تبريد وتنظيف</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .dental-device-diagram {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+  }
+
+  .dds-svg {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dds-svg .component-group {
+      transition: opacity 0.3s ease;
+    }
+
+    .dds-svg .component-group:hover {
+      opacity: 0.9;
+    }
+
+    .dds-svg [data-component],
+    .dds-svg [data-drill] {
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dds-svg {
+      max-width: 100%;
+    }
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>

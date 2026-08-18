@@ -18,6 +18,30 @@
     "ar": "جهاز الأسنان",
     "en": "Dental Device"
   },
-  "sections": [],
+  "sections": [
+    {
+      "id": "section-chapter-opener",
+      "number": "",
+      "title": {
+        "ar": "مدخل الفصل"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "opener-title",
+          "content": {
+            "ar": "الفصل السابع: جهاز الأسنان"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "opener-desc",
+          "content": {
+            "ar": "يتناول هذا الفصل دراسة جهاز الأسنان وأنظمته المختلفة. سيتعلم الطالب عن المكونات الرئيسية والمنظومات المساعدة والمبادئ الأساسية لعمل هذا الجهاز المهم في طب الأسنان."
+          }
+        }
+      ]
+    }
+  ],
   "assets": []
 }
