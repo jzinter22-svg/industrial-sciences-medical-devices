@@ -3,7 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - claude/industrial-sciences-audit-roz1xi
+      - main
+      - claude/chapter-7-continuation-x7k89f
   workflow_dispatch:
 
 permissions:
