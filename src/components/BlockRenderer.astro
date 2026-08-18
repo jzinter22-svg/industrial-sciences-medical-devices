@@ -310,7 +310,8 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   !Chapter3Diagram &&
   !Chapter4Diagram &&
   !Chapter5Diagram &&
-  !Chapter6Diagram && (
+  !Chapter6Diagram &&
+  block.src && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
 

@@ -50,17 +50,17 @@
           "type": "numbered-list",
           "id": "main-units-list",
           "items": [
-            { "ar": "وحدة الإنارة (Projector Unit)" },
-            { "ar": "مفتاح القدم (Foot Switch)" },
-            { "ar": "كرسي الأسنان (Dental Chair)" },
-            { "ar": "آلات الحفر (Hand Pieces)" },
-            { "ar": "ساحبة اللعاب (Saliva Ejector)" },
-            { "ar": "المبصقة (Cuspidor)" },
-            { "ar": "السرنج الثلاثي (Triple Syringe)" },
-            { "ar": "القدح (Cup)" },
-            { "ar": "الضاغط (Compressor)" },
-            { "ar": "وحدة السيطرة (Control Unit)" },
-            { "ar": "الصينية والحماالت (Tray and Holder)" }
+            { "id": "unit-1", "content": { "ar": "وحدة الإنارة (Projector Unit)" } },
+            { "id": "unit-2", "content": { "ar": "مفتاح القدم (Foot Switch)" } },
+            { "id": "unit-3", "content": { "ar": "كرسي الأسنان (Dental Chair)" } },
+            { "id": "unit-4", "content": { "ar": "آلات الحفر (Hand Pieces)" } },
+            { "id": "unit-5", "content": { "ar": "ساحبة اللعاب (Saliva Ejector)" } },
+            { "id": "unit-6", "content": { "ar": "المبصقة (Cuspidor)" } },
+            { "id": "unit-7", "content": { "ar": "السرنج الثلاثي (Triple Syringe)" } },
+            { "id": "unit-8", "content": { "ar": "القدح (Cup)" } },
+            { "id": "unit-9", "content": { "ar": "الضاغط (Compressor)" } },
+            { "id": "unit-10", "content": { "ar": "وحدة السيطرة (Control Unit)" } },
+            { "id": "unit-11", "content": { "ar": "الصينية والحماالت (Tray and Holder)" } }
           ]
         },
         {
@@ -75,10 +75,10 @@
           "type": "numbered-list",
           "id": "auxiliary-units-list",
           "items": [
-            { "ar": "الأشعة السينية (X – Ray)" },
-            { "ar": "جهاز يبيض الأسنان (Teeth Bleaching)" },
-            { "ar": "جهاز التعقيم (Autoclave)" },
-            { "ar": "خلاط حشوة الأسنان (Amalgam Mixer)" }
+            { "id": "aux-unit-1", "content": { "ar": "الأشعة السينية (X – Ray)" } },
+            { "id": "aux-unit-2", "content": { "ar": "جهاز يبيض الأسنان (Teeth Bleaching)" } },
+            { "id": "aux-unit-3", "content": { "ar": "جهاز التعقيم (Autoclave)" } },
+            { "id": "aux-unit-4", "content": { "ar": "خلاط حشوة الأسنان (Amalgam Mixer)" } }
           ]
         }
       ]
