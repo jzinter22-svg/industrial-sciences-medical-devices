@@ -86,6 +86,9 @@ import RespirationSensorDiagram from "./diagrams/RespirationSensorDiagram.astro"
 import RespirationMonitorCircuitDiagram from "./diagrams/RespirationMonitorCircuitDiagram.astro";
 import DentalDeviceSystemDiagram from "./diagrams/DentalDeviceSystemDiagram.astro";
 import AirCircuitDiagram from "./diagrams/AirCircuitDiagram.astro";
+import WaterCircuitDiagram from "./diagrams/WaterCircuitDiagram.astro";
+import ElectricalCircuitDiagram from "./diagrams/ElectricalCircuitDiagram.astro";
+import DrillSystemDiagram from "./diagrams/DrillSystemDiagram.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -180,11 +183,14 @@ const chapter6AnimatedDiagrams: Record<string, any> = {
   "c6-fig-6-9": RespirationMonitorCircuitDiagram,
 };
 
-// Chapter 7 diagram ids (c7-fig-7-X) that have a hand-built animated
+// Chapter 7 diagram ids (c7-fig-X-7) that have a hand-built animated
 // replacement, same rationale as the Chapter 1-6 tables above.
 const chapter7AnimatedDiagrams: Record<string, any> = {
   "c7-fig-7-1": DentalDeviceSystemDiagram,
   "c7-fig-7-2": AirCircuitDiagram,
+  "c7-fig-3-7": WaterCircuitDiagram,
+  "c7-fig-4-7": ElectricalCircuitDiagram,
+  "c7-fig-5-7": DrillSystemDiagram,
 };
 
 // Chapter 1 device ids (device-0N) that have a hand-built animated

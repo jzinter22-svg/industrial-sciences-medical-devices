@@ -1,0 +1,175 @@
+---
+// Figure 5-7 in Chapter 7 (نظام الحفر) - Drill System Specifications
+// Shows slow and fast drill motors with their speed characteristics and components
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft drill-system-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">نظام الحفر</span>
+      <span class="simulator-subtitle">شكل 5-7 — مواصفات محركات الحفر</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dsd-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="400"
+          viewBox="0 0 800 400"
+          role="img"
+          aria-label="نظام الحفر في جهاز الأسنان"
+        >
+          <defs>
+            <linearGradient id="dsdBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dsdGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0 H0 V40" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dsdDrill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2d5c3d"></stop>
+              <stop offset="100%" stop-color="#1f3d2a"></stop>
+            </linearGradient>
+            <marker id="dsdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#6ddaa8"></path>
+            </marker>
+            <filter id="dsdGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#dsdBgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#dsdGrid)"></rect>
+
+          <!-- Title -->
+          <text x="400" y="30" text-anchor="middle" fill="#9fb4ff" font-size="14" font-weight="600">نظام الحفر في جهاز الأسنان</text>
+
+          <!-- Slow Speed Drill Section -->
+          <g>
+            <rect x="30" y="60" width="320" height="320" rx="8" fill="#0d2a1a" stroke="#5a8a6a" stroke-width="2"></rect>
+            <text x="190" y="90" text-anchor="middle" fill="#7ed4a8" font-size="13" font-weight="600">الحفر البطيء</text>
+            <text x="190" y="110" text-anchor="middle" fill="#6ddaa8" font-size="11">Slow Speed Drill</text>
+
+            <!-- Motor -->
+            <rect x="60" y="130" width="90" height="60" rx="5" fill="url(#dsdDrill)" stroke="#5a8a6a" stroke-width="1.5"></rect>
+            <text x="105" y="158" text-anchor="middle" fill="#a8e8c4" font-size="10" font-weight="500">محرك</text>
+            <text x="105" y="172" text-anchor="middle" fill="#7ed4a8" font-size="8">Motor</text>
+
+            <!-- Speed spec -->
+            <text x="190" y="160" fill="#7ed4a8" font-size="10" font-weight="600">السرعة:</text>
+            <text x="190" y="178" fill="#6ddaa8" font-size="9">1000 - 5000 دورة/دقيقة</text>
+
+            <!-- Handpiece connection -->
+            <path d="M 155,160 L 175,160" stroke="#6ddaa8" stroke-width="2" fill="none" marker-end="url(#dsdArrow)"></path>
+
+            <!-- Handpiece -->
+            <rect x="175" y="135" width="100" height="50" rx="5" fill="url(#dsdDrill)" stroke="#5a8a6a" stroke-width="1.5"></rect>
+            <text x="225" y="163" text-anchor="middle" fill="#a8e8c4" font-size="10" font-weight="500">اليد</text>
+            <text x="225" y="177" text-anchor="middle" fill="#7ed4a8" font-size="8">Handpiece</text>
+
+            <!-- Drill bit -->
+            <g>
+              <circle cx="225" cy="205" r="5" fill="#1a3d2a" stroke="#5a8a6a" stroke-width="1"></circle>
+              <path d="M 225,205 L 225,245" stroke="#7ed4a8" stroke-width="2"></path>
+              <polygon points="225,245 220,235 230,235" fill="#7ed4a8"></polygon>
+              <text x="245" y="228" fill="#6ddaa8" font-size="8">حدادة</text>
+            </g>
+
+            <!-- Applications -->
+            <text x="65" y="260" fill="#7ed4a8" font-size="10" font-weight="600">الاستخدامات:</text>
+            <text x="65" y="280" fill="#6ddaa8" font-size="9">• تنظيف الأسنان</text>
+            <text x="65" y="298" fill="#6ddaa8" font-size="9">• تلميع الأسنان</text>
+            <text x="65" y="316" fill="#6ddaa8" font-size="9">• الأعمال الدقيقة</text>
+          </g>
+
+          <!-- Fast Speed Drill Section -->
+          <g>
+            <rect x="450" y="60" width="320" height="320" rx="8" fill="#0d2a1a" stroke="#5a8a6a" stroke-width="2"></rect>
+            <text x="610" y="90" text-anchor="middle" fill="#7ed4a8" font-size="13" font-weight="600">الحفر السريع</text>
+            <text x="610" y="110" text-anchor="middle" fill="#6ddaa8" font-size="11">High Speed Drill</text>
+
+            <!-- Motor -->
+            <rect x="480" y="130" width="90" height="60" rx="5" fill="url(#dsdDrill)" stroke="#5a8a6a" stroke-width="1.5"></rect>
+            <text x="525" y="158" text-anchor="middle" fill="#a8e8c4" font-size="10" font-weight="500">محرك</text>
+            <text x="525" y="172" text-anchor="middle" fill="#7ed4a8" font-size="8">Motor</text>
+
+            <!-- Speed spec -->
+            <text x="610" y="160" fill="#7ed4a8" font-size="10" font-weight="600">السرعة:</text>
+            <text x="610" y="178" fill="#6ddaa8" font-size="9">300,000 - 400,000 دورة/دقيقة</text>
+
+            <!-- Handpiece connection -->
+            <path d="M 575,160 L 595,160" stroke="#6ddaa8" stroke-width="2" fill="none" marker-end="url(#dsdArrow)"></path>
+
+            <!-- Handpiece -->
+            <rect x="595" y="135" width="100" height="50" rx="5" fill="url(#dsdDrill)" stroke="#5a8a6a" stroke-width="1.5"></rect>
+            <text x="645" y="163" text-anchor="middle" fill="#a8e8c4" font-size="10" font-weight="500">اليد</text>
+            <text x="645" y="177" text-anchor="middle" fill="#7ed4a8" font-size="8">Handpiece</text>
+
+            <!-- Drill bit with air cooling -->
+            <g>
+              <circle cx="645" cy="205" r="5" fill="#1a3d2a" stroke="#5a8a6a" stroke-width="1"></circle>
+              <path d="M 645,205 L 645,245" stroke="#7ed4a8" stroke-width="2"></path>
+              <polygon points="645,245 640,235 650,235" fill="#7ed4a8"></polygon>
+              <text x="665" y="228" fill="#6ddaa8" font-size="8">حدادة</text>
+
+              <!-- Air/Water cooling -->
+              <path d="M 643,210 L 633,215" stroke="#5fa8dd" stroke-width="1.5" stroke-dasharray="2,2"></path>
+              <text x="625" y="220" fill="#5fa8dd" font-size="7">تبريد</text>
+            </g>
+
+            <!-- Applications -->
+            <text x="485" y="260" fill="#7ed4a8" font-size="10" font-weight="600">الاستخدامات:</text>
+            <text x="485" y="280" fill="#6ddaa8" font-size="9">• إزالة التسوس</text>
+            <text x="485" y="298" fill="#6ddaa8" font-size="9">• حفر العميق</text>
+            <text x="485" y="316" fill="#6ddaa8" font-size="9">• عمليات سريعة</text>
+          </g>
+
+          <!-- Footer annotation -->
+          <text x="400" y="380" text-anchor="middle" fill="#8b96a8" font-size="9">يتم التحكم بنوع الحفر بناءً على طبيعة العملية وحالة السن</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .drill-system-diagram {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+  }
+
+  .dsd-svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>

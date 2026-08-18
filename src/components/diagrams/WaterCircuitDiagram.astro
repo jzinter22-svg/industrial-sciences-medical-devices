@@ -1,0 +1,153 @@
+---
+// Figure 3-7 (الدورة المائية) - Water Circuit System
+// Shows water flow from reservoir through pump, filters, and cooling nozzles
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft water-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">الدورة المائية</span>
+      <span class="simulator-subtitle">شكل 3-7 — نظام التبريد والتنظيف</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="wcd-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="400"
+          viewBox="0 0 800 400"
+          role="img"
+          aria-label="الدورة المائية في جهاز الأسنان"
+        >
+          <defs>
+            <linearGradient id="wcdBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="wcdGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0 H0 V40" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="wcdWater" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0a3d5c"></stop>
+              <stop offset="100%" stop-color="#051f32"></stop>
+            </linearGradient>
+            <marker id="wcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5fa8dd"></path>
+            </marker>
+            <filter id="wcdGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#wcdBgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#wcdGrid)"></rect>
+
+          <!-- Title -->
+          <text x="400" y="30" text-anchor="middle" fill="#9fb4ff" font-size="14" font-weight="600">الدورة المائية في جهاز الأسنان</text>
+
+          <!-- Water Reservoir -->
+          <rect x="20" y="120" width="100" height="80" rx="6" fill="#1a3d52" stroke="#4a6d8f" stroke-width="2"></rect>
+          <text x="70" y="150" text-anchor="middle" fill="#a8d4f5" font-size="11" font-weight="600">خزان الماء</text>
+          <text x="70" y="170" text-anchor="middle" fill="#7eb5f5" font-size="9">Water Tank</text>
+          <circle cx="115" cy="160" r="4" fill="#5fa8dd"></circle>
+
+          <!-- Arrow to pump -->
+          <path d="M 125,160 L 170,160" stroke="#5fa8dd" stroke-width="3" fill="none" marker-end="url(#wcdArrow)"></path>
+          <text x="147" y="145" text-anchor="middle" fill="#7eb5f5" font-size="8">تدفق</text>
+
+          <!-- Pump -->
+          <rect x="170" y="120" width="90" height="80" rx="6" fill="url(#wcdWater)" stroke="#4a6d8f" stroke-width="2"></rect>
+          <text x="215" y="150" text-anchor="middle" fill="#9fb4ff" font-size="11" font-weight="600">مضخة</text>
+          <text x="215" y="170" text-anchor="middle" fill="#7eb5f5" font-size="9">Pump</text>
+          <circle cx="260" cy="160" r="4" fill="#5fa8dd"></circle>
+
+          <!-- Arrow to filter -->
+          <path d="M 270,160 L 315,160" stroke="#5fa8dd" stroke-width="3" fill="none" marker-end="url(#wcdArrow)"></path>
+          <text x="292" y="145" text-anchor="middle" fill="#7eb5f5" font-size="8">مضغوط</text>
+
+          <!-- Filter -->
+          <rect x="315" y="120" width="90" height="80" rx="6" fill="url(#wcdWater)" stroke="#4a6d8f" stroke-width="2"></rect>
+          <text x="360" y="150" text-anchor="middle" fill="#9fb4ff" font-size="11" font-weight="600">مرشح</text>
+          <text x="360" y="170" text-anchor="middle" fill="#7eb5f5" font-size="9">Filter</text>
+          <circle cx="405" cy="160" r="4" fill="#5fa8dd"></circle>
+
+          <!-- Arrow to cooler -->
+          <path d="M 415,160 L 460,160" stroke="#5fa8dd" stroke-width="3" fill="none" marker-end="url(#wcdArrow)"></path>
+          <text x="437" y="145" text-anchor="middle" fill="#7eb5f5" font-size="8">نظيف</text>
+
+          <!-- Cooler -->
+          <rect x="460" y="120" width="90" height="80" rx="6" fill="url(#wcdWater)" stroke="#4a6d8f" stroke-width="2"></rect>
+          <text x="505" y="150" text-anchor="middle" fill="#9fb4ff" font-size="11" font-weight="600">مبرد</text>
+          <text x="505" y="170" text-anchor="middle" fill="#7eb5f5" font-size="9">Cooler</text>
+          <circle cx="555" cy="160" r="4" fill="#5fa8dd"></circle>
+
+          <!-- Arrow to nozzles -->
+          <path d="M 565,160 L 650,160" stroke="#5fa8dd" stroke-width="3" fill="none" marker-end="url(#wcdArrow)"></path>
+          <text x="607" y="145" text-anchor="middle" fill="#7eb5f5" font-size="8">مبرد</text>
+
+          <!-- Spray nozzles section -->
+          <g>
+            <rect x="650" y="100" width="130" height="160" rx="8" fill="#0d2a40" stroke="#4a6d8f" stroke-width="2"></rect>
+            <text x="715" y="125" text-anchor="middle" fill="#a8d4f5" font-size="11" font-weight="600">فوهات الرش</text>
+
+            <!-- Left nozzle -->
+            <circle cx="685" cy="155" r="16" fill="#051f32" stroke="#3a5a8a" stroke-width="1"></circle>
+            <text x="685" y="160" text-anchor="middle" fill="#7eb5f5" font-size="8">يسار</text>
+
+            <!-- Right nozzle -->
+            <circle cx="745" cy="155" r="16" fill="#051f32" stroke="#3a5a8a" stroke-width="1"></circle>
+            <text x="745" y="160" text-anchor="middle" fill="#7eb5f5" font-size="8">يمين</text>
+
+            <!-- Return arrows -->
+            <path d="M 680,200 L 670,240" stroke="#5fa8dd" stroke-width="2" fill="none" marker-end="url(#wcdArrow)"></path>
+            <path d="M 750,200 L 760,240" stroke="#5fa8dd" stroke-width="2" fill="none" marker-end="url(#wcdArrow)"></path>
+          </g>
+
+          <!-- Return flow annotation -->
+          <text x="400" y="360" text-anchor="middle" fill="#8b96a8" font-size="9">اتجاه التدفق: من الخزان إلى الفوهات مع العودة والتنقية المستمرة</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .water-circuit-diagram {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+  }
+
+  .wcd-svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>

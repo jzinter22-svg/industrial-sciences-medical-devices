@@ -1,0 +1,164 @@
+---
+// Figure 4-7 in Chapter 7 (الدورة الكهربائية) - Electrical Circuit System
+// Shows electrical power flow from power supply through control circuits to drill motors
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft electrical-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">الدورة الكهربائية</span>
+      <span class="simulator-subtitle">شكل 4-7 — نظام التحكم الكهربائي</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="ecd-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="400"
+          viewBox="0 0 800 400"
+          role="img"
+          aria-label="الدورة الكهربائية في جهاز الأسنان"
+        >
+          <defs>
+            <linearGradient id="ecdBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="ecdGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0 H0 V40" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="ecdElectrical" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3d2d5c"></stop>
+              <stop offset="100%" stop-color="#2a1f3d"></stop>
+            </linearGradient>
+            <marker id="ecdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#a884dd"></path>
+            </marker>
+            <filter id="ecdGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#ecdBgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="400" rx="15" fill="url(#ecdGrid)"></rect>
+
+          <!-- Title -->
+          <text x="400" y="30" text-anchor="middle" fill="#9fb4ff" font-size="14" font-weight="600">الدورة الكهربائية في جهاز الأسنان</text>
+
+          <!-- Power Supply -->
+          <rect x="20" y="120" width="100" height="80" rx="6" fill="#1a2d52" stroke="#6a5d8f" stroke-width="2"></rect>
+          <text x="70" y="150" text-anchor="middle" fill="#c4b5f5" font-size="11" font-weight="600">مصدر الكهرباء</text>
+          <text x="70" y="170" text-anchor="middle" fill="#b4a5dd" font-size="9">Power Supply</text>
+          <circle cx="115" cy="160" r="4" fill="#a884dd"></circle>
+
+          <!-- Arrow to control -->
+          <path d="M 125,160 L 170,160" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+          <text x="147" y="145" text-anchor="middle" fill="#b4a5dd" font-size="8">تغذية</text>
+
+          <!-- Control Circuit -->
+          <rect x="170" y="120" width="90" height="80" rx="6" fill="url(#ecdElectrical)" stroke="#6a5d8f" stroke-width="2"></rect>
+          <text x="215" y="150" text-anchor="middle" fill="#c4b5f5" font-size="11" font-weight="600">دائرة التحكم</text>
+          <text x="215" y="170" text-anchor="middle" fill="#b4a5dd" font-size="9">Control</text>
+          <circle cx="260" cy="160" r="4" fill="#a884dd"></circle>
+
+          <!-- Arrow to slow motor -->
+          <path d="M 270,140 L 315,140" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+          <text x="292" y="125" text-anchor="middle" fill="#b4a5dd" font-size="8">بطيء</text>
+
+          <!-- Arrow to fast motor -->
+          <path d="M 270,180 L 315,180" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+          <text x="292" y="200" text-anchor="middle" fill="#b4a5dd" font-size="8">سريع</text>
+
+          <!-- Slow Speed Drill Motor -->
+          <rect x="315" y="110" width="90" height="60" rx="6" fill="url(#ecdElectrical)" stroke="#6a5d8f" stroke-width="2"></rect>
+          <text x="360" y="135" text-anchor="middle" fill="#c4b5f5" font-size="11" font-weight="600">حفر بطيء</text>
+          <text x="360" y="155" text-anchor="middle" fill="#b4a5dd" font-size="9">Slow Drill</text>
+          <circle cx="405" cy="140" r="4" fill="#a884dd"></circle>
+
+          <!-- Fast Speed Drill Motor -->
+          <rect x="315" y="180" width="90" height="60" rx="6" fill="url(#ecdElectrical)" stroke="#6a5d8f" stroke-width="2"></rect>
+          <text x="360" y="205" text-anchor="middle" fill="#c4b5f5" font-size="11" font-weight="600">حفر سريع</text>
+          <text x="360" y="225" text-anchor="middle" fill="#b4a5dd" font-size="9">Fast Drill</text>
+          <circle cx="405" cy="210" r="4" fill="#a884dd"></circle>
+
+          <!-- Arrow from slow motor to junction -->
+          <path d="M 415,140 L 460,160" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+
+          <!-- Arrow from fast motor to junction -->
+          <path d="M 415,210 L 460,160" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+
+          <!-- Distribution Junction -->
+          <circle cx="480" cy="160" r="8" fill="#1a2d52" stroke="#6a5d8f" stroke-width="2"></circle>
+
+          <!-- Arrow to auxiliary systems -->
+          <path d="M 495,160 L 540,160" stroke="#a884dd" stroke-width="3" fill="none" marker-end="url(#ecdArrow)"></path>
+          <text x="517" y="145" text-anchor="middle" fill="#b4a5dd" font-size="8">تحكم</text>
+
+          <!-- Auxiliary Systems section -->
+          <g>
+            <rect x="540" y="100" width="130" height="160" rx="8" fill="#0d1a40" stroke="#6a5d8f" stroke-width="2"></rect>
+            <text x="605" y="125" text-anchor="middle" fill="#c4b5f5" font-size="11" font-weight="600">الأنظمة المساعدة</text>
+
+            <!-- Lights -->
+            <circle cx="570" cy="155" r="12" fill="#051f32" stroke="#4a5a8a" stroke-width="1"></circle>
+            <circle cx="575" cy="150" r="3" fill="#ffd700"></circle>
+            <text x="570" y="180" text-anchor="middle" fill="#b4a5dd" font-size="8">إضاءة</text>
+
+            <!-- Cooling Fan -->
+            <circle cx="640" cy="155" r="12" fill="#051f32" stroke="#4a5a8a" stroke-width="1"></circle>
+            <path d="M 635,155 L 645,155 M 640,150 L 640,160" stroke="#7eb5f5" stroke-width="1.5" fill="none"></path>
+            <text x="640" y="180" text-anchor="middle" fill="#b4a5dd" font-size="8">مروحة</text>
+
+            <!-- Return flow indicator -->
+            <path d="M 555,270 L 555,295" stroke="#a884dd" stroke-width="2" fill="none" marker-end="url(#ecdArrow)"></path>
+            <path d="M 625,270 L 625,295" stroke="#a884dd" stroke-width="2" fill="none" marker-end="url(#ecdArrow)"></path>
+          </g>
+
+          <!-- Return annotation -->
+          <text x="400" y="360" text-anchor="middle" fill="#8b96a8" font-size="9">اتجاه التحكم: من المصدر عبر دائرة التحكم إلى المحركات والأنظمة المساعدة</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .electrical-circuit-diagram {
+    margin: 0;
+    padding: var(--neo-space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--neo-space-sm);
+  }
+
+  .ecd-svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  .diagram-block-caption {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neo-muted);
+    line-height: var(--neo-line-height);
+  }
+</style>
