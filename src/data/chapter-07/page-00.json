@@ -1,0 +1,40 @@
+{
+  "id": "page-00",
+  "pageNumber": 112,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 112
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-0",
+      "number": "",
+      "title": {
+        "ar": ""
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "content-0",
+          "content": {
+            "ar": "جمجورة نوراق\nوزارة التربية\nالمديرية العامة للتعليم المهني\nالاجهزة الطبية\nالثالث\nحبيب حسن شهاب علي هاشم جبر\nكاظم جواد أحمد شروق محمود محمد\nعصام حيدر جاسم علي عبد الحسين علي\nمحمد حسين عايز\n]0م.كتاب_العلوم_الصناعية_الأجهزة_|"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}
