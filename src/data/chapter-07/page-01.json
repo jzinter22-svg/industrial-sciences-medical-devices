@@ -20,8 +20,8 @@
   },
   "sections": [
     {
-      "id": "section-7-1",
-      "number": "1 - 7",
+      "id": "section-1-7",
+      "number": "1-7",
       "title": {
         "ar": "جهاز الأسنان"
       },
@@ -63,20 +63,10 @@
         },
         {
           "type": "diagram",
-          "id": "c7-fig-7-1",
-          "src": "/assets/diagrams/chapter-07/page-113.jpg",
-          "alt": "جهاز الأسنان يوضح جميع المكونات الرئيسية",
+          "id": "fig-1-7",
+          "figure": "c7-fig-7-1",
           "caption": {
             "ar": "شكل 1-7: يوضح شكل جهاز الأسنان"
-          }
-        },
-        {
-          "type": "diagram",
-          "id": "c7-fig-7-1",
-          "src": "/assets/diagrams/chapter-07/page-113.jpg",
-          "alt": "شكل 1-7",
-          "caption": {
-            "ar": "شكل 1-7: جهاز الأسنان"
           }
         }
       ]
