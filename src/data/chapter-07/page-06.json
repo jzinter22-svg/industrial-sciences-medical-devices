@@ -35,16 +35,14 @@
         },
         {
           "type": "diagram",
-          "id": "fig-9-7",
-          "figure": "c7-fig-7-9",
+          "id": "c7-fig-7-9",
           "caption": {
             "ar": "شكل 9-7: مقطع طولي للصمام الكهربائي"
           }
         },
         {
           "type": "diagram",
-          "id": "fig-10-7",
-          "figure": "c7-fig-7-10",
+          "id": "c7-fig-7-10",
           "caption": {
             "ar": "شكل 10-7: صمام غير مرجع"
           }

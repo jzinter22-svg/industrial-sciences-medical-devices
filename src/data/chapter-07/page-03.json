@@ -35,16 +35,14 @@
         },
         {
           "type": "diagram",
-          "id": "fig-3-7",
-          "figure": "c7-fig-7-3",
+          "id": "c7-fig-7-3",
           "caption": {
             "ar": "شكل 3-7: أجزاء الضاغط"
           }
         },
         {
           "type": "diagram",
-          "id": "fig-4-7",
-          "figure": "c7-fig-7-4",
+          "id": "c7-fig-7-4",
           "caption": {
             "ar": "شكل 4-7: مخطط لصمام الأمان وأجزاؤه"
           }
