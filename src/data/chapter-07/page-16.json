@@ -1,0 +1,71 @@
+{
+  "id": "page-16",
+  "pageNumber": 128,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 128
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "subsection-compressor-main",
+      "number": "8-2-7",
+      "title": {
+        "ar": "الضاغط",
+        "en": "Compressor"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "compressor-main-detail",
+          "content": {
+            "ar": "وهو المصدر الذي يجهز الجهاز بالهواء المضغوط وأكثر أجزاء الجهاز تعمل عليه، كما تم شرحه بالتفصيل في الأقسام السابقة، وهو يعمل على تجهيز الهواء بضغط معين حسب احتياجات الجهاز."
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-control",
+      "number": "9-2-7",
+      "title": {
+        "ar": "وحدة السيطرة",
+        "en": "Control Unit"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "control-detail",
+          "content": {
+            "ar": "وهي الوحدة التي تتحكم بجميع العمليات داخل الجهاز من خلال مجموعة من الأزرار والمفاتيح التي تتحكم بتشغيل وإيقاف المحرك والضاغط والإضاءة وغيرها من الأجهزة، وتحتوي على شاشة عرض لعرض معلومات الجهاز."
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-tray",
+      "number": "10-2-7",
+      "title": {
+        "ar": "الصينية والحاملات",
+        "en": "Tray and Holder"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "tray-detail",
+          "content": {
+            "ar": "وهي عبارة عن صينية معدنية أو بلاستيكية توضع على الجهاز لحفظ الأدوات والمواد المستخدمة في العملية، وتوجد حاملات لتعليق الأدوات بطريقة منظمة لسهولة الوصول إليها أثناء العمل."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

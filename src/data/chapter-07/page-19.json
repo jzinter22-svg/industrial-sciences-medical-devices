@@ -1,0 +1,53 @@
+{
+  "id": "page-19",
+  "pageNumber": 131,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 131
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "section-cycles",
+      "number": "3-7",
+      "title": {
+        "ar": "دورات جهاز الأسنان"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "cycles-intro",
+          "content": {
+            "ar": "جهاز الأسنان يعمل بعدة دورات متزامنة لضمان التشغيل الآمن والفعال. هذه الدورات هي الهواء، والماء، والماء المقطر، والكهرباء. كل دورة لها وظيفة محددة ومهمة لتشغيل أجزاء مختلفة من الجهاز."
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-aircycle",
+      "number": "1-3-7",
+      "title": {
+        "ar": "الدورة الهوائية",
+        "en": "Air Cycle"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "aircycle-detail",
+          "content": {
+            "ar": "تبدأ من ضاغط الهواء الذي يسحب الهواء من الجو ويضغطه، ثم يمر عبر مرشح لتنقيته من الشوائب، ومنظم لتنظيم الضغط، ثم يوزع على الأجزاء التي تعمل بالهواء المضغوط مثل المحركات والصمامات، وفي النهاية يخرج الهواء إلى الجو الخارجي."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

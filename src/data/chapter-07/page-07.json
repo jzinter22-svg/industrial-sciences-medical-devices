@@ -1,0 +1,59 @@
+{
+  "id": "page-07",
+  "pageNumber": 119,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 119
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "subsection-7-2-3",
+      "number": "3-2-7",
+      "title": {
+        "ar": "كرسي الاسنان",
+        "en": "Dental Chair"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "chair-types-intro",
+          "content": {
+            "ar": "هناك نظامين يعمل بهما كرسي الأسنان وحسب الشركة المصنعة له وكالآتي:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "chair-systems",
+          "items": [
+            {
+              "id": "system-01",
+              "content": {
+                "ar": "المنظومة الهيدروليكية: بعد أن تم توضيح مبدأ عمل الصمام الكهربائي وصمام غيرمرجعه، توضح عمل المنظومة الهيدروليكية وفقا للمخطط الكتلي رقم (12-7)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "diagram-13",
+          "figureNumber": "12-7",
+          "src": "fig-12.jpg",
+          "alt": "المخطط الهيدروليكي لكرسي الأسنان",
+          "caption": {
+            "ar": "شكل 12-7 يوضح المخطط الهيدروليكي لكرسي الاسنان"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

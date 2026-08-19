@@ -337,5 +337,5 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
 )}
 
 {block.type === "table" && (
-  <TableBlock captionAr={block.caption.ar} headers={block.headers} rows={block.rows} />
+  <TableBlock captionAr={block.caption?.ar} headers={block.headers} rows={block.rows} />
 )}

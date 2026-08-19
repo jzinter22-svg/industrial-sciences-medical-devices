@@ -1,0 +1,131 @@
+{
+  "id": "page-00",
+  "pageNumber": 112,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 112
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الاسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف الرئيسية"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "يكون الطالب بعد انهاء دراسته لهذا الفصل قد تعلم على مايلي:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "معرفة جهاز الأسنان وأجزاؤه"
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "التعرف على الوحدات الرئيسية"
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "معرفة الوحدات الفرعية المتحركة بالجهاز"
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "مبدأ عمل كافة الأجزاء للجهاز"
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "مبدأ عمل الأجهزة الملحقة بالجهاز"
+              }
+            },
+            {
+              "id": "objective-06",
+              "content": {
+                "ar": "التعرف على مبادئ عمل أكثر من جهاز"
+              }
+            },
+            {
+              "id": "objective-07",
+              "content": {
+                "ar": "تعلم الدورات الاساسية للجهاز وهي الدورة الهوائية والدورة المائية ودورة الماء المقطر والدورة الكهربائية"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "محتويات الفصل السابع"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            {
+              "id": "toc-7-1",
+              "number": "7-1",
+              "content": {
+                "ar": "جهاز الأسنان"
+              }
+            },
+            {
+              "id": "toc-7-2",
+              "number": "7-2",
+              "content": {
+                "ar": "الوحدات الرئيسية"
+              }
+            },
+            {
+              "id": "toc-7-3",
+              "number": "7-3",
+              "content": {
+                "ar": "دورات جهاز الأسنان"
+              }
+            },
+            {
+              "id": "toc-7-4",
+              "number": "7-4",
+              "content": {
+                "ar": "الأجهزة المساعدة"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

@@ -1,0 +1,37 @@
+{
+  "id": "page-21",
+  "pageNumber": 133,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 133
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "subsection-electrical",
+      "number": "4-3-7",
+      "title": {
+        "ar": "الدورة الكهربائية",
+        "en": "Electrical Cycle"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "electrical-detail",
+          "content": {
+            "ar": "تبدأ من مصدر التغذية الكهربائية الرئيسي (220V/50Hz)، ثم تمر عبر مفتاح التشغيل الرئيسي، ثم يتم توزيع التيار الكهربائي على جميع الأجهزة الكهربائية مثل المحركات والصمامات والإضاءة، وتوجد حماية بواسطة قواطع كهربائية لحماية النظام من الأعطال والدوائر القصيرة."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

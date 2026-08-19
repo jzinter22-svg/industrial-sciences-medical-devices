@@ -1,0 +1,72 @@
+{
+  "id": "page-22",
+  "pageNumber": 134,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 134
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "section-maintenance",
+      "number": "",
+      "title": {
+        "ar": "صيانة جهاز الأسنان"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "maintenance-intro",
+          "content": {
+            "ar": "الصيانة الدورية الصحيحة ضرورية جداً للحفاظ على كفاءة الجهاز وطول عمره الافتراضي. تشمل الصيانة تنظيف الفلاتر، فحص الصمامات، التأكد من سلامة خطوط الماء والهواء، وفحص المحركات."
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "maintenance-tasks",
+          "items": [
+            {
+              "id": "task-01",
+              "content": {
+                "ar": "تنظيف أو تغيير فلاتر الهواء كل ثلاثة أشهر"
+              }
+            },
+            {
+              "id": "task-02",
+              "content": {
+                "ar": "فحص وتنظيف خزان الماء أسبوعياً"
+              }
+            },
+            {
+              "id": "task-03",
+              "content": {
+                "ar": "اختبار ضغط الهواء بشكل دوري"
+              }
+            },
+            {
+              "id": "task-04",
+              "content": {
+                "ar": "تزييت المحركات حسب التعليمات"
+              }
+            },
+            {
+              "id": "task-05",
+              "content": {
+                "ar": "فحص الأسلاك الكهربائية للتأكد من سلامتها"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

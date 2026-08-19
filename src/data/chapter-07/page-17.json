@@ -1,0 +1,70 @@
+{
+  "id": "page-17",
+  "pageNumber": 129,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 129
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "section-auxiliary",
+      "number": "4-7",
+      "title": {
+        "ar": "الأجهزة المساعدة"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "auxiliary-intro",
+          "content": {
+            "ar": "وهي الأجهزة التي تساعد طبيب الأسنان في عمله وليست أساسية للعمل اليومي ولكنها توفر راحة وكفاءة أعلى، وتشمل الأجهزة الآتية:"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-xray",
+      "number": "1-4-7",
+      "title": {
+        "ar": "جهاز الأشعة السينية",
+        "en": "X-Ray"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "xray-detail",
+          "content": {
+            "ar": "وهو جهاز يستخدم للكشف عن الأسنان وتشخيص المشاكل داخل السن والعظم المحيط به، يساعد الطبيب على رؤية واضحة للمناطق التي لا يمكن الوصول إليها بالفحص البصري."
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-bleaching",
+      "number": "2-4-7",
+      "title": {
+        "ar": "جهاز تبييض الأسنان",
+        "en": "Teeth Bleaching"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "bleaching-detail",
+          "content": {
+            "ar": "وهو جهاز يستخدم لتبييض الأسنان وإزالة التصبغات والتلون، يعمل باستخدام مواد كيميائية آمنة وضوء لتحسين لون الأسنان."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

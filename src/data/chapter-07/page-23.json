@@ -1,0 +1,72 @@
+{
+  "id": "page-23",
+  "pageNumber": 135,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 135
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "section-safety",
+      "number": "",
+      "title": {
+        "ar": "السلامة والحماية"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "safety-intro",
+          "content": {
+            "ar": "السلامة المهنية والحماية من الأخطار أثناء استخدام جهاز الأسنان ضرورية لحماية الطبيب والمريض والموظفين. يجب الالتزام بمعايير السلامة والصحة المهنية."
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "safety-rules",
+          "items": [
+            {
+              "id": "rule-01",
+              "content": {
+                "ar": "التأكد من التأريض الكهربائي الصحيح للجهاز"
+              }
+            },
+            {
+              "id": "rule-02",
+              "content": {
+                "ar": "استخدام أدوات الحماية الشخصية مثل القفازات والنظارات"
+              }
+            },
+            {
+              "id": "rule-03",
+              "content": {
+                "ar": "التأكد من نظافة وتعقيم جميع الأدوات والملحقات"
+              }
+            },
+            {
+              "id": "rule-04",
+              "content": {
+                "ar": "عدم لمس الأسطح الحادة أو الدوارة أثناء التشغيل"
+              }
+            },
+            {
+              "id": "rule-05",
+              "content": {
+                "ar": "إيقاف الجهاز عند انتهاء الاستخدام"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

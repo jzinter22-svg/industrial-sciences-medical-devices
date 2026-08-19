@@ -1,0 +1,43 @@
+{
+  "id": "page-27",
+  "pageNumber": 139,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 139
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "section-review",
+      "number": "",
+      "title": {
+        "ar": "ملخص الفصل ومراجعة شاملة"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "summary-intro",
+          "content": {
+            "ar": "في هذا الفصل تم دراسة جهاز الأسنان بشكل شامل من حيث المكونات والأجزاء الرئيسية والدورات المختلفة والأجهزة المساعدة. الفهم العميق لكل جزء يساعد الطبيب على الاستخدام الصحيح والصيانة الدورية للجهاز."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "conclusion",
+          "content": {
+            "ar": "اتقان استخدام جهاز الأسنان والعناية به يعكس مستوى مهنية الطبيب ويضمن سلامة وراحة المريض. استمر في التعلم والتطوير من مهاراتك في هذا المجال."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

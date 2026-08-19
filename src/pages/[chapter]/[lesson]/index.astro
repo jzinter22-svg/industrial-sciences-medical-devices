@@ -160,6 +160,44 @@ const chapter06Lesson01Pages = [
   c6page10, c6page11,
 ];
 
+import c7page00 from "../../../data/chapter-07/page-00.json";
+import c7page01 from "../../../data/chapter-07/page-01.json";
+import c7page02 from "../../../data/chapter-07/page-02.json";
+import c7page03 from "../../../data/chapter-07/page-03.json";
+import c7page04 from "../../../data/chapter-07/page-04.json";
+import c7page05 from "../../../data/chapter-07/page-05.json";
+import c7page06 from "../../../data/chapter-07/page-06.json";
+import c7page07 from "../../../data/chapter-07/page-07.json";
+import c7page08 from "../../../data/chapter-07/page-08.json";
+import c7page09 from "../../../data/chapter-07/page-09.json";
+import c7page10 from "../../../data/chapter-07/page-10.json";
+import c7page11 from "../../../data/chapter-07/page-11.json";
+import c7page12 from "../../../data/chapter-07/page-12.json";
+import c7page13 from "../../../data/chapter-07/page-13.json";
+import c7page14 from "../../../data/chapter-07/page-14.json";
+import c7page15 from "../../../data/chapter-07/page-15.json";
+import c7page16 from "../../../data/chapter-07/page-16.json";
+import c7page17 from "../../../data/chapter-07/page-17.json";
+import c7page18 from "../../../data/chapter-07/page-18.json";
+import c7page19 from "../../../data/chapter-07/page-19.json";
+import c7page20 from "../../../data/chapter-07/page-20.json";
+import c7page21 from "../../../data/chapter-07/page-21.json";
+import c7page22 from "../../../data/chapter-07/page-22.json";
+import c7page23 from "../../../data/chapter-07/page-23.json";
+import c7page24 from "../../../data/chapter-07/page-24.json";
+import c7page25 from "../../../data/chapter-07/page-25.json";
+import c7page26 from "../../../data/chapter-07/page-26.json";
+import c7page27 from "../../../data/chapter-07/page-27.json";
+
+const chapter07Lesson01Pages = [
+  c7page00, c7page01, c7page02, c7page03, c7page04,
+  c7page05, c7page06, c7page07, c7page08, c7page09,
+  c7page10, c7page11, c7page12, c7page13, c7page14,
+  c7page15, c7page16, c7page17, c7page18, c7page19,
+  c7page20, c7page21, c7page22, c7page23, c7page24,
+  c7page25, c7page26, c7page27,
+];
+
 
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
@@ -178,7 +216,8 @@ const isChapter03Lesson01 = chapter.id === "chapter-03" && lesson.id === "lesson
 const isChapter04Lesson01 = chapter.id === "chapter-04" && lesson.id === "lesson-01";
 const isChapter05Lesson01 = chapter.id === "chapter-05" && lesson.id === "lesson-01";
 const isChapter06Lesson01 = chapter.id === "chapter-06" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01;
+const isChapter07Lesson01 = chapter.id === "chapter-07" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01 || isChapter07Lesson01;
 const lessonPages = isChapter01Lesson01
   ? chapter01Lesson01Pages
   : isChapter02Lesson01
@@ -191,7 +230,9 @@ const lessonPages = isChapter01Lesson01
           ? chapter05Lesson01Pages
           : isChapter06Lesson01
             ? chapter06Lesson01Pages
-            : [];
+            : isChapter07Lesson01
+              ? chapter07Lesson01Pages
+              : [];
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>

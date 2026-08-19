@@ -1,0 +1,54 @@
+{
+  "id": "page-18",
+  "pageNumber": 130,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 130
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "subsection-autoclave",
+      "number": "3-4-7",
+      "title": {
+        "ar": "جهاز التعقيم",
+        "en": "Autoclave"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "autoclave-detail",
+          "content": {
+            "ar": "وهو جهاز يستخدم لتعقيم الأدوات الطبية والمعدات باستخدام البخار الساخن تحت الضغط، مما يضمن الحماية من الأمراض المعدية."
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsection-mixer",
+      "number": "4-4-7",
+      "title": {
+        "ar": "خلاط حشوة الأسنان",
+        "en": "Amalgam Mixer"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "mixer-detail",
+          "content": {
+            "ar": "وهو جهاز يستخدم لخلط مواد الحشو والإسمنت بطريقة متساوية لضمان جودة الحشو، يوفر الوقت والجهد ويضمن تناسق المواد المختلطة."
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

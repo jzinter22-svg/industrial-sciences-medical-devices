@@ -1,0 +1,91 @@
+{
+  "id": "page-11",
+  "pageNumber": 123,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 123
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "sections": [
+    {
+      "id": "subsection-electricmotor",
+      "number": "",
+      "title": {
+        "ar": "ب - المحرك الكهربائي (Electrical Motor)"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "electricmotor-intro",
+          "content": {
+            "ar": "وهو عبارة عن محرك كهربائي غالية في الصغر ويستبدل به عن المحرك الهوائي ويتساع به بالمواصفات التالية:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "electricmotor-specs",
+          "items": [
+            {
+              "id": "spec-01",
+              "content": {
+                "ar": "لايشتغل حيزا كبيرا لصغر حجمه"
+              }
+            },
+            {
+              "id": "spec-02",
+              "content": {
+                "ar": "يعمل بولطية مستمرة (D.C) ذات قيمة قليلة تتراوح (22-24) فولت."
+              }
+            },
+            {
+              "id": "spec-03",
+              "content": {
+                "ar": "يتم التحكم به برعته من خلال مقاومة متغيرة داخل الجهاز."
+              }
+            },
+            {
+              "id": "spec-04",
+              "content": {
+                "ar": "سرعة دوران المحرك تتراوح (20000-18000) دورة بالدقيقة."
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "electricmotor-circuit",
+          "content": {
+            "ar": "وفي الشكل رقم (17-7) المخطط الكتلوي لدائرة تجهيز المحرك الكهربائي بالولطية اللازمة لعملة والذي يتكون من:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "electricmotor-circuit-items",
+          "items": [
+            {
+              "id": "item-01",
+              "content": {
+                "ar": "المصدر الكهربائي: ويجهز ولطية مقدارها (220V/50Hz)."
+              }
+            },
+            {
+              "id": "item-02",
+              "content": {
+                "ar": "المحول الخافض (Step-Down Transformer): ويخفض الولطية من 220 فولت الى 30 فولت متناوب (AC)."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

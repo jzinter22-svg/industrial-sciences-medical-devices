@@ -11,7 +11,7 @@ const isDeviceGrid = section.blocks.some((block: any) => block.type === "device"
 ---
 
 <section class="page-section">
-  <SectionHeader number={section.number} titleAr={section.title.ar} titleEn={section.titleEn} />
+  <SectionHeader number={section.number} titleAr={section.title.ar} titleEn={section.title.en} />
 
   <div class:list={["section-blocks", isDeviceGrid && "device-grid"]}>
     {section.blocks.map((block: any) => <BlockRenderer block={block} />)}
