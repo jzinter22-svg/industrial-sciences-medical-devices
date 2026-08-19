@@ -16,40 +16,35 @@
   },
   "sections": [
     {
-      "id": "subsection-7-2-3",
-      "number": "3-2-7",
+      "id": "section-handpieces",
+      "number": "7-4",
       "title": {
-        "ar": "كرسي الاسنان",
-        "en": "Dental Chair"
+        "ar": "أدوات الحفر (Hand Pieces)"
       },
       "blocks": [
         {
           "type": "paragraph",
-          "id": "chair-types-intro",
+          "id": "handpiece-intro",
           "content": {
-            "ar": "هناك نظامين يعمل بهما كرسي الأسنان وحسب الشركة المصنعة له وكالآتي:"
+            "ar": "أدوات الحفر تُستخدم لحفر وتشكيل الأسنان. هناك نوعان رئيسيان: أدوات بطيئة وأدوات سريعة (توربينات)."
           }
         },
         {
-          "type": "numbered-list",
-          "id": "chair-systems",
-          "items": [
-            {
-              "id": "system-01",
-              "content": {
-                "ar": "المنظومة الهيدروليكية: بعد أن تم توضيح مبدأ عمل الصمام الكهربائي وصمام غيرمرجعه، توضح عمل المنظومة الهيدروليكية وفقا للمخطط الكتلي رقم (12-7)"
-              }
-            }
-          ]
+          "type": "photo",
+          "id": "photo-handpieces",
+          "src": "/assets/diagrams/chapter-07/fig-15.jpg",
+          "alt": "الأدوات اليدوية المستقيمة والمعوجة",
+          "caption": {
+            "ar": "شكل 14-7: أنواع القبضات (أ) مستقيمة (ب) معوجة"
+          }
         },
         {
           "type": "diagram",
-          "id": "diagram-13",
-          "figureNumber": "12-7",
-          "src": "fig-12.jpg",
-          "alt": "المخطط الهيدروليكي لكرسي الأسنان",
+          "id": "diagram-08",
+          "src": "/assets/diagrams/chapter-07/fig-16.jpg",
+          "alt": "قطاع في محرك هوائي",
           "caption": {
-            "ar": "شكل 12-7 يوضح المخطط الهيدروليكي لكرسي الاسنان"
+            "ar": "شكل 15-7: مكونات المحرك الهوائي"
           }
         }
       ]

@@ -16,35 +16,19 @@
   },
   "sections": [
     {
-      "id": "subsection-watercycle",
-      "number": "2-3-7",
+      "id": "section-system-cycle-2",
+      "number": "",
       "title": {
-        "ar": "الدورة المائية",
-        "en": "Water Cycle"
+        "ar": "الدورة الثانية للنظام"
       },
       "blocks": [
         {
-          "type": "paragraph",
-          "id": "watercycle-detail",
-          "content": {
-            "ar": "تبدأ من خزان الماء الذي يحتوي على الماء المعالج، ثم يمر الماء عبر مضخة لدفعه بضغط معين، ثم ينقسم إلى جزأين: أحدهما يذهب للسرنج الثلاثي والآخر يذهب لآلات الحفر السريعة لتبريدها، وأخيرا يعود الماء إلى الخزان أو يتم تصريفه."
-          }
-        }
-      ]
-    },
-    {
-      "id": "subsection-distilledwater",
-      "number": "3-3-7",
-      "title": {
-        "ar": "دورة الماء المقطر",
-        "en": "Distilled Water Cycle"
-      },
-      "blocks": [
-        {
-          "type": "paragraph",
-          "id": "distilledwater-detail",
-          "content": {
-            "ar": "يتم استخدام الماء المقطر لتنظيف خطوط الماء ومنع تراكم الرواسب، حيث يمر الماء المقطر عبر جميع خطوط توزيع الماء بشكل دوري لضمان نظافة النظام وسلامته."
+          "type": "diagram",
+          "id": "diagram-system-cycle-2",
+          "src": "/assets/diagrams/chapter-07/fig-30.jpg",
+          "alt": "دورة النظام الثانية",
+          "caption": {
+            "ar": "شكل 29-7: الدورة الثانية لتشغيل النظام"
           }
         }
       ]

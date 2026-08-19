@@ -19,7 +19,7 @@ interface Props {
   src: string;
   alt: string;
   caption?: string;
-  credit: Credit;
+  credit?: Credit;
 }
 
 const { src, alt, caption, credit } = Astro.props;
@@ -31,12 +31,14 @@ const resolvedSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + src;
     <img src={resolvedSrc} alt={alt} loading="lazy" />
   </div>
   {caption && <figcaption class="photo-block-caption">{caption}</figcaption>}
-  <p class="photo-block-credit">
-    المصدر:
-    {credit.sourceUrl ? <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">{credit.source}</a> : <span>{credit.source}</span>}
-    {" · "}الترخيص:
-    {credit.licenseUrl ? <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a> : <span>{credit.license}</span>}
-  </p>
+  {credit && (
+    <p class="photo-block-credit">
+      المصدر:
+      {credit.sourceUrl ? <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">{credit.source}</a> : <span>{credit.source}</span>}
+      {" · "}الترخيص:
+      {credit.licenseUrl ? <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a> : <span>{credit.license}</span>}
+    </p>
+  )}
 </figure>
 
 <style>

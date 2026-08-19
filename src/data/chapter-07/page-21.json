@@ -16,18 +16,19 @@
   },
   "sections": [
     {
-      "id": "subsection-electrical",
-      "number": "4-3-7",
+      "id": "section-electrical-controls",
+      "number": "",
       "title": {
-        "ar": "الدورة الكهربائية",
-        "en": "Electrical Cycle"
+        "ar": "الأنظمة الكهربائية والتحكمية"
       },
       "blocks": [
         {
-          "type": "paragraph",
-          "id": "electrical-detail",
-          "content": {
-            "ar": "تبدأ من مصدر التغذية الكهربائية الرئيسي (220V/50Hz)، ثم تمر عبر مفتاح التشغيل الرئيسي، ثم يتم توزيع التيار الكهربائي على جميع الأجهزة الكهربائية مثل المحركات والصمامات والإضاءة، وتوجد حماية بواسطة قواطع كهربائية لحماية النظام من الأعطال والدوائر القصيرة."
+          "type": "photo",
+          "id": "photo-control-panel",
+          "src": "/assets/diagrams/chapter-07/fig-31.jpg",
+          "alt": "لوحة التحكم الكهربائية",
+          "caption": {
+            "ar": "شكل 30-7: لوحة التحكم الكهربائية"
           }
         }
       ]

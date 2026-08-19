@@ -16,24 +16,46 @@
   },
   "sections": [
     {
-      "id": "section-review",
+      "id": "section-additional-systems",
       "number": "",
       "title": {
-        "ar": "ملخص الفصل ومراجعة شاملة"
+        "ar": "أنظمة وأدوات متقدمة"
       },
       "blocks": [
         {
-          "type": "paragraph",
-          "id": "summary-intro",
-          "content": {
-            "ar": "في هذا الفصل تم دراسة جهاز الأسنان بشكل شامل من حيث المكونات والأجزاء الرئيسية والدورات المختلفة والأجهزة المساعدة. الفهم العميق لكل جزء يساعد الطبيب على الاستخدام الصحيح والصيانة الدورية للجهاز."
+          "type": "photo",
+          "id": "photo-advanced-system-1",
+          "src": "/assets/diagrams/chapter-07/fig-38.jpg",
+          "alt": "نظام متقدم",
+          "caption": {
+            "ar": "شكل 37-7: الأنظمة المتقدمة الجزء الأول"
           }
         },
         {
-          "type": "paragraph",
-          "id": "conclusion",
-          "content": {
-            "ar": "اتقان استخدام جهاز الأسنان والعناية به يعكس مستوى مهنية الطبيب ويضمن سلامة وراحة المريض. استمر في التعلم والتطوير من مهاراتك في هذا المجال."
+          "type": "photo",
+          "id": "photo-advanced-system-2",
+          "src": "/assets/diagrams/chapter-07/fig-39.jpg",
+          "alt": "نظام متقدم آخر",
+          "caption": {
+            "ar": "شكل 38-7: الأنظمة المتقدمة الجزء الثاني"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "photo-advanced-system-3",
+          "src": "/assets/diagrams/chapter-07/fig-40.jpg",
+          "alt": "نظام متقدم إضافي",
+          "caption": {
+            "ar": "شكل 39-7: الأنظمة المتقدمة الجزء الثالث"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "photo-advanced-system-4",
+          "src": "/assets/diagrams/chapter-07/fig-41.jpg",
+          "alt": "نظام متقدم نهائي",
+          "caption": {
+            "ar": "شكل 40-7: الأنظمة المتقدمة الجزء الرابع"
           }
         }
       ]

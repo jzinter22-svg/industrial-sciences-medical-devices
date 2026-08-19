@@ -16,35 +16,19 @@
   },
   "sections": [
     {
-      "id": "subsection-autoclave",
-      "number": "3-4-7",
+      "id": "section-suction-circuit",
+      "number": "",
       "title": {
-        "ar": "جهاز التعقيم",
-        "en": "Autoclave"
+        "ar": "دائرة نظام الشفط"
       },
       "blocks": [
         {
-          "type": "paragraph",
-          "id": "autoclave-detail",
-          "content": {
-            "ar": "وهو جهاز يستخدم لتعقيم الأدوات الطبية والمعدات باستخدام البخار الساخن تحت الضغط، مما يضمن الحماية من الأمراض المعدية."
-          }
-        }
-      ]
-    },
-    {
-      "id": "subsection-mixer",
-      "number": "4-4-7",
-      "title": {
-        "ar": "خلاط حشوة الأسنان",
-        "en": "Amalgam Mixer"
-      },
-      "blocks": [
-        {
-          "type": "paragraph",
-          "id": "mixer-detail",
-          "content": {
-            "ar": "وهو جهاز يستخدم لخلط مواد الحشو والإسمنت بطريقة متساوية لضمان جودة الحشو، يوفر الوقت والجهد ويضمن تناسق المواد المختلطة."
+          "type": "diagram",
+          "id": "diagram-suction-circuit",
+          "src": "/assets/diagrams/chapter-07/fig-28.jpg",
+          "alt": "دائرة نظام الشفط",
+          "caption": {
+            "ar": "شكل 27-7: الدائرة الكاملة لنظام الشفط"
           }
         }
       ]
