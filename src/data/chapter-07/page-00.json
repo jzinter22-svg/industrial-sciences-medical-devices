@@ -18,6 +18,115 @@
     "ar": "جهاز الأسنان",
     "en": "Dental Device"
   },
-  "sections": [],
+  "sections": [
+    {
+      "id": "section-intro",
+      "number": "",
+      "title": {
+        "ar": "الفصل السابع: جهاز الأسنان"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "intro-title",
+          "content": {
+            "ar": "جهاز الأسنان (Dental Device)"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "الأهداف الرئيسة:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "objectives",
+          "items": [
+            {
+              "id": "obj-1",
+              "content": {
+                "ar": "معرفة جهاز الأسنان وأجزاؤه"
+              }
+            },
+            {
+              "id": "obj-2",
+              "content": {
+                "ar": "التعرف على الوحدات الرئيسة"
+              }
+            },
+            {
+              "id": "obj-3",
+              "content": {
+                "ar": "معرفة الوحدات الفرعية الملحقة بالجهاز"
+              }
+            },
+            {
+              "id": "obj-4",
+              "content": {
+                "ar": "مبدأ عمل كافة الأجزاء للجهاز"
+              }
+            },
+            {
+              "id": "obj-5",
+              "content": {
+                "ar": "مبدأ عمل الأجهزة الملحقة بالجهاز"
+              }
+            },
+            {
+              "id": "obj-6",
+              "content": {
+                "ar": "التعرف على مبادئ عمل أكثر من جهاز"
+              }
+            },
+            {
+              "id": "obj-7",
+              "content": {
+                "ar": "تعلم الدورات الأساسية للجهاز: الدورة الهوائية والدورة المائية ودورة الماء المقطر والدورة الكهربائية"
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "contents-intro",
+          "content": {
+            "ar": "محتويات الفصل:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "contents",
+          "items": [
+            {
+              "id": "content-1",
+              "content": {
+                "ar": "(1 - 7) جهاز الأسنان"
+              }
+            },
+            {
+              "id": "content-2",
+              "content": {
+                "ar": "(2 - 7) الوحدات الرئيسة"
+              }
+            },
+            {
+              "id": "content-3",
+              "content": {
+                "ar": "(3 - 7) دورات جهاز الأسنان"
+              }
+            },
+            {
+              "id": "content-4",
+              "content": {
+                "ar": "(4 - 7) الأجهزة المساعدة"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "assets": []
 }
