@@ -27,30 +27,19 @@
       },
       "blocks": [
         {
-          "type": "photo",
-          "id": "c7-fig-7-11",
-          "src": "/assets/diagrams/chapter-07/fig-12.jpg",
-          "alt": "صمام غير الرجوع",
-          "caption": {
-            "ar": "شكل 11-7: صمام غير الرجوع (Non-return valve)"
+          "type": "paragraph",
+          "id": "valve-intro",
+          "content": {
+            "ar": "تتضمن الأنظمة الهيدروليكية عدداً من الصمامات والمفاتيح الكهربائية التي تتحكم بحركة السائل الهيدروليكي وتحديد نطاقات الحركة. الشكل التالي يوضح نظام الكرسي الكامل مع جميع مكونات التحكم:"
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-12",
-          "src": "/assets/diagrams/chapter-07/fig-13.jpg",
-          "alt": "مفاتيح التحديد الكهربائية",
+          "type": "diagram",
+          "id": "diagram-valve-control",
+          "src": "/assets/svg/chapter-07/diagram-03-chair-system.svg",
+          "alt": "نظام التحكم الهيدروليكي والكهربائي الكامل",
           "caption": {
-            "ar": "شكل 12-7: مفاتيح التحديد الكهربائية (Limit switches)"
-          }
-        },
-        {
-          "type": "photo",
-          "id": "c7-fig-7-13",
-          "src": "/assets/diagrams/chapter-07/fig-14.jpg",
-          "alt": "الخيط الحلزوني",
-          "caption": {
-            "ar": "شكل 13-7: الخيط الحلزوني في محركات الكرسي"
+            "ar": "شكل 11-7 إلى 13-7: تفاصيل الصمامات والمحركات مع نظام التحكم الكهربائي الكامل"
           }
         }
       ]

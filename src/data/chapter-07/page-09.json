@@ -27,21 +27,19 @@
       },
       "blocks": [
         {
-          "type": "photo",
-          "id": "c7-fig-7-18",
-          "src": "/assets/diagrams/chapter-07/fig-21.jpg",
-          "alt": "توربين عملي",
-          "caption": {
-            "ar": "شكل 18-7: توربين عملي أثناء الاستخدام"
+          "type": "paragraph",
+          "id": "turbine-details",
+          "content": {
+            "ar": "الشكل التالي يوضح التوربينات والمحركات المختلفة المستخدمة في عيادات الأسنان الحديثة، مع مقارنة شاملة للخصائص والميزات والاستخدامات:"
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-19",
-          "src": "/assets/diagrams/chapter-07/fig-22.jpg",
-          "alt": "أداة يدوية مع تسميات",
+          "type": "diagram",
+          "id": "diagram-handpieces-all",
+          "src": "/assets/svg/chapter-07/diagram-04-hand-pieces.svg",
+          "alt": "أنواع أدوات الحفر والتوربينات",
           "caption": {
-            "ar": "شكل 19-7: أداة حفر مع أجزاؤها المسماة"
+            "ar": "شكل 18-7 و 19-7: مختلف أنواع أدوات الحفر والتوربينات مع جدول المقارنة التفصيلي"
           }
         }
       ]

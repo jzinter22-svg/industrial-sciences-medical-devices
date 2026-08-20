@@ -34,21 +34,12 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-14",
-          "src": "/assets/diagrams/chapter-07/fig-15.jpg",
-          "alt": "الأدوات اليدوية المستقيمة والمعوجة",
+          "type": "diagram",
+          "id": "diagram-handpieces",
+          "src": "/assets/svg/chapter-07/diagram-04-hand-pieces.svg",
+          "alt": "أدوات الحفر والمحركات الهوائية - مقارنة شاملة",
           "caption": {
-            "ar": "شكل 14-7: أنواع القبضات (أ) مستقيمة (ب) معوجة"
-          }
-        },
-        {
-          "type": "photo",
-          "id": "c7-fig-7-15",
-          "src": "/assets/diagrams/chapter-07/fig-16.jpg",
-          "alt": "قطاع في محرك هوائي",
-          "caption": {
-            "ar": "شكل 15-7: مكونات المحرك الهوائي"
+            "ar": "شكل 14-7 و 15-7: أنواع أدوات الحفر (التوربينات والمحركات البطيئة) مع جدول المقارنة الشامل"
           }
         }
       ]

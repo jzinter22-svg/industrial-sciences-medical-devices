@@ -45,21 +45,12 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-2",
-          "src": "/assets/diagrams/chapter-07/fig-03.jpg",
-          "alt": "وحدات الضاغط الهوائي",
+          "type": "diagram",
+          "id": "diagram-compressor-system",
+          "src": "/assets/svg/chapter-07/diagram-02-compressor.svg",
+          "alt": "نظام الضاغط الهوائي - مخطط تفصيلي",
           "caption": {
-            "ar": "شكل 2-7: وحدات الضاغط الهوائي الرئيسية"
-          }
-        },
-        {
-          "type": "photo",
-          "id": "c7-fig-7-3",
-          "src": "/assets/diagrams/chapter-07/fig-04.jpg",
-          "alt": "مخطط نظام الضاغط الهوائي",
-          "caption": {
-            "ar": "شكل 3-7: مخطط النظام الهوائي المتكامل"
+            "ar": "شكل 2-7 و 3-7: نظام الضاغط الهوائي المتكامل مع جميع مكونات التنقية والتحكم والتنظيم"
           }
         }
       ]

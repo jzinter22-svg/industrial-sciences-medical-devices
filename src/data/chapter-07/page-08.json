@@ -34,21 +34,12 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-16",
-          "src": "/assets/diagrams/chapter-07/fig-19.jpg",
-          "alt": "توربين ثلاثي الأبعاد",
+          "type": "diagram",
+          "id": "diagram-turbines",
+          "src": "/assets/svg/chapter-07/diagram-04-hand-pieces.svg",
+          "alt": "التوربينات وأدوات الحفر - مخطط شامل",
           "caption": {
-            "ar": "شكل 16-7: توربين عالي السرعة"
-          }
-        },
-        {
-          "type": "photo",
-          "id": "c7-fig-7-17",
-          "src": "/assets/diagrams/chapter-07/fig-20.jpg",
-          "alt": "مكونات المحرك والمحامل",
-          "caption": {
-            "ar": "شكل 17-7: مكونات التوربين الداخلية"
+            "ar": "شكل 16-7 و 17-7: التوربينات عالية السرعة مع مكوناتها وخصائصها ومقارنتها مع أنواع أدوات الحفر الأخرى"
           }
         }
       ]

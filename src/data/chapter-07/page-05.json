@@ -34,21 +34,12 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-9",
-          "src": "/assets/diagrams/chapter-07/fig-10.jpg",
-          "alt": "وضعيات حركة الكرسي",
+          "type": "diagram",
+          "id": "diagram-chair-hydraulic",
+          "src": "/assets/svg/chapter-07/diagram-03-chair-system.svg",
+          "alt": "نظام كرسي الأسنان الهيدروليكي - مخطط شامل",
           "caption": {
-            "ar": "شكل 9-7: وضعيات حركة نظام الكرسي"
-          }
-        },
-        {
-          "type": "photo",
-          "id": "c7-fig-7-10",
-          "src": "/assets/diagrams/chapter-07/fig-11.jpg",
-          "alt": "المخطط الهيدروليكي الكامل",
-          "caption": {
-            "ar": "شكل 10-7: المخطط الهيدروليكي الكامل للنظام"
+            "ar": "شكل 9-7 و 10-7: نظام الكرسي الهيدروليكي المتكامل يوضح المحركات والمضخات ولوحة التحكم الكهربائية"
           }
         }
       ]
