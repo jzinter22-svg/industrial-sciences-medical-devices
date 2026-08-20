@@ -85,6 +85,7 @@ import HumiditySystemDiagram from "./diagrams/HumiditySystemDiagram.astro";
 import RespirationSensorDiagram from "./diagrams/RespirationSensorDiagram.astro";
 import RespirationMonitorCircuitDiagram from "./diagrams/RespirationMonitorCircuitDiagram.astro";
 import DentalSystemBlockDiagram from "./diagrams/DentalSystemBlockDiagram.astro";
+import DentalSystemBlockDiagramInteractive from "./diagrams/DentalSystemBlockDiagramInteractive.astro";
 import AirCompressorSystemDiagram from "./diagrams/AirCompressorSystemDiagram.astro";
 import ChairHydraulicSystemDiagram from "./diagrams/ChairHydraulicSystemDiagram.astro";
 import HandpiecesComparisonDiagram from "./diagrams/HandpiecesComparisonDiagram.astro";
@@ -183,11 +184,14 @@ const chapter6AnimatedDiagrams: Record<string, any> = {
 };
 
 // Chapter 7 diagram ids (c7-fig-7-X) that have a hand-built neumorphic
-// simulator shell wrapper. Non-interactive educational diagrams wrapped
-// in the standard simulator shell for visual consistency with previous
-// chapters, with Arabic labels and descriptions matching the textbook.
+// simulator shell wrapper or interactive scientific simulator. c7-fig-7-1
+// is an interactive simulator with hotspot interactivity, panels, and
+// controls (PHASE 1 PROOF OF CONCEPT). Others are non-interactive
+// educational diagrams wrapped in the standard simulator shell for visual
+// consistency with previous chapters, with Arabic labels and descriptions
+// matching the textbook.
 const chapter7AnimatedDiagrams: Record<string, any> = {
-  "c7-fig-7-1": DentalSystemBlockDiagram,
+  "c7-fig-7-1": DentalSystemBlockDiagramInteractive,
   "c7-fig-7-2": AirCompressorSystemDiagram,
   "c7-fig-7-3": ChairHydraulicSystemDiagram,
   "c7-fig-7-4": HandpiecesComparisonDiagram,
