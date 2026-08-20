@@ -1,0 +1,55 @@
+---
+// Figure 7-9 & 7-10 (نظام الكرسي الهيدروليكي) — hydraulic chair system
+// showing lift cylinders, control pump, and electrical panel. Dark
+// neumorphic simulator style matching other chapters. Non-interactive
+// educational diagram wrapped in the standard simulator shell.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft chair-hydraulic-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام الكرسي الهيدروليكي</span>
+      <span class="simulator-subtitle">شكل 9-7 و 10-7 — التحكم والحركة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <img
+          src="/assets/svg/chapter-07/diagram-03-chair-system.svg"
+          alt="نظام كرسي الأسنان الهيدروليكي المتكامل"
+          style="max-width: 100%; height: auto;"
+        />
+      </div>
+      {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .chair-hydraulic-diagram {
+    margin: 2rem 0;
+  }
+
+  .diagram-block-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .diagram-block-caption {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+    padding: 0 1rem;
+    font-weight: 500;
+  }
+</style>
