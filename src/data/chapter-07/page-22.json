@@ -1,0 +1,42 @@
+{
+  "id": "page-22",
+  "pageNumber": 134,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 134
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-control-circuits",
+      "number": "",
+      "title": {
+        "ar": "دوائر التحكم"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-32",
+          "src": "/assets/diagrams/chapter-07/fig-32.jpg",
+          "alt": "دائرة التحكم الأولى",
+          "caption": {
+            "ar": "شكل 32-7: دائرة التحكم الكهربائية"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

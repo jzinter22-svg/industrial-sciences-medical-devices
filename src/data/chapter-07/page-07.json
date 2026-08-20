@@ -1,0 +1,58 @@
+{
+  "id": "page-07",
+  "pageNumber": 119,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 119
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-handpieces",
+      "number": "7-4",
+      "title": {
+        "ar": "أدوات الحفر (Hand Pieces)"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "handpiece-intro",
+          "content": {
+            "ar": "أدوات الحفر تُستخدم لحفر وتشكيل الأسنان. هناك نوعان رئيسيان: أدوات بطيئة وأدوات سريعة جداً تسمى التوربينات. تعمل هذه الأدوات بقوة الهواء المضغوط الذي يدير محرك صغير يدور بسرعات عالية جداً."
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-14",
+          "src": "/assets/diagrams/chapter-07/fig-15.jpg",
+          "alt": "الأدوات اليدوية المستقيمة والمعوجة",
+          "caption": {
+            "ar": "شكل 14-7: أنواع القبضات (أ) مستقيمة (ب) معوجة"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-15",
+          "src": "/assets/diagrams/chapter-07/fig-16.jpg",
+          "alt": "قطاع في محرك هوائي",
+          "caption": {
+            "ar": "شكل 15-7: مكونات المحرك الهوائي"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

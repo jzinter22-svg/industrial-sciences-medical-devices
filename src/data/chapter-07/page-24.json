@@ -1,0 +1,42 @@
+{
+  "id": "page-24",
+  "pageNumber": 136,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 136
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-system-components",
+      "number": "",
+      "title": {
+        "ar": "مكونات النظام الإضافية"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-34",
+          "src": "/assets/diagrams/chapter-07/fig-34.jpg",
+          "alt": "مكونات النظام الإضافية",
+          "caption": {
+            "ar": "شكل 34-7: المكونات الإضافية للنظام"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

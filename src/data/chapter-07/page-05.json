@@ -1,0 +1,58 @@
+{
+  "id": "page-05",
+  "pageNumber": 117,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 117
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-7-3",
+      "number": "7-3",
+      "title": {
+        "ar": "نظام الكرسي الهيدروليكي"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "chair-intro",
+          "content": {
+            "ar": "كرسي الأسنان يتحرك بواسطة أنظمة هيدروليكية قوية وفعالة. يمكن رفع وخفض الكرسي بسلاسة وتحريك المسند والرأسية بسهولة لتوفير أقصى درجات الراحة للمريض والطبيب. النظام الهيدروليكي يوفر قوة كافية للتحكم الدقيق والآمن بجميع حركات الكرسي."
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-9",
+          "src": "/assets/diagrams/chapter-07/fig-10.jpg",
+          "alt": "وضعيات حركة الكرسي",
+          "caption": {
+            "ar": "شكل 9-7: وضعيات حركة نظام الكرسي"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-10",
+          "src": "/assets/diagrams/chapter-07/fig-11.jpg",
+          "alt": "المخطط الهيدروليكي الكامل",
+          "caption": {
+            "ar": "شكل 10-7: المخطط الهيدروليكي الكامل للنظام"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

@@ -1,0 +1,60 @@
+{
+  "id": "page-06",
+  "pageNumber": 118,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 118
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-valve-details",
+      "number": "",
+      "title": {
+        "ar": "تفاصيل الصمامات والمحركات الهيدروليكية"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-11",
+          "src": "/assets/diagrams/chapter-07/fig-12.jpg",
+          "alt": "صمام غير الرجوع",
+          "caption": {
+            "ar": "شكل 11-7: صمام غير الرجوع (Non-return valve)"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-12",
+          "src": "/assets/diagrams/chapter-07/fig-13.jpg",
+          "alt": "مفاتيح التحديد الكهربائية",
+          "caption": {
+            "ar": "شكل 12-7: مفاتيح التحديد الكهربائية (Limit switches)"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-13",
+          "src": "/assets/diagrams/chapter-07/fig-14.jpg",
+          "alt": "الخيط الحلزوني",
+          "caption": {
+            "ar": "شكل 13-7: الخيط الحلزوني في محركات الكرسي"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

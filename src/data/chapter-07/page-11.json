@@ -1,0 +1,42 @@
+{
+  "id": "page-11",
+  "pageNumber": 123,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 123
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-electrical-system",
+      "number": "",
+      "title": {
+        "ar": "الدائرة الكهربائية للنظام"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-21",
+          "src": "/assets/diagrams/chapter-07/fig-17.jpg",
+          "alt": "الدائرة الكهربائية",
+          "caption": {
+            "ar": "شكل 21-7: الدائرة الكهربائية الكاملة"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

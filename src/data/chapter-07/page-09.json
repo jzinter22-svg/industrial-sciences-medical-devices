@@ -1,0 +1,51 @@
+{
+  "id": "page-09",
+  "pageNumber": 121,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 121
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-turbine-photos",
+      "number": "",
+      "title": {
+        "ar": "صور توضيحية للتوربينات"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-18",
+          "src": "/assets/diagrams/chapter-07/fig-21.jpg",
+          "alt": "توربين عملي",
+          "caption": {
+            "ar": "شكل 18-7: توربين عملي أثناء الاستخدام"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-19",
+          "src": "/assets/diagrams/chapter-07/fig-22.jpg",
+          "alt": "أداة يدوية مع تسميات",
+          "caption": {
+            "ar": "شكل 19-7: أداة حفر مع أجزاؤها المسماة"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

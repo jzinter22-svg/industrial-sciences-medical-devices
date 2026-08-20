@@ -1,0 +1,42 @@
+{
+  "id": "page-18",
+  "pageNumber": 130,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 130
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-suction-circuit",
+      "number": "",
+      "title": {
+        "ar": "دائرة نظام الشفط"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-28",
+          "src": "/assets/diagrams/chapter-07/fig-28.jpg",
+          "alt": "دائرة نظام الشفط",
+          "caption": {
+            "ar": "شكل 28-7: الدائرة الكاملة لنظام الشفط"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}
