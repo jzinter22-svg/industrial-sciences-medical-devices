@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { caption } = Astro.props;
+const diagramSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + "/assets/svg/chapter-07/diagram-01-system-block.svg";
 ---
 
 <figure class="diagram-block neo-surface-soft dental-system-block-diagram">
@@ -23,7 +24,7 @@ const { caption } = Astro.props;
     <div class="simulator-main">
       <div class="diagram-block-image">
         <img
-          src="/assets/svg/chapter-07/diagram-01-system-block.svg"
+          src={diagramSrc}
           alt="المخطط الكتلوي لنظام جهاز الأسنان الحديثة"
           style="max-width: 100%; height: auto;"
         />

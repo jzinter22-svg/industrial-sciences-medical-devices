@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { caption } = Astro.props;
+const diagramSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + "/assets/svg/chapter-07/diagram-04-hand-pieces.svg";
 ---
 
 <figure class="diagram-block neo-surface-soft handpieces-diagram">
@@ -23,7 +24,7 @@ const { caption } = Astro.props;
     <div class="simulator-main">
       <div class="diagram-block-image">
         <img
-          src="/assets/svg/chapter-07/diagram-04-hand-pieces.svg"
+          src={diagramSrc}
           alt="أنواع أدوات الحفر والتوربينات مع جدول المقارنة"
           style="max-width: 100%; height: auto;"
         />

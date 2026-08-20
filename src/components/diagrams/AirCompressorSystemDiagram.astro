@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { caption } = Astro.props;
+const diagramSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + "/assets/svg/chapter-07/diagram-02-compressor.svg";
 ---
 
 <figure class="diagram-block neo-surface-soft air-compressor-diagram">
@@ -22,7 +23,7 @@ const { caption } = Astro.props;
     <div class="simulator-main">
       <div class="diagram-block-image">
         <img
-          src="/assets/svg/chapter-07/diagram-02-compressor.svg"
+          src={diagramSrc}
           alt="نظام ضاغط الهواء المتكامل مع التنقية والتجفيف"
           style="max-width: 100%; height: auto;"
         />
