@@ -1,0 +1,518 @@
+---
+// Figure 7-2 (نظام الضاغط الهوائي) — Interactive Scientific Simulator.
+// Phase 2 implementation using approved Phase 1 architecture.
+//
+// Demonstrates compressed air system components:
+// - Electric motor, compressor unit, filter, storage tank
+// - Interactive hotspots with component descriptions
+// - Status panel showing system state
+// - Play/pause/reset controls
+// - Responsive design with RTL support
+
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+
+// Component information from textbook definitions
+const componentInfo: Record<string, { ar: string; en: string; description: string }> = {
+  "electric-motor": {
+    ar: "المحرك الكهربائي",
+    en: "Electric Motor",
+    description: "محرك كهربائي قوي يدير وحدة الضاغط. يحول الطاقة الكهربائية إلى طاقة ميكانيكية تدفع المكبس للضغط على الهواء.",
+  },
+  "compressor-unit": {
+    ar: "وحدة الضاغط",
+    en: "Compressor Unit",
+    description: "وحدة الضغط الرئيسية التي تقوم بسحب الهواء الجوي وضغطه إلى درجات عالية (3-8 بار) لتشغيل الأدوات الهوائية.",
+  },
+  "intake-valve": {
+    ar: "صمام المدخل",
+    en: "Intake Valve",
+    description: "يسمح بدخول الهواء من الجو إلى غرفة الضغط. يفتح أثناء شوط السحب ويغلق أثناء شوط الضغط.",
+  },
+  "discharge-valve": {
+    ar: "صمام المخرج",
+    en: "Discharge Valve",
+    description: "يسمح بخروج الهواء المضغوط من الغرفة إلى الفلتر والخزان. يفتح عند الضغط المطلوب ويغلق عند الانخفاض.",
+  },
+  "filter-unit": {
+    ar: "وحدة التنقية",
+    en: "Filter Unit",
+    description: "يزيل الشوائب والرطوبة من الهواء المضغوط لحماية الأدوات والمحركات من التلف والتآكل.",
+  },
+  "storage-tank": {
+    ar: "خزان التخزين",
+    en: "Storage Tank",
+    description: "يخزن الهواء المضغوط لضمان توفر ضغط ثابت ومستقر لجميع أدوات العيادة بغض النظر عن الطلب المتغير.",
+  },
+  "safety-valve": {
+    ar: "صمام الأمان",
+    en: "Safety Valve",
+    description: "حماية النظام من الضغط الزائد. يفتح تلقائياً عند تجاوز الضغط الحد الأقصى لمنع انفجار الخزان.",
+  },
+};
+---
+
+<figure class="diagram-block neo-surface-soft air-compressor-interactive">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام الضاغط الهوائي</span>
+      <span class="simulator-subtitle">شكل 2-7 و 3-7 — نظام الضغط والتنقية</span>
+    </div>
+
+    <div class="simulator-content">
+      <!-- Status Panel -->
+      <div class="status-panel">
+        <div class="status-header">حالة النظام</div>
+        <div class="status-items">
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #fbbf24;"></span>
+            <span class="status-label">الكهرباء</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #4ade80;"></span>
+            <span class="status-label">الهواء المضغوط</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #94a3b8;"></span>
+            <span class="status-label">الفلتر</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Diagram Area -->
+      <div class="diagram-main">
+        <svg
+          class="compressor-diagram-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 600 500"
+          role="img"
+          aria-label="نظام الضاغط الهوائي المتكامل"
+        >
+          <defs>
+            <style>
+              .compressor-diagram-svg .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+              .compressor-diagram-svg .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 10px; }
+              .compressor-diagram-svg .hotspot { cursor: pointer; transition: opacity 0.2s ease; }
+              .compressor-diagram-svg .hotspot:hover rect,
+              .compressor-diagram-svg .hotspot:hover circle,
+              .compressor-diagram-svg .hotspot:hover ellipse {
+                opacity: 0.9;
+                filter: brightness(1.2);
+              }
+              .compressor-diagram-svg .hotspot.active rect,
+              .compressor-diagram-svg .hotspot.active circle,
+              .compressor-diagram-svg .hotspot.active ellipse {
+                filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.6));
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .compressor-diagram-svg .hotspot {
+                  transition: none;
+                }
+              }
+            </style>
+          </defs>
+
+          <rect width="600" height="500" fill="#0f1419"/>
+
+          <!-- Title -->
+          <text x="300" y="25" text-anchor="middle" class="text" font-size="16" font-weight="700">نظام الضاغط الهوائي</text>
+
+          <!-- Motor (Hotspot) -->
+          <g class="hotspot" data-component="electric-motor" tabindex="0" role="button">
+            <rect x="40" y="80" width="100" height="80" rx="5" fill="#445a6d" stroke="#6a7f8f" stroke-width="2"/>
+            <circle cx="90" cy="120" r="25" fill="#8fa5b8" stroke="#6a8fa5" stroke-width="1.5"/>
+            <text x="90" y="155" text-anchor="middle" class="text" font-size="11">محرك كهربائي</text>
+            <text x="90" y="168" text-anchor="middle" class="label">Electric Motor</text>
+          </g>
+
+          <!-- Arrow from motor to compressor -->
+          <line x1="140" y1="120" x2="180" y2="120" stroke="#6a8fa5" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+          <!-- Compressor Unit (Hotspot) -->
+          <g class="hotspot" data-component="compressor-unit" tabindex="0" role="button">
+            <rect x="180" y="80" width="160" height="80" rx="5" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
+            <line x1="140" y1="120" x2="180" y2="120" stroke="#8fa5b8" stroke-width="4"/>
+            <rect x="175" y="115" width="10" height="10" fill="#6a8fa5"/>
+            <text x="260" y="155" text-anchor="middle" class="text" font-size="11">وحدة الضاغط</text>
+            <text x="260" y="168" text-anchor="middle" class="label">Compressor Unit</text>
+          </g>
+
+          <!-- Intake Valve (Hotspot) -->
+          <g class="hotspot" data-component="intake-valve" tabindex="0" role="button">
+            <circle cx="220" cy="60" r="8" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="2"/>
+            <line x1="220" y1="68" x2="220" y2="80" stroke="#5a7a8f" stroke-width="2"/>
+            <text x="220" y="45" text-anchor="middle" class="label" font-size="9">مدخل</text>
+          </g>
+
+          <!-- Discharge Valve (Hotspot) -->
+          <g class="hotspot" data-component="discharge-valve" tabindex="0" role="button">
+            <circle cx="310" cy="60" r="8" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="2"/>
+            <line x1="310" y1="68" x2="310" y2="80" stroke="#5a7a8f" stroke-width="2"/>
+            <text x="310" y="45" text-anchor="middle" class="label" font-size="9">مخرج</text>
+          </g>
+
+          <!-- Air Intake from atmosphere -->
+          <path d="M 220 30 L 220 50 M 210 40 L 230 40" stroke="#a8d0e8" stroke-width="2" fill="none"/>
+          <text x="240" y="35" class="label">من الجو</text>
+
+          <!-- Compressed Air Output -->
+          <line x1="310" y1="60" x2="310" y2="30" stroke="#d4854f" stroke-width="3"/>
+          <path d="M 305 30 L 315 30 L 310 20 Z" fill="#d4854f"/>
+          <text x="320" y="35" class="text" font-size="10">هواء مضغوط</text>
+
+          <!-- Filter Unit (Hotspot) -->
+          <g class="hotspot" data-component="filter-unit" tabindex="0" role="button">
+            <rect x="370" y="80" width="80" height="80" rx="5" fill="#2a3f4d" stroke="#4a6578" stroke-width="2"/>
+            <circle cx="410" cy="100" r="15" fill="none" stroke="#5a7a8f" stroke-width="2"/>
+            <circle cx="410" cy="140" r="12" fill="#8fa5b8" opacity="0.6"/>
+            <text x="410" y="155" text-anchor="middle" class="label" font-size="10">فلتر</text>
+            <text x="410" y="168" text-anchor="middle" class="label" font-size="9">Filter</text>
+          </g>
+
+          <!-- Arrow to filter -->
+          <line x1="340" y1="120" x2="370" y2="120" stroke="#6a8fa5" stroke-width="2.5" fill="none" marker-end="url(#arrowhead)"/>
+
+          <!-- Storage Tank (Hotspot) -->
+          <g class="hotspot" data-component="storage-tank" tabindex="0" role="button">
+            <ellipse cx="480" cy="120" rx="35" ry="50" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
+            <text x="480" y="160" text-anchor="middle" class="text" font-size="11">خزان</text>
+            <text x="480" y="173" text-anchor="middle" class="label">Tank</text>
+          </g>
+
+          <!-- Arrow to tank -->
+          <line x1="450" y1="120" x2="415" y2="120" stroke="#6a8fa5" stroke-width="2.5" fill="none" marker-end="url(#arrowhead)"/>
+
+          <!-- Safety Valve (Hotspot) -->
+          <g class="hotspot" data-component="safety-valve" tabindex="0" role="button">
+            <line x1="515" y1="90" x2="535" y2="70" stroke="#6a8fa5" stroke-width="2"/>
+            <circle cx="540" cy="65" r="5" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="1"/>
+            <text x="555" y="70" class="label" font-size="8">أمان</text>
+          </g>
+
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="info-panel">
+        <div class="info-header">معلومات المكون</div>
+        <div id="info-content" class="info-content">
+          <p class="info-empty">انقر على أي مكون للحصول على معلومات تفصيلية</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="simulator-controls">
+      <button id="btn-play" class="control-btn" aria-label="تشغيل المحاكاة">▶</button>
+      <button id="btn-pause" class="control-btn" aria-label="إيقاف المحاكاة" style="display: none;">⏸</button>
+      <button id="btn-reset" class="control-btn" aria-label="إعادة تعيين المحاكاة">⟲</button>
+    </div>
+
+    {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+  </div>
+</figure>
+
+<style>
+  .air-compressor-interactive {
+    margin: 2rem 0;
+  }
+
+  .simulator-content {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+    align-items: start;
+  }
+
+  .status-panel {
+    background: rgba(26, 35, 50, 0.6);
+    border: 1px solid #4a6578;
+    border-radius: 8px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .status-header {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+    text-align: right;
+    direction: rtl;
+  }
+
+  .status-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    direction: rtl;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-label {
+    text-align: right;
+  }
+
+  .diagram-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 20, 25, 0.5);
+    border: 1px solid #2a3f4d;
+    border-radius: 12px;
+    padding: 1rem;
+    overflow: auto;
+    max-height: 600px;
+  }
+
+  .compressor-diagram-svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .info-panel {
+    background: rgba(26, 35, 50, 0.6);
+    border: 1px solid #4a6578;
+    border-radius: 8px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    max-height: 600px;
+  }
+
+  .info-header {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+    text-align: right;
+    direction: rtl;
+  }
+
+  .info-content {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .info-empty {
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .info-title {
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-description {
+    color: #cbd5e1;
+  }
+
+  .simulator-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #2a3f4d;
+  }
+
+  .control-btn {
+    background: #1e293b;
+    border: 1px solid #4a6578;
+    color: #94a3b8;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+
+  .control-btn:hover {
+    background: #334155;
+    color: #e2e8f0;
+  }
+
+  .control-btn:active {
+    transform: scale(0.95);
+  }
+
+  .diagram-block-caption {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+    padding: 0 1rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 1024px) {
+    .simulator-content {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+    }
+
+    .status-panel,
+    .info-panel {
+      max-height: 300px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .status-panel,
+    .info-panel {
+      padding: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .simulator-controls {
+      padding: 0.75rem;
+    }
+
+    .control-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-panel,
+    .info-panel,
+    .control-btn {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const componentInfo: Record<string, { ar: string; en: string; description: string }> = {
+    "electric-motor": {
+      ar: "المحرك الكهربائي",
+      en: "Electric Motor",
+      description: "محرك كهربائي قوي يدير وحدة الضاغط. يحول الطاقة الكهربائية إلى طاقة ميكانيكية تدفع المكبس للضغط على الهواء.",
+    },
+    "compressor-unit": {
+      ar: "وحدة الضاغط",
+      en: "Compressor Unit",
+      description: "وحدة الضغط الرئيسية التي تقوم بسحب الهواء الجوي وضغطه إلى درجات عالية (3-8 بار) لتشغيل الأدوات الهوائية.",
+    },
+    "intake-valve": {
+      ar: "صمام المدخل",
+      en: "Intake Valve",
+      description: "يسمح بدخول الهواء من الجو إلى غرفة الضغط. يفتح أثناء شوط السحب ويغلق أثناء شوط الضغط.",
+    },
+    "discharge-valve": {
+      ar: "صمام المخرج",
+      en: "Discharge Valve",
+      description: "يسمح بخروج الهواء المضغوط من الغرفة إلى الفلتر والخزان. يفتح عند الضغط المطلوب ويغلق عند الانخفاض.",
+    },
+    "filter-unit": {
+      ar: "وحدة التنقية",
+      en: "Filter Unit",
+      description: "يزيل الشوائب والرطوبة من الهواء المضغوط لحماية الأدوات والمحركات من التلف والتآكل.",
+    },
+    "storage-tank": {
+      ar: "خزان التخزين",
+      en: "Storage Tank",
+      description: "يخزن الهواء المضغوط لضمان توفر ضغط ثابت ومستقر لجميع أدوات العيادة بغض النظر عن الطلب المتغير.",
+    },
+    "safety-valve": {
+      ar: "صمام الأمان",
+      en: "Safety Valve",
+      description: "حماية النظام من الضغط الزائد. يفتح تلقائياً عند تجاوز الضغط الحد الأقصى لمنع انفجار الخزان.",
+    },
+  };
+
+  let isAnimating = false;
+
+  document.querySelectorAll(".hotspot").forEach((hotspot) => {
+    hotspot.addEventListener("click", () => {
+      const componentId = hotspot.getAttribute("data-component");
+      if (componentId && componentInfo[componentId]) {
+        const info = componentInfo[componentId];
+        const content = document.getElementById("info-content");
+        if (content) {
+          content.innerHTML = `
+            <div class="info-title">${info.ar}</div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem;">${info.en}</div>
+            <div class="info-description">${info.description}</div>
+          `;
+        }
+
+        document.querySelectorAll(".hotspot").forEach((h) => h.classList.remove("active"));
+        hotspot.classList.add("active");
+      }
+    });
+
+    hotspot.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        (hotspot as HTMLElement).click();
+      }
+    });
+  });
+
+  document.getElementById("btn-play")?.addEventListener("click", () => {
+    isAnimating = true;
+    const playBtn = document.getElementById("btn-play");
+    const pauseBtn = document.getElementById("btn-pause");
+    if (playBtn && pauseBtn) {
+      playBtn.style.display = "none";
+      pauseBtn.style.display = "inline-block";
+    }
+  });
+
+  document.getElementById("btn-pause")?.addEventListener("click", () => {
+    isAnimating = false;
+    const playBtn = document.getElementById("btn-play");
+    const pauseBtn = document.getElementById("btn-pause");
+    if (playBtn && pauseBtn) {
+      playBtn.style.display = "inline-block";
+      pauseBtn.style.display = "none";
+    }
+  });
+
+  document.getElementById("btn-reset")?.addEventListener("click", () => {
+    isAnimating = false;
+    const playBtn = document.getElementById("btn-play");
+    const pauseBtn = document.getElementById("btn-pause");
+    if (playBtn && pauseBtn) {
+      playBtn.style.display = "inline-block";
+      pauseBtn.style.display = "none";
+    }
+    document.querySelectorAll(".hotspot").forEach((h) => h.classList.remove("active"));
+    const content = document.getElementById("info-content");
+    if (content) {
+      content.innerHTML = '<p class="info-empty">انقر على أي مكون للحصول على معلومات تفصيلية</p>';
+    }
+  });
+</script>
