@@ -34,10 +34,8 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-22",
-          "src": "/assets/diagrams/chapter-07/fig-18.jpg",
-          "alt": "محقنة الرش الثلاثية",
+          "type": "diagram",
+          "id": "c7-fig-7-6",
           "caption": {
             "ar": "شكل 22-7: محقنة الرش الثلاثية"
           }

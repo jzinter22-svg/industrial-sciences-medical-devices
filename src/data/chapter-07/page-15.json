@@ -27,9 +27,9 @@
       },
       "blocks": [
         {
-          "type": "photo",
-          "id": "c7-fig-7-25",
-          "src": "/assets/diagrams/chapter-07/fig-25.jpg",
+          "type": "diagram",
+          "id": "c7-fig-7-7b",
+          "src": "/assets/svg/chapter-07/diagram-05-suction-system.svg",
           "alt": "مكونات نظام الشفط",
           "caption": {
             "ar": "شكل 25-7: مكونات وحدة الشفط الداخلية"

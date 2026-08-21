@@ -88,6 +88,9 @@ import DentalSystemBlockDiagramInteractive from "./diagrams/DentalSystemBlockDia
 import AirCompressorSystemDiagramInteractive from "./diagrams/AirCompressorSystemDiagramInteractive.astro";
 import ChairHydraulicSystemDiagramInteractive from "./diagrams/ChairHydraulicSystemDiagramInteractive.astro";
 import HandpiecesComparisonDiagramInteractive from "./diagrams/HandpiecesComparisonDiagramInteractive.astro";
+import ElectricalControlSystemDiagramInteractive from "./diagrams/ElectricalControlSystemDiagramInteractive.astro";
+import TripleSyringeSystemDiagramInteractive from "./diagrams/TripleSyringeSystemDiagramInteractive.astro";
+import SuctionSystemDiagramInteractive from "./diagrams/SuctionSystemDiagramInteractive.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -183,13 +186,17 @@ const chapter6AnimatedDiagrams: Record<string, any> = {
 };
 
 // Chapter 7 diagram ids (c7-fig-7-X) that have a hand-built animated
-// replacement. The four dental system diagrams are interactive simulators
-// with play/pause/reset controls and state management.
+// replacement. All seven dental system diagrams are interactive simulators
+// with play/pause/reset controls and state management, built on the same
+// master template (see DentalSystemBlockDiagramInteractive.astro).
 const chapter7AnimatedDiagrams: Record<string, any> = {
   "c7-fig-7-1": DentalSystemBlockDiagramInteractive,
   "c7-fig-7-2": AirCompressorSystemDiagramInteractive,
   "c7-fig-7-3": ChairHydraulicSystemDiagramInteractive,
   "c7-fig-7-4": HandpiecesComparisonDiagramInteractive,
+  "c7-fig-7-5": ElectricalControlSystemDiagramInteractive,
+  "c7-fig-7-6": TripleSyringeSystemDiagramInteractive,
+  "c7-fig-7-7": SuctionSystemDiagramInteractive,
 };
 
 // Chapter 1 device ids (device-0N) that have a hand-built animated

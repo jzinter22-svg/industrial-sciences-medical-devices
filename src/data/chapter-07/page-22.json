@@ -27,9 +27,9 @@
       },
       "blocks": [
         {
-          "type": "photo",
-          "id": "c7-fig-7-32",
-          "src": "/assets/diagrams/chapter-07/fig-32.jpg",
+          "type": "diagram",
+          "id": "c7-fig-7-5c",
+          "src": "/assets/svg/chapter-07/diagram-07-electrical-control.svg",
           "alt": "دائرة التحكم الأولى",
           "caption": {
             "ar": "شكل 32-7: دائرة التحكم الكهربائية"

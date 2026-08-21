@@ -27,10 +27,8 @@
       },
       "blocks": [
         {
-          "type": "photo",
-          "id": "c7-fig-7-21",
-          "src": "/assets/diagrams/chapter-07/fig-17.jpg",
-          "alt": "الدائرة الكهربائية",
+          "type": "diagram",
+          "id": "c7-fig-7-5",
           "caption": {
             "ar": "شكل 21-7: الدائرة الكهربائية الكاملة"
           }

@@ -34,10 +34,8 @@
           }
         },
         {
-          "type": "photo",
-          "id": "c7-fig-7-24",
-          "src": "/assets/diagrams/chapter-07/fig-24.jpg",
-          "alt": "وحدة الشفط",
+          "type": "diagram",
+          "id": "c7-fig-7-7",
           "caption": {
             "ar": "شكل 24-7: وحدة نظام الشفط"
           }
