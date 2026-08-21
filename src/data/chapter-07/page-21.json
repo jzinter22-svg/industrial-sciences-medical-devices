@@ -1,0 +1,42 @@
+{
+  "id": "page-21",
+  "pageNumber": 133,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 133
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-electrical-controls",
+      "number": "",
+      "title": {
+        "ar": "الأنظمة الكهربائية والتحكمية"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "c7-fig-7-31",
+          "src": "/assets/diagrams/chapter-07/fig-31.jpg",
+          "alt": "لوحة التحكم الكهربائية",
+          "caption": {
+            "ar": "شكل 31-7: لوحة التحكم الكهربائية"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

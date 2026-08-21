@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <style>
+      .dark-box { fill: #2a3f4d; stroke: #4a6578; stroke-width: 2; }
+      .light-box { fill: #3d5a6d; stroke: #5a7a8f; stroke-width: 2; }
+      .arrow { stroke: #6a8fa5; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+      .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 11px; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" class="text" font-size="16" font-weight="700">نظام جهاز الأسنان المتكامل</text>
+
+  <!-- Main Power Supply -->
+  <rect x="20" y="60" width="120" height="60" rx="5" class="dark-box"/>
+  <text x="80" y="85" text-anchor="middle" class="text" font-size="11">مصدر الطاقة</text>
+  <text x="80" y="100" text-anchor="middle" class="label">Power Supply</text>
+  <line x1="140" y1="90" x2="180" y2="90" class="arrow"/>
+
+  <!-- Compressor Unit -->
+  <rect x="180" y="60" width="120" height="60" rx="5" class="light-box"/>
+  <text x="240" y="85" text-anchor="middle" class="text" font-size="11">وحدة الضاغط</text>
+  <text x="240" y="100" text-anchor="middle" class="label">Compressor</text>
+  <line x1="300" y1="90" x2="340" y2="90" class="arrow"/>
+
+  <!-- Pressure Tank -->
+  <rect x="340" y="60" width="120" height="60" rx="5" class="dark-box"/>
+  <text x="400" y="85" text-anchor="middle" class="text" font-size="11">خزان الضغط</text>
+  <text x="400" y="100" text-anchor="middle" class="label">Pressure Tank</text>
+  <line x1="460" y1="90" x2="500" y2="90" class="arrow"/>
+
+  <!-- Air Distribution -->
+  <circle cx="540" cy="90" r="25" class="light-box"/>
+  <text x="540" y="95" text-anchor="middle" class="text" font-size="10">توزيع</text>
+  <text x="540" y="107" text-anchor="middle" class="label">Distribution</text>
+
+  <!-- Vertical connections -->
+  <line x1="80" y1="120" x2="80" y2="160" class="arrow"/>
+  <line x1="240" y1="120" x2="240" y2="160" class="arrow"/>
+  <line x1="400" y1="120" x2="400" y2="160" class="arrow"/>
+  <line x1="540" y1="115" x2="540" y2="160" class="arrow"/>
+
+  <!-- Control Systems -->
+  <rect x="40" y="160" width="80" height="60" rx="5" class="dark-box"/>
+  <text x="80" y="180" text-anchor="middle" class="text" font-size="10">نظام</text>
+  <text x="80" y="193" text-anchor="middle" class="text" font-size="10">التحكم</text>
+  <text x="80" y="206" text-anchor="middle" class="label" font-size="10">Control</text>
+
+  <!-- Filtration System -->
+  <rect x="160" y="160" width="80" height="60" rx="5" class="light-box"/>
+  <text x="200" y="180" text-anchor="middle" class="text" font-size="10">نظام</text>
+  <text x="200" y="193" text-anchor="middle" class="text" font-size="10">التنقية</text>
+  <text x="200" y="206" text-anchor="middle" class="label" font-size="10">Filtration</text>
+
+  <!-- Drying System -->
+  <rect x="280" y="160" width="80" height="60" rx="5" class="dark-box"/>
+  <text x="320" y="180" text-anchor="middle" class="text" font-size="10">مجفف</text>
+  <text x="320" y="193" text-anchor="middle" class="text" font-size="10">الهواء</text>
+  <text x="320" y="206" text-anchor="middle" class="label" font-size="10">Dryer</text>
+
+  <!-- Output Systems -->
+  <rect x="400" y="160" width="80" height="60" rx="5" class="light-box"/>
+  <text x="440" y="185" text-anchor="middle" class="text" font-size="11">الأجهزة</text>
+  <text x="440" y="206" text-anchor="middle" class="label" font-size="10">Devices</text>
+
+  <!-- Connections between second row -->
+  <line x1="120" y1="190" x2="160" y2="190" class="arrow"/>
+  <line x1="240" y1="190" x2="280" y2="190" class="arrow"/>
+  <line x1="360" y1="190" x2="400" y2="190" class="arrow"/>
+
+  <!-- Output to devices -->
+  <line x1="440" y1="220" x2="440" y2="260" class="arrow"/>
+
+  <!-- Device circles -->
+  <g id="device-group">
+    <!-- Turbines -->
+    <circle cx="140" cy="300" r="30" class="dark-box"/>
+    <text x="140" y="295" text-anchor="middle" class="text" font-size="10">التوربينات</text>
+    <text x="140" y="310" text-anchor="middle" class="label" font-size="9">Turbines</text>
+
+    <!-- Motors -->
+    <circle cx="280" cy="300" r="30" class="light-box"/>
+    <text x="280" y="295" text-anchor="middle" class="text" font-size="10">المحركات</text>
+    <text x="280" y="310" text-anchor="middle" class="label" font-size="9">Motors</text>
+
+    <!-- Chair Control -->
+    <circle cx="420" cy="300" r="30" class="dark-box"/>
+    <text x="420" y="295" text-anchor="middle" class="text" font-size="10">الكرسي</text>
+    <text x="420" y="310" text-anchor="middle" class="label" font-size="9">Chair</text>
+
+    <!-- Suction -->
+    <circle cx="540" cy="300" r="30" class="light-box"/>
+    <text x="540" y="295" text-anchor="middle" class="text" font-size="10">الشفط</text>
+    <text x="540" y="310" text-anchor="middle" class="label" font-size="9">Suction</text>
+  </g>
+
+  <!-- Connections from output to devices -->
+  <line x1="415" y1="260" x2="140" y2="270" class="arrow"/>
+  <line x1="435" y1="260" x2="280" y2="270" class="arrow"/>
+  <line x1="445" y1="260" x2="420" y2="270" class="arrow"/>
+  <line x1="465" y1="260" x2="540" y2="270" class="arrow"/>
+
+  <!-- Feedback loops -->
+  <path d="M 140 330 Q 140 370, 420 370 Q 540 370, 540 330" class="arrow" stroke-dasharray="4,4"/>
+  <text x="340" y="390" text-anchor="middle" class="label" font-size="10">نظام المراقبة والتغذية الراجعة</text>
+
+  <!-- Legend -->
+  <rect x="20" y="420" width="560" height="70" rx="3" fill="none" stroke="#4a6578" stroke-width="1"/>
+  <text x="30" y="440" class="label">الهواء المضغوط:</text>
+  <line x1="160" y1="435" x2="190" y2="435" class="arrow"/>
+  <text x="200" y="440" class="label">ـــ تدفق</text>
+
+  <text x="30" y="460" class="label">نظام الكهرباء:</text>
+  <line x1="160" y1="455" x2="190" y2="455" stroke="#a8d0e8" stroke-width="2.5" fill="none"/>
+  <text x="200" y="460" class="label">ـــ تحكم كهربائي</text>
+
+  <text x="30" y="480" class="label">نظام الماء (اختياري):</text>
+  <line x1="160" y1="475" x2="190" y2="475" stroke="#7eb3cc" stroke-width="2.5" fill="none" stroke-dasharray="3,3"/>
+  <text x="200" y="480" class="label">ـــ تبريد</text>
+</svg>

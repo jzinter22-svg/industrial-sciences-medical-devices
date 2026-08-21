@@ -1,0 +1,57 @@
+---
+// Figure 7-14 through 7-19 (أدوات الحفر والتوربينات) — hand pieces and
+// turbines comparison showing various drill types with specifications
+// and characteristics. Dark neumorphic simulator style matching other
+// chapters. Non-interactive educational diagram wrapped in the standard
+// simulator shell.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+const diagramSrc = import.meta.env.BASE_URL.replace(/\/$/, "") + "/assets/svg/chapter-07/diagram-04-hand-pieces.svg";
+---
+
+<figure class="diagram-block neo-surface-soft handpieces-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة أدوات الحفر والتوربينات</span>
+      <span class="simulator-subtitle">شكل 14-7 إلى 19-7 — المقارنة الشاملة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <img
+          src={diagramSrc}
+          alt="أنواع أدوات الحفر والتوربينات مع جدول المقارنة"
+          style="max-width: 100%; height: auto;"
+        />
+      </div>
+      {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .handpieces-diagram {
+    margin: 2rem 0;
+  }
+
+  .diagram-block-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .diagram-block-caption {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+    padding: 0 1rem;
+    font-weight: 500;
+  }
+</style>

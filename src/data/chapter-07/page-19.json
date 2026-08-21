@@ -1,0 +1,49 @@
+{
+  "id": "page-19",
+  "pageNumber": 131,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 131
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-system-operations",
+      "number": "7-8",
+      "title": {
+        "ar": "دورات تشغيل النظام"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "system-ops-intro",
+          "content": {
+            "ar": "النظام الهيدروليكي والهوائي يعمل وفقاً لدورات محددة ومتناسقة لتحريك مختلف مكونات كرسي الأسنان وأجهزة العمل. تتحكم دوائر كهربائية ذكية في تسلسل العمليات لضمان الأمان والكفاءة."
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-29",
+          "src": "/assets/diagrams/chapter-07/fig-29.jpg",
+          "alt": "دورة النظام الأولى",
+          "caption": {
+            "ar": "شكل 29-7: الدورة الأولى لتشغيل النظام"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

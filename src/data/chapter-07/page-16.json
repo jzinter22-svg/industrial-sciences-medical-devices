@@ -1,0 +1,49 @@
+{
+  "id": "page-16",
+  "pageNumber": 128,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 128
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-auxiliary-devices",
+      "number": "7-7",
+      "title": {
+        "ar": "الأدوات المساعدة والإضافية"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "auxiliary-intro",
+          "content": {
+            "ar": "الأدوات المساعدة تشمل ماصات اللعاب والكؤوس المصغرة والمرايا والعاكسات والأدوات المختلفة المساعدة في العمل. تلعب هذه الأدوات دوراً مهماً في سهولة الوصول والرؤية أثناء العملية."
+          }
+        },
+        {
+          "type": "photo",
+          "id": "c7-fig-7-26",
+          "src": "/assets/diagrams/chapter-07/fig-26.jpg",
+          "alt": "ماص اللعاب والأدوات المساعدة",
+          "caption": {
+            "ar": "شكل 26-7: الأدوات المساعدة المختلفة"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}
