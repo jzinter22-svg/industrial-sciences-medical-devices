@@ -103,6 +103,22 @@
       ]
     },
     {
+      "number": 7,
+      "id": "chapter-07",
+      "label": "الفصل السابع",
+      "title": { "ar": "جهاز الأسنان", "en": "Dental Device" },
+      "printedPageStart": 112,
+      "printedPageEnd": 139,
+      "lessons": [
+        {
+          "number": 1,
+          "id": "lesson-01",
+          "title": { "ar": "جهاز الأسنان", "en": "Dental Device" },
+          "status": "coming-soon"
+        }
+      ]
+    },
+    {
       "number": 8,
       "id": "chapter-08",
       "label": "الفصل الثامن",
