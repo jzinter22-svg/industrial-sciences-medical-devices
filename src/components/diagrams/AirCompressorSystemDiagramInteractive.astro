@@ -95,26 +95,93 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
         >
           <defs>
             <style>
-              .compressor-diagram-svg .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+              .compressor-diagram-svg .text { fill: #eef1f8; font-family: 'Cairo', sans-serif; font-weight: 600; }
+              .compressor-diagram-svg .text-en { fill: #b7bfd1; font-family: Arial, sans-serif; font-weight: 500; }
               .compressor-diagram-svg .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 10px; }
-              .compressor-diagram-svg .hotspot { cursor: pointer; transition: opacity 0.2s ease; }
-              .compressor-diagram-svg .hotspot:hover rect,
-              .compressor-diagram-svg .hotspot:hover circle,
-              .compressor-diagram-svg .hotspot:hover ellipse {
-                opacity: 0.9;
+              .compressor-diagram-svg .link { pointer-events: none; }
+              .compressor-diagram-svg .flow-layer { pointer-events: none; }
+
+              .compressor-diagram-svg .box-shape { transition: opacity 0.25s ease; }
+              .compressor-diagram-svg .box-active-glow { transition: opacity 0.25s ease; }
+
+              .compressor-diagram-svg .hotspot { cursor: pointer; outline: none; }
+              .compressor-diagram-svg .hotspot:hover .box-shape {
+                opacity: 0.85;
+                filter: brightness(1.15);
+              }
+              .compressor-diagram-svg .hotspot.is-selected .box-shape {
                 filter: brightness(1.2);
               }
-              .compressor-diagram-svg .hotspot.active rect,
-              .compressor-diagram-svg .hotspot.active circle,
-              .compressor-diagram-svg .hotspot.active ellipse {
-                filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.6));
+              .compressor-diagram-svg .hotspot.is-selected .box-active-glow {
+                opacity: 1;
               }
+              .compressor-diagram-svg .hotspot .box-active-glow {
+                opacity: 0;
+              }
+
+              .compressor-diagram-svg .trail { stroke-dasharray: 8 10; animation: flowDash 0.6s linear infinite; }
+              @keyframes flowDash { to { stroke-dashoffset: 18; } }
+
+              .compressor-diagram-svg .particle { animation: particleFloat 2s ease-in-out infinite; }
+              @keyframes particleFloat { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
               @media (prefers-reduced-motion: reduce) {
-                .compressor-diagram-svg .hotspot {
-                  transition: none;
-                }
+                .compressor-diagram-svg .trail { animation: none; stroke-dasharray: none; }
+                .compressor-diagram-svg .particle { animation: none; }
               }
             </style>
+
+            <linearGradient id="grad-motor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a2f10"/>
+              <stop offset="100%" stop-color="#18140a"/>
+            </linearGradient>
+            <linearGradient id="grad-compressor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#123322"/>
+              <stop offset="100%" stop-color="#0a1712"/>
+            </linearGradient>
+            <linearGradient id="grad-filter" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a3545"/>
+              <stop offset="100%" stop-color="#0d1a25"/>
+            </linearGradient>
+            <linearGradient id="grad-tank" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a2540"/>
+              <stop offset="100%" stop-color="#0d131f"/>
+            </linearGradient>
+
+            <filter id="elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"/>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"/>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"/>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"/>
+
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"/>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"/>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"/>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"/>
+
+              <feMerge>
+                <feMergeNode in="shadowOuter"/>
+                <feMergeNode in="haloOuter"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <filter id="softGlow" x="-140%" y="-140%" width="380%" height="380%">
+              <feGaussianBlur stdDeviation="9"/>
+            </filter>
+
+            <filter id="lineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <marker id="arrow-right" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B9C3D6"/>
+            </marker>
           </defs>
 
           <rect width="600" height="500" fill="#0f1419"/>
@@ -124,36 +191,43 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
 
           <!-- Motor (Hotspot) -->
           <g class="hotspot" data-component="electric-motor" tabindex="0" role="button">
-            <rect x="40" y="80" width="100" height="80" rx="5" fill="#445a6d" stroke="#6a7f8f" stroke-width="2"/>
-            <circle cx="90" cy="120" r="25" fill="#8fa5b8" stroke="#6a8fa5" stroke-width="1.5"/>
+            <rect class="box-shape" x="40" y="80" width="100" height="80" rx="8" fill="url(#grad-motor)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="40" y="80" width="100" height="80" rx="8" fill="none" stroke="#fbbf24" stroke-width="3"/>
+            <circle cx="90" cy="120" r="25" fill="#8fa5b8" opacity="0.6" stroke="#6a8fa5" stroke-width="1.5"/>
             <text x="90" y="155" text-anchor="middle" class="text" font-size="11">محرك كهربائي</text>
-            <text x="90" y="168" text-anchor="middle" class="label">Electric Motor</text>
+            <text x="90" y="168" text-anchor="middle" class="text-en" font-size="9">Electric Motor</text>
           </g>
 
           <!-- Arrow from motor to compressor -->
-          <line x1="140" y1="120" x2="180" y2="120" stroke="#6a8fa5" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+          <g class="link" data-link="motor-to-compressor">
+            <line x1="140" y1="120" x2="180" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="140" y1="120" x2="180" y2="120" stroke="#FBBF24" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="160" cy="120" r="3" fill="#FBBF24"/>
+          </g>
 
           <!-- Compressor Unit (Hotspot) -->
           <g class="hotspot" data-component="compressor-unit" tabindex="0" role="button">
-            <rect x="180" y="80" width="160" height="80" rx="5" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
-            <line x1="140" y1="120" x2="180" y2="120" stroke="#8fa5b8" stroke-width="4"/>
-            <rect x="175" y="115" width="10" height="10" fill="#6a8fa5"/>
+            <rect class="box-shape" x="180" y="80" width="160" height="80" rx="8" fill="url(#grad-compressor)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="180" y="80" width="160" height="80" rx="8" fill="none" stroke="#4ade80" stroke-width="3"/>
+            <circle cx="260" cy="120" r="20" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.6"/>
             <text x="260" y="155" text-anchor="middle" class="text" font-size="11">وحدة الضاغط</text>
-            <text x="260" y="168" text-anchor="middle" class="label">Compressor Unit</text>
+            <text x="260" y="168" text-anchor="middle" class="text-en" font-size="9">Compressor Unit</text>
           </g>
 
           <!-- Intake Valve (Hotspot) -->
           <g class="hotspot" data-component="intake-valve" tabindex="0" role="button">
-            <circle cx="220" cy="60" r="8" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="2"/>
-            <line x1="220" y1="68" x2="220" y2="80" stroke="#5a7a8f" stroke-width="2"/>
-            <text x="220" y="45" text-anchor="middle" class="label" font-size="9">مدخل</text>
+            <circle class="box-shape" cx="220" cy="60" r="10" fill="#4ade80" stroke="#4ade80" stroke-width="1.5" opacity="0.7" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="220" cy="60" r="10" fill="none" stroke="#4ade80" stroke-width="2"/>
+            <line x1="220" y1="68" x2="220" y2="80" stroke="#4ade80" stroke-width="2" opacity="0.6"/>
+            <text x="220" y="45" text-anchor="middle" class="text" font-size="9">مدخل</text>
           </g>
 
           <!-- Discharge Valve (Hotspot) -->
           <g class="hotspot" data-component="discharge-valve" tabindex="0" role="button">
-            <circle cx="310" cy="60" r="8" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="2"/>
-            <line x1="310" y1="68" x2="310" y2="80" stroke="#5a7a8f" stroke-width="2"/>
-            <text x="310" y="45" text-anchor="middle" class="label" font-size="9">مخرج</text>
+            <circle class="box-shape" cx="310" cy="60" r="10" fill="#22d3ee" stroke="#22d3ee" stroke-width="1.5" opacity="0.7" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="310" cy="60" r="10" fill="none" stroke="#22d3ee" stroke-width="2"/>
+            <line x1="310" y1="68" x2="310" y2="80" stroke="#22d3ee" stroke-width="2" opacity="0.6"/>
+            <text x="310" y="45" text-anchor="middle" class="text" font-size="9">مخرج</text>
           </g>
 
           <!-- Air Intake from atmosphere -->
@@ -167,31 +241,42 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
 
           <!-- Filter Unit (Hotspot) -->
           <g class="hotspot" data-component="filter-unit" tabindex="0" role="button">
-            <rect x="370" y="80" width="80" height="80" rx="5" fill="#2a3f4d" stroke="#4a6578" stroke-width="2"/>
-            <circle cx="410" cy="100" r="15" fill="none" stroke="#5a7a8f" stroke-width="2"/>
-            <circle cx="410" cy="140" r="12" fill="#8fa5b8" opacity="0.6"/>
-            <text x="410" y="155" text-anchor="middle" class="label" font-size="10">فلتر</text>
-            <text x="410" y="168" text-anchor="middle" class="label" font-size="9">Filter</text>
+            <rect class="box-shape" x="370" y="80" width="80" height="80" rx="8" fill="url(#grad-filter)" stroke="#94a3b8" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="370" y="80" width="80" height="80" rx="8" fill="none" stroke="#94a3b8" stroke-width="3"/>
+            <circle cx="410" cy="100" r="15" fill="none" stroke="#94a3b8" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="410" cy="140" r="10" fill="#94a3b8" opacity="0.4"/>
+            <text x="410" y="155" text-anchor="middle" class="text" font-size="10">فلتر</text>
+            <text x="410" y="168" text-anchor="middle" class="text-en" font-size="9">Filter</text>
           </g>
 
           <!-- Arrow to filter -->
-          <line x1="340" y1="120" x2="370" y2="120" stroke="#6a8fa5" stroke-width="2.5" fill="none" marker-end="url(#arrowhead)"/>
+          <g class="link" data-link="compressor-to-filter">
+            <line x1="340" y1="120" x2="370" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="340" y1="120" x2="370" y2="120" stroke="#4ADE80" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="355" cy="120" r="3" fill="#4ADE80"/>
+          </g>
 
           <!-- Storage Tank (Hotspot) -->
           <g class="hotspot" data-component="storage-tank" tabindex="0" role="button">
-            <ellipse cx="480" cy="120" rx="35" ry="50" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
+            <ellipse class="box-shape" cx="480" cy="120" rx="35" ry="50" fill="url(#grad-tank)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <ellipse class="box-active-glow" cx="480" cy="120" rx="35" ry="50" fill="none" stroke="#22d3ee" stroke-width="3"/>
             <text x="480" y="160" text-anchor="middle" class="text" font-size="11">خزان</text>
-            <text x="480" y="173" text-anchor="middle" class="label">Tank</text>
+            <text x="480" y="173" text-anchor="middle" class="text-en" font-size="9">Tank</text>
           </g>
 
           <!-- Arrow to tank -->
-          <line x1="450" y1="120" x2="415" y2="120" stroke="#6a8fa5" stroke-width="2.5" fill="none" marker-end="url(#arrowhead)"/>
+          <g class="link" data-link="filter-to-tank">
+            <line x1="450" y1="120" x2="415" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="450" y1="120" x2="415" y2="120" stroke="#22D3EE" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="432" cy="120" r="3" fill="#22D3EE"/>
+          </g>
 
           <!-- Safety Valve (Hotspot) -->
           <g class="hotspot" data-component="safety-valve" tabindex="0" role="button">
-            <line x1="515" y1="90" x2="535" y2="70" stroke="#6a8fa5" stroke-width="2"/>
-            <circle cx="540" cy="65" r="5" fill="#6a8fa5" stroke="#5a7a8f" stroke-width="1"/>
-            <text x="555" y="70" class="label" font-size="8">أمان</text>
+            <line x1="515" y1="90" x2="535" y2="70" stroke="#ef4444" stroke-width="2.5" opacity="0.7"/>
+            <circle class="box-shape" cx="540" cy="65" r="6" fill="#ef4444" stroke="#ef4444" stroke-width="1.5" opacity="0.7" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="540" cy="65" r="6" fill="none" stroke="#ef4444" stroke-width="2"/>
+            <text x="555" y="70" class="text" font-size="8">أمان</text>
           </g>
 
           <defs>
@@ -475,8 +560,8 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
           `;
         }
 
-        document.querySelectorAll(".hotspot").forEach((h) => h.classList.remove("active"));
-        hotspot.classList.add("active");
+        document.querySelectorAll(".hotspot").forEach((h) => h.classList.remove("is-selected"));
+        hotspot.classList.add("is-selected");
       }
     });
 
