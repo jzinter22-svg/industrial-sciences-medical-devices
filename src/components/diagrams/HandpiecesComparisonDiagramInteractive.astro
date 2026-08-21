@@ -65,10 +65,85 @@ const isRTL = lang === 'ar';
             .handpiece { fill: #445a6d; stroke: #6a7f8f; stroke-width: 1.5; }
             .bur { fill: #8fa5b8; stroke: #6a8fa5; stroke-width: 1; }
             .arrow { stroke: #6a8fa5; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-            .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+            .text { fill: #eef1f8; font-family: 'Cairo', sans-serif; font-weight: 600; }
+            .text-en { fill: #b7bfd1; font-family: Arial, sans-serif; font-weight: 500; }
             .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 10px; }
             .rotation { fill: none; stroke: #8fa5b8; stroke-width: 2; stroke-dasharray: 4,4; }
+
+            .box-shape { transition: opacity 0.25s ease; }
+            .box-active-glow { transition: opacity 0.25s ease; }
+
+            .hotspot { cursor: pointer; outline: none; }
+            .hotspot:hover .box-shape {
+              opacity: 0.85;
+              filter: brightness(1.15);
+            }
+            .hotspot.is-selected .box-shape {
+              filter: brightness(1.2);
+            }
+            .hotspot.is-selected .box-active-glow {
+              opacity: 1;
+            }
+            .hotspot .box-active-glow {
+              opacity: 0;
+            }
+
+            .trail { stroke-dasharray: 8 10; animation: flowDash 0.6s linear infinite; }
+            @keyframes flowDash { to { stroke-dashoffset: 18; } }
+
+            .particle { animation: particleFloat 2s ease-in-out infinite; }
+            @keyframes particleFloat { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+            @media (prefers-reduced-motion: reduce) {
+              .trail { animation: none; stroke-dasharray: none; }
+              .particle { animation: none; }
+            }
           </style>
+
+          <linearGradient id="grad-turbine" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a2f10"/>
+            <stop offset="100%" stop-color="#18140a"/>
+          </linearGradient>
+          <linearGradient id="grad-motor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a2a40"/>
+            <stop offset="100%" stop-color="#051520"/>
+          </linearGradient>
+          <linearGradient id="grad-straight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a2540"/>
+            <stop offset="100%" stop-color="#0d131f"/>
+          </linearGradient>
+
+          <filter id="elevate" x="-70%" y="-70%" width="240%" height="240%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"/>
+            <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"/>
+            <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"/>
+            <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"/>
+
+            <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"/>
+            <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"/>
+            <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"/>
+            <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"/>
+
+            <feMerge>
+              <feMergeNode in="shadowOuter"/>
+              <feMergeNode in="haloOuter"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="softGlow" x="-140%" y="-140%" width="380%" height="380%">
+            <feGaussianBlur stdDeviation="9"/>
+          </filter>
+
+          <filter id="lineGlow" x="-180%" y="-180%" width="460%" height="460%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
           <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
             <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
           </marker>
@@ -87,14 +162,17 @@ const isRTL = lang === 'ar';
         <!-- Turbine -->
         <g id="turbine" class="hotspot" data-component="turbine" role="button" tabindex="0" aria-label="Turbine handpiece">
           <g transform="translate(120, 120)">
-            <rect x="-15" y="0" width="30" height="80" rx="8" class="handpiece"/>
-            <rect x="-20" y="75" width="40" height="40" rx="4" class="light-box"/>
-            <circle cx="0" cy="95" r="8" class="bur"/>
-            <path d="M -3 103 L -5 115 L 5 115 L 3 103 Z" class="bur"/>
-            <circle cx="0" cy="60" r="25" class="rotation"/>
-            <path d="M 15 60 L 25 60 M 0 35 L 0 25" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+            <g class="box-shape">
+              <rect x="-15" y="0" width="30" height="80" rx="8" fill="url(#grad-turbine)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+              <rect x="-20" y="75" width="40" height="40" rx="4" fill="url(#grad-turbine)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            </g>
+            <rect class="box-active-glow" x="-15" y="0" width="30" height="80" rx="8" fill="none" stroke="#fbbf24" stroke-width="2"/>
+            <circle cx="0" cy="95" r="8" fill="#fbbf24" opacity="0.6" stroke="#fbbf24" stroke-width="1"/>
+            <path d="M -3 103 L -5 115 L 5 115 L 3 103 Z" fill="#fbbf24" opacity="0.6" stroke="#fbbf24" stroke-width="1"/>
+            <circle cx="0" cy="60" r="25" class="rotation" stroke="#fbbf24" opacity="0.5"/>
+            <path d="M 15 60 L 25 60 M 0 35 L 0 25" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.6"/>
             <text x="0" y="130" text-anchor="middle" class="text" font-size="11">التوربينة</text>
-            <text x="0" y="143" text-anchor="middle" class="label">Turbine</text>
+            <text x="0" y="143" text-anchor="middle" class="text-en" font-size="9">Turbine</text>
             <text x="0" y="158" text-anchor="middle" class="label" font-size="9">300,000 RPM</text>
             <text x="0" y="175" text-anchor="middle" class="label" font-size="8">سرعة عالية جداً</text>
             <line x1="-8" y1="80" x2="-12" y2="95" stroke="#7eb3cc" stroke-width="2"/>
@@ -106,14 +184,17 @@ const isRTL = lang === 'ar';
         <!-- Slow Speed Motor -->
         <g id="slow-motor" class="hotspot" data-component="slow-motor" role="button" tabindex="0" aria-label="Slow speed motor">
           <g transform="translate(320, 120)">
-            <rect x="-20" y="0" width="40" height="90" rx="8" class="handpiece"/>
-            <rect x="-18" y="80" width="36" height="35" rx="4" class="dark-box"/>
-            <circle cx="0" cy="105" r="10" class="bur"/>
-            <path d="M -4 115 L -7 130 L 7 130 L 4 115 Z" class="bur"/>
-            <circle cx="0" cy="50" r="22" class="rotation"/>
-            <path d="M 17 50 L 27 50 M 0 28 L 0 18" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+            <g class="box-shape">
+              <rect x="-20" y="0" width="40" height="90" rx="8" fill="url(#grad-motor)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+              <rect x="-18" y="80" width="36" height="35" rx="4" fill="url(#grad-motor)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            </g>
+            <rect class="box-active-glow" x="-20" y="0" width="40" height="90" rx="8" fill="none" stroke="#22d3ee" stroke-width="2"/>
+            <circle cx="0" cy="105" r="10" fill="#22d3ee" opacity="0.6" stroke="#22d3ee" stroke-width="1"/>
+            <path d="M -4 115 L -7 130 L 7 130 L 4 115 Z" fill="#22d3ee" opacity="0.6" stroke="#22d3ee" stroke-width="1"/>
+            <circle cx="0" cy="50" r="22" class="rotation" stroke="#22d3ee" opacity="0.5"/>
+            <path d="M 17 50 L 27 50 M 0 28 L 0 18" stroke="#22d3ee" stroke-width="1.5" fill="none" opacity="0.6"/>
             <text x="0" y="155" text-anchor="middle" class="text" font-size="11">المحرك البطيء</text>
-            <text x="0" y="168" text-anchor="middle" class="label">Slow Speed</text>
+            <text x="0" y="168" text-anchor="middle" class="text-en" font-size="9">Slow Speed</text>
             <text x="0" y="183" text-anchor="middle" class="label" font-size="9">20,000 RPM</text>
             <text x="0" y="200" text-anchor="middle" class="label" font-size="8">عزم دوران عالي</text>
             <line x1="-10" y1="80" x2="-15" y2="70" stroke="#d4854f" stroke-width="2"/>
@@ -124,14 +205,17 @@ const isRTL = lang === 'ar';
         <!-- Straight Handpiece (Micromotor) -->
         <g id="straight-handpiece" class="hotspot" data-component="straight-handpiece" role="button" tabindex="0" aria-label="Straight handpiece">
           <g transform="translate(480, 120)">
-            <rect x="-12" y="0" width="24" height="95" rx="6" class="handpiece"/>
-            <rect x="-16" y="85" width="32" height="30" rx="3" class="light-box"/>
-            <circle cx="0" cy="100" r="7" class="bur"/>
-            <path d="M -2 107 L -4 120 L 4 120 L 2 107 Z" class="bur"/>
-            <circle cx="0" cy="55" r="20" class="rotation"/>
-            <path d="M 16 55 L 24 55 M 0 35 L 0 25" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+            <g class="box-shape">
+              <rect x="-12" y="0" width="24" height="95" rx="6" fill="url(#grad-straight)" stroke="#38bdf8" stroke-width="2" filter="url(#elevate)"/>
+              <rect x="-16" y="85" width="32" height="30" rx="3" fill="url(#grad-straight)" stroke="#38bdf8" stroke-width="2" filter="url(#elevate)"/>
+            </g>
+            <rect class="box-active-glow" x="-12" y="0" width="24" height="95" rx="6" fill="none" stroke="#38bdf8" stroke-width="2"/>
+            <circle cx="0" cy="100" r="7" fill="#38bdf8" opacity="0.6" stroke="#38bdf8" stroke-width="1"/>
+            <path d="M -2 107 L -4 120 L 4 120 L 2 107 Z" fill="#38bdf8" opacity="0.6" stroke="#38bdf8" stroke-width="1"/>
+            <circle cx="0" cy="55" r="20" class="rotation" stroke="#38bdf8" opacity="0.5"/>
+            <path d="M 16 55 L 24 55 M 0 35 L 0 25" stroke="#38bdf8" stroke-width="1.5" fill="none" opacity="0.6"/>
             <text x="0" y="140" text-anchor="middle" class="text" font-size="11">مستقيمة</text>
-            <text x="0" y="153" text-anchor="middle" class="label">Straight</text>
+            <text x="0" y="153" text-anchor="middle" class="text-en" font-size="9">Straight</text>
             <text x="0" y="168" text-anchor="middle" class="label" font-size="9">40,000 RPM</text>
             <text x="0" y="185" text-anchor="middle" class="label" font-size="8">تنظيف وتلميع</text>
           </g>
@@ -361,6 +445,9 @@ const isRTL = lang === 'ar';
         infoTitle.textContent = component.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         infoText.textContent = info[lang] || info.en;
       }
+      // Update selection state for neumorphic glow effect
+      hotspots.forEach((h) => h.classList.remove('is-selected'));
+      hotspot.classList.add('is-selected');
       updateStatusDisplay(component);
     });
 
@@ -396,6 +483,7 @@ const isRTL = lang === 'ar';
     isPlaying = false;
     infoHint.hidden = false;
     infoContent.hidden = true;
+    hotspots.forEach((h) => h.classList.remove('is-selected'));
     setStatusRow('rotation', false);
     setStatusRow('cooling', false);
     setStatusRow('power', false);
