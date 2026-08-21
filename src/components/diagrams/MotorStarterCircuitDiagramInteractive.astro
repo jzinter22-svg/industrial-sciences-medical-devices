@@ -1,0 +1,246 @@
+---
+// Figure 7-32 (دائرة التحكم الكهربائية) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-6 system — this
+// one mirrors AnimatedTimerCircuit.astro's coil -> contactor -> power
+// pattern almost directly, since a motor starter is the same class of
+// circuit (a control signal energizing a coil that closes power
+// contacts), reusing that existing animated diagram's own pattern rather
+// than inventing a new one.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft motor-starter-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة دائرة تشغيل المحرك (ستارتر)</span>
+      <span class="simulator-subtitle">شكل 32-7 — من إشارة التحكم إلى تشغيل المحرك</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="msc1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="360"
+          viewBox="0 0 800 360"
+          role="img"
+          aria-label="دائرة تشغيل المحرك بالستارتر"
+        >
+          <defs>
+            <marker id="msc1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="msc1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="msc1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="msc1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="msc1GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="msc1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+
+            <filter id="msc1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="msc1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="360" rx="20" fill="url(#msc1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="360" rx="20" fill="url(#msc1Grid)"></rect>
+
+          <text x="400" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">دائرة تشغيل المحرك بالستارتر</text>
+
+          <g class="hotspot" data-component="control-signal" tabindex="0" role="button" aria-label="إشارة التحكم">
+            <rect class="box-shape" x="50" y="140" width="130" height="90" rx="10" fill="url(#msc1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#msc1Elevate)"></rect>
+            <text x="115" y="178" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">إشارة</text>
+            <text x="115" y="195" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">التحكم</text>
+          </g>
+
+          <g class="link" data-link="control-signal" data-link-to="starter-coil">
+            <line x1="180" y1="185" x2="225" y2="185" stroke="#5b6478" stroke-width="2.5" marker-end="url(#msc1-arrow)"></line>
+            <line class="trail" x1="180" y1="185" x2="223" y2="185" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="starter-coil" tabindex="0" role="button" aria-label="ملف الستارتر">
+            <rect class="box-shape" x="225" y="140" width="130" height="90" rx="10" fill="url(#msc1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#msc1Elevate)"></rect>
+            <path d="M 250,190 a7,10 0 1 1 0,-20 M 265,190 a7,10 0 1 1 0,-20 M 280,190 a7,10 0 1 1 0,-20 M 295,190 a7,10 0 1 1 0,-20 M 310,190 a7,10 0 1 1 0,-20" fill="none" stroke="#4ADE80" stroke-width="1.8"></path>
+            <text x="290" y="222" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">ملف الستارتر</text>
+          </g>
+
+          <g class="link" data-link="starter-coil" data-link-to="main-contacts">
+            <line x1="355" y1="185" x2="400" y2="185" stroke="#5b6478" stroke-width="2.5" marker-end="url(#msc1-arrow)"></line>
+            <line class="trail" x1="355" y1="185" x2="398" y2="185" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="main-contacts" tabindex="0" role="button" aria-label="تلامسات الستارتر الرئيسية">
+            <rect class="box-shape" x="400" y="110" width="150" height="150" rx="10" fill="url(#msc1GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#msc1Elevate)"></rect>
+            <circle cx="425" cy="150" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="525" cy="150" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line class="contact-blade" x1="425" y1="150" x2="505" y2="138" stroke="#FB923C" stroke-width="2.4"></line>
+            <circle cx="425" cy="215" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <circle cx="525" cy="215" r="4" fill="#1c2436" stroke="#8b94aa" stroke-width="1.5"></circle>
+            <line class="contact-blade" x1="425" y1="215" x2="505" y2="203" stroke="#FB923C" stroke-width="2.4"></line>
+            <text x="475" y="98" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">تلامسات رئيسية</text>
+          </g>
+
+          <g class="link" data-link="main-contacts" data-link-to="motor-power">
+            <line x1="550" y1="185" x2="595" y2="185" stroke="#5b6478" stroke-width="2.5" marker-end="url(#msc1-arrow)"></line>
+            <line class="trail" x1="550" y1="185" x2="593" y2="185" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="motor-power" tabindex="0" role="button" aria-label="قدرة المحرك">
+            <circle class="box-shape" cx="670" cy="185" r="60" fill="url(#msc1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#msc1Elevate)"></circle>
+            <circle cx="670" cy="185" r="26" fill="none" stroke="#38BDF8" stroke-width="1.6" opacity="0.7"></circle>
+            <text x="670" y="180" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">المحرك</text>
+            <text x="670" y="198" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="ltr">Motor</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الدائرة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="control-signal"><span class="status-dot dot-green"></span><span class="status-label">إشارة التحكم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="starter-coil"><span class="status-dot dot-green"></span><span class="status-label">ملف الستارتر</span><span class="status-value"><span class="value-off">غير مغذى</span><span class="value-on">مغذى</span></span></li>
+          <li class="status-row" data-status="main-contacts"><span class="status-dot dot-orange"></span><span class="status-label">التلامسات الرئيسية</span><span class="status-value"><span class="value-off">مفتوحة</span><span class="value-on">مغلقة</span></span></li>
+          <li class="status-row" data-status="motor-power"><span class="status-dot dot-blue"></span><span class="status-label">قدرة المحرك</span><span class="status-value"><span class="value-off">متوقف</span><span class="value-on">يعمل</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>إشارة السيطرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>التلامسات</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>قدرة المحرك</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#msc1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#msc1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .contact-blade {
+    transition: stroke 0.3s ease, filter 0.3s ease;
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#msc1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes msc1-shape-activate { to { filter: url(#msc1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes msc1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes msc1-status-value-on { to { opacity: 1; } }
+    @keyframes msc1-status-value-off { to { opacity: 0; } }
+    @keyframes msc1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes msc1-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes msc1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes msc1-blade-glow { to { filter: url(#msc1Glow); } }
+
+    .playing [data-component="control-signal"] .box-shape { animation: msc1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-signal"] .status-dot { animation: msc1-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-signal"] .value-on { animation: msc1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-signal"] .value-off { animation: msc1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="control-signal"] .trail { animation: msc1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="starter-coil"] .box-shape { animation: msc1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="starter-coil"] .status-dot { animation: msc1-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="starter-coil"] .value-on { animation: msc1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="starter-coil"] .value-off { animation: msc1-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="starter-coil"] .trail { animation: msc1-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="main-contacts"] .box-shape { animation: msc1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-component="main-contacts"] .contact-blade { animation: msc1-blade-glow 0.01s linear 1.1s forwards; }
+    .playing [data-status="main-contacts"] .status-dot { animation: msc1-dot-on-orange 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="main-contacts"] .value-on { animation: msc1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="main-contacts"] .value-off { animation: msc1-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="main-contacts"] .trail { animation: msc1-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="motor-power"] .box-shape { animation: msc1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="motor-power"] .status-dot { animation: msc1-dot-on-blue 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="motor-power"] .value-on { animation: msc1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="motor-power"] .value-off { animation: msc1-status-value-off 0.4s ease-out 1.6s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "control-signal": {
+      title: "إشارة التحكم (Control Signal)",
+      text: "تصدر من لوحة التحكم عند اختيار الجهاز المطلوب تشغيله، وتُرسَل إلى ملف الستارتر المسؤول عن ذلك المحرك.",
+    },
+    "starter-coil": {
+      title: "ملف الستارتر (Starter Coil)",
+      text: "يتغذى بإشارة التحكم منخفضة التيار، وعند تنشيطه يُولّد مجالاً مغناطيسياً يجذب التلامسات الرئيسية ليغلقها.",
+    },
+    "main-contacts": {
+      title: "التلامسات الرئيسية (Main Contacts)",
+      text: "تنغلق عند تنشيط ملف الستارتر لتمرير التيار الكهربائي عالي القدرة من مصدر التغذية إلى المحرك مباشرة.",
+    },
+    "motor-power": {
+      title: "قدرة المحرك (Motor Power)",
+      text: "يصل التيار إلى المحرك فيبدأ بالدوران، ويحميه الستارتر من التيار الزائد أثناء لحظة بدء التشغيل.",
+    },
+  };
+
+  wireDiagramSimulator(".motor-starter-circuit-diagram", { cycleMs: 2500, componentInfo: COMPONENT_INFO });
+</script>

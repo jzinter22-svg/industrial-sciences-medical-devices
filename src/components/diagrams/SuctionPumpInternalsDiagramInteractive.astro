@@ -1,0 +1,268 @@
+---
+// Figure 7-25 (مكونات وحدة الشفط الداخلية) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-6 system. Zooms
+// inside the vacuum-pump box already established in
+// SuctionSystemDiagramInteractive.astro, showing what makes it generate
+// suction — reusing that diagram's own component and terminology rather
+// than inventing new internal specifications.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft suction-pump-internals-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مكونات وحدة الشفط الداخلية</span>
+      <span class="simulator-subtitle">شكل 25-7 — داخل مضخة الشفط</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="spi1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="380"
+          viewBox="0 0 800 380"
+          role="img"
+          aria-label="مكونات وحدة الشفط الداخلية"
+        >
+          <defs>
+            <marker id="spi1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="spi1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="spi1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="spi1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="spi1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="spi1GradCyan" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="spi1GradGray" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#232b36"></stop><stop offset="100%" stop-color="#12161c"></stop></linearGradient>
+
+            <filter id="spi1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="spi1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#spi1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#spi1Grid)"></rect>
+
+          <text x="400" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">مكونات وحدة الشفط الداخلية</text>
+
+          <g class="hotspot" data-component="motor-shaft" tabindex="0" role="button" aria-label="عمود المحرك">
+            <rect class="box-shape" x="50" y="150" width="130" height="90" rx="10" fill="url(#spi1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#spi1Elevate)"></rect>
+            <circle cx="115" cy="195" r="20" fill="none" stroke="#FBBF24" stroke-width="1.6" opacity="0.7"></circle>
+            <text x="115" y="235" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">عمود المحرك</text>
+          </g>
+
+          <g class="link" data-link="motor-shaft" data-link-to="rotating-impeller">
+            <line x1="180" y1="195" x2="225" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#spi1-arrow)"></line>
+            <line class="trail" x1="180" y1="195" x2="223" y2="195" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="rotating-impeller" tabindex="0" role="button" aria-label="الدفاعة الدوارة">
+            <rect class="box-shape" x="225" y="140" width="150" height="110" rx="10" fill="url(#spi1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#spi1Elevate)"></rect>
+            <circle cx="300" cy="195" r="34" fill="none" stroke="#38BDF8" stroke-width="1.6" opacity="0.7"></circle>
+            <path d="M 300,175 L 310,195 L 300,215 L 290,195 Z" fill="#38BDF8" opacity="0.7"></path>
+            <text x="300" y="238" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">الدفاعة الدوارة</text>
+          </g>
+
+          <g class="link" data-link="rotating-impeller" data-link-to="air-separator">
+            <line x1="375" y1="195" x2="420" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#spi1-arrow)"></line>
+            <line class="trail" x1="375" y1="195" x2="418" y2="195" stroke="#22D3EE" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="air-separator" tabindex="0" role="button" aria-label="فاصل الهواء والسائل">
+            <rect class="box-shape" x="420" y="150" width="130" height="90" rx="10" fill="url(#spi1GradCyan)" stroke="#22D3EE" stroke-width="2" filter="url(#spi1Elevate)"></rect>
+            <path d="M 460,175 Q 470,190 460,205 Q 485,190 500,205" fill="none" stroke="#22D3EE" stroke-width="1.6" opacity="0.8"></path>
+            <text x="485" y="235" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">فاصل الهواء</text>
+          </g>
+
+          <g class="link" data-link="air-separator" data-link-to="filter-screen">
+            <line x1="550" y1="195" x2="595" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#spi1-arrow)"></line>
+            <line class="trail" x1="550" y1="195" x2="593" y2="195" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="filter-screen" tabindex="0" role="button" aria-label="شبكة الترشيح">
+            <rect class="box-shape" x="595" y="160" width="90" height="70" rx="8" fill="url(#spi1GradGray)" stroke="#94A3B8" stroke-width="2" filter="url(#spi1Elevate)"></rect>
+            <line x1="605" y1="175" x2="675" y2="175" stroke="#94A3B8" stroke-width="1.2"></line>
+            <line x1="605" y1="190" x2="675" y2="190" stroke="#94A3B8" stroke-width="1.2"></line>
+            <line x1="605" y1="205" x2="675" y2="205" stroke="#94A3B8" stroke-width="1.2"></line>
+            <text x="640" y="252" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">شبكة الترشيح</text>
+          </g>
+
+          <g class="link" data-link="filter-screen" data-link-to="discharge-port">
+            <path d="M 640,230 L 640,270 L 700,270" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#spi1-arrow)"></path>
+            <path class="trail" d="M 640,230 L 640,270 L 698,270" fill="none" stroke="#C084FC" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="hotspot" data-component="discharge-port" tabindex="0" role="button" aria-label="منفذ التفريغ">
+            <circle class="box-shape" cx="735" cy="270" r="32" fill="url(#spi1GradCyan)" stroke="#C084FC" stroke-width="2" filter="url(#spi1Elevate)"></circle>
+            <text x="735" y="266" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">منفذ</text>
+            <text x="735" y="280" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">التفريغ</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الوحدة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="motor-shaft"><span class="status-dot dot-yellow"></span><span class="status-label">عمود المحرك</span><span class="status-value"><span class="value-off">ثابت</span><span class="value-on">يدور</span></span></li>
+          <li class="status-row" data-status="rotating-impeller"><span class="status-dot dot-blue"></span><span class="status-label">الدفاعة الدوارة</span><span class="status-value"><span class="value-off">ثابتة</span><span class="value-on">تدور</span></span></li>
+          <li class="status-row" data-status="air-separator"><span class="status-dot dot-cyan"></span><span class="status-label">فاصل الهواء والسائل</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">يفصل</span></span></li>
+          <li class="status-row" data-status="filter-screen"><span class="status-dot dot-gray"></span><span class="status-label">شبكة الترشيح</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">ترشّح</span></span></li>
+          <li class="status-row" data-status="discharge-port"><span class="status-dot dot-purple"></span><span class="status-label">منفذ التفريغ</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">يفرّغ</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء في المخطط لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الدوران الميكانيكي</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الشفط</li>
+      <li class="legend-item"><span class="legend-swatch legend-cyan"></span>الفصل</li>
+      <li class="legend-item"><span class="legend-swatch legend-gray"></span>الترشيح</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>التفريغ</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-gray { background: #94A3B8; }
+  .legend-cyan { background: #22D3EE; }
+  .status-dot.dot-gray { background: #3a4258; }
+  .status-dot.dot-cyan { background: #3a4258; }
+
+  .hotspot .box-shape {
+    filter: url(#spi1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#spi1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#spi1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes spi1-shape-activate { to { filter: url(#spi1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes spi1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes spi1-status-value-on { to { opacity: 1; } }
+    @keyframes spi1-status-value-off { to { opacity: 0; } }
+    @keyframes spi1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes spi1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes spi1-dot-on-cyan { to { background: #22D3EE; box-shadow: 0 0 8px 1px rgba(34, 211, 238, 0.8); } }
+    @keyframes spi1-dot-on-gray { to { background: #94A3B8; box-shadow: 0 0 8px 1px rgba(148, 163, 184, 0.8); } }
+    @keyframes spi1-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="motor-shaft"] .box-shape { animation: spi1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="motor-shaft"] .status-dot { animation: spi1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="motor-shaft"] .value-on { animation: spi1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="motor-shaft"] .value-off { animation: spi1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="motor-shaft"] .trail { animation: spi1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="rotating-impeller"] .box-shape { animation: spi1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="rotating-impeller"] .status-dot { animation: spi1-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="rotating-impeller"] .value-on { animation: spi1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="rotating-impeller"] .value-off { animation: spi1-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-link="rotating-impeller"] .trail { animation: spi1-reveal-trail 0.3s ease-out 1.0s forwards; }
+    .playing [data-component="air-separator"] .box-shape { animation: spi1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="air-separator"] .status-dot { animation: spi1-dot-on-cyan 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="air-separator"] .value-on { animation: spi1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="air-separator"] .value-off { animation: spi1-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-link="air-separator"] .trail { animation: spi1-reveal-trail 0.3s ease-out 1.5s forwards; }
+    .playing [data-component="filter-screen"] .box-shape { animation: spi1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-screen"] .status-dot { animation: spi1-dot-on-gray 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-screen"] .value-on { animation: spi1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-screen"] .value-off { animation: spi1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="filter-screen"] .trail { animation: spi1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="discharge-port"] .box-shape { animation: spi1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="discharge-port"] .status-dot { animation: spi1-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="discharge-port"] .value-on { animation: spi1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="discharge-port"] .value-off { animation: spi1-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "motor-shaft": {
+      title: "عمود المحرك (Motor Shaft)",
+      text: "يدور المحرك الكهربائي بسرعة ثابتة وينقل الحركة الدورانية إلى الدفاعة عبر عمود مباشر.",
+    },
+    "rotating-impeller": {
+      title: "الدفاعة الدوارة (Rotating Impeller)",
+      text: "تدور بسرعة عالية فتُولّد فرق ضغط يسحب الهواء والسوائل من خط الشفط، وهي المسؤولة الفعلية عن توليد قوة الشفط.",
+    },
+    "air-separator": {
+      title: "فاصل الهواء والسائل (Air Separator)",
+      text: "يفصل السوائل واللعاب المسحوب عن تيار الهواء قبل وصوله إلى شبكة الترشيح، لحماية أجزاء المضخة الداخلية.",
+    },
+    "filter-screen": {
+      title: "شبكة الترشيح (Filter Screen)",
+      text: "تحجز أي جزيئات صلبة متبقية في تيار الهواء قبل خروجه من الوحدة، وتُنظَّف بشكل دوري.",
+    },
+    "discharge-port": {
+      title: "منفذ التفريغ (Discharge Port)",
+      text: "المخرج النهائي الذي يخرج منه الهواء بعد اكتمال دورة الفصل والترشيح داخل الوحدة.",
+    },
+  };
+
+  wireDiagramSimulator(".suction-pump-internals-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
+</script>

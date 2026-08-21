@@ -1,0 +1,282 @@
+---
+// Figure 7-28 (الدائرة الكاملة لنظام الشفط) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-6 system. Shows
+// the "complete circuit" the caption calls for by combining the two
+// halves already established elsewhere in the chapter — the electrical
+// starter path from ElectricalControlSystemDiagramInteractive.astro and
+// the pneumatic path from SuctionSystemDiagramInteractive.astro — into
+// one end-to-end chain, reusing both diagrams' exact components rather
+// than inventing new ones.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft suction-electrical-circuit-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الدائرة الكاملة لنظام الشفط</span>
+      <span class="simulator-subtitle">شكل 28-7 — من مفتاح التشغيل إلى صمام التفريغ</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="sec1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="380"
+          viewBox="0 0 820 380"
+          role="img"
+          aria-label="الدائرة الكاملة لنظام الشفط"
+        >
+          <defs>
+            <marker id="sec1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="sec1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="sec1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="sec1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="sec1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="sec1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="sec1GradGray" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#232b36"></stop><stop offset="100%" stop-color="#12161c"></stop></linearGradient>
+            <linearGradient id="sec1GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+
+            <filter id="sec1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="sec1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="380" rx="20" fill="url(#sec1BgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="380" rx="20" fill="url(#sec1Grid)"></rect>
+
+          <text x="410" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">الدائرة الكاملة لنظام الشفط</text>
+
+          <g class="hotspot" data-component="power-switch" tabindex="0" role="button" aria-label="مفتاح التشغيل">
+            <rect class="box-shape" x="40" y="150" width="110" height="90" rx="10" fill="url(#sec1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#sec1Elevate)"></rect>
+            <text x="95" y="200" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">مفتاح</text>
+            <text x="95" y="217" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">التشغيل</text>
+          </g>
+
+          <g class="link" data-link="power-switch" data-link-to="suction-starter">
+            <line x1="150" y1="195" x2="195" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sec1-arrow)"></line>
+            <line class="trail" x1="150" y1="195" x2="193" y2="195" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="suction-starter" tabindex="0" role="button" aria-label="ستارتر مضخة الشفط">
+            <rect class="box-shape" x="195" y="150" width="130" height="90" rx="10" fill="url(#sec1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#sec1Elevate)"></rect>
+            <circle cx="260" cy="185" r="15" fill="none" stroke="#4ADE80" stroke-width="1.4" opacity="0.7"></circle>
+            <text x="260" y="222" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">ستارتر الشفط</text>
+          </g>
+
+          <g class="link" data-link="suction-starter" data-link-to="vacuum-pump">
+            <line x1="325" y1="195" x2="370" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sec1-arrow)"></line>
+            <line class="trail" x1="325" y1="195" x2="368" y2="195" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="vacuum-pump" tabindex="0" role="button" aria-label="مضخة الشفط">
+            <rect class="box-shape" x="370" y="140" width="130" height="110" rx="10" fill="url(#sec1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#sec1Elevate)"></rect>
+            <circle cx="435" cy="195" r="24" fill="none" stroke="#38BDF8" stroke-width="1.4" opacity="0.7"></circle>
+            <text x="435" y="238" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">مضخة الشفط</text>
+          </g>
+
+          <g class="link" data-link="vacuum-pump" data-link-to="filter-trap">
+            <line x1="500" y1="195" x2="545" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sec1-arrow)"></line>
+            <line class="trail" x1="500" y1="195" x2="543" y2="195" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="filter-trap" tabindex="0" role="button" aria-label="الفلتر والمصيدة">
+            <rect class="box-shape" x="545" y="150" width="120" height="90" rx="10" fill="url(#sec1GradGray)" stroke="#94A3B8" stroke-width="2" filter="url(#sec1Elevate)"></rect>
+            <circle cx="605" cy="180" r="14" fill="none" stroke="#94A3B8" stroke-width="1.4" opacity="0.7"></circle>
+            <circle cx="605" cy="210" r="8" fill="#94A3B8" opacity="0.35"></circle>
+            <text x="605" y="232" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">الفلتر والمصيدة</text>
+          </g>
+
+          <g class="link" data-link="filter-trap" data-link-to="drain-valve">
+            <line x1="665" y1="195" x2="710" y2="195" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sec1-arrow)"></line>
+            <line class="trail" x1="665" y1="195" x2="708" y2="195" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="drain-valve" tabindex="0" role="button" aria-label="صمام التفريغ">
+            <circle class="box-shape" cx="750" cy="195" r="42" fill="url(#sec1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#sec1Elevate)"></circle>
+            <text x="750" y="190" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">صمام</text>
+            <text x="750" y="205" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">التفريغ</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="150" cy="195" r="4.5" fill="#FBBF24" filter="url(#sec1Glow)" style="--tx:38px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="500" cy="195" r="4.5" fill="#94A3B8" filter="url(#sec1Glow)" style="--tx:38px; --ty:0px; --particle-delay:1.6s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الدائرة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="power-switch"><span class="status-dot dot-yellow"></span><span class="status-label">مفتاح التشغيل</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">موصول</span></span></li>
+          <li class="status-row" data-status="suction-starter"><span class="status-dot dot-green"></span><span class="status-label">ستارتر الشفط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="vacuum-pump"><span class="status-dot dot-blue"></span><span class="status-label">مضخة الشفط</span><span class="status-value"><span class="value-off">متوقفة</span><span class="value-on">تعمل</span></span></li>
+          <li class="status-row" data-status="filter-trap"><span class="status-dot dot-gray"></span><span class="status-label">الفلتر والمصيدة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="drain-valve"><span class="status-dot dot-purple"></span><span class="status-label">صمام التفريغ</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">مفتوح</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التشغيل الكهربائي</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>إشارة الستارتر</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الشفط</li>
+      <li class="legend-item"><span class="legend-swatch legend-gray"></span>الترشيح</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>التفريغ</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-gray { background: #94A3B8; }
+  .status-dot.dot-gray { background: #3a4258; }
+
+  .hotspot .box-shape {
+    filter: url(#sec1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#sec1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#sec1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes sec1-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: sec1-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes sec1-shape-activate { to { filter: url(#sec1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes sec1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes sec1-status-value-on { to { opacity: 1; } }
+    @keyframes sec1-status-value-off { to { opacity: 0; } }
+    @keyframes sec1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes sec1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes sec1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes sec1-dot-on-gray { to { background: #94A3B8; box-shadow: 0 0 8px 1px rgba(148, 163, 184, 0.8); } }
+    @keyframes sec1-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="power-switch"] .box-shape { animation: sec1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-switch"] .status-dot { animation: sec1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-switch"] .value-on { animation: sec1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-switch"] .value-off { animation: sec1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="power-switch"] .trail { animation: sec1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="suction-starter"] .box-shape { animation: sec1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="suction-starter"] .status-dot { animation: sec1-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="suction-starter"] .value-on { animation: sec1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="suction-starter"] .value-off { animation: sec1-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="suction-starter"] .trail { animation: sec1-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="vacuum-pump"] .box-shape { animation: sec1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="vacuum-pump"] .status-dot { animation: sec1-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="vacuum-pump"] .value-on { animation: sec1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="vacuum-pump"] .value-off { animation: sec1-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-link="vacuum-pump"] .trail { animation: sec1-reveal-trail 0.3s ease-out 1.5s forwards; }
+    .playing [data-component="filter-trap"] .box-shape { animation: sec1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-trap"] .status-dot { animation: sec1-dot-on-gray 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-trap"] .value-on { animation: sec1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="filter-trap"] .value-off { animation: sec1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="filter-trap"] .trail { animation: sec1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="drain-valve"] .box-shape { animation: sec1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="drain-valve"] .status-dot { animation: sec1-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="drain-valve"] .value-on { animation: sec1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="drain-valve"] .value-off { animation: sec1-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "power-switch": {
+      title: "مفتاح التشغيل (Power Switch)",
+      text: "يبدأ إمداد التيار الكهربائي إلى دائرة نظام الشفط بالكامل.",
+    },
+    "suction-starter": {
+      title: "ستارتر مضخة الشفط (Suction Starter)",
+      text: "يشغّل مضخة الشفط عند وصول التيار، وغالباً ما يعمل بشكل متواصل أثناء ساعات عمل العيادة.",
+    },
+    "vacuum-pump": {
+      title: "مضخة الشفط (Vacuum Pump)",
+      text: "تولّد قوة الشفط اللازمة لسحب اللعاب والماء من فم المريض عبر النظام بأكمله.",
+    },
+    "filter-trap": {
+      title: "الفلتر والمصيدة (Filter & Trap)",
+      text: "ينقّي الهواء المسحوب من الشوائب والرواسب قبل خروجه، حماية للمضخة ولنظافة الدائرة.",
+    },
+    "drain-valve": {
+      title: "صمام التفريغ (Drain Valve)",
+      text: "يتحكم بتفريغ السوائل المجمَّعة من النظام إلى خارج العيادة، مكمّلاً الدائرة الكاملة من التشغيل إلى التفريغ.",
+    },
+  };
+
+  wireDiagramSimulator(".suction-electrical-circuit-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
+</script>

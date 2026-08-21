@@ -1,0 +1,250 @@
+---
+// Figure 7-31 (لوحة التحكم الكهربائية) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-6 system (see
+// AnimatedTimerCircuit.astro's compact "detail" format). Zooms into the
+// physical control-panel node already established in
+// ElectricalControlSystemDiagramInteractive.astro, expanding it into its
+// own buttons and indicator lights.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft control-panel-detail-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة لوحة التحكم الكهربائية</span>
+      <span class="simulator-subtitle">شكل 31-7 — أزرار التشغيل والإيقاف والطوارئ</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="cpd1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="380"
+          viewBox="0 0 800 380"
+          role="img"
+          aria-label="لوحة التحكم الكهربائية"
+        >
+          <defs>
+            <marker id="cpd1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="cpd1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="cpd1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="cpd1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="cpd1GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1512"></stop><stop offset="100%" stop-color="#1a0908"></stop></linearGradient>
+            <linearGradient id="cpd1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="cpd1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+
+            <filter id="cpd1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="cpd1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#cpd1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#cpd1Grid)"></rect>
+
+          <text x="400" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">لوحة التحكم الكهربائية</text>
+
+          <g class="hotspot" data-component="power-on-button" tabindex="0" role="button" aria-label="زر التشغيل">
+            <rect class="box-shape" x="60" y="120" width="130" height="110" rx="10" fill="url(#cpd1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#cpd1Elevate)"></rect>
+            <circle cx="125" cy="165" r="24" fill="#4ADE80" opacity="0.75"></circle>
+            <text x="125" y="212" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">تشغيل</text>
+          </g>
+
+          <g class="hotspot" data-component="power-off-button" tabindex="0" role="button" aria-label="زر الإيقاف">
+            <rect class="box-shape" x="220" y="120" width="130" height="110" rx="10" fill="url(#cpd1GradRed)" stroke="#EF4444" stroke-width="2" filter="url(#cpd1Elevate)"></rect>
+            <circle cx="285" cy="165" r="24" fill="#EF4444" opacity="0.75"></circle>
+            <text x="285" y="212" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">إيقاف</text>
+          </g>
+
+          <g class="hotspot" data-component="device-selector" tabindex="0" role="button" aria-label="مفتاح اختيار الجهاز">
+            <rect class="box-shape" x="380" y="120" width="150" height="110" rx="10" fill="url(#cpd1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#cpd1Elevate)"></rect>
+            <circle cx="435" cy="165" r="12" fill="#38BDF8" opacity="0.7"></circle>
+            <circle cx="475" cy="165" r="12" fill="none" stroke="#38BDF8" stroke-width="1.6" opacity="0.7"></circle>
+            <text x="455" y="212" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">اختيار الجهاز</text>
+          </g>
+
+          <g class="hotspot" data-component="emergency-stop" tabindex="0" role="button" aria-label="مفتاح الطوارئ">
+            <rect class="box-shape" x="560" y="105" width="180" height="140" rx="12" fill="url(#cpd1GradRed)" stroke="#EF4444" stroke-width="2.5" filter="url(#cpd1Elevate)"></rect>
+            <circle cx="650" cy="165" r="34" fill="#EF4444" opacity="0.8"></circle>
+            <text x="650" y="230" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="rtl">إيقاف طوارئ</text>
+          </g>
+
+          <g class="link" data-link="power-on-button" data-link-to="indicator-lights">
+            <path d="M 125,120 L 125,90 L 400,90" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#cpd1-arrow)"></path>
+            <path class="trail" d="M 125,120 L 125,90 L 398,90" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="hotspot" data-component="indicator-lights" tabindex="0" role="button" aria-label="مؤشرات الحالة الضوئية">
+            <rect class="box-shape" x="120" y="255" width="560" height="90" rx="10" fill="url(#cpd1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#cpd1Elevate)"></rect>
+            <circle cx="180" cy="285" r="7" fill="#4ADE80"></circle>
+            <text x="195" y="290" font-family="Cairo, sans-serif" font-size="10.5" font-weight="600" fill="#dbe0ec" direction="rtl">تشغيل طبيعي</text>
+            <circle cx="400" cy="285" r="7" fill="#EF4444"></circle>
+            <text x="415" y="290" font-family="Cairo, sans-serif" font-size="10.5" font-weight="600" fill="#dbe0ec" direction="rtl">عطل</text>
+            <circle cx="180" cy="315" r="7" fill="#38BDF8"></circle>
+            <text x="195" y="320" font-family="Cairo, sans-serif" font-size="10.5" font-weight="600" fill="#dbe0ec" direction="rtl">جهاز مُختار</text>
+            <circle cx="400" cy="315" r="7" fill="#FBBF24" opacity="0.85"></circle>
+            <text x="415" y="320" font-family="Cairo, sans-serif" font-size="10.5" font-weight="600" fill="#dbe0ec" direction="rtl">تحذير ضغط/حرارة</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة اللوحة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="power-on-button"><span class="status-dot dot-green"></span><span class="status-label">زر التشغيل</span><span class="status-value"><span class="value-off">غير مضغوط</span><span class="value-on">مضغوط</span></span></li>
+          <li class="status-row" data-status="power-off-button"><span class="status-dot dot-red"></span><span class="status-label">زر الإيقاف</span><span class="status-value"><span class="value-off">غير مضغوط</span><span class="value-on">جاهز</span></span></li>
+          <li class="status-row" data-status="device-selector"><span class="status-dot dot-blue"></span><span class="status-label">اختيار الجهاز</span><span class="status-value"><span class="value-off">غير محدد</span><span class="value-on">محدد</span></span></li>
+          <li class="status-row" data-status="emergency-stop"><span class="status-dot dot-red"></span><span class="status-label">إيقاف الطوارئ</span><span class="status-value"><span class="value-off">جاهز</span><span class="value-on">مراقبة</span></span></li>
+          <li class="status-row" data-status="indicator-lights"><span class="status-dot dot-yellow"></span><span class="status-label">المؤشرات الضوئية</span><span class="status-value"><span class="value-off">مطفأة</span><span class="value-on">مضاءة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي زر أو مؤشر لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>تشغيل</li>
+      <li class="legend-item"><span class="legend-swatch legend-red"></span>إيقاف/طوارئ</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>اختيار الجهاز</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>المؤشرات</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-red { background: #EF4444; }
+  .status-dot.dot-red { background: #3a4258; }
+
+  .hotspot .box-shape {
+    filter: url(#cpd1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#cpd1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2px;
+    filter: url(#cpd1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes cpd1-shape-activate { to { filter: url(#cpd1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes cpd1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes cpd1-status-value-on { to { opacity: 1; } }
+    @keyframes cpd1-status-value-off { to { opacity: 0; } }
+    @keyframes cpd1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes cpd1-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+    @keyframes cpd1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes cpd1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="power-on-button"] .box-shape { animation: cpd1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-on-button"] .status-dot { animation: cpd1-dot-on-green 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-on-button"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-on-button"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="power-off-button"] .box-shape { animation: cpd1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="power-off-button"] .status-dot { animation: cpd1-dot-on-red 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="power-off-button"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="power-off-button"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-component="device-selector"] .box-shape { animation: cpd1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="device-selector"] .status-dot { animation: cpd1-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="device-selector"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="device-selector"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-component="emergency-stop"] .box-shape { animation: cpd1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="emergency-stop"] .status-dot { animation: cpd1-dot-on-red 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="emergency-stop"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="emergency-stop"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="power-on-button"] .trail { animation: cpd1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="indicator-lights"] .box-shape { animation: cpd1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="indicator-lights"] .status-dot { animation: cpd1-dot-on-yellow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="indicator-lights"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="indicator-lights"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 2.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "power-on-button": {
+      title: "زر التشغيل (Power ON)",
+      text: "يبدأ تشغيل جهاز الأسنان بالكامل ويهيئ جميع الأنظمة الفرعية للعمل.",
+    },
+    "power-off-button": {
+      title: "زر الإيقاف (Power OFF)",
+      text: "يوقف تشغيل الجهاز بشكل آمن ومنظم في نهاية جلسة العمل.",
+    },
+    "device-selector": {
+      title: "مفتاح اختيار الجهاز (Device Selector)",
+      text: "يتيح للطبيب اختيار الأداة المراد تشغيلها (توربينة، محرك بطيء، أو أداة مستقيمة) قبل بدء الاستخدام.",
+    },
+    "emergency-stop": {
+      title: "مفتاح الطوارئ (Emergency Stop)",
+      text: "يقطع التيار عن كامل الجهاز فوراً عند وجود خطر مفاجئ، ويُعاد ضبطه يدوياً بعد التأكد من زوال الخطر.",
+    },
+    "indicator-lights": {
+      title: "المؤشرات الضوئية (Indicator Lights)",
+      text: "تعرض حالة التشغيل الطبيعي والأعطال والجهاز المختار حالياً، وتنبّه إلى ارتفاع الضغط أو الحرارة.",
+    },
+  };
+
+  wireDiagramSimulator(".control-panel-detail-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
+</script>

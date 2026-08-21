@@ -1,0 +1,269 @@
+---
+// Figures 7-18 and 7-19 (جدول المقارنة التفصيلي لأدوات الحفر) built as a
+// dark neumorphic interactive simulator, following the exact Chapter 1-6
+// system. Reuses the exact comparison data already established in
+// HandpiecesComparisonDiagramInteractive.astro, presented here as its own
+// focused, row-by-row animated table — the "Sequential Animation" the
+// content itself calls for (a detailed comparison table), rather than a
+// second copy of the parallel-channels diagram already built.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft handpieces-comparison-table-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة جدول مقارنة أدوات الحفر</span>
+      <span class="simulator-subtitle">شكل 18-7 و 19-7 — مقارنة تفصيلية سطراً بسطر</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="hct1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="420"
+          viewBox="0 0 800 420"
+          role="img"
+          aria-label="جدول مقارنة تفصيلي لأدوات الحفر"
+        >
+          <defs>
+            <linearGradient id="hct1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="hct1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="hct1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+
+            <filter id="hct1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="420" rx="20" fill="url(#hct1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="420" rx="20" fill="url(#hct1Grid)"></rect>
+
+          <text x="400" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">مقارنة تفصيلية لأدوات الحفر</text>
+
+          <g class="hotspot" data-component="tools-overview" tabindex="0" role="button" aria-label="الأدوات الثلاث">
+            <rect class="box-shape" x="40" y="45" width="720" height="55" rx="10" fill="url(#hct1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#hct1Elevate)"></rect>
+            <circle cx="230" cy="72" r="5" fill="#FBBF24"></circle>
+            <text x="245" y="77" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" direction="rtl">التوربينة</text>
+            <circle cx="400" cy="72" r="5" fill="#22D3EE"></circle>
+            <text x="415" y="77" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" direction="rtl">المحرك البطيء</text>
+            <circle cx="580" cy="72" r="5" fill="#38BDF8"></circle>
+            <text x="595" y="77" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#dbe0ec" direction="rtl">الأداة المستقيمة</text>
+          </g>
+
+          <!-- Table header -->
+          <rect x="40" y="112" width="150" height="26" fill="#1a2540" stroke="#3a4a68" stroke-width="1"></rect>
+          <text x="115" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">المواصفات</text>
+          <rect x="190" y="112" width="180" height="26" fill="#1a2540" stroke="#3a4a68" stroke-width="1"></rect>
+          <text x="280" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#FBBF24" direction="rtl">التوربينة</text>
+          <rect x="370" y="112" width="180" height="26" fill="#1a2540" stroke="#3a4a68" stroke-width="1"></rect>
+          <text x="460" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#22D3EE" direction="rtl">المحرك البطيء</text>
+          <rect x="550" y="112" width="210" height="26" fill="#1a2540" stroke="#3a4a68" stroke-width="1"></rect>
+          <text x="655" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#38BDF8" direction="rtl">المستقيمة</text>
+
+          <g class="hotspot" data-component="speed-row" tabindex="0" role="button" aria-label="صف السرعة">
+            <rect class="box-shape" x="40" y="138" width="150" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="115" y="157" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#dbe0ec" direction="rtl">السرعة</text>
+            <rect class="box-shape" x="190" y="138" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="280" y="157" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1">300,000-400,000 RPM</text>
+            <rect class="box-shape" x="370" y="138" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="460" y="157" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1">10,000-60,000 RPM</text>
+            <rect class="box-shape" x="550" y="138" width="210" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="655" y="157" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1">حوالي 40,000 RPM</text>
+          </g>
+
+          <g class="hotspot" data-component="torque-row" tabindex="0" role="button" aria-label="صف العزم">
+            <rect class="box-shape" x="40" y="166" width="150" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="115" y="185" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#dbe0ec" direction="rtl">العزم</text>
+            <rect class="box-shape" x="190" y="166" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="280" y="185" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">منخفض</text>
+            <rect class="box-shape" x="370" y="166" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="460" y="185" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">عالي جداً</text>
+            <rect class="box-shape" x="550" y="166" width="210" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="655" y="185" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">متوسط</text>
+          </g>
+
+          <g class="hotspot" data-component="cooling-row" tabindex="0" role="button" aria-label="صف التبريد">
+            <rect class="box-shape" x="40" y="194" width="150" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="115" y="213" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#dbe0ec" direction="rtl">التبريد</text>
+            <rect class="box-shape" x="190" y="194" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="280" y="213" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">هواء وماء</text>
+            <rect class="box-shape" x="370" y="194" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="460" y="213" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">ماء فقط</text>
+            <rect class="box-shape" x="550" y="194" width="210" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="655" y="213" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">هواء فقط</text>
+          </g>
+
+          <g class="hotspot" data-component="noise-row" tabindex="0" role="button" aria-label="صف الضوضاء">
+            <rect class="box-shape" x="40" y="222" width="150" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="115" y="241" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#dbe0ec" direction="rtl">الضوضاء</text>
+            <rect class="box-shape" x="190" y="222" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="280" y="241" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">عالية جداً</text>
+            <rect class="box-shape" x="370" y="222" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="460" y="241" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">منخفضة</text>
+            <rect class="box-shape" x="550" y="222" width="210" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="655" y="241" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">متوسطة</text>
+          </g>
+
+          <g class="hotspot" data-component="use-row" tabindex="0" role="button" aria-label="صف الاستخدام">
+            <rect class="box-shape" x="40" y="250" width="150" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="115" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#dbe0ec" direction="rtl">الاستخدام</text>
+            <rect class="box-shape" x="190" y="250" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="280" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">حفر وتحضير</text>
+            <rect class="box-shape" x="370" y="250" width="180" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="460" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">حفر وتنظيف</text>
+            <rect class="box-shape" x="550" y="250" width="210" height="28" fill="#0f1626" stroke="#2a3550" stroke-width="1"></rect>
+            <text x="655" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#b7bfd1" direction="rtl">تنظيف وتلميع</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الجدول</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="tools-overview"><span class="status-dot dot-blue"></span><span class="status-label">الأدوات الثلاث</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروضة</span></span></li>
+          <li class="status-row" data-status="speed-row"><span class="status-dot dot-blue"></span><span class="status-label">السرعة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروض</span></span></li>
+          <li class="status-row" data-status="torque-row"><span class="status-dot dot-blue"></span><span class="status-label">العزم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروض</span></span></li>
+          <li class="status-row" data-status="cooling-row"><span class="status-dot dot-blue"></span><span class="status-label">التبريد</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروض</span></span></li>
+          <li class="status-row" data-status="noise-row"><span class="status-dot dot-blue"></span><span class="status-label">الضوضاء</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروض</span></span></li>
+          <li class="status-row" data-status="use-row"><span class="status-dot dot-blue"></span><span class="status-label">الاستخدام</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">معروض</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي صف في الجدول لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التوربينة</li>
+      <li class="legend-item"><span class="legend-swatch legend-cyan"></span>المحرك البطيء</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الأداة المستقيمة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-cyan { background: #22D3EE; }
+
+  .hotspot .box-shape {
+    filter: url(#hct1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#hct1Elevate) saturate(1.35) brightness(1.45);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes hct1-shape-activate { to { filter: url(#hct1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes hct1-status-value-on { to { opacity: 1; } }
+    @keyframes hct1-status-value-off { to { opacity: 0; } }
+    @keyframes hct1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="tools-overview"] .box-shape { animation: hct1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tools-overview"] .status-dot { animation: hct1-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tools-overview"] .value-on { animation: hct1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="tools-overview"] .value-off { animation: hct1-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="speed-row"] .box-shape { animation: hct1-shape-activate 0.35s ease-out 0.6s forwards; }
+    .playing [data-status="speed-row"] .status-dot { animation: hct1-dot-on-blue 0.35s ease-out 0.6s forwards; }
+    .playing [data-status="speed-row"] .value-on { animation: hct1-status-value-on 0.35s ease-out 0.6s forwards; }
+    .playing [data-status="speed-row"] .value-off { animation: hct1-status-value-off 0.35s ease-out 0.6s forwards; }
+
+    .playing [data-component="torque-row"] .box-shape { animation: hct1-shape-activate 0.35s ease-out 1.0s forwards; }
+    .playing [data-status="torque-row"] .status-dot { animation: hct1-dot-on-blue 0.35s ease-out 1.0s forwards; }
+    .playing [data-status="torque-row"] .value-on { animation: hct1-status-value-on 0.35s ease-out 1.0s forwards; }
+    .playing [data-status="torque-row"] .value-off { animation: hct1-status-value-off 0.35s ease-out 1.0s forwards; }
+
+    .playing [data-component="cooling-row"] .box-shape { animation: hct1-shape-activate 0.35s ease-out 1.4s forwards; }
+    .playing [data-status="cooling-row"] .status-dot { animation: hct1-dot-on-blue 0.35s ease-out 1.4s forwards; }
+    .playing [data-status="cooling-row"] .value-on { animation: hct1-status-value-on 0.35s ease-out 1.4s forwards; }
+    .playing [data-status="cooling-row"] .value-off { animation: hct1-status-value-off 0.35s ease-out 1.4s forwards; }
+
+    .playing [data-component="noise-row"] .box-shape { animation: hct1-shape-activate 0.35s ease-out 1.8s forwards; }
+    .playing [data-status="noise-row"] .status-dot { animation: hct1-dot-on-blue 0.35s ease-out 1.8s forwards; }
+    .playing [data-status="noise-row"] .value-on { animation: hct1-status-value-on 0.35s ease-out 1.8s forwards; }
+    .playing [data-status="noise-row"] .value-off { animation: hct1-status-value-off 0.35s ease-out 1.8s forwards; }
+
+    .playing [data-component="use-row"] .box-shape { animation: hct1-shape-activate 0.35s ease-out 2.2s forwards; }
+    .playing [data-status="use-row"] .status-dot { animation: hct1-dot-on-blue 0.35s ease-out 2.2s forwards; }
+    .playing [data-status="use-row"] .value-on { animation: hct1-status-value-on 0.35s ease-out 2.2s forwards; }
+    .playing [data-status="use-row"] .value-off { animation: hct1-status-value-off 0.35s ease-out 2.2s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "tools-overview": {
+      title: "الأدوات الثلاث (Tools Overview)",
+      text: "التوربينة، المحرك البطيء، والأداة المستقيمة هي الأنواع الرئيسية الثلاثة لأدوات حفر الأسنان الدوارة، ولكل منها استخدام مختلف حسب سرعة الدوران والعزم.",
+    },
+    "speed-row": {
+      title: "صف السرعة (Speed)",
+      text: "التوربينة الأسرع بكثير (300,000-400,000 دورة/دقيقة)، تليها الأداة المستقيمة (~40,000)، ثم المحرك البطيء (10,000-60,000) وهو الأبطأ نسبياً رغم اسمه المتغير حسب النوع.",
+    },
+    "torque-row": {
+      title: "صف العزم (Torque)",
+      text: "المحرك البطيء يملك أعلى عزم دوران، بينما التوربينة تملك أقل عزم لكنها تعوض ذلك بسرعتها العالية جداً.",
+    },
+    "cooling-row": {
+      title: "صف التبريد (Cooling)",
+      text: "التوربينة تحتاج تبريداً مزدوجاً بالهواء والماء لسرعتها العالية، بينما تكتفي الأداة المستقيمة بالهواء فقط.",
+    },
+    "noise-row": {
+      title: "صف الضوضاء (Noise)",
+      text: "التوربينة تصدر أعلى مستوى ضوضاء بسبب سرعتها الفائقة، بينما الأداة المستقيمة أهدأ نسبياً.",
+    },
+    "use-row": {
+      title: "صف الاستخدام (Use Case)",
+      text: "التوربينة لحفر وتحضير السن، المحرك البطيء للحفر والتنظيف العميق، والأداة المستقيمة للتنظيف والتلميع النهائي.",
+    },
+  };
+
+  wireDiagramSimulator(".handpieces-comparison-table-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
+</script>

@@ -1,0 +1,287 @@
+---
+// Figure 7-23 (أجزاء محقنة الرش الثلاثية المسماة) built as a dark
+// neumorphic interactive simulator, following the exact Chapter 1-6
+// system. Zooms into a single syringe's physical anatomy — reusing the
+// exact part labels (barrel, plunger, nozzle, trigger button) already
+// present in the project's own diagram-06-triple-syringe.svg source
+// asset — as the labeled-parts close-up the caption calls for, distinct
+// from the three-channel flow view in
+// TripleSyringeSystemDiagramInteractive.astro.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft syringe-anatomy-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة تشريح محقنة الرش</span>
+      <span class="simulator-subtitle">شكل 23-7 — الأجزاء المسماة لمحقنة واحدة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="sya1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="380"
+          viewBox="0 0 800 380"
+          role="img"
+          aria-label="تشريح محقنة الرش الثلاثية"
+        >
+          <defs>
+            <marker id="sya1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="sya1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="sya1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="sya1GradGray" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#232b36"></stop><stop offset="100%" stop-color="#12161c"></stop></linearGradient>
+            <linearGradient id="sya1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="sya1GradCyan" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="sya1GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="sya1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+
+            <filter id="sya1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="sya1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#sya1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="380" rx="20" fill="url(#sya1Grid)"></rect>
+
+          <text x="400" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">أجزاء محقنة الرش الثلاثية</text>
+
+          <g class="hotspot" data-component="trigger-button" tabindex="0" role="button" aria-label="زر التشغيل الثلاثي">
+            <circle class="box-shape" cx="90" cy="190" r="34" fill="url(#sya1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#sya1Elevate)"></circle>
+            <text x="90" y="187" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">زر</text>
+            <text x="90" y="202" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">التشغيل</text>
+          </g>
+
+          <g class="link" data-link="trigger-button" data-link-to="barrel-body">
+            <line x1="124" y1="190" x2="175" y2="190" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sya1-arrow)"></line>
+            <line class="trail" x1="124" y1="190" x2="173" y2="190" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="barrel-body" tabindex="0" role="button" aria-label="الجسم الخارجي">
+            <rect class="box-shape" x="175" y="150" width="150" height="80" rx="12" fill="url(#sya1GradGray)" stroke="#94A3B8" stroke-width="2" filter="url(#sya1Elevate)"></rect>
+            <text x="250" y="195" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">الجسم الخارجي</text>
+            <text x="250" y="138" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#94A3B8" direction="ltr">Body</text>
+          </g>
+
+          <g class="link" data-link="barrel-body" data-link-to="plunger-piston">
+            <line x1="325" y1="190" x2="370" y2="190" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sya1-arrow)"></line>
+            <line class="trail" x1="325" y1="190" x2="368" y2="190" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="plunger-piston" tabindex="0" role="button" aria-label="المكبس الداخلي">
+            <rect class="box-shape" x="370" y="160" width="110" height="60" rx="8" fill="url(#sya1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#sya1Elevate)"></rect>
+            <text x="425" y="195" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">المكبس</text>
+          </g>
+
+          <g class="link" data-link="plunger-piston" data-link-to="internal-channel">
+            <line x1="480" y1="190" x2="525" y2="190" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sya1-arrow)"></line>
+            <line class="trail" x1="480" y1="190" x2="523" y2="190" stroke="#22D3EE" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="internal-channel" tabindex="0" role="button" aria-label="القناة الداخلية">
+            <rect class="box-shape" x="525" y="175" width="100" height="30" rx="6" fill="url(#sya1GradCyan)" stroke="#22D3EE" stroke-width="2" filter="url(#sya1Elevate)"></rect>
+            <text x="575" y="230" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">القناة الداخلية</text>
+          </g>
+
+          <g class="link" data-link="internal-channel" data-link-to="nozzle-tip">
+            <line x1="625" y1="190" x2="670" y2="190" stroke="#5b6478" stroke-width="2.5" marker-end="url(#sya1-arrow)"></line>
+            <line class="trail" x1="625" y1="190" x2="668" y2="190" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="nozzle-tip" tabindex="0" role="button" aria-label="طرف الرش">
+            <circle class="box-shape" cx="710" cy="190" r="34" fill="url(#sya1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#sya1Elevate)"></circle>
+            <text x="710" y="187" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">طرف</text>
+            <text x="710" y="202" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">الرش</text>
+          </g>
+
+          <g class="link" data-link="barrel-body" data-link-to="hose-connection">
+            <path d="M 250,230 L 250,280 L 175,280" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#sya1-arrow)"></path>
+            <path class="trail" d="M 250,230 L 250,280 L 177,280" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="hotspot" data-component="hose-connection" tabindex="0" role="button" aria-label="وصلة الأنابيب">
+            <rect class="box-shape" x="115" y="255" width="130" height="55" rx="8" fill="url(#sya1GradGray)" stroke="#94A3B8" stroke-width="2" filter="url(#sya1Elevate)"></rect>
+            <text x="180" y="288" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">وصلة الأنابيب</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المحقنة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="trigger-button"><span class="status-dot dot-yellow"></span><span class="status-label">زر التشغيل</span><span class="status-value"><span class="value-off">غير مضغوط</span><span class="value-on">مضغوط</span></span></li>
+          <li class="status-row" data-status="barrel-body"><span class="status-dot dot-gray"></span><span class="status-label">الجسم الخارجي</span><span class="status-value"><span class="value-off">-</span><span class="value-on">ممسوك</span></span></li>
+          <li class="status-row" data-status="plunger-piston"><span class="status-dot dot-blue"></span><span class="status-label">المكبس الداخلي</span><span class="status-value"><span class="value-off">ثابت</span><span class="value-on">مفتوح</span></span></li>
+          <li class="status-row" data-status="internal-channel"><span class="status-dot dot-cyan"></span><span class="status-label">القناة الداخلية</span><span class="status-value"><span class="value-off">فارغة</span><span class="value-on">تدفق</span></span></li>
+          <li class="status-row" data-status="nozzle-tip"><span class="status-dot dot-purple"></span><span class="status-label">طرف الرش</span><span class="status-value"><span class="value-off">جاف</span><span class="value-on">يرش</span></span></li>
+          <li class="status-row" data-status="hose-connection"><span class="status-dot dot-gray"></span><span class="status-label">وصلة الأنابيب</span><span class="status-value"><span class="value-off">-</span><span class="value-on">متصلة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>التشغيل</li>
+      <li class="legend-item"><span class="legend-swatch legend-gray"></span>الجسم والوصلات</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الحركة الداخلية</li>
+      <li class="legend-item"><span class="legend-swatch legend-cyan"></span>التدفق</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الرش</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-gray { background: #94A3B8; }
+  .legend-cyan { background: #22D3EE; }
+  .status-dot.dot-gray { background: #3a4258; }
+  .status-dot.dot-cyan { background: #3a4258; }
+
+  .hotspot .box-shape {
+    filter: url(#sya1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#sya1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#sya1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes sya1-shape-activate { to { filter: url(#sya1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes sya1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes sya1-status-value-on { to { opacity: 1; } }
+    @keyframes sya1-status-value-off { to { opacity: 0; } }
+    @keyframes sya1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes sya1-dot-on-gray { to { background: #94A3B8; box-shadow: 0 0 8px 1px rgba(148, 163, 184, 0.8); } }
+    @keyframes sya1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes sya1-dot-on-cyan { to { background: #22D3EE; box-shadow: 0 0 8px 1px rgba(34, 211, 238, 0.8); } }
+    @keyframes sya1-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="trigger-button"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="trigger-button"] .status-dot { animation: sya1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="trigger-button"] .value-on { animation: sya1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="trigger-button"] .value-off { animation: sya1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="trigger-button"] .trail { animation: sya1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="barrel-body"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="barrel-body"] .status-dot { animation: sya1-dot-on-gray 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="barrel-body"] .value-on { animation: sya1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="barrel-body"] .value-off { animation: sya1-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-link="barrel-body"][data-link-to="plunger-piston"] .trail { animation: sya1-reveal-trail 0.3s ease-out 1.0s forwards; }
+    .playing [data-component="plunger-piston"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="plunger-piston"] .status-dot { animation: sya1-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="plunger-piston"] .value-on { animation: sya1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="plunger-piston"] .value-off { animation: sya1-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-link="plunger-piston"] .trail { animation: sya1-reveal-trail 0.3s ease-out 1.5s forwards; }
+    .playing [data-component="internal-channel"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="internal-channel"] .status-dot { animation: sya1-dot-on-cyan 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="internal-channel"] .value-on { animation: sya1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="internal-channel"] .value-off { animation: sya1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="internal-channel"] .trail { animation: sya1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="nozzle-tip"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="nozzle-tip"] .status-dot { animation: sya1-dot-on-purple 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="nozzle-tip"] .value-on { animation: sya1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="nozzle-tip"] .value-off { animation: sya1-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    .playing [data-link="barrel-body"][data-link-to="hose-connection"] .trail { animation: sya1-reveal-trail 0.3s ease-out 2.5s forwards; }
+    .playing [data-component="hose-connection"] .box-shape { animation: sya1-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="hose-connection"] .status-dot { animation: sya1-dot-on-gray 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="hose-connection"] .value-on { animation: sya1-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="hose-connection"] .value-off { animation: sya1-status-value-off 0.4s ease-out 2.6s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "trigger-button": {
+      title: "زر التشغيل الثلاثي (Trigger Button)",
+      text: "يتحكم الطبيب من خلاله بتفعيل الماء أو الهواء أو كليهما معاً حسب الحاجة أثناء العلاج.",
+    },
+    "barrel-body": {
+      title: "الجسم الخارجي (Body)",
+      text: "الغلاف الخارجي الذي يُمسك به الطبيب، ويحتوي داخله على المكبس والقناة الداخلية.",
+    },
+    "plunger-piston": {
+      title: "المكبس الداخلي (Piston)",
+      text: "يتحرك عند الضغط على الزر ليفتح مسار مرور الماء أو الهواء نحو الطرف.",
+    },
+    "internal-channel": {
+      title: "القناة الداخلية (Internal Channel)",
+      text: "تنقل الماء أو الهواء أو مزيجهما من نقطة الدخول إلى طرف الرش.",
+    },
+    "nozzle-tip": {
+      title: "طرف الرش (Nozzle Tip)",
+      text: "الجزء الذي يخرج منه الرذاذ الموجَّه نحو موقع العمل داخل فم المريض، وغالباً ما يكون قابلاً للتعقيم أو الاستبدال.",
+    },
+    "hose-connection": {
+      title: "وصلة الأنابيب (Hose Connection)",
+      text: "تربط المحقنة بخطوط الماء والهواء القادمة من وحدة تجهيز العيادة.",
+    },
+  };
+
+  wireDiagramSimulator(".syringe-anatomy-diagram", { cycleMs: 3200, componentInfo: COMPONENT_INFO });
+</script>

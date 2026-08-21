@@ -91,6 +91,14 @@ import HandpiecesComparisonDiagramInteractive from "./diagrams/HandpiecesCompari
 import ElectricalControlSystemDiagramInteractive from "./diagrams/ElectricalControlSystemDiagramInteractive.astro";
 import TripleSyringeSystemDiagramInteractive from "./diagrams/TripleSyringeSystemDiagramInteractive.astro";
 import SuctionSystemDiagramInteractive from "./diagrams/SuctionSystemDiagramInteractive.astro";
+import ChairValveMotorDetailDiagramInteractive from "./diagrams/ChairValveMotorDetailDiagramInteractive.astro";
+import TurbineAnatomyDiagramInteractive from "./diagrams/TurbineAnatomyDiagramInteractive.astro";
+import HandpiecesComparisonTableDiagramInteractive from "./diagrams/HandpiecesComparisonTableDiagramInteractive.astro";
+import ControlPanelDetailDiagramInteractive from "./diagrams/ControlPanelDetailDiagramInteractive.astro";
+import MotorStarterCircuitDiagramInteractive from "./diagrams/MotorStarterCircuitDiagramInteractive.astro";
+import SyringeAnatomyDiagramInteractive from "./diagrams/SyringeAnatomyDiagramInteractive.astro";
+import SuctionPumpInternalsDiagramInteractive from "./diagrams/SuctionPumpInternalsDiagramInteractive.astro";
+import SuctionElectricalCircuitDiagramInteractive from "./diagrams/SuctionElectricalCircuitDiagramInteractive.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -186,17 +194,29 @@ const chapter6AnimatedDiagrams: Record<string, any> = {
 };
 
 // Chapter 7 diagram ids (c7-fig-7-X) that have a hand-built animated
-// replacement. All seven dental system diagrams are interactive simulators
-// with play/pause/reset controls and state management, built on the same
-// master template (see DentalSystemBlockDiagramInteractive.astro).
+// replacement. Every dental system diagram — including the close-up
+// "detail" figures that used to fall back to a static image — is an
+// interactive simulator with play/pause/reset controls and state
+// management, built on the same master template (see
+// DentalSystemBlockDiagramInteractive.astro). The "b"/"c" suffixed ids
+// are independent close-up diagrams (not re-renders of the primary),
+// each focused on the specific detail its own printed figure covers.
 const chapter7AnimatedDiagrams: Record<string, any> = {
   "c7-fig-7-1": DentalSystemBlockDiagramInteractive,
   "c7-fig-7-2": AirCompressorSystemDiagramInteractive,
   "c7-fig-7-3": ChairHydraulicSystemDiagramInteractive,
+  "c7-fig-7-3b": ChairValveMotorDetailDiagramInteractive,
   "c7-fig-7-4": HandpiecesComparisonDiagramInteractive,
+  "c7-fig-7-4b": TurbineAnatomyDiagramInteractive,
+  "c7-fig-7-4c": HandpiecesComparisonTableDiagramInteractive,
   "c7-fig-7-5": ElectricalControlSystemDiagramInteractive,
+  "c7-fig-7-5b": ControlPanelDetailDiagramInteractive,
+  "c7-fig-7-5c": MotorStarterCircuitDiagramInteractive,
   "c7-fig-7-6": TripleSyringeSystemDiagramInteractive,
+  "c7-fig-7-6b": SyringeAnatomyDiagramInteractive,
   "c7-fig-7-7": SuctionSystemDiagramInteractive,
+  "c7-fig-7-7b": SuctionPumpInternalsDiagramInteractive,
+  "c7-fig-7-7c": SuctionElectricalCircuitDiagramInteractive,
 };
 
 // Chapter 1 device ids (device-0N) that have a hand-built animated
