@@ -1,0 +1,328 @@
+---
+// Figures 7-2 and 7-3 (نظام الضاغط الهوائي) built as a dark neumorphic
+// interactive simulator, following the exact Chapter 1-6 system (see
+// IncubatorBlockDiagram.astro). Uses the shared wireDiagramSimulator()
+// engine and diagram-simulator.css shell — no bespoke panel markup, CSS,
+// or animation loop.
+//
+// Geometry: electric motor drives the compressor unit, which draws air
+// through the intake valve and pushes it out the discharge valve into
+// the filter, then into the storage tank; the safety valve is a pressure
+// -relief accessory on the tank.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft air-compressor-system-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام الضاغط الهوائي</span>
+      <span class="simulator-subtitle">شكل 2-7 و 3-7 — الضغط والتنقية والتخزين</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="acs1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="560"
+          viewBox="0 0 800 560"
+          role="img"
+          aria-label="نظام الضاغط الهوائي المتكامل"
+        >
+          <defs>
+            <marker id="acs1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="acs1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="acs1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="acs1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="acs1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="acs1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="acs1GradGray" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#232b36"></stop><stop offset="100%" stop-color="#12161c"></stop></linearGradient>
+
+            <filter id="acs1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="acs1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="800" height="560" rx="20" fill="url(#acs1BgGrad)"></rect>
+          <rect x="0" y="0" width="800" height="560" rx="20" fill="url(#acs1Grid)"></rect>
+
+          <text x="400" y="34" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">نظام الضاغط الهوائي</text>
+
+          <g class="hotspot" data-component="electric-motor" tabindex="0" role="button" aria-label="المحرك الكهربائي">
+            <rect class="box-shape" x="50" y="90" width="140" height="110" rx="10" fill="url(#acs1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#acs1Elevate)"></rect>
+            <circle cx="120" cy="140" r="26" fill="none" stroke="#FBBF24" stroke-width="1.4" opacity="0.7"></circle>
+            <text x="120" y="184" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">محرك كهربائي</text>
+            <text x="120" y="192" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" direction="ltr">Electric Motor</text>
+          </g>
+
+          <g class="link" data-link="electric-motor" data-link-to="compressor-unit">
+            <line x1="190" y1="145" x2="230" y2="145" stroke="#5b6478" stroke-width="2.5" marker-end="url(#acs1-arrow)"></line>
+            <line class="trail" x1="190" y1="145" x2="228" y2="145" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="compressor-unit" tabindex="0" role="button" aria-label="وحدة الضاغط">
+            <rect class="box-shape" x="230" y="90" width="180" height="110" rx="10" fill="url(#acs1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#acs1Elevate)"></rect>
+            <circle cx="320" cy="140" r="24" fill="none" stroke="#4ADE80" stroke-width="1.4" opacity="0.7"></circle>
+            <text x="320" y="184" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">وحدة الضاغط</text>
+            <text x="320" y="192" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" direction="ltr">Compressor Unit</text>
+          </g>
+
+          <g class="hotspot" data-component="intake-valve" tabindex="0" role="button" aria-label="صمام المدخل">
+            <circle class="box-shape" cx="280" cy="65" r="13" fill="url(#acs1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#acs1Elevate)"></circle>
+            <text x="280" y="42" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" direction="rtl">صمام المدخل</text>
+          </g>
+          <g class="link" data-link="intake-valve" data-link-to="compressor-unit">
+            <path d="M 280,78 L 280,90" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#acs1-arrow)"></path>
+            <path class="trail" d="M 280,78 L 280,89" fill="none" stroke="#4ADE80" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="hotspot" data-component="discharge-valve" tabindex="0" role="button" aria-label="صمام المخرج">
+            <circle class="box-shape" cx="360" cy="65" r="13" fill="url(#acs1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#acs1Elevate)"></circle>
+            <text x="360" y="42" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="rtl">صمام المخرج</text>
+          </g>
+          <g class="link" data-link="compressor-unit" data-link-to="discharge-valve">
+            <path d="M 360,90 L 360,78" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#acs1-arrow)"></path>
+            <path class="trail" d="M 360,90 L 360,79" fill="none" stroke="#38BDF8" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <g class="link" data-link="discharge-valve" data-link-to="filter-unit">
+            <path d="M 373,65 L 470,65 L 470,90" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#acs1-arrow)"></path>
+            <path class="trail" d="M 373,65 L 470,65 L 470,89" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <g class="hotspot" data-component="filter-unit" tabindex="0" role="button" aria-label="وحدة التنقية">
+            <rect class="box-shape" x="410" y="90" width="120" height="110" rx="10" fill="url(#acs1GradGray)" stroke="#94A3B8" stroke-width="2" filter="url(#acs1Elevate)"></rect>
+            <circle cx="470" cy="130" r="18" fill="none" stroke="#94A3B8" stroke-width="1.4" opacity="0.7"></circle>
+            <circle cx="470" cy="168" r="10" fill="#94A3B8" opacity="0.35"></circle>
+            <text x="470" y="192" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">وحدة التنقية</text>
+          </g>
+
+          <g class="link" data-link="filter-unit" data-link-to="storage-tank">
+            <line x1="530" y1="145" x2="575" y2="145" stroke="#5b6478" stroke-width="2.5" marker-end="url(#acs1-arrow)"></line>
+            <line class="trail" x1="530" y1="145" x2="573" y2="145" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="storage-tank" tabindex="0" role="button" aria-label="خزان التخزين">
+            <ellipse class="box-shape" cx="670" cy="145" rx="55" ry="80" fill="url(#acs1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#acs1Elevate)"></ellipse>
+            <text x="670" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">خزان</text>
+            <text x="670" y="158" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="ltr">Tank</text>
+          </g>
+
+          <g class="hotspot" data-component="safety-valve" tabindex="0" role="button" aria-label="صمام الأمان">
+            <circle class="box-shape" cx="720" cy="55" r="12" fill="url(#acs1GradYellow)" stroke="#EF4444" stroke-width="2" filter="url(#acs1Elevate)"></circle>
+            <text x="720" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#EF4444" direction="rtl">صمام الأمان</text>
+          </g>
+          <g class="link" data-link="storage-tank" data-link-to="safety-valve">
+            <path d="M 700,80 L 715,67" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#acs1-arrow)"></path>
+            <path class="trail" d="M 700,80 L 714,68" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="5 6"></path>
+          </g>
+
+          <!-- Motor -> compressor shaft coupling accents -->
+          <line x1="146" y1="140" x2="146" y2="140" stroke="none"></line>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="190" cy="145" r="4.5" fill="#FBBF24" filter="url(#acs1Glow)" style="--tx:40px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="530" cy="145" r="4.5" fill="#38BDF8" filter="url(#acs1Glow)" style="--tx:40px; --ty:0px; --particle-delay:2.1s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="electric-motor"><span class="status-dot dot-yellow"></span><span class="status-label">المحرك الكهربائي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="compressor-unit"><span class="status-dot dot-green"></span><span class="status-label">وحدة الضاغط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="intake-valve"><span class="status-dot dot-green"></span><span class="status-label">صمام المدخل</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">مفتوح</span></span></li>
+          <li class="status-row" data-status="discharge-valve"><span class="status-dot dot-blue"></span><span class="status-label">صمام المخرج</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">مفتوح</span></span></li>
+          <li class="status-row" data-status="filter-unit"><span class="status-dot dot-gray"></span><span class="status-label">وحدة التنقية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="storage-tank"><span class="status-dot dot-blue"></span><span class="status-label">خزان التخزين</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="safety-valve"><span class="status-dot dot-red"></span><span class="status-label">صمام الأمان</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">جاهز</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الطاقة الكهربائية</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الهواء المضغوط</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التخزين</li>
+      <li class="legend-item"><span class="legend-swatch legend-gray"></span>التنقية</li>
+      <li class="legend-item"><span class="legend-swatch legend-red"></span>الأمان</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-gray { background: #94A3B8; }
+  .legend-red { background: #EF4444; }
+  .status-dot.dot-gray { background: #3a4258; }
+  .status-dot.dot-red { background: #3a4258; }
+
+  .hotspot .box-shape {
+    filter: url(#acs1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#acs1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#acs1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes acs1-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: acs1-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes acs1-shape-activate { to { filter: url(#acs1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes acs1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes acs1-status-value-on { to { opacity: 1; } }
+    @keyframes acs1-status-value-off { to { opacity: 0; } }
+    @keyframes acs1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes acs1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes acs1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes acs1-dot-on-gray { to { background: #94A3B8; box-shadow: 0 0 8px 1px rgba(148, 163, 184, 0.8); } }
+    @keyframes acs1-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+
+    .playing [data-component="electric-motor"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electric-motor"] .status-dot { animation: acs1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electric-motor"] .value-on { animation: acs1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electric-motor"] .value-off { animation: acs1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="electric-motor"] .trail { animation: acs1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="compressor-unit"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor-unit"] .status-dot { animation: acs1-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor-unit"] .value-on { animation: acs1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor-unit"] .value-off { animation: acs1-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-link="intake-valve"] .trail { animation: acs1-reveal-trail 0.3s ease-out 1.0s forwards; }
+    .playing [data-component="intake-valve"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="intake-valve"] .status-dot { animation: acs1-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="intake-valve"] .value-on { animation: acs1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="intake-valve"] .value-off { animation: acs1-status-value-off 0.4s ease-out 1.1s forwards; }
+
+    .playing [data-link="compressor-unit"][data-link-to="discharge-valve"] .trail { animation: acs1-reveal-trail 0.3s ease-out 1.5s forwards; }
+    .playing [data-component="discharge-valve"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="discharge-valve"] .status-dot { animation: acs1-dot-on-blue 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="discharge-valve"] .value-on { animation: acs1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="discharge-valve"] .value-off { animation: acs1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="discharge-valve"][data-link-to="filter-unit"] .trail { animation: acs1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="filter-unit"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="filter-unit"] .status-dot { animation: acs1-dot-on-gray 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="filter-unit"] .value-on { animation: acs1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="filter-unit"] .value-off { animation: acs1-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    .playing [data-link="filter-unit"] .trail { animation: acs1-reveal-trail 0.3s ease-out 2.5s forwards; }
+    .playing [data-component="storage-tank"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="storage-tank"] .status-dot { animation: acs1-dot-on-blue 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="storage-tank"] .value-on { animation: acs1-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="storage-tank"] .value-off { animation: acs1-status-value-off 0.4s ease-out 2.6s forwards; }
+
+    .playing [data-link="storage-tank"][data-link-to="safety-valve"] .trail { animation: acs1-reveal-trail 0.3s ease-out 3.0s forwards; }
+    .playing [data-component="safety-valve"] .box-shape { animation: acs1-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="safety-valve"] .status-dot { animation: acs1-dot-on-red 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="safety-valve"] .value-on { animation: acs1-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="safety-valve"] .value-off { animation: acs1-status-value-off 0.4s ease-out 3.1s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "electric-motor": {
+      title: "المحرك الكهربائي (Electric Motor)",
+      text: "محرك كهربائي قوي يدير وحدة الضاغط. يحول الطاقة الكهربائية إلى طاقة ميكانيكية تدفع المكبس للضغط على الهواء.",
+    },
+    "compressor-unit": {
+      title: "وحدة الضاغط (Compressor Unit)",
+      text: "وحدة الضغط الرئيسية التي تقوم بسحب الهواء الجوي وضغطه إلى درجات عالية (3-8 بار) لتشغيل الأدوات الهوائية.",
+    },
+    "intake-valve": {
+      title: "صمام المدخل (Intake Valve)",
+      text: "يسمح بدخول الهواء من الجو إلى غرفة الضغط. يفتح أثناء شوط السحب ويغلق أثناء شوط الضغط.",
+    },
+    "discharge-valve": {
+      title: "صمام المخرج (Discharge Valve)",
+      text: "يسمح بخروج الهواء المضغوط من الغرفة إلى الفلتر والخزان. يفتح عند الضغط المطلوب ويغلق عند الانخفاض.",
+    },
+    "filter-unit": {
+      title: "وحدة التنقية (Filter Unit)",
+      text: "يزيل الشوائب والرطوبة من الهواء المضغوط لحماية الأدوات والمحركات من التلف والتآكل.",
+    },
+    "storage-tank": {
+      title: "خزان التخزين (Storage Tank)",
+      text: "يخزن الهواء المضغوط لضمان توفر ضغط ثابت ومستقر لجميع أدوات العيادة بغض النظر عن الطلب المتغير.",
+    },
+    "safety-valve": {
+      title: "صمام الأمان (Safety Valve)",
+      text: "حماية النظام من الضغط الزائد. يفتح تلقائياً عند تجاوز الضغط الحد الأقصى لمنع انفجار الخزان.",
+    },
+  };
+
+  wireDiagramSimulator(".air-compressor-system-diagram", { cycleMs: 4200, componentInfo: COMPONENT_INFO });
+</script>

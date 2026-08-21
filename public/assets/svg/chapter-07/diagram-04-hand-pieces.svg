@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <style>
+      .dark-box { fill: #2a3f4d; stroke: #4a6578; stroke-width: 2; }
+      .light-box { fill: #3d5a6d; stroke: #5a7a8f; stroke-width: 2; }
+      .handpiece { fill: #445a6d; stroke: #6a7f8f; stroke-width: 1.5; }
+      .bur { fill: #8fa5b8; stroke: #6a8fa5; stroke-width: 1; }
+      .arrow { stroke: #6a8fa5; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+      .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 10px; }
+      .rotation { fill: none; stroke: #8fa5b8; stroke-width: 2; stroke-dasharray: 4,4; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" class="text" font-size="16" font-weight="700">أدوات الحفر (Hand Pieces)</text>
+
+  <!-- Turbine -->
+  <g id="turbine">
+    <g transform="translate(120, 120)">
+      <!-- Handle -->
+      <rect x="-15" y="0" width="30" height="80" rx="8" class="handpiece"/>
+
+      <!-- Head -->
+      <rect x="-20" y="75" width="40" height="40" rx="4" class="light-box"/>
+
+      <!-- Bur holder -->
+      <circle cx="0" cy="95" r="8" class="bur"/>
+
+      <!-- Bur -->
+      <path d="M -3 103 L -5 115 L 5 115 L 3 103 Z" class="bur"/>
+
+      <!-- Rotation indicator -->
+      <circle cx="0" cy="60" r="25" class="rotation"/>
+      <path d="M 15 60 L 25 60 M 0 35 L 0 25" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+
+      <text x="0" y="130" text-anchor="middle" class="text" font-size="11">التوربينة</text>
+      <text x="0" y="143" text-anchor="middle" class="label">Turbine</text>
+      <text x="0" y="158" text-anchor="middle" class="label" font-size="9">300,000 RPM</text>
+
+      <!-- Speed indicator -->
+      <text x="0" y="175" text-anchor="middle" class="label" font-size="8">سرعة عالية جداً</text>
+
+      <!-- Water flow -->
+      <line x1="-8" y1="80" x2="-12" y2="95" stroke="#7eb3cc" stroke-width="2"/>
+      <circle cx="-14" cy="105" r="2" fill="#7eb3cc"/>
+      <text x="-25" y="100" class="label" font-size="8">ماء</text>
+    </g>
+  </g>
+
+  <!-- Slow Speed Motor -->
+  <g id="slow-motor">
+    <g transform="translate(320, 120)">
+      <!-- Handle -->
+      <rect x="-20" y="0" width="40" height="90" rx="8" class="handpiece"/>
+
+      <!-- Motor body -->
+      <rect x="-18" y="80" width="36" height="35" rx="4" class="dark-box"/>
+
+      <!-- Bur holder -->
+      <circle cx="0" cy="105" r="10" class="bur"/>
+
+      <!-- Bur -->
+      <path d="M -4 115 L -7 130 L 7 130 L 4 115 Z" class="bur"/>
+
+      <!-- Rotation indicator -->
+      <circle cx="0" cy="50" r="22" class="rotation"/>
+      <path d="M 17 50 L 27 50 M 0 28 L 0 18" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+
+      <text x="0" y="155" text-anchor="middle" class="text" font-size="11">المحرك البطيء</text>
+      <text x="0" y="168" text-anchor="middle" class="label">Slow Speed</text>
+      <text x="0" y="183" text-anchor="middle" class="label" font-size="9">20,000 RPM</text>
+
+      <!-- Torque indicator -->
+      <text x="0" y="200" text-anchor="middle" class="label" font-size="8">عزم دوران عالي</text>
+
+      <!-- Power connection -->
+      <line x1="-10" y1="80" x2="-15" y2="70" stroke="#d4854f" stroke-width="2"/>
+      <text x="-28" y="65" class="label" font-size="8">قوة</text>
+    </g>
+  </g>
+
+  <!-- Straight Handpiece (Micromotor) -->
+  <g id="straight-handpiece">
+    <g transform="translate(480, 120)">
+      <!-- Handle -->
+      <rect x="-12" y="0" width="24" height="95" rx="6" class="handpiece"/>
+
+      <!-- Head -->
+      <rect x="-16" y="85" width="32" height="30" rx="3" class="light-box"/>
+
+      <!-- Bur holder -->
+      <circle cx="0" cy="100" r="7" class="bur"/>
+
+      <!-- Bur -->
+      <path d="M -2 107 L -4 120 L 4 120 L 2 107 Z" class="bur"/>
+
+      <!-- Rotation indicator -->
+      <circle cx="0" cy="55" r="20" class="rotation"/>
+      <path d="M 16 55 L 24 55 M 0 35 L 0 25" stroke="#8fa5b8" stroke-width="1.5" fill="none"/>
+
+      <text x="0" y="140" text-anchor="middle" class="text" font-size="11">مستقيمة</text>
+      <text x="0" y="153" text-anchor="middle" class="label">Straight</text>
+      <text x="0" y="168" text-anchor="middle" class="label" font-size="9">40,000 RPM</text>
+
+      <!-- Application -->
+      <text x="0" y="185" text-anchor="middle" class="label" font-size="8">تنظيف وتلميع</text>
+    </g>
+  </g>
+
+  <!-- Comparison Table -->
+  <g id="comparison">
+    <rect x="30" y="280" width="540" height="190" rx="5" fill="#2a3f4d" stroke="#4a6578" stroke-width="1.5"/>
+
+    <text x="300" y="305" text-anchor="middle" class="text" font-size="13" font-weight="700">مقارنة أنواع أدوات الحفر</text>
+
+    <!-- Table headers -->
+    <rect x="40" y="315" width="140" height="25" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="1"/>
+    <text x="110" y="335" text-anchor="middle" class="text" font-size="10">المواصفات</text>
+
+    <rect x="180" y="315" width="120" height="25" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="1"/>
+    <text x="240" y="335" text-anchor="middle" class="text" font-size="10">التوربينة</text>
+
+    <rect x="300" y="315" width="120" height="25" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="1"/>
+    <text x="360" y="335" text-anchor="middle" class="text" font-size="10">محرك بطيء</text>
+
+    <rect x="420" y="315" width="140" height="25" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="1"/>
+    <text x="490" y="335" text-anchor="middle" class="text" font-size="10">مستقيمة</text>
+
+    <!-- Row 1: Speed -->
+    <rect x="40" y="340" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="110" y="354" text-anchor="middle" class="label" font-size="9">السرعة</text>
+
+    <rect x="180" y="340" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="240" y="354" text-anchor="middle" class="label" font-size="8">300,000</text>
+
+    <rect x="300" y="340" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="360" y="354" text-anchor="middle" class="label" font-size="8">20,000</text>
+
+    <rect x="420" y="340" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="490" y="354" text-anchor="middle" class="label" font-size="8">40,000</text>
+
+    <!-- Row 2: Torque -->
+    <rect x="40" y="360" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="110" y="374" text-anchor="middle" class="label" font-size="9">العزم</text>
+
+    <rect x="180" y="360" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="240" y="374" text-anchor="middle" class="label" font-size="8">منخفض</text>
+
+    <rect x="300" y="360" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="360" y="374" text-anchor="middle" class="label" font-size="8">عالي جداً</text>
+
+    <rect x="420" y="360" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="490" y="374" text-anchor="middle" class="label" font-size="8">متوسط</text>
+
+    <!-- Row 3: Use -->
+    <rect x="40" y="380" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="110" y="394" text-anchor="middle" class="label" font-size="9">الاستخدام</text>
+
+    <rect x="180" y="380" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="240" y="394" text-anchor="middle" class="label" font-size="8">حفر تحضير</text>
+
+    <rect x="300" y="380" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="360" y="394" text-anchor="middle" class="label" font-size="8">حفر وتنظيف</text>
+
+    <rect x="420" y="380" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="490" y="394" text-anchor="middle" class="label" font-size="8">تنظيف وتلميع</text>
+
+    <!-- Row 4: Cooling -->
+    <rect x="40" y="400" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="110" y="414" text-anchor="middle" class="label" font-size="9">التبريد</text>
+
+    <rect x="180" y="400" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="240" y="414" text-anchor="middle" class="label" font-size="8">هواء وماء</text>
+
+    <rect x="300" y="400" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="360" y="414" text-anchor="middle" class="label" font-size="8">ماء فقط</text>
+
+    <rect x="420" y="400" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="490" y="414" text-anchor="middle" class="label" font-size="8">هواء فقط</text>
+
+    <!-- Row 5: Noise -->
+    <rect x="40" y="420" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="110" y="434" text-anchor="middle" class="label" font-size="9">الضوضاء</text>
+
+    <rect x="180" y="420" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="240" y="434" text-anchor="middle" class="label" font-size="8">عالية جداً</text>
+
+    <rect x="300" y="420" width="120" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="360" y="434" text-anchor="middle" class="label" font-size="8">منخفضة</text>
+
+    <rect x="420" y="420" width="140" height="20" fill="#2a3f4d" stroke="#4a6578" stroke-width="0.5"/>
+    <text x="490" y="434" text-anchor="middle" class="label" font-size="8">متوسطة</text>
+  </g>
+</svg>

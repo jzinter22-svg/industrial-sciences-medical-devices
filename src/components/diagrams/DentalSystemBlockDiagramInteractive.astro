@@ -1,0 +1,432 @@
+---
+// Figure 7-1 (المخطط الكتلوي لنظام جهاز الأسنان المتكامل) built as a dark
+// neumorphic interactive simulator, following the exact Chapter 1-6 system
+// (see IncubatorBlockDiagram.astro / ECGDeviceBlockDiagram.astro). Uses the
+// shared wireDiagramSimulator() engine and diagram-simulator.css shell —
+// no bespoke panel markup, CSS, or animation loop.
+//
+// Geometry: three rows. Row 1 (input/supply chain) power-supply ->
+// compressor -> storage-tank -> distribution. Row 2 (conditioning stages,
+// one under each Row 1 stage) filtration / dryer / control-system /
+// regulation. Row 3 (clinic output devices, one elbow-connected under
+// each Row 2 stage) turbines / motors / chair / suction.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft dental-system-block-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام جهاز الأسنان المتكامل</span>
+      <span class="simulator-subtitle">شكل 1-7 — من مصدر الطاقة الى أدوات العلاج</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="dsb1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="620"
+          viewBox="0 0 900 620"
+          role="img"
+          aria-label="المخطط الكتلوي لنظام جهاز الأسنان المتكامل"
+        >
+          <defs>
+            <marker id="dsb1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="dsb1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="dsb1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="dsb1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="dsb1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="dsb1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="dsb1GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+
+            <filter id="dsb1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="dsb1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="620" rx="20" fill="url(#dsb1BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="620" rx="20" fill="url(#dsb1Grid)"></rect>
+
+          <text x="450" y="34" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">نظام جهاز الأسنان المتكامل</text>
+
+          <!-- Row 1: supply chain -->
+          <g class="hotspot" data-component="power-supply" tabindex="0" role="button" aria-label="مصدر الطاقة">
+            <rect class="box-shape" x="40" y="70" width="150" height="100" rx="10" fill="url(#dsb1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="115" y="110" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">مصدر الطاقة</text>
+            <text x="115" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#FBBF24" direction="ltr">Power Supply</text>
+          </g>
+
+          <g class="link" data-link="power-supply" data-link-to="compressor">
+            <line x1="190" y1="120" x2="235" y2="120" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></line>
+            <line class="trail" x1="190" y1="120" x2="233" y2="120" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="compressor" tabindex="0" role="button" aria-label="وحدة الضاغط">
+            <rect class="box-shape" x="235" y="70" width="150" height="100" rx="10" fill="url(#dsb1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="310" y="110" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">وحدة الضاغط</text>
+            <text x="310" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#4ADE80" direction="ltr">Compressor</text>
+          </g>
+
+          <g class="link" data-link="compressor" data-link-to="storage-tank">
+            <line x1="385" y1="120" x2="430" y2="120" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></line>
+            <line class="trail" x1="385" y1="120" x2="428" y2="120" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="storage-tank" tabindex="0" role="button" aria-label="خزان التخزين">
+            <rect class="box-shape" x="430" y="70" width="150" height="100" rx="10" fill="url(#dsb1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="505" y="110" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">خزان التخزين</text>
+            <text x="505" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#38BDF8" direction="ltr">Storage Tank</text>
+          </g>
+
+          <g class="link" data-link="storage-tank" data-link-to="distribution">
+            <line x1="580" y1="120" x2="625" y2="120" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></line>
+            <line class="trail" x1="580" y1="120" x2="623" y2="120" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+          </g>
+
+          <g class="hotspot" data-component="distribution" tabindex="0" role="button" aria-label="التوزيع">
+            <circle class="box-shape" cx="700" cy="120" r="60" fill="url(#dsb1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#dsb1Elevate)"></circle>
+            <text x="700" y="115" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">التوزيع</text>
+            <text x="700" y="134" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#C084FC" direction="ltr">Distribution</text>
+          </g>
+
+          <!-- Row 1 -> Row 2 vertical drops -->
+          <g class="link" data-link="power-supply" data-link-to="control-system">
+            <path d="M 115,170 L 115,220" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 115,170 L 115,218" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="compressor" data-link-to="filtration">
+            <path d="M 310,170 L 310,220" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 310,170 L 310,218" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="storage-tank" data-link-to="dryer">
+            <path d="M 505,170 L 505,220" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 505,170 L 505,218" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="distribution" data-link-to="regulation">
+            <path d="M 700,180 L 700,220" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 700,180 L 700,218" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <!-- Row 2: conditioning stages -->
+          <g class="hotspot" data-component="control-system" tabindex="0" role="button" aria-label="نظام التحكم">
+            <rect class="box-shape" x="40" y="220" width="150" height="90" rx="10" fill="url(#dsb1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="115" y="258" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">نظام التحكم</text>
+            <text x="115" y="277" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" direction="ltr">Control System</text>
+          </g>
+
+          <g class="hotspot" data-component="filtration" tabindex="0" role="button" aria-label="نظام التنقية">
+            <rect class="box-shape" x="235" y="220" width="150" height="90" rx="10" fill="url(#dsb1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="310" y="258" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">نظام التنقية</text>
+            <text x="310" y="277" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" direction="ltr">Filtration</text>
+          </g>
+
+          <g class="hotspot" data-component="dryer" tabindex="0" role="button" aria-label="مجفف الهواء">
+            <rect class="box-shape" x="430" y="220" width="150" height="90" rx="10" fill="url(#dsb1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="505" y="258" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">مجفف الهواء</text>
+            <text x="505" y="277" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="ltr">Air Dryer</text>
+          </g>
+
+          <g class="hotspot" data-component="regulation" tabindex="0" role="button" aria-label="نظام التنظيم">
+            <rect class="box-shape" x="625" y="220" width="150" height="90" rx="10" fill="url(#dsb1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#dsb1Elevate)"></rect>
+            <text x="700" y="258" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">نظام التنظيم</text>
+            <text x="700" y="277" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" direction="ltr">Regulation</text>
+          </g>
+
+          <!-- Row 2 -> Row 3 elbow connectors -->
+          <g class="link" data-link="control-system" data-link-to="suction">
+            <path d="M 115,310 L 115,345 L 115,345" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 115,310 L 115,343" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="filtration" data-link-to="turbines">
+            <path d="M 310,310 L 310,345" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 310,310 L 310,343" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="dryer" data-link-to="motors">
+            <path d="M 505,310 L 505,345" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 505,310 L 505,343" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+          <g class="link" data-link="regulation" data-link-to="chair">
+            <path d="M 700,310 L 700,345" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#dsb1-arrow)"></path>
+            <path class="trail" d="M 700,310 L 700,343" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+          </g>
+
+          <!-- Row 3: clinic output devices -->
+          <g class="hotspot" data-component="suction" tabindex="0" role="button" aria-label="نظام الشفط">
+            <circle class="box-shape" cx="115" cy="400" r="55" fill="url(#dsb1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#dsb1Elevate)"></circle>
+            <text x="115" y="396" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="rtl">الشفط</text>
+            <text x="115" y="415" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" direction="ltr">Suction</text>
+          </g>
+
+          <g class="hotspot" data-component="turbines" tabindex="0" role="button" aria-label="التوربينات">
+            <circle class="box-shape" cx="310" cy="400" r="55" fill="url(#dsb1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#dsb1Elevate)"></circle>
+            <text x="310" y="396" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="rtl">التوربينات</text>
+            <text x="310" y="415" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#4ADE80" direction="ltr">Turbines</text>
+          </g>
+
+          <g class="hotspot" data-component="motors" tabindex="0" role="button" aria-label="المحركات البطيئة">
+            <circle class="box-shape" cx="505" cy="400" r="55" fill="url(#dsb1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#dsb1Elevate)"></circle>
+            <text x="505" y="396" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="rtl">المحركات</text>
+            <text x="505" y="415" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="ltr">Slow Motors</text>
+          </g>
+
+          <g class="hotspot" data-component="chair" tabindex="0" role="button" aria-label="نظام الكرسي الهيدروليكي">
+            <circle class="box-shape" cx="700" cy="400" r="55" fill="url(#dsb1GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#dsb1Elevate)"></circle>
+            <text x="700" y="393" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11.5" font-weight="700" fill="#eef1f8" direction="rtl">نظام الكرسي</text>
+            <text x="700" y="412" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#C084FC" direction="ltr">Chair System</text>
+          </g>
+
+          <g class="flow-layer" aria-hidden="true">
+            <circle class="flow-particle" cx="190" cy="120" r="4.5" fill="#FBBF24" filter="url(#dsb1Glow)" style="--tx:40px; --ty:0px; --particle-delay:0.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="385" cy="120" r="4.5" fill="#4ADE80" filter="url(#dsb1Glow)" style="--tx:40px; --ty:0px; --particle-delay:1.1s; --particle-duration:0.4s"></circle>
+            <circle class="flow-particle" cx="580" cy="120" r="4.5" fill="#38BDF8" filter="url(#dsb1Glow)" style="--tx:40px; --ty:0px; --particle-delay:2.1s; --particle-duration:0.4s"></circle>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="power-supply"><span class="status-dot dot-yellow"></span><span class="status-label">مصدر الطاقة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="compressor"><span class="status-dot dot-green"></span><span class="status-label">وحدة الضاغط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="storage-tank"><span class="status-dot dot-blue"></span><span class="status-label">خزان التخزين</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="distribution"><span class="status-dot dot-purple"></span><span class="status-label">التوزيع</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="control-system"><span class="status-dot dot-yellow"></span><span class="status-label">نظام التحكم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="filtration"><span class="status-dot dot-green"></span><span class="status-label">نظام التنقية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="dryer"><span class="status-dot dot-blue"></span><span class="status-label">مجفف الهواء</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="regulation"><span class="status-dot dot-purple"></span><span class="status-label">نظام التنظيم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="suction"><span class="status-dot dot-yellow"></span><span class="status-label">الشفط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="turbines"><span class="status-dot dot-green"></span><span class="status-label">التوربينات</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="motors"><span class="status-dot dot-blue"></span><span class="status-label">المحركات البطيئة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="chair"><span class="status-dot dot-purple"></span><span class="status-label">نظام الكرسي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الطاقة الكهربائية</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الهواء المضغوط</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التخزين والتوزيع</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الحركة الميكانيكية</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#dsb1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#dsb1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#dsb1Glow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dsb1-particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      6% { opacity: 1; }
+      94% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+    }
+    .playing .flow-particle {
+      animation: dsb1-particle-move var(--particle-duration, 0.4s) linear var(--particle-delay, 0s) forwards;
+    }
+
+    @keyframes dsb1-shape-activate { to { filter: url(#dsb1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes dsb1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes dsb1-status-value-on { to { opacity: 1; } }
+    @keyframes dsb1-status-value-off { to { opacity: 0; } }
+    @keyframes dsb1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes dsb1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes dsb1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes dsb1-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="power-supply"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .status-dot { animation: dsb1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="power-supply"][data-link-to="compressor"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="compressor"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor"] .status-dot { animation: dsb1-dot-on-green 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="compressor"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="compressor"][data-link-to="storage-tank"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="storage-tank"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="storage-tank"] .status-dot { animation: dsb1-dot-on-blue 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="storage-tank"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="storage-tank"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="storage-tank"][data-link-to="distribution"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="distribution"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="distribution"] .status-dot { animation: dsb1-dot-on-purple 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="distribution"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="distribution"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 1.6s forwards; }
+
+    .playing [data-link="power-supply"][data-link-to="control-system"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 2.0s forwards; }
+    .playing [data-component="control-system"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="control-system"] .status-dot { animation: dsb1-dot-on-yellow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="control-system"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="control-system"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    .playing [data-link="compressor"][data-link-to="filtration"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 2.3s forwards; }
+    .playing [data-component="filtration"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="filtration"] .status-dot { animation: dsb1-dot-on-green 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="filtration"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="filtration"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 2.4s forwards; }
+
+    .playing [data-link="storage-tank"][data-link-to="dryer"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 2.6s forwards; }
+    .playing [data-component="dryer"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="dryer"] .status-dot { animation: dsb1-dot-on-blue 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="dryer"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 2.7s forwards; }
+    .playing [data-status="dryer"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 2.7s forwards; }
+
+    .playing [data-link="distribution"][data-link-to="regulation"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 2.9s forwards; }
+    .playing [data-component="regulation"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="regulation"] .status-dot { animation: dsb1-dot-on-purple 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="regulation"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="regulation"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 3.0s forwards; }
+
+    .playing [data-link="control-system"][data-link-to="suction"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 3.4s forwards; }
+    .playing [data-component="suction"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="suction"] .status-dot { animation: dsb1-dot-on-yellow 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="suction"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 3.5s forwards; }
+    .playing [data-status="suction"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 3.5s forwards; }
+
+    .playing [data-link="filtration"][data-link-to="turbines"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 3.7s forwards; }
+    .playing [data-component="turbines"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 3.8s forwards; }
+    .playing [data-status="turbines"] .status-dot { animation: dsb1-dot-on-green 0.4s ease-out 3.8s forwards; }
+    .playing [data-status="turbines"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 3.8s forwards; }
+    .playing [data-status="turbines"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 3.8s forwards; }
+
+    .playing [data-link="dryer"][data-link-to="motors"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 4.0s forwards; }
+    .playing [data-component="motors"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 4.1s forwards; }
+    .playing [data-status="motors"] .status-dot { animation: dsb1-dot-on-blue 0.4s ease-out 4.1s forwards; }
+    .playing [data-status="motors"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 4.1s forwards; }
+    .playing [data-status="motors"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 4.1s forwards; }
+
+    .playing [data-link="regulation"][data-link-to="chair"] .trail { animation: dsb1-reveal-trail 0.3s ease-out 4.3s forwards; }
+    .playing [data-component="chair"] .box-shape { animation: dsb1-shape-activate 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="chair"] .status-dot { animation: dsb1-dot-on-purple 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="chair"] .value-on { animation: dsb1-status-value-on 0.4s ease-out 4.4s forwards; }
+    .playing [data-status="chair"] .value-off { animation: dsb1-status-value-off 0.4s ease-out 4.4s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "power-supply": {
+      title: "مصدر الطاقة (Power Supply)",
+      text: "يتم تجهيز جهاز الأسنان من مصدر تجهيز الطاقة الرئيسي (220V أو 380V) الذي يزود جميع الأجهزة بالكهرباء اللازمة.",
+    },
+    compressor: {
+      title: "وحدة الضاغط (Compressor)",
+      text: "وحدة الضاغط هي القلب النابض للعيادة، تقوم بضغط الهواء الجوي إلى درجات عالية (3-8 بار) لتشغيل جميع الأدوات الهوائية.",
+    },
+    "storage-tank": {
+      title: "خزان التخزين (Storage Tank)",
+      text: "خزان معدني يخزن الهواء المضغوط لضمان توفر ضغط ثابت ومستقر لجميع أدوات العيادة بغض النظر عن الطلب المتغير.",
+    },
+    distribution: {
+      title: "التوزيع (Distribution)",
+      text: "نظام توزيع الهواء المضغوط إلى جميع أجهزة وأدوات العيادة من خلال أنابيب ومفاتيح تحكم.",
+    },
+    "control-system": {
+      title: "نظام التحكم (Control System)",
+      text: "يتحكم بتشغيل وإيقاف جميع أجهزة العيادة ويضمن سلامة التشغيل والحماية من الأعطال.",
+    },
+    filtration: {
+      title: "نظام التنقية (Filtration)",
+      text: "يزيل الشوائب والرطوبة من الهواء المضغوط لحماية الأدوات وضمان جودة الهواء المستخدم.",
+    },
+    dryer: {
+      title: "مجفف الهواء (Air Dryer)",
+      text: "يزيل الرطوبة المتبقية من الهواء لمنع تلف الأدوات والمحركات من الصدأ والتآكل.",
+    },
+    regulation: {
+      title: "نظام التنظيم (Regulation)",
+      text: "ينظم ضغط الهواء والماء والكهرباء إلى المستويات المطلوبة لكل جهاز تشغيلي.",
+    },
+    suction: {
+      title: "نظام الشفط (Suction System)",
+      text: "يسحب اللعاب والماء من فم المريض أثناء العلاج، ويتكون من مضخة شفط وأنابيب توزيع.",
+    },
+    turbines: {
+      title: "التوربينات (Turbines)",
+      text: "أدوات حفر سريعة جداً تدور بسرعات عالية (300,000-400,000 دورة/دقيقة) تستخدم لحفر وإزالة الأسنان المصابة.",
+    },
+    motors: {
+      title: "المحركات البطيئة (Slow Motors)",
+      text: "محركات كهربائية أو هوائية بطيئة (10,000-60,000 دورة/دقيقة) تستخدم لأغراض مختلفة مثل الصقل والتنظيف.",
+    },
+    chair: {
+      title: "نظام الكرسي الهيدروليكي (Chair System)",
+      text: "نظام هيدروليكي يتحكم برفع وخفض وتحريك كرسي المريض لتوفير أقصى درجات الراحة والسلامة.",
+    },
+  };
+
+  wireDiagramSimulator(".dental-system-block-diagram", { cycleMs: 5000, componentInfo: COMPONENT_INFO });
+</script>

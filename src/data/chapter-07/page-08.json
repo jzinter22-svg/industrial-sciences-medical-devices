@@ -1,0 +1,49 @@
+{
+  "id": "page-08",
+  "pageNumber": 120,
+  "chapterNumber": 7,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل السابع",
+    "printedPage": 120
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز الأسنان",
+    "en": "Dental Device"
+  },
+  "sections": [
+    {
+      "id": "section-turbines",
+      "number": "",
+      "title": {
+        "ar": "أدوات الحفر السريع (التوربينات)"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "turbine-intro",
+          "content": {
+            "ar": "التوربينات هي أدوات حفر سريعة جداً تدور بسرعات عالية جداً قد تصل إلى 400,000 دورة في الدقيقة. تستخدم لحفر وإزالة الأسنان المصابة بكفاءة عالية. تتمتع التوربينات بعمر استخدام طويل وكفاءة عالية في القطع."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c7-fig-7-4b",
+          "src": "/assets/svg/chapter-07/diagram-04-hand-pieces.svg",
+          "alt": "التوربينات وأدوات الحفر - مخطط شامل",
+          "caption": {
+            "ar": "شكل 16-7 و 17-7: التوربينات عالية السرعة مع مكوناتها وخصائصها ومقارنتها مع أنواع أدوات الحفر الأخرى"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <style>
+      .dark-box { fill: #2a3f4d; stroke: #4a6578; stroke-width: 2; }
+      .light-box { fill: #3d5a6d; stroke: #5a7a8f; stroke-width: 2; }
+      .cylinder { fill: #4a6578; stroke: #6a7f8f; stroke-width: 1.5; }
+      .piston-rod { stroke: #8fa5b8; stroke-width: 3; }
+      .control { fill: #445a6d; stroke: #6a7f8f; stroke-width: 1.5; }
+      .arrow { stroke: #6a8fa5; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .text { fill: #e8eef2; font-family: Arial, sans-serif; font-size: 12px; font-weight: 600; }
+      .label { fill: #b8c5d1; font-family: Arial, sans-serif; font-size: 10px; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" class="text" font-size="16" font-weight="700">نظام كرسي الأسنان الهيدروليكي</text>
+
+  <!-- Dental Chair -->
+  <g id="dental-chair">
+    <!-- Backrest -->
+    <ellipse cx="150" cy="140" rx="25" ry="45" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
+    <!-- Seat -->
+    <ellipse cx="150" cy="200" rx="35" ry="30" fill="#3d5a6d" stroke="#5a7a8f" stroke-width="2"/>
+    <!-- Headrest -->
+    <ellipse cx="170" cy="100" rx="18" ry="25" fill="#2a3f4d" stroke="#4a6578" stroke-width="1.5"/>
+    <!-- Arm support left -->
+    <rect x="100" y="180" width="40" height="15" rx="7" fill="#445a6d" stroke="#6a7f8f" stroke-width="1"/>
+    <!-- Arm support right -->
+    <rect x="200" y="180" width="40" height="15" rx="7" fill="#445a6d" stroke="#6a7f8f" stroke-width="1"/>
+    <!-- Base -->
+    <ellipse cx="150" cy="245" rx="50" ry="15" fill="#4a6578" stroke="#6a7f8f" stroke-width="1.5"/>
+
+    <text x="250" y="180" class="text" font-size="11">كرسي المريض</text>
+    <text x="250" y="193" class="label">Patient Chair</text>
+  </g>
+
+  <!-- Chair Movement Cylinders -->
+  <g id="cylinders">
+    <!-- Vertical cylinder (up/down) -->
+    <g>
+      <rect x="180" y="230" width="20" height="80" rx="3" class="cylinder"/>
+      <line x1="190" y1="245" x2="190" y2="300" class="piston-rod"/>
+      <text x="215" y="270" class="text" font-size="10">رفع</text>
+      <text x="215" y="283" class="label" font-size="9">Lift</text>
+    </g>
+
+    <!-- Backrest tilt cylinder -->
+    <g>
+      <line x1="130" y1="90" x2="100" y2="60" stroke="#6a8fa5" stroke-width="4"/>
+      <circle cx="125" cy="85" r="6" fill="#8fa5b8"/>
+      <circle cx="105" cy="65" r="6" fill="#8fa5b8"/>
+      <text x="70" y="70" class="text" font-size="10">إمالة</text>
+      <text x="70" y="83" class="label" font-size="9">Tilt</text>
+    </g>
+
+    <!-- Footrest cylinder -->
+    <g>
+      <line x1="170" y1="240" x2="200" y2="270" stroke="#6a8fa5" stroke-width="4"/>
+      <circle cx="175" cy="245" r="6" fill="#8fa5b8"/>
+      <circle cx="195" cy="265" r="6" fill="#8fa5b8"/>
+      <text x="210" y="260" class="text" font-size="10">قدم</text>
+      <text x="210" y="273" class="label" font-size="9">Footrest</text>
+    </g>
+  </g>
+
+  <!-- Hydraulic System -->
+  <g id="hydraulic-system">
+    <!-- Pump -->
+    <circle cx="420" cy="100" r="25" class="light-box"/>
+    <circle cx="420" cy="100" r="15" fill="#2a3f4d"/>
+    <text x="420" y="130" text-anchor="middle" class="text" font-size="11">مضخة</text>
+    <text x="420" y="143" text-anchor="middle" class="label">Pump</text>
+
+    <!-- Motor for pump -->
+    <line x1="390" y1="85" x2="360" y2="85" class="arrow" stroke-width="2.5"/>
+    <rect x="320" y="70" width="40" height="30" rx="3" class="dark-box"/>
+    <text x="340" y="92" text-anchor="middle" class="label" font-size="9">محرك</text>
+
+    <!-- Hydraulic fluid tank -->
+    <rect x="390" y="160" width="60" height="80" rx="3" class="dark-box"/>
+    <rect x="400" y="170" width="40" height="60" fill="#1a2a35"/>
+    <text x="420" y="250" text-anchor="middle" class="text" font-size="11">خزان الزيت</text>
+    <text x="420" y="263" text-anchor="middle" class="label">Hydraulic Tank</text>
+
+    <!-- Connection from pump to tank -->
+    <line x1="420" y1="125" x2="420" y2="160" class="arrow" stroke-width="2"/>
+
+    <!-- Control valve -->
+    <rect x="360" y="290" width="120" height="60" rx="3" class="light-box"/>
+    <line x1="375" y1="310" x2="445" y2="310" stroke="#8fa5b8" stroke-width="2"/>
+    <line x1="375" y1="325" x2="445" y2="325" stroke="#8fa5b8" stroke-width="2"/>
+    <circle cx="380" cy="310" r="4" fill="#d4854f"/>
+    <circle cx="440" cy="325" r="4" fill="#d4854f"/>
+    <text x="420" y="365" text-anchor="middle" class="text" font-size="11">صمام التحكم</text>
+    <text x="420" y="378" text-anchor="middle" class="label">Control Valve</text>
+  </g>
+
+  <!-- Connections to chair -->
+  <line x1="190" y1="225" x2="190" y2="310" stroke="#d4854f" stroke-width="3"/>
+  <line x1="380" y1="320" x2="280" y2="280" stroke="#d4854f" stroke-width="2.5"/>
+  <line x1="440" y1="350" x2="140" y2="310" stroke="#d4854f" stroke-width="2.5"/>
+
+  <!-- Electrical Control -->
+  <g id="control-panel">
+    <rect x="40" y="380" width="520" height="100" rx="5" fill="#2a3f4d" stroke="#4a6578" stroke-width="1.5"/>
+
+    <text x="300" y="405" text-anchor="middle" class="text" font-size="13" font-weight="700">التحكم الكهربائي للحركات</text>
+
+    <!-- Up button -->
+    <rect x="60" y="425" width="50" height="35" rx="3" class="control"/>
+    <circle cx="85" cy="442" r="6" fill="#8fa5b8"/>
+    <text x="85" y="470" text-anchor="middle" class="label" font-size="9">رفع</text>
+
+    <!-- Down button -->
+    <rect x="130" y="425" width="50" height="35" rx="3" class="control"/>
+    <circle cx="155" cy="442" r="6" fill="#8fa5b8"/>
+    <text x="155" y="470" text-anchor="middle" class="label" font-size="9">خفض</text>
+
+    <!-- Tilt button -->
+    <rect x="200" y="425" width="50" height="35" rx="3" class="control"/>
+    <circle cx="225" cy="442" r="6" fill="#8fa5b8"/>
+    <text x="225" y="470" text-anchor="middle" class="label" font-size="9">إمالة</text>
+
+    <!-- Footrest button -->
+    <rect x="270" y="425" width="50" height="35" rx="3" class="control"/>
+    <circle cx="295" cy="442" r="6" fill="#8fa5b8"/>
+    <text x="295" y="470" text-anchor="middle" class="label" font-size="9">قدم</text>
+
+    <!-- Emergency stop -->
+    <circle cx="380" cy="442" r="20" fill="#c44444" stroke="#8a2a2a" stroke-width="2"/>
+    <text x="380" y="447" text-anchor="middle" class="text" font-size="9" fill="#fff">إيقاف</text>
+    <text x="380" y="470" text-anchor="middle" class="label">Emergency</text>
+
+    <!-- Status indicators -->
+    <circle cx="470" cy="437" r="6" fill="#4aad44"/>
+    <text x="490" y="442" class="label" font-size="9">جاهز</text>
+
+    <circle cx="470" cy="460" r="6" fill="#d4854f" opacity="0.5"/>
+    <text x="490" y="465" class="label" font-size="9">قيد العمل</text>
+  </g>
+</svg>
