@@ -132,32 +132,44 @@ const statusStates: Record<string, { ar: string; color: string }> = {
         >
           <defs>
             <style>
-              .dental-diagram-svg .text-ar { fill: #e8eef2; font-family: 'Cairo', sans-serif; font-weight: 600; }
-              .dental-diagram-svg .text-en { fill: #b8c5d1; font-family: Arial, sans-serif; font-weight: 500; }
-              .dental-diagram-svg .arrow-line { stroke: #5a7a8f; stroke-width: 2.5; fill: none; }
-              .dental-diagram-svg .particle { fill: #fbbf24; opacity: 0.8; }
+              .dental-diagram-svg .text-ar { fill: #eef1f8; font-family: 'Cairo', sans-serif; font-weight: 600; }
+              .dental-diagram-svg .text-en { fill: #b7bfd1; font-family: Arial, sans-serif; font-weight: 500; }
+              .dental-diagram-svg .link { pointer-events: none; }
+              .dental-diagram-svg .flow-layer { pointer-events: none; }
 
-              .dental-diagram-svg .hotspot { cursor: pointer; transition: opacity 0.2s ease; }
-              .dental-diagram-svg .hotspot:hover rect,
-              .dental-diagram-svg .hotspot:hover circle {
-                opacity: 0.9;
+              .dental-diagram-svg .box-shape { transition: opacity 0.25s ease; }
+              .dental-diagram-svg .box-active-glow { transition: opacity 0.25s ease; }
+
+              .dental-diagram-svg .hotspot { cursor: pointer; outline: none; }
+              .dental-diagram-svg .hotspot:hover .box-shape {
+                opacity: 0.85;
+                filter: brightness(1.15);
+              }
+              .dental-diagram-svg .hotspot.is-selected .box-shape {
                 filter: brightness(1.2);
               }
-              .dental-diagram-svg .hotspot.active rect,
-              .dental-diagram-svg .hotspot.active circle {
-                filter: drop-shadow(0 0 12px rgba(249, 191, 36, 0.6));
+              .dental-diagram-svg .hotspot.is-selected .box-active-glow {
+                opacity: 1;
+              }
+              .dental-diagram-svg .hotspot .box-active-glow {
+                opacity: 0;
               }
 
+              .dental-diagram-svg .trail { stroke-dasharray: 8 10; animation: flowDash 0.6s linear infinite; }
+              @keyframes flowDash { to { stroke-dashoffset: 18; } }
+
+              .dental-diagram-svg .particle { animation: particleFloat 2s ease-in-out infinite; }
+              @keyframes particleFloat { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
               @media (prefers-reduced-motion: reduce) {
-                .dental-diagram-svg .particle {
-                  animation: none;
-                }
+                .dental-diagram-svg .trail { animation: none; stroke-dasharray: none; }
+                .dental-diagram-svg .particle { animation: none; }
               }
             </style>
 
             <linearGradient id="grad-power" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#3a2f10"/>
-              <stop offset="100%" stop-color="#1a1408"/>
+              <stop offset="100%" stop-color="#18140a"/>
             </linearGradient>
             <linearGradient id="grad-control" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#123322"/>
@@ -172,20 +184,39 @@ const statusStates: Record<string, { ar: string; color: string }> = {
               <stop offset="100%" stop-color="#140a20"/>
             </linearGradient>
 
-            <filter id="elevate" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
-              <feOffset in="blur" dx="0" dy="8" result="offsetBlur"/>
-              <feFlood flood-color="#000000" flood-opacity="0.4" result="offsetColor"/>
-              <feComposite in="offsetColor" in2="offsetBlur" operator="in" result="offsetBlur"/>
-              <feComposite in="offsetBlur" in2="SourceAlpha" operator="in" result="offsetBlur"/>
+            <filter id="elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurOuter"/>
+              <feOffset in="blurOuter" dx="0" dy="10" result="offsetOuter"/>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"/>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"/>
+
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurHalo"/>
+              <feOffset in="blurHalo" dx="-5" dy="-5" result="offsetHalo"/>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.18" result="colorHalo"/>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"/>
+
               <feMerge>
-                <feMergeNode in="offsetBlur"/>
+                <feMergeNode in="shadowOuter"/>
+                <feMergeNode in="haloOuter"/>
                 <feMergeNode in="SourceGraphic"/>
               </feMerge>
             </filter>
 
-            <marker id="arrow-right" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="#6a8fa5"/>
+            <filter id="softGlow" x="-140%" y="-140%" width="380%" height="380%">
+              <feGaussianBlur stdDeviation="9"/>
+            </filter>
+
+            <filter id="lineGlow" x="-180%" y="-180%" width="460%" height="460%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <marker id="arrow-right" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B9C3D6"/>
             </marker>
           </defs>
 
@@ -197,36 +228,52 @@ const statusStates: Record<string, { ar: string; color: string }> = {
 
           <!-- ROW 1: Power Supply System -->
           <g class="hotspot" data-component="power-supply" tabindex="0" role="button">
-            <rect x="40" y="70" width="120" height="100" rx="8" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="40" y="70" width="120" height="100" rx="8" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="40" y="70" width="120" height="100" rx="8" fill="none" stroke="#fbbf24" stroke-width="3"/>
             <text x="100" y="110" text-anchor="middle" class="text-ar" font-size="13">مصدر</text>
             <text x="100" y="130" text-anchor="middle" class="text-ar" font-size="13">الطاقة</text>
             <text x="100" y="155" text-anchor="middle" class="text-en" font-size="10">Power</text>
-            <line x1="160" y1="120" x2="200" y2="120" class="arrow-line" marker-end="url(#arrow-right)"/>
+          </g>
+
+          <g class="link" data-link="power-supply">
+            <line x1="160" y1="120" x2="200" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="160" y1="120" x2="200" y2="120" stroke="#FBBF24" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="170" cy="120" r="3" fill="#FBBF24"/>
           </g>
 
           <g class="hotspot" data-component="compressor" tabindex="0" role="button">
-            <rect x="200" y="70" width="120" height="100" rx="8" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="200" y="70" width="120" height="100" rx="8" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="200" y="70" width="120" height="100" rx="8" fill="none" stroke="#4ade80" stroke-width="3"/>
             <text x="260" y="110" text-anchor="middle" class="text-ar" font-size="13">وحدة</text>
             <text x="260" y="130" text-anchor="middle" class="text-ar" font-size="13">الضاغط</text>
             <text x="260" y="155" text-anchor="middle" class="text-en" font-size="10">Compressor</text>
-            <circle class="particle" cx="205" cy="120" r="3"/>
-            <line x1="320" y1="120" x2="360" y2="120" class="arrow-line" marker-end="url(#arrow-right)"/>
+          </g>
+
+          <g class="link" data-link="compressor">
+            <line x1="320" y1="120" x2="360" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="320" y1="120" x2="360" y2="120" stroke="#4ADE80" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="330" cy="120" r="3" fill="#4ADE80"/>
           </g>
 
           <g class="hotspot" data-component="storage-tank" tabindex="0" role="button">
-            <rect x="360" y="70" width="120" height="100" rx="8" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="360" y="70" width="120" height="100" rx="8" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="360" y="70" width="120" height="100" rx="8" fill="none" stroke="#22d3ee" stroke-width="3"/>
             <text x="420" y="110" text-anchor="middle" class="text-ar" font-size="13">خزان</text>
             <text x="420" y="130" text-anchor="middle" class="text-ar" font-size="13">التخزين</text>
             <text x="420" y="155" text-anchor="middle" class="text-en" font-size="10">Tank</text>
-            <circle class="particle" cx="365" cy="120" r="3"/>
-            <line x1="480" y1="120" x2="520" y2="120" class="arrow-line" marker-end="url(#arrow-right)"/>
+          </g>
+
+          <g class="link" data-link="storage-tank">
+            <line x1="480" y1="120" x2="520" y2="120" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="480" y1="120" x2="520" y2="120" stroke="#22D3EE" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="490" cy="120" r="3" fill="#22D3EE"/>
           </g>
 
           <g class="hotspot" data-component="distribution" tabindex="0" role="button">
-            <circle cx="580" cy="120" r="50" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-shape" cx="580" cy="120" r="50" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="580" cy="120" r="50" fill="none" stroke="#c084fc" stroke-width="3"/>
             <text x="580" y="115" text-anchor="middle" class="text-ar" font-size="12">توزيع</text>
             <text x="580" y="135" text-anchor="middle" class="text-en" font-size="10">Distribution</text>
-            <circle class="particle" cx="525" cy="120" r="3"/>
           </g>
 
           <!-- Vertical flow arrows -->
@@ -236,75 +283,111 @@ const statusStates: Record<string, { ar: string; color: string }> = {
           <line x1="580" y1="170" x2="580" y2="220" class="arrow-line" marker-end="url(#arrow-right)"/>
 
           <!-- ROW 2: Processing Systems -->
+          <!-- Vertical input flows from Row 1 -->
+          <g class="link" data-link="filtration-input">
+            <line x1="100" y1="170" x2="100" y2="220" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="100" y1="170" x2="100" y2="220" stroke="#4ADE80" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="100" cy="190" r="3" fill="#4ADE80"/>
+          </g>
+
+          <g class="link" data-link="dryer-input">
+            <line x1="260" y1="170" x2="260" y2="220" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="260" y1="170" x2="260" y2="220" stroke="#22D3EE" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="260" cy="190" r="3" fill="#22D3EE"/>
+          </g>
+
+          <g class="link" data-link="control-input">
+            <line x1="420" y1="170" x2="420" y2="220" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="420" y1="170" x2="420" y2="220" stroke="#FBBF24" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="420" cy="190" r="3" fill="#FBBF24"/>
+          </g>
+
+          <g class="link" data-link="regulation-input">
+            <line x1="580" y1="170" x2="580" y2="220" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="580" y1="170" x2="580" y2="220" stroke="#C084FC" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="580" cy="190" r="3" fill="#C084FC"/>
+          </g>
+
           <g class="hotspot" data-component="filtration" tabindex="0" role="button">
-            <rect x="40" y="220" width="110" height="90" rx="8" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="40" y="220" width="110" height="90" rx="8" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="40" y="220" width="110" height="90" rx="8" fill="none" stroke="#4ade80" stroke-width="3"/>
             <text x="95" y="255" text-anchor="middle" class="text-ar" font-size="12">التنقية</text>
             <text x="95" y="275" text-anchor="middle" class="text-en" font-size="9">Filtration</text>
-            <circle class="particle" cx="45" cy="265" r="2.5"/>
+          </g>
+
+          <g class="link" data-link="filtration">
+            <line x1="150" y1="265" x2="190" y2="265" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="150" y1="265" x2="190" y2="265" stroke="#4ADE80" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="170" cy="265" r="3" fill="#4ADE80"/>
           </g>
 
           <g class="hotspot" data-component="dryer" tabindex="0" role="button">
-            <rect x="190" y="220" width="110" height="90" rx="8" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="190" y="220" width="110" height="90" rx="8" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="190" y="220" width="110" height="90" rx="8" fill="none" stroke="#22d3ee" stroke-width="3"/>
             <text x="245" y="255" text-anchor="middle" class="text-ar" font-size="12">مجفف</text>
             <text x="245" y="275" text-anchor="middle" class="text-en" font-size="9">Dryer</text>
-            <circle class="particle" cx="195" cy="265" r="2.5"/>
+          </g>
+
+          <g class="link" data-link="dryer">
+            <line x1="300" y1="265" x2="340" y2="265" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="300" y1="265" x2="340" y2="265" stroke="#22D3EE" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="320" cy="265" r="3" fill="#22D3EE"/>
           </g>
 
           <g class="hotspot" data-component="control-system" tabindex="0" role="button">
-            <rect x="340" y="220" width="110" height="90" rx="8" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="340" y="220" width="110" height="90" rx="8" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="340" y="220" width="110" height="90" rx="8" fill="none" stroke="#fbbf24" stroke-width="3"/>
             <text x="395" y="255" text-anchor="middle" class="text-ar" font-size="12">التحكم</text>
             <text x="395" y="275" text-anchor="middle" class="text-en" font-size="9">Control</text>
-            <circle class="particle" cx="345" cy="265" r="2.5"/>
+          </g>
+
+          <g class="link" data-link="control">
+            <line x1="450" y1="265" x2="490" y2="265" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="450" y1="265" x2="490" y2="265" stroke="#FBBF24" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="470" cy="265" r="3" fill="#FBBF24"/>
           </g>
 
           <g class="hotspot" data-component="regulation" tabindex="0" role="button">
-            <rect x="490" y="220" width="110" height="90" rx="8" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-shape" x="490" y="220" width="110" height="90" rx="8" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <rect class="box-active-glow" x="490" y="220" width="110" height="90" rx="8" fill="none" stroke="#c084fc" stroke-width="3"/>
             <text x="545" y="255" text-anchor="middle" class="text-ar" font-size="12">التنظيم</text>
             <text x="545" y="275" text-anchor="middle" class="text-en" font-size="9">Regulation</text>
-            <circle class="particle" cx="495" cy="265" r="2.5"/>
           </g>
 
-          <!-- Connection lines for Row 2 -->
-          <line x1="95" y1="220" x2="95" y2="200" class="arrow-line"/>
-          <line x1="245" y1="220" x2="245" y2="200" class="arrow-line"/>
-          <line x1="395" y1="220" x2="395" y2="200" class="arrow-line"/>
-          <line x1="545" y1="220" x2="545" y2="200" class="arrow-line"/>
-
-          <!-- Horizontal flow -->
-          <line x1="150" y1="265" x2="190" y2="265" class="arrow-line" marker-end="url(#arrow-right)"/>
-          <line x1="300" y1="265" x2="340" y2="265" class="arrow-line" marker-end="url(#arrow-right)"/>
-          <line x1="450" y1="265" x2="490" y2="265" class="arrow-line" marker-end="url(#arrow-right)"/>
-
-          <!-- Output flow -->
-          <line x1="545" y1="310" x2="545" y2="360" class="arrow-line" marker-end="url(#arrow-right)"/>
+          <!-- Output flow to Row 3 -->
+          <g class="link" data-link="regulation-output">
+            <line x1="545" y1="310" x2="545" y2="360" stroke="#5b6478" stroke-width="3"/>
+            <line class="trail" x1="545" y1="310" x2="545" y2="360" stroke="#C084FC" stroke-width="3" filter="url(#lineGlow)"/>
+            <circle class="particle" cx="545" cy="335" r="3" fill="#C084FC"/>
+          </g>
 
           <!-- ROW 3: Output Devices -->
           <g class="hotspot" data-component="turbines" tabindex="0" role="button">
-            <circle cx="150" cy="410" r="40" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-shape" cx="150" cy="410" r="40" fill="url(#grad-control)" stroke="#4ade80" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="150" cy="410" r="40" fill="none" stroke="#4ade80" stroke-width="3"/>
             <text x="150" y="405" text-anchor="middle" class="text-ar" font-size="11">التوربينات</text>
             <text x="150" y="425" text-anchor="middle" class="text-en" font-size="9">Turbines</text>
-            <circle class="particle" cx="150" cy="360" r="2.5"/>
           </g>
 
           <g class="hotspot" data-component="motors" tabindex="0" role="button">
-            <circle cx="310" cy="410" r="40" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-shape" cx="310" cy="410" r="40" fill="url(#grad-storage)" stroke="#22d3ee" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="310" cy="410" r="40" fill="none" stroke="#22d3ee" stroke-width="3"/>
             <text x="310" y="405" text-anchor="middle" class="text-ar" font-size="11">المحركات</text>
             <text x="310" y="425" text-anchor="middle" class="text-en" font-size="9">Motors</text>
-            <circle class="particle" cx="310" cy="360" r="2.5"/>
           </g>
 
           <g class="hotspot" data-component="chair" tabindex="0" role="button">
-            <circle cx="470" cy="410" r="40" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-shape" cx="470" cy="410" r="40" fill="url(#grad-distribution)" stroke="#c084fc" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="470" cy="410" r="40" fill="none" stroke="#c084fc" stroke-width="3"/>
             <text x="470" y="405" text-anchor="middle" class="text-ar" font-size="11">نظام الكرسي</text>
             <text x="470" y="425" text-anchor="middle" class="text-en" font-size="9">Chair</text>
-            <circle class="particle" cx="470" cy="360" r="2.5"/>
           </g>
 
           <g class="hotspot" data-component="suction" tabindex="0" role="button">
-            <circle cx="630" cy="410" r="40" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-shape" cx="630" cy="410" r="40" fill="url(#grad-power)" stroke="#fbbf24" stroke-width="2" filter="url(#elevate)"/>
+            <circle class="box-active-glow" cx="630" cy="410" r="40" fill="none" stroke="#fbbf24" stroke-width="3"/>
             <text x="630" y="405" text-anchor="middle" class="text-ar" font-size="11">الشفط</text>
             <text x="630" y="425" text-anchor="middle" class="text-en" font-size="9">Suction</text>
-            <circle class="particle" cx="630" cy="360" r="2.5"/>
           </g>
 
           <!-- Legend -->
