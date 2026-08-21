@@ -1,4 +1,5 @@
 ---
+import '../../styles/diagram-simulator.css';
 import type { Props as AstroProps } from 'astro';
 
 interface ComponentInfo {
@@ -47,39 +48,15 @@ const { lang = 'ar' } = Astro.props;
 const isRTL = lang === 'ar';
 ---
 
-<div class={`interactive-diagram-container ${isRTL ? 'rtl' : 'ltr'}`} data-diagram="handpieces-comparison">
-  <div class="diagram-wrapper">
-    <!-- Status Panel -->
-    <div class="status-panel">
-      <div class="status-header">
-        {lang === 'ar' ? 'حالة النظام' : 'System Status'}
-      </div>
-
-      <div class="status-indicators">
-        <div class="indicator rotation-status">
-          <span class="indicator-label">{lang === 'ar' ? 'الدوران' : 'Rotation'}</span>
-          <span class="indicator-value" id="rotation-status">متوقف</span>
-        </div>
-
-        <div class="indicator cooling-status">
-          <span class="indicator-label">{lang === 'ar' ? 'التبريد' : 'Cooling'}</span>
-          <span class="indicator-value" id="cooling-status">غير نشط</span>
-        </div>
-
-        <div class="indicator power-status">
-          <span class="indicator-label">{lang === 'ar' ? 'الطاقة' : 'Power'}</span>
-          <span class="indicator-value" id="power-status">إيقاف</span>
-        </div>
-
-        <div class="indicator speed-status">
-          <span class="indicator-label">{lang === 'ar' ? 'السرعة' : 'Speed'}</span>
-          <span class="indicator-value" id="speed-status">0 RPM</span>
-        </div>
-      </div>
+<figure class="diagram-block neo-surface-soft">
+  <div class="simulator-shell" data-diagram="handpieces-comparison">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">{lang === 'ar' ? 'أدوات الحفر' : 'Handpieces Comparison'}</span>
+      <span class="simulator-subtitle">{lang === 'ar' ? 'شكل 14-7 و 15-7' : 'Figures 7-14 & 7-15'}</span>
     </div>
 
-    <!-- Diagram Main Area -->
-    <div class="diagram-main">
+    <div class="simulator-main">
+      <div class="diagram-block-image">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" class="diagram-svg">
         <defs>
           <style>
@@ -245,169 +222,65 @@ const isRTL = lang === 'ar';
           <text x="490" y="434" text-anchor="middle" class="label" font-size="8">متوسطة</text>
         </g>
       </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">{lang === 'ar' ? 'حالة النظام' : 'System Status'}</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="rotation"><span class="status-dot dot-blue"></span><span class="status-label">{lang === 'ar' ? 'الدوران' : 'Rotation'}</span><span class="status-value"><span class="value-off">{lang === 'ar' ? 'متوقف' : 'Stopped'}</span><span class="value-on">{lang === 'ar' ? 'يدور' : 'Rotating'}</span></span></li>
+          <li class="status-row" data-status="cooling"><span class="status-dot dot-cyan"></span><span class="status-label">{lang === 'ar' ? 'التبريد' : 'Cooling'}</span><span class="status-value"><span class="value-off">{lang === 'ar' ? 'غير نشط' : 'Inactive'}</span><span class="value-on">{lang === 'ar' ? 'نشط' : 'Active'}</span></span></li>
+          <li class="status-row" data-status="power"><span class="status-dot dot-orange"></span><span class="status-label">{lang === 'ar' ? 'الطاقة' : 'Power'}</span><span class="status-value"><span class="value-off">{lang === 'ar' ? 'إيقاف' : 'Off'}</span><span class="value-on">{lang === 'ar' ? 'تشغيل' : 'On'}</span></span></li>
+          <li class="status-row" data-status="speed"><span class="status-dot dot-blue2"></span><span class="status-label">{lang === 'ar' ? 'السرعة' : 'Speed'}</span><span class="status-value"><span class="value-off">0 RPM</span><span class="value-on" id="speed-display">40,000 RPM</span></span></li>
+        </ul>
+      </aside>
     </div>
 
-    <!-- Info Panel -->
-    <div class="info-panel">
-      <div class="info-header">
-        {lang === 'ar' ? 'معلومات' : 'Information'}
-      </div>
-
-      <div class="info-content">
-        <div id="info-text" class="info-text">
-          {lang === 'ar' ? 'انقر على أي جزء من الرسم البياني للحصول على معلومات مفصلة' : 'Click on any part of the diagram to get detailed information'}
-        </div>
-      </div>
-
-      <div class="control-buttons">
-        <button id="play-btn" class="control-btn" aria-label="Play simulation">
-          <span class="btn-icon">▶</span>
-          <span class="btn-label">{lang === 'ar' ? 'تشغيل' : 'Play'}</span>
-        </button>
-
-        <button id="pause-btn" class="control-btn" aria-label="Pause simulation">
-          <span class="btn-icon">⏸</span>
-          <span class="btn-label">{lang === 'ar' ? 'إيقاف' : 'Pause'}</span>
-        </button>
-
-        <button id="reset-btn" class="control-btn" aria-label="Reset simulation">
-          <span class="btn-icon">↻</span>
-          <span class="btn-label">{lang === 'ar' ? 'إعادة تعيين' : 'Reset'}</span>
-        </button>
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>{lang === 'ar' ? 'انقر على أي جزء من الرسم البياني للحصول على معلومات مفصلة' : 'Click on any part of the diagram to get detailed information'}</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
       </div>
     </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>{lang === 'ar' ? 'مصدر الطاقة' : 'Power Supply'}</li>
+      <li class="legend-item"><span class="legend-swatch legend-cyan"></span>{lang === 'ar' ? 'التبريد' : 'Cooling'}</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>{lang === 'ar' ? 'الدوران' : 'Rotation'}</li>
+    </ul>
   </div>
-</div>
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button" id="play-btn" aria-label="Play simulation">▶ {lang === 'ar' ? 'تشغيل' : 'Play'}</button>
+    <button type="button" class="diagram-replay-button pause-button" id="pause-btn" aria-label="Pause simulation" disabled>⏸ {lang === 'ar' ? 'إيقاف' : 'Pause'}</button>
+    <button type="button" class="diagram-replay-button reset-button" id="reset-btn" aria-label="Reset simulation">↻ {lang === 'ar' ? 'إعادة تعيين' : 'Reset'}</button>
+  </div>
+</figure>
 
 <style>
-  .interactive-diagram-container {
-    width: 100%;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* Status dot color variants */
+  .status-dot.dot-orange {
+    background: #FB923C;
   }
 
-  .interactive-diagram-container.rtl {
-    direction: rtl;
+  .status-dot.dot-cyan {
+    background: #7eb3cc;
   }
 
-  .interactive-diagram-container.ltr {
-    direction: ltr;
+  .status-dot.dot-blue {
+    background: #38BDF8;
   }
 
-  .diagram-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 1.5rem;
-    background: linear-gradient(135deg, rgba(26, 35, 45, 0.8) 0%, rgba(42, 63, 77, 0.8) 100%);
-    border-radius: 12px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(74, 101, 120, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  .status-dot.dot-blue2 {
+    background: #a5c9e0;
   }
 
-  @media (max-width: 1024px) {
-    .diagram-wrapper {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1.5rem;
-    }
+  /* Legend color variants */
+  .legend-cyan {
+    background: #7eb3cc;
   }
 
-  @media (max-width: 768px) {
-    .diagram-wrapper {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1rem;
-    }
-
-    .interactive-diagram-container {
-      padding: 0.5rem;
-      margin: 1rem auto;
-    }
-  }
-
-  /* Status Panel */
-  .status-panel {
-    background: rgba(42, 63, 77, 0.5);
-    border: 1px solid rgba(90, 122, 143, 0.4);
-    border-radius: 8px;
-    padding: 1.5rem 1rem;
-    backdrop-filter: blur(8px);
-  }
-
-  .status-header {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #e8eef2;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(184, 197, 209, 0.2);
-  }
-
-  .status-indicators {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .indicator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem;
-    background: rgba(26, 35, 45, 0.5);
-    border-radius: 6px;
-    border-left: 3px solid #7eb3cc;
-  }
-
-  .indicator.power-status {
-    border-left-color: #d4854f;
-  }
-
-  .indicator.cooling-status {
-    border-left-color: #7eb3cc;
-  }
-
-  .indicator.speed-status {
-    border-left-color: #a5c9e0;
-  }
-
-  .indicator-label {
-    font-size: 0.85rem;
-    color: #b8c5d1;
-    font-weight: 500;
-  }
-
-  .indicator-value {
-    font-size: 0.9rem;
-    color: #7eb3cc;
-    font-weight: 600;
-  }
-
-  .indicator.power-status .indicator-value {
-    color: #d4854f;
-  }
-
-  /* Diagram Main Area */
-  .diagram-main {
-    background: rgba(26, 35, 45, 0.3);
-    border: 1px solid rgba(90, 122, 143, 0.3);
-    border-radius: 8px;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 500px;
-  }
-
-  .diagram-svg {
-    width: 100%;
-    height: auto;
-    max-width: 600px;
-  }
-
+  /* Hotspot styling */
   .hotspot {
     cursor: pointer;
     transition: filter 0.2s ease;
@@ -417,118 +290,14 @@ const isRTL = lang === 'ar';
     filter: brightness(1.15);
   }
 
-  .hotspot:focus {
+  .hotspot:focus-visible {
     outline: 2px solid #7eb3cc;
     outline-offset: 2px;
-    border-radius: 4px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hotspot {
       transition: none;
-    }
-  }
-
-  /* Info Panel */
-  .info-panel {
-    background: rgba(42, 63, 77, 0.5);
-    border: 1px solid rgba(90, 122, 143, 0.4);
-    border-radius: 8px;
-    padding: 1.5rem 1rem;
-    backdrop-filter: blur(8px);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .info-header {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #e8eef2;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(184, 197, 209, 0.2);
-  }
-
-  .info-content {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 1.5rem;
-    max-height: 280px;
-  }
-
-  .info-text {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #b8c5d1;
-    word-wrap: break-word;
-  }
-
-  .control-buttons {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
-  .control-btn {
-    flex: 1;
-    min-width: 70px;
-    padding: 0.75rem 0.5rem;
-    background: linear-gradient(135deg, rgba(126, 179, 204, 0.2) 0%, rgba(126, 179, 204, 0.1) 100%);
-    border: 1px solid rgba(126, 179, 204, 0.4);
-    border-radius: 6px;
-    color: #7eb3cc;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-  }
-
-  .control-btn:hover {
-    background: linear-gradient(135deg, rgba(126, 179, 204, 0.3) 0%, rgba(126, 179, 204, 0.2) 100%);
-    border-color: rgba(126, 179, 204, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .control-btn:active {
-    transform: translateY(0);
-  }
-
-  .btn-icon {
-    font-size: 1.1rem;
-  }
-
-  .btn-label {
-    font-size: 0.75rem;
-  }
-
-  @media (max-width: 768px) {
-    .status-panel,
-    .info-panel {
-      padding: 1rem;
-    }
-
-    .diagram-main {
-      min-height: 400px;
-      padding: 0.75rem;
-    }
-
-    .info-content {
-      max-height: 200px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .control-btn {
-      transition: none;
-    }
-
-    .control-btn:hover {
-      transform: none;
     }
   }
 </style>
@@ -539,19 +308,23 @@ const isRTL = lang === 'ar';
   const container = document.querySelector('[data-diagram="handpieces-comparison"]');
 
   const hotspots = container.querySelectorAll('.hotspot');
-  const infoText = container.querySelector('#info-text');
-  const playBtn = container.querySelector('#play-btn');
-  const pauseBtn = container.querySelector('#pause-btn');
-  const resetBtn = container.querySelector('#reset-btn');
+  const infoPanel = container.querySelector('[data-info-panel]');
+  const infoHint = infoPanel.querySelector('[data-info-hint]');
+  const infoContent = infoPanel.querySelector('[data-info-content]');
+  const infoTitle = infoContent.querySelector('[data-info-title]');
+  const infoText = infoContent.querySelector('[data-info-text]');
 
-  const rotationStatus = container.querySelector('#rotation-status');
-  const coolingStatus = container.querySelector('#cooling-status');
-  const powerStatus = container.querySelector('#power-status');
-  const speedStatus = container.querySelector('#speed-status');
+  const playBtn = container.closest('figure').querySelector('.play-button');
+  const pauseBtn = container.closest('figure').querySelector('.pause-button');
+  const resetBtn = container.closest('figure').querySelector('.reset-button');
 
-  const defaultText = lang === 'ar'
-    ? 'انقر على أي جزء من الرسم البياني للحصول على معلومات مفصلة'
-    : 'Click on any part of the diagram to get detailed information';
+  // Status row references
+  const statusRows = {
+    rotation: container.querySelector('[data-status="rotation"] .status-value'),
+    cooling: container.querySelector('[data-status="cooling"] .status-value'),
+    power: container.querySelector('[data-status="power"] .status-value'),
+    speed: container.querySelector('[data-status="speed"] .status-value'),
+  };
 
   // Handpiece speed mapping
   const speedMap = {
@@ -566,12 +339,26 @@ const isRTL = lang === 'ar';
     'straight-handpiece': lang === 'ar' ? 'هواء فقط' : 'Air Only'
   };
 
+  // Helper to set status row visibility
+  function setStatusRow(statusKey, isActive) {
+    const statusValue = statusRows[statusKey];
+    if (statusValue) {
+      const offSpan = statusValue.querySelector('.value-off');
+      const onSpan = statusValue.querySelector('.value-on');
+      if (offSpan) offSpan.style.opacity = isActive ? '0' : '1';
+      if (onSpan) onSpan.style.opacity = isActive ? '1' : '0';
+    }
+  }
+
   // Hotspot click handler
   hotspots.forEach(hotspot => {
     hotspot.addEventListener('click', (e) => {
       const component = hotspot.getAttribute('data-component');
       const info = componentInfo[component];
       if (info) {
+        infoHint.hidden = true;
+        infoContent.hidden = false;
+        infoTitle.textContent = component.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         infoText.textContent = info[lang] || info.en;
       }
       updateStatusDisplay(component);
@@ -589,62 +376,45 @@ const isRTL = lang === 'ar';
   // Play button handler
   playBtn.addEventListener('click', () => {
     isPlaying = true;
-    rotationStatus.textContent = lang === 'ar' ? 'يدور' : 'Rotating';
-    rotationStatus.style.color = '#7eb3cc';
-    coolingStatus.textContent = lang === 'ar' ? 'نشط' : 'Active';
-    coolingStatus.style.color = '#7eb3cc';
-    powerStatus.textContent = lang === 'ar' ? 'تشغيل' : 'On';
-    powerStatus.style.color = '#d4854f';
-    speedStatus.textContent = '40,000 RPM';
-    speedStatus.style.color = '#a5c9e0';
+    setStatusRow('rotation', true);
+    setStatusRow('cooling', true);
+    setStatusRow('power', true);
+    setStatusRow('speed', true);
   });
 
   // Pause button handler
   pauseBtn.addEventListener('click', () => {
     isPlaying = false;
-    rotationStatus.textContent = lang === 'ar' ? 'متوقف' : 'Stopped';
-    rotationStatus.style.color = '#7eb3cc';
-    coolingStatus.textContent = lang === 'ar' ? 'غير نشط' : 'Inactive';
-    coolingStatus.style.color = '#b8c5d1';
-    powerStatus.textContent = lang === 'ar' ? 'إيقاف' : 'Off';
-    powerStatus.style.color = '#b8c5d1';
-    speedStatus.textContent = '0 RPM';
-    speedStatus.style.color = '#b8c5d1';
+    setStatusRow('rotation', false);
+    setStatusRow('cooling', false);
+    setStatusRow('power', false);
+    setStatusRow('speed', false);
   });
 
   // Reset button handler
   resetBtn.addEventListener('click', () => {
     isPlaying = false;
-    infoText.textContent = defaultText;
-    rotationStatus.textContent = lang === 'ar' ? 'متوقف' : 'Stopped';
-    rotationStatus.style.color = '#7eb3cc';
-    coolingStatus.textContent = lang === 'ar' ? 'غير نشط' : 'Inactive';
-    coolingStatus.style.color = '#b8c5d1';
-    powerStatus.textContent = lang === 'ar' ? 'إيقاف' : 'Off';
-    powerStatus.style.color = '#b8c5d1';
-    speedStatus.textContent = '0 RPM';
-    speedStatus.style.color = '#b8c5d1';
+    infoHint.hidden = false;
+    infoContent.hidden = true;
+    setStatusRow('rotation', false);
+    setStatusRow('cooling', false);
+    setStatusRow('power', false);
+    setStatusRow('speed', false);
   });
 
   // Update status display based on selected component
   function updateStatusDisplay(component) {
     if (component === 'turbine' || component === 'slow-motor' || component === 'straight-handpiece') {
-      rotationStatus.textContent = lang === 'ar' ? 'يدور' : 'Rotating';
-      rotationStatus.style.color = '#7eb3cc';
-      coolingStatus.textContent = coolingMap[component];
-      coolingStatus.style.color = '#7eb3cc';
-      speedStatus.textContent = speedMap[component] + ' RPM';
-      speedStatus.style.color = '#a5c9e0';
+      setStatusRow('rotation', true);
+      setStatusRow('cooling', true);
+      setStatusRow('speed', true);
       if (isPlaying) {
-        powerStatus.textContent = lang === 'ar' ? 'تشغيل' : 'On';
-        powerStatus.style.color = '#d4854f';
+        setStatusRow('power', true);
       }
     } else if (component === 'power-supply') {
-      powerStatus.textContent = lang === 'ar' ? 'متصل' : 'Connected';
-      powerStatus.style.color = '#d4854f';
+      setStatusRow('power', true);
     } else if (component === 'water-cooling') {
-      coolingStatus.textContent = lang === 'ar' ? 'نشط' : 'Active';
-      coolingStatus.style.color = '#7eb3cc';
+      setStatusRow('cooling', true);
     }
   }
 

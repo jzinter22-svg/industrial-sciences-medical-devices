@@ -334,11 +334,19 @@ const statusStates: Record<string, { ar: string; color: string }> = {
       </div>
     </div>
 
+    <!-- Legend Panel -->
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الطاقة الكهربائية</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الهواء المضغوط</li>
+      <li class="legend-item"><span class="legend-swatch" style="background: #22d3ee;"></span>الماء</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الحركة</li>
+    </ul>
+
     <!-- Controls -->
-    <div class="simulator-controls">
-      <button id="btn-play" class="control-btn" aria-label="تشغيل المحاكاة">▶</button>
-      <button id="btn-pause" class="control-btn" aria-label="إيقاف المحاكاة" style="display: none;">⏸</button>
-      <button id="btn-reset" class="control-btn" aria-label="إعادة تعيين المحاكاة">⟲</button>
+    <div class="diagram-controls">
+      <button id="btn-play" class="diagram-replay-button play-button" aria-label="تشغيل المحاكاة">▶ تشغيل</button>
+      <button id="btn-pause" class="diagram-replay-button pause-button" aria-label="إيقاف المحاكاة" style="display: none;">⏸ إيقاف</button>
+      <button id="btn-reset" class="diagram-replay-button reset-button" aria-label="إعادة تعيين المحاكاة">⟲ إعادة تعيين</button>
     </div>
 
     {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
