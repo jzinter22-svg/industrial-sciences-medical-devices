@@ -86,11 +86,14 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
       <!-- Main Diagram Area -->
       <div class="diagram-main">
         <svg
+          id="chair-diagram-svg"
           class="chair-diagram-svg"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 600 500"
           role="img"
           aria-label="نظام كرسي الأسنان الهيدروليكي"
+          data-animation-state="idle"
+          style="--animation-speed: 1;"
         >
           <defs>
             <style>
@@ -118,10 +121,12 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
                 opacity: 0;
               }
 
-              .chair-diagram-svg .trail { stroke-dasharray: 8 10; animation: flowDash 0.6s linear infinite; }
+              .chair-diagram-svg .trail { stroke-dasharray: 8 10; animation: flowDash calc(0.6s / var(--animation-speed)) linear infinite; animation-play-state: paused; }
+              .chair-diagram-svg[data-animation-state="running"] .trail { animation-play-state: running; }
               @keyframes flowDash { to { stroke-dashoffset: 18; } }
 
-              .chair-diagram-svg .particle { animation: particleFloat 2s ease-in-out infinite; }
+              .chair-diagram-svg .particle { animation: particleFloat calc(2s / var(--animation-speed)) ease-in-out infinite; animation-play-state: paused; }
+              .chair-diagram-svg[data-animation-state="running"] .particle { animation-play-state: running; }
               @keyframes particleFloat { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
               @media (prefers-reduced-motion: reduce) {
@@ -546,7 +551,37 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
     },
   };
 
-  let isAnimating = false;
+  let animationState = "idle";
+  let animationSpeed = 1;
+
+  const svgElement = document.getElementById("chair-diagram-svg");
+  const playBtn = document.getElementById("btn-play");
+  const pauseBtn = document.getElementById("btn-pause");
+
+  function updateAnimationState(newState) {
+    animationState = newState;
+    if (svgElement) {
+      svgElement.setAttribute("data-animation-state", newState);
+    }
+
+    // Update button visibility
+    if (playBtn && pauseBtn) {
+      if (newState === "running") {
+        playBtn.style.display = "none";
+        pauseBtn.style.display = "inline-block";
+      } else {
+        playBtn.style.display = "inline-block";
+        pauseBtn.style.display = "none";
+      }
+    }
+  }
+
+  function setAnimationSpeed(speed) {
+    animationSpeed = Math.max(0.25, Math.min(3, speed));
+    if (svgElement) {
+      svgElement.style.setProperty("--animation-speed", animationSpeed);
+    }
+  }
 
   document.querySelectorAll(".hotspot").forEach((hotspot) => {
     hotspot.addEventListener("click", () => {
@@ -575,38 +610,33 @@ const componentInfo: Record<string, { ar: string; en: string; description: strin
     });
   });
 
-  document.getElementById("btn-play")?.addEventListener("click", () => {
-    isAnimating = true;
-    const playBtn = document.getElementById("btn-play");
-    const pauseBtn = document.getElementById("btn-pause");
-    if (playBtn && pauseBtn) {
-      playBtn.style.display = "none";
-      pauseBtn.style.display = "inline-block";
-    }
+  playBtn?.addEventListener("click", () => {
+    updateAnimationState("running");
   });
 
-  document.getElementById("btn-pause")?.addEventListener("click", () => {
-    isAnimating = false;
-    const playBtn = document.getElementById("btn-play");
-    const pauseBtn = document.getElementById("btn-pause");
-    if (playBtn && pauseBtn) {
-      playBtn.style.display = "inline-block";
-      pauseBtn.style.display = "none";
-    }
+  pauseBtn?.addEventListener("click", () => {
+    updateAnimationState("paused");
   });
 
   document.getElementById("btn-reset")?.addEventListener("click", () => {
-    isAnimating = false;
-    const playBtn = document.getElementById("btn-play");
-    const pauseBtn = document.getElementById("btn-pause");
-    if (playBtn && pauseBtn) {
-      playBtn.style.display = "inline-block";
-      pauseBtn.style.display = "none";
+    updateAnimationState("idle");
+
+    // Reset animation by removing and re-adding to trigger restart
+    if (svgElement) {
+      svgElement.style.animation = "none";
+      setTimeout(() => {
+        svgElement.style.animation = "";
+      }, 10);
     }
+
+    // Clear selections
     document.querySelectorAll(".hotspot").forEach((h) => h.classList.remove("is-selected"));
     const content = document.getElementById("info-content");
     if (content) {
       content.innerHTML = '<p class="info-empty">انقر على أي مكون للحصول على معلومات تفصيلية</p>';
     }
   });
+
+  // Initialize animation speed
+  setAnimationSpeed(1);
 </script>

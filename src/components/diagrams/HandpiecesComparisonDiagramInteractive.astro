@@ -57,7 +57,7 @@ const isRTL = lang === 'ar';
 
     <div class="simulator-main">
       <div class="diagram-block-image">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" class="diagram-svg">
+      <svg id="handpieces-diagram-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" class="diagram-svg" data-animation-state="idle" style="--animation-speed: 1;">
         <defs>
           <style>
             .dark-box { fill: #2a3f4d; stroke: #4a6578; stroke-width: 2; }
@@ -88,10 +88,12 @@ const isRTL = lang === 'ar';
               opacity: 0;
             }
 
-            .trail { stroke-dasharray: 8 10; animation: flowDash 0.6s linear infinite; }
+            .trail { stroke-dasharray: 8 10; animation: flowDash calc(0.6s / var(--animation-speed)) linear infinite; animation-play-state: paused; }
+            #handpieces-diagram-svg[data-animation-state="running"] .trail { animation-play-state: running; }
             @keyframes flowDash { to { stroke-dashoffset: 18; } }
 
-            .particle { animation: particleFloat 2s ease-in-out infinite; }
+            .particle { animation: particleFloat calc(2s / var(--animation-speed)) ease-in-out infinite; animation-play-state: paused; }
+            #handpieces-diagram-svg[data-animation-state="running"] .particle { animation-play-state: running; }
             @keyframes particleFloat { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
             @media (prefers-reduced-motion: reduce) {
@@ -389,6 +391,7 @@ const isRTL = lang === 'ar';
 <script define:vars={{ componentInfo, lang }}>
   const isRTL = lang === 'ar';
   let isPlaying = false;
+  let animationState = "idle";
   const container = document.querySelector('[data-diagram="handpieces-comparison"]');
 
   const hotspots = container.querySelectorAll('.hotspot');
@@ -401,6 +404,14 @@ const isRTL = lang === 'ar';
   const playBtn = container.closest('figure').querySelector('.play-button');
   const pauseBtn = container.closest('figure').querySelector('.pause-button');
   const resetBtn = container.closest('figure').querySelector('.reset-button');
+  const svgElement = document.getElementById('handpieces-diagram-svg');
+
+  function updateAnimationState(newState) {
+    animationState = newState;
+    if (svgElement) {
+      svgElement.setAttribute("data-animation-state", newState);
+    }
+  }
 
   // Status row references
   const statusRows = {
@@ -463,6 +474,7 @@ const isRTL = lang === 'ar';
   // Play button handler
   playBtn.addEventListener('click', () => {
     isPlaying = true;
+    updateAnimationState("running");
     setStatusRow('rotation', true);
     setStatusRow('cooling', true);
     setStatusRow('power', true);
@@ -472,6 +484,7 @@ const isRTL = lang === 'ar';
   // Pause button handler
   pauseBtn.addEventListener('click', () => {
     isPlaying = false;
+    updateAnimationState("paused");
     setStatusRow('rotation', false);
     setStatusRow('cooling', false);
     setStatusRow('power', false);
@@ -481,6 +494,16 @@ const isRTL = lang === 'ar';
   // Reset button handler
   resetBtn.addEventListener('click', () => {
     isPlaying = false;
+    updateAnimationState("idle");
+
+    // Reset animation by removing and re-adding to trigger restart
+    if (svgElement) {
+      svgElement.style.animation = "none";
+      setTimeout(() => {
+        svgElement.style.animation = "";
+      }, 10);
+    }
+
     infoHint.hidden = false;
     infoContent.hidden = true;
     hotspots.forEach((h) => h.classList.remove('is-selected'));
