@@ -1,0 +1,283 @@
+---
+// Figure 9-7 (صمام التحكم الدقيق — الصمام الإبري / Needle Valve). Gas
+// enters from the gas source (right, as in the source figure), its rate
+// throttled by a knob-driven needle riding in a seat, then passes a filter
+// before rising into a tapered glass tube where a float rides at a height
+// proportional to the flow rate — literally the mechanism the next figure
+// (Rotameter, 9-8) reads.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft needle-valve-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة صمام التحكم الدقيق (الصمام الإبري)</span>
+      <span class="simulator-subtitle">شكل 9-7 — من مصدر الغاز إلى الأنبوبة المخروطية والعوامة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="nv7-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="صمام التحكم الدقيق (الصمام الإبري)"
+        >
+          <defs>
+            <marker id="nv7-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="nv7BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="nv7Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="nv7GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="nv7GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="nv7GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="nv7GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="nv7GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+
+            <filter id="nv7Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="nv7Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#nv7BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#nv7Grid)"></rect>
+
+          <text x="450" y="28" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">مسار الغاز عبر الصمام الإبري</text>
+
+          <!-- gas source, decorative (not a hotspot) -->
+          <path d="M 880,215 L 795,215" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#nv7-arrow)"></path>
+          <text x="850" y="196" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#dbe0ec" direction="rtl">مصدر الغاز</text>
+
+          <!-- control knob -->
+          <g class="hotspot" data-component="control-knob" tabindex="0" role="button" aria-label="مقبض التحكم">
+            <rect class="box-shape" x="670" y="170" width="110" height="90" rx="10" fill="url(#nv7GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#nv7Elevate)"></rect>
+            <circle cx="725" cy="205" r="15" fill="none" stroke="#FBBF24" stroke-width="1.8"></circle>
+            <line x1="725" y1="205" x2="725" y2="190" stroke="#FBBF24" stroke-width="1.8"></line>
+            <text x="725" y="245" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">مقبض التحكم</text>
+          </g>
+
+          <g class="link" data-link="control-knob" data-link-to="needle">
+            <line id="nv7-wire-1" x1="670" y1="215" x2="630" y2="215" stroke="#5b6478" stroke-width="2.5" marker-end="url(#nv7-arrow)"></line>
+            <line class="trail" x1="670" y1="215" x2="632" y2="215" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FBBF24" filter="url(#nv7Glow)" style="offset-path: url(#nv7-wire-1); --flow-delay:0.4s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- needle -->
+          <g class="hotspot" data-component="needle" tabindex="0" role="button" aria-label="إبرة">
+            <rect class="box-shape" x="510" y="170" width="110" height="90" rx="10" fill="url(#nv7GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#nv7Elevate)"></rect>
+            <path d="M 605,190 L 575,213 L 605,236" fill="none" stroke="#FB923C" stroke-width="1.8"></path>
+            <path d="M 535,213 L 575,213" fill="none" stroke="#FB923C" stroke-width="1.6" stroke-dasharray="2 3"></path>
+            <text x="565" y="250" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">إبرة</text>
+          </g>
+
+          <g class="link" data-link="needle" data-link-to="filter">
+            <line id="nv7-wire-2" x1="510" y1="215" x2="470" y2="215" stroke="#5b6478" stroke-width="2.5" marker-end="url(#nv7-arrow)"></line>
+            <line class="trail" x1="510" y1="215" x2="472" y2="215" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FB923C" filter="url(#nv7Glow)" style="offset-path: url(#nv7-wire-2); --flow-delay:1.0s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- filter -->
+          <g class="hotspot" data-component="filter" tabindex="0" role="button" aria-label="مرشح (فلتر)">
+            <rect class="box-shape" x="350" y="170" width="110" height="90" rx="10" fill="url(#nv7GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#nv7Elevate)"></rect>
+            <path d="M 375,195 L 435,195 M 375,205 L 435,205 M 375,215 L 435,215 M 375,225 L 435,225 M 375,235 L 435,235" stroke="#C084FC" stroke-width="1.3"></path>
+            <text x="405" y="252" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">مرشح (فلتر)</text>
+          </g>
+
+          <g class="link" data-link="filter" data-link-to="conical-tube">
+            <path id="nv7-wire-3" d="M 350,215 L 280,215 L 280,345 L 245,345" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#nv7-arrow)"></path>
+            <path class="trail" d="M 350,215 L 280,215 L 280,345 L 248,345" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.4" fill="#C084FC" filter="url(#nv7Glow)" style="offset-path: url(#nv7-wire-3); --flow-delay:1.6s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <!-- conical tube -->
+          <g class="hotspot" data-component="conical-tube" tabindex="0" role="button" aria-label="أنبوبة مخروطية">
+            <rect x="140" y="50" width="170" height="300" fill="transparent"></rect>
+            <path class="box-shape" d="M 205,350 L 155,60 L 295,60 L 245,350 Z" fill="url(#nv7GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#nv7Elevate)"></path>
+            <path d="M 175,300 L 275,300 M 180,260 L 270,260 M 185,220 L 265,220 M 188,180 L 262,180 M 191,140 L 259,140 M 194,100 L 256,100" stroke="rgba(56,189,248,0.4)" stroke-width="1"></path>
+            <text x="225" y="385" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">أنبوبة مخروطية</text>
+          </g>
+
+          <g class="link" data-link="conical-tube" data-link-to="float">
+            <line id="nv7-wire-4" x1="225" y1="340" x2="225" y2="230" stroke="none"></line>
+            <circle class="current-particle" r="3" fill="#38BDF8" filter="url(#nv7Glow)" style="offset-path: url(#nv7-wire-4); --flow-delay:2.2s; --flow-duration:0.6s;"></circle>
+          </g>
+
+          <!-- float -->
+          <g class="hotspot" data-component="float" tabindex="0" role="button" aria-label="عوامة">
+            <ellipse class="box-shape" cx="225" cy="205" rx="20" ry="13" fill="url(#nv7GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#nv7Elevate)"></ellipse>
+            <path d="M 210,205 L 240,205 M 215,199 L 235,211 M 235,199 L 215,211" stroke="#4ADE80" stroke-width="1.2"></path>
+          </g>
+          <text x="225" y="165" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#4ADE80" direction="rtl">عوامة</text>
+
+          <text x="450" y="400" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#dbe0ec" direction="rtl">فتح المقبض يسحب الإبرة فيتسع المجرى ويزداد السريان، فترتفع العوامة إلى مستوى يتناسب مع معدل التدفق</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الصمام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="control-knob"><span class="status-dot dot-yellow"></span><span class="status-label">مقبض التحكم</span><span class="status-value"><span class="value-off">ثابت</span><span class="value-on">يُدار</span></span></li>
+          <li class="status-row" data-status="needle"><span class="status-dot dot-orange"></span><span class="status-label">إبرة</span><span class="status-value"><span class="value-off">مغلقة</span><span class="value-on">تضبط الفتحة</span></span></li>
+          <li class="status-row" data-status="filter"><span class="status-dot dot-purple"></span><span class="status-label">مرشح (فلتر)</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">ينقّي الغاز</span></span></li>
+          <li class="status-row" data-status="conical-tube"><span class="status-dot dot-blue"></span><span class="status-label">أنبوبة مخروطية</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يرتفع الغاز</span></span></li>
+          <li class="status-row" data-status="float"><span class="status-dot dot-green"></span><span class="status-label">عوامة</span><span class="status-value"><span class="value-off">في القاع</span><span class="value-on">ترتفع مع التدفق</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء من الصمام لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مقبض التحكم</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>إبرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مرشح</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>أنبوبة مخروطية</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>عوامة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#nv7Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#nv7Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#nv7Glow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes nv7-shape-activate { to { filter: url(#nv7Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes nv7-reveal-trail { to { opacity: 0.85; } }
+    @keyframes nv7-status-value-on { to { opacity: 1; } }
+    @keyframes nv7-status-value-off { to { opacity: 0; } }
+    @keyframes nv7-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes nv7-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes nv7-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes nv7-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes nv7-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="control-knob"] .box-shape { animation: nv7-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-knob"] .status-dot { animation: nv7-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-knob"] .value-on { animation: nv7-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="control-knob"] .value-off { animation: nv7-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="control-knob"] .trail { animation: nv7-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="needle"] .box-shape { animation: nv7-shape-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="needle"] .status-dot { animation: nv7-dot-on-orange 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="needle"] .value-on { animation: nv7-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="needle"] .value-off { animation: nv7-status-value-off 0.4s ease-out 0.7s forwards; }
+    .playing [data-link="needle"] .trail { animation: nv7-reveal-trail 0.3s ease-out 1.0s forwards; }
+
+    .playing [data-component="filter"] .box-shape { animation: nv7-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="filter"] .status-dot { animation: nv7-dot-on-purple 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="filter"] .value-on { animation: nv7-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="filter"] .value-off { animation: nv7-status-value-off 0.4s ease-out 1.3s forwards; }
+    .playing [data-link="filter"] .trail { animation: nv7-reveal-trail 0.3s ease-out 1.6s forwards; }
+
+    .playing [data-component="conical-tube"] .box-shape { animation: nv7-shape-activate 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="conical-tube"] .status-dot { animation: nv7-dot-on-blue 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="conical-tube"] .value-on { animation: nv7-status-value-on 0.4s ease-out 1.9s forwards; }
+    .playing [data-status="conical-tube"] .value-off { animation: nv7-status-value-off 0.4s ease-out 1.9s forwards; }
+
+    .playing [data-component="float"] .box-shape { animation: nv7-shape-activate 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="float"] .status-dot { animation: nv7-dot-on-green 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="float"] .value-on { animation: nv7-status-value-on 0.4s ease-out 2.5s forwards; }
+    .playing [data-status="float"] .value-off { animation: nv7-status-value-off 0.4s ease-out 2.5s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes nv7-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: nv7-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "control-knob": {
+      title: "مقبض التحكم",
+      text: "بإدارته تتحرك الإبرة المتصلة به، فيتغير اتساع المجرى الذي يمر عبره الغاز ويتحدد معدل تدفقه.",
+    },
+    needle: {
+      title: "إبرة (Needle)",
+      text: "صمام تحكم على هيئة إبرة تتصل بمقبض التحكم؛ كلما سُحبت للخلف اتسعت الفتحة حول الإبرة وزاد سريان الغاز.",
+    },
+    filter: {
+      title: "مرشح (فلتر)",
+      text: "يمر الغاز خلاله بعد اجتيازه الإبرة، لتنقيته من أي شوائب قبل دخوله إلى الأنبوبة المخروطية.",
+    },
+    "conical-tube": {
+      title: "أنبوبة مخروطية",
+      text: "أنبوبة زجاجية مخروطية متصلة بمقياس التدفق (الروتاميتر)، تحتوي على عوامة ترتفع بمقدار يتناسب مع الضغط ومعدل السريان.",
+    },
+    float: {
+      title: "عوامة (Float)",
+      text: "ترتفع إلى مستوى معين داخل الأنبوبة يتناسب مع الضغط: كلما زاد الضغط زاد ارتفاع العوامة، أي معدل سريان أعلى، وهو ما يقرأه مقياس التدفق (الروتاميتر).",
+    },
+  };
+
+  wireDiagramSimulator(".needle-valve-diagram", { cycleMs: 3000, componentInfo: COMPONENT_INFO });
+</script>

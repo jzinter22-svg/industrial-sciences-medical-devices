@@ -1,0 +1,311 @@
+---
+// Figure 9-4 (منظم الضغط أحادي المرحلة) — the internal mechanism of a
+// single-stage pressure regulator: gas enters from the cylinder, passes a
+// poppet valve (صمام قفاز) whose opening is set by a flexible diaphragm,
+// and the diaphragm itself is pre-loaded by a spring under the top control
+// screw. Raising downstream pressure pushes the diaphragm up, closing the
+// poppet valve further — a self-correcting mechanical feedback loop that
+// keeps outlet pressure constant even as the cylinder (external) pressure
+// drops over the tank's lifetime. Two gauges bracket the mechanism: one
+// reads the external (upstream/cylinder) pressure, the other the internal
+// (downstream/regulated) pressure.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft pressure-regulator-internal-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة منظم الضغط أحادي المرحلة</span>
+      <span class="simulator-subtitle">شكل 9-4 — الغشاء وصمام القفاز ومفتاح التحكم بالضغط</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pr4-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="منظم الضغط أحادي المرحلة"
+        >
+          <defs>
+            <marker id="pr4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="pr4BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pr4Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pr4GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="pr4GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="pr4GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="pr4GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="pr4GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+
+            <filter id="pr4Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pr4Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#pr4BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#pr4Grid)"></rect>
+
+          <text x="450" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">آلية منظم الضغط أحادي المرحلة</text>
+
+          <!-- control screw (top) -->
+          <g class="hotspot" data-component="control-screw" tabindex="0" role="button" aria-label="مفتاح التحكم بالضغط">
+            <rect class="box-shape" x="345" y="15" width="120" height="65" rx="10" fill="url(#pr4GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <line x1="405" y1="24" x2="405" y2="60" stroke="#FBBF24" stroke-width="2"></line>
+            <path d="M 396,30 L 414,30 M 396,38 L 414,38 M 396,46 L 414,46 M 396,54 L 414,54" stroke="#FBBF24" stroke-width="1.4"></path>
+            <text x="405" y="72" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">مفتاح التحكم بالضغط</text>
+          </g>
+
+          <g class="link" data-link="control-screw" data-link-to="diaphragm">
+            <line id="pr4-wire-1" x1="405" y1="80" x2="405" y2="95" stroke="#5b6478" stroke-width="2.2" marker-end="url(#pr4-arrow)"></line>
+            <line class="trail" x1="405" y1="80" x2="405" y2="93" stroke="#FBBF24" stroke-width="2.2" stroke-dasharray="4 6"></line>
+          </g>
+
+          <!-- diaphragm -->
+          <g class="hotspot" data-component="diaphragm" tabindex="0" role="button" aria-label="الغشاء">
+            <rect class="box-shape" x="345" y="95" width="120" height="65" rx="10" fill="url(#pr4GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <path d="M 358,128 Q 375,116 392,128 Q 409,140 422,128 Q 435,120 452,128" fill="none" stroke="#C084FC" stroke-width="1.8"></path>
+            <text x="405" y="150" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">الغشاء (Diaphragm)</text>
+          </g>
+
+          <g class="link" data-link="diaphragm" data-link-to="poppet-valve">
+            <line id="pr4-wire-2" x1="405" y1="160" x2="405" y2="195" stroke="#5b6478" stroke-width="2.2" marker-end="url(#pr4-arrow)"></line>
+            <line class="trail" x1="405" y1="160" x2="405" y2="193" stroke="#C084FC" stroke-width="2.2" stroke-dasharray="4 6"></line>
+          </g>
+
+          <!-- external gauge (top-left) -->
+          <g class="hotspot" data-component="external-gauge" tabindex="0" role="button" aria-label="القياس الخارجي">
+            <rect class="box-shape" x="30" y="60" width="120" height="90" rx="10" fill="url(#pr4GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <circle cx="90" cy="98" r="17" fill="none" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <line x1="90" y1="98" x2="99" y2="87" stroke="#38BDF8" stroke-width="1.8"></line>
+            <text x="90" y="135" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">القياس الخارجي</text>
+          </g>
+
+          <g class="link" data-link="external-gauge" data-link-to="gas-inlet">
+            <line id="pr4-wire-3" x1="90" y1="150" x2="90" y2="195" stroke="#5b6478" stroke-width="2.2" marker-end="url(#pr4-arrow)"></line>
+            <line class="trail" x1="90" y1="150" x2="90" y2="193" stroke="#38BDF8" stroke-width="2.2" stroke-dasharray="4 6"></line>
+          </g>
+
+          <!-- gas inlet (cylinder) -->
+          <g class="hotspot" data-component="gas-inlet" tabindex="0" role="button" aria-label="مصدر الغاز">
+            <rect class="box-shape" x="30" y="195" width="120" height="90" rx="10" fill="url(#pr4GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <rect x="75" y="180" width="26" height="18" rx="4" fill="none" stroke="#38BDF8" stroke-width="1.6"></rect>
+            <text x="90" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">مصدر الغاز</text>
+            <text x="90" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" fill="#9fd8f8" direction="ltr">Cylinder</text>
+          </g>
+
+          <g class="link" data-link="gas-inlet" data-link-to="poppet-valve">
+            <line id="pr4-wire-4" x1="150" y1="240" x2="345" y2="240" stroke="#5b6478" stroke-width="2.5" marker-end="url(#pr4-arrow)"></line>
+            <line class="trail" x1="150" y1="240" x2="343" y2="240" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#38BDF8" filter="url(#pr4Glow)" style="offset-path: url(#pr4-wire-4); --flow-delay:0.4s; --flow-duration:1.1s;"></circle>
+          </g>
+
+          <!-- poppet valve -->
+          <g class="hotspot" data-component="poppet-valve" tabindex="0" role="button" aria-label="صمام قفاز">
+            <rect class="box-shape" x="345" y="195" width="120" height="90" rx="10" fill="url(#pr4GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <path d="M 405,205 L 405,245 M 388,255 L 405,245 L 422,255" fill="none" stroke="#FB923C" stroke-width="1.8"></path>
+            <text x="405" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">صمام قفاز</text>
+            <text x="405" y="269" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" fill="#fcd9b6" direction="ltr">Poppet Valve</text>
+          </g>
+
+          <g class="link" data-link="poppet-valve" data-link-to="outlet-gauge">
+            <line id="pr4-wire-5" x1="465" y1="240" x2="650" y2="240" stroke="#5b6478" stroke-width="2.5" marker-end="url(#pr4-arrow)"></line>
+            <line class="trail" x1="465" y1="240" x2="648" y2="240" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FB923C" filter="url(#pr4Glow)" style="offset-path: url(#pr4-wire-5); --flow-delay:1.5s; --flow-duration:1.1s;"></circle>
+          </g>
+
+          <!-- outlet gauge -->
+          <g class="hotspot" data-component="outlet-gauge" tabindex="0" role="button" aria-label="مؤشر الضغط الداخل">
+            <rect class="box-shape" x="650" y="195" width="120" height="90" rx="10" fill="url(#pr4GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#pr4Elevate)"></rect>
+            <circle cx="710" cy="233" r="17" fill="none" stroke="#4ADE80" stroke-width="1.6"></circle>
+            <line x1="710" y1="233" x2="716" y2="221" stroke="#4ADE80" stroke-width="1.8"></line>
+            <text x="710" y="270" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">مؤشر الضغط الداخل</text>
+          </g>
+
+          <path d="M 770,240 L 830,240" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#pr4-arrow)"></path>
+          <text x="855" y="245" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#dbe0ec" direction="rtl">إلى الجهاز</text>
+
+          <text x="450" y="400" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#dbe0ec" direction="rtl">كلما زاد الضغط في الحجرة العلوية دفع الغشاء للأعلى فقلّ سريان الغاز؛ ولفّ المسمار العلوي يضبط قيمة الضغط الخارج من الصمام</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المنظم</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="gas-inlet"><span class="status-dot dot-blue"></span><span class="status-label">مصدر الغاز</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">ضغط مرتفع</span></span></li>
+          <li class="status-row" data-status="external-gauge"><span class="status-dot dot-blue"></span><span class="status-label">القياس الخارجي</span><span class="status-value"><span class="value-off">—</span><span class="value-on">يقرأ ضغط الأسطوانة</span></span></li>
+          <li class="status-row" data-status="poppet-valve"><span class="status-dot dot-orange"></span><span class="status-label">صمام قفاز</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">يضبط السريان</span></span></li>
+          <li class="status-row" data-status="diaphragm"><span class="status-dot dot-purple"></span><span class="status-label">الغشاء</span><span class="status-value"><span class="value-off">ثابت</span><span class="value-on">يتحرك مع الضغط</span></span></li>
+          <li class="status-row" data-status="control-screw"><span class="status-dot dot-yellow"></span><span class="status-label">مفتاح التحكم بالضغط</span><span class="status-value"><span class="value-off">—</span><span class="value-on">يضبط النابض</span></span></li>
+          <li class="status-row" data-status="outlet-gauge"><span class="status-dot dot-green"></span><span class="status-label">مؤشر الضغط الداخل</span><span class="status-value"><span class="value-off">—</span><span class="value-on">ضغط ثابت منظّم</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء من المنظم لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الغاز والقياس الخارجي</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>صمام القفاز</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>الغشاء</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مفتاح التحكم بالضغط</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الضغط الداخل (الخارج)</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#pr4Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#pr4Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#pr4Glow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pr4-shape-activate { to { filter: url(#pr4Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes pr4-reveal-trail { to { opacity: 0.85; } }
+    @keyframes pr4-status-value-on { to { opacity: 1; } }
+    @keyframes pr4-status-value-off { to { opacity: 0; } }
+    @keyframes pr4-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes pr4-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pr4-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes pr4-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes pr4-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="gas-inlet"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .status-dot { animation: pr4-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .value-on { animation: pr4-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .value-off { animation: pr4-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="gas-inlet"] .trail { animation: pr4-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="external-gauge"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="external-gauge"] .status-dot { animation: pr4-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="external-gauge"] .value-on { animation: pr4-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="external-gauge"] .value-off { animation: pr4-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="external-gauge"] .trail { animation: pr4-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="poppet-valve"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="poppet-valve"] .status-dot { animation: pr4-dot-on-orange 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="poppet-valve"] .value-on { animation: pr4-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="poppet-valve"] .value-off { animation: pr4-status-value-off 0.4s ease-out 1.5s forwards; }
+    .playing [data-link="poppet-valve"] .trail { animation: pr4-reveal-trail 0.3s ease-out 1.8s forwards; }
+
+    .playing [data-component="diaphragm"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="diaphragm"] .status-dot { animation: pr4-dot-on-purple 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="diaphragm"] .value-on { animation: pr4-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="diaphragm"] .value-off { animation: pr4-status-value-off 0.4s ease-out 2.6s forwards; }
+    .playing [data-link="diaphragm"] .trail { animation: pr4-reveal-trail 0.3s ease-out 2.9s forwards; }
+
+    .playing [data-component="control-screw"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="control-screw"] .status-dot { animation: pr4-dot-on-yellow 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="control-screw"] .value-on { animation: pr4-status-value-on 0.4s ease-out 3.1s forwards; }
+    .playing [data-status="control-screw"] .value-off { animation: pr4-status-value-off 0.4s ease-out 3.1s forwards; }
+    .playing [data-link="control-screw"] .trail { animation: pr4-reveal-trail 0.3s ease-out 3.4s forwards; }
+
+    .playing [data-component="outlet-gauge"] .box-shape { animation: pr4-shape-activate 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="outlet-gauge"] .status-dot { animation: pr4-dot-on-green 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="outlet-gauge"] .value-on { animation: pr4-status-value-on 0.4s ease-out 2.6s forwards; }
+    .playing [data-status="outlet-gauge"] .value-off { animation: pr4-status-value-off 0.4s ease-out 2.6s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes pr4-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: pr4-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "gas-inlet": {
+      title: "مصدر الغاز",
+      text: "يدخل الغاز من أسطوانة الغاز بضغط مرتفع ومتغير يقل تدريجيا مع استهلاك محتوى الأسطوانة.",
+    },
+    "external-gauge": {
+      title: "القياس الخارجي",
+      text: "يبيّن ضغط الغاز القادم من الأسطوانة (الضغط الخارجي) قبل دخوله إلى صمام التنظيم.",
+    },
+    "poppet-valve": {
+      title: "صمام قفاز (Poppet Valve)",
+      text: "صمام متحرك يتحكم بكمية الغاز المسموح لها بالمرور؛ كلما دُفع للأسفل بواسطة الغشاء اتسعت الفتحة وزاد السريان، وكلما ارتفع قلّ السريان نتيجة لحركته.",
+    },
+    diaphragm: {
+      title: "الغشاء (Diaphragm)",
+      text: "غشاء مرن يفصل الحجرة العلوية عن حجرة الصمام. كلما زاد الضغط في الحجرة العلوية دفع الغشاء للأعلى، مما يقلل من سريان المائع نتيجة لحركة الصمام، وبالتالي يقل الضغط الخارج من الصمام.",
+    },
+    "control-screw": {
+      title: "مفتاح التحكم بالضغط (المسمار العلوي)",
+      text: "بالتحكم بهذا المسمار يمكن ضبط قوة النابض المؤثر على الغشاء من الأعلى، وبالتالي التحكم بقيمة الضغط الخارج من الصمام.",
+    },
+    "outlet-gauge": {
+      title: "مؤشر الضغط الداخل",
+      text: "يبيّن ضغط الغاز بعد تنظيمه، وهو ضغط ثابت خارج من الصمام نحو بقية أجزاء الجهاز، بصرف النظر عن انخفاض ضغط الأسطوانة تدريجيا.",
+    },
+  };
+
+  wireDiagramSimulator(".pressure-regulator-internal-diagram", { cycleMs: 3800, componentInfo: COMPONENT_INFO });
+</script>

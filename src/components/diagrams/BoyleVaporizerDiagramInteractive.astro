@@ -1,0 +1,267 @@
+---
+// Figure 9-13 (مبخر بويل) — the labeled schematic half of the lesson
+// (a photo of the real device already appears separately on the page).
+// Simple, mostly static illustration: metal cap plunger with ON/OFF,
+// gas inlet/outlet at the top, a glass vessel holding the anesthetic
+// liquid, and a U-shaped tube dipping into it. Per the source text this
+// is an unbased/uncalibrated vaporizer with no thermal compensation, so
+// (unlike 9-12/9-12-أ) there is no valve mechanism to depict — just the
+// physical path gas takes through the liquid.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft boyle-vaporizer-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مبخر بويل</span>
+      <span class="simulator-subtitle">شكل 9-13 — مسار الغاز عبر أنبوبة U</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="vp13-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="420"
+          viewBox="0 0 700 420"
+          role="img"
+          aria-label="مبخر بويل"
+        >
+          <defs>
+            <marker id="vp13-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="vp13BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="vp13Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="vp13GradSilver" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a3242"></stop><stop offset="100%" stop-color="#12161f"></stop></linearGradient>
+            <linearGradient id="vp13GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="vp13GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="vp13GradGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#132436" stop-opacity="0.55"></stop><stop offset="100%" stop-color="#0a1420" stop-opacity="0.75"></stop></linearGradient>
+
+            <filter id="vp13Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="vp13Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="420" rx="20" fill="url(#vp13BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="420" rx="20" fill="url(#vp13Grid)"></rect>
+
+          <text x="350" y="20" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">مبخر بويل (Boyle)</text>
+
+          <!-- decorative control lines from plunger down to inlet/outlet -->
+          <path d="M 300,75 L 220,110" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="3 5"></path>
+          <path d="M 400,75 L 480,110" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="3 5"></path>
+
+          <!-- metal cap plunger -->
+          <g class="hotspot" data-component="metal-cap-plunger" tabindex="0" role="button" aria-label="مكبس الغطاء المعدني">
+            <rect class="box-shape" x="260" y="20" width="180" height="55" rx="10" fill="url(#vp13GradSilver)" stroke="#cbd5e1" stroke-width="2" filter="url(#vp13Elevate)"></rect>
+            <text x="290" y="45" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#4ADE80" direction="ltr">ON</text>
+            <text x="410" y="45" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#EF4444" direction="ltr">OFF</text>
+            <text x="350" y="62" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">مكبس الغطاء المعدني</text>
+          </g>
+
+          <!-- gas outlet (left) -->
+          <g class="hotspot" data-component="gas-outlet" tabindex="0" role="button" aria-label="خروج الغاز">
+            <rect class="box-shape" x="120" y="110" width="100" height="65" rx="10" fill="url(#vp13GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#vp13Elevate)"></rect>
+            <path d="M 195,142 L 155,142 M 168,130 L 152,142 L 168,154" fill="none" stroke="#FBBF24" stroke-width="1.6"></path>
+            <text x="170" y="165" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">خروج الغاز</text>
+          </g>
+
+          <!-- gas inlet (right) -->
+          <g class="hotspot" data-component="gas-inlet" tabindex="0" role="button" aria-label="دخول الغاز">
+            <rect class="box-shape" x="480" y="110" width="100" height="65" rx="10" fill="url(#vp13GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#vp13Elevate)"></rect>
+            <path d="M 505,142 L 545,142 M 532,130 L 548,142 L 532,154" fill="none" stroke="#38BDF8" stroke-width="1.6"></path>
+            <text x="530" y="165" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">دخول الغاز</text>
+          </g>
+
+          <g class="link" data-link="gas-inlet" data-link-to="u-tube">
+            <path id="vp13-wire-1" d="M 500,175 L 420,232" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#vp13-arrow)"></path>
+            <path class="trail" d="M 500,175 L 422,231" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3.2" fill="#38BDF8" filter="url(#vp13Glow)" style="offset-path: url(#vp13-wire-1); --flow-delay:0.3s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- glass vessel with yellow liquid -->
+          <g class="hotspot" data-component="glass-vessel" tabindex="0" role="button" aria-label="الوعاء الزجاجي">
+            <rect class="box-shape" x="190" y="210" width="320" height="180" rx="18" fill="url(#vp13GradGlass)" stroke="#94a3b8" stroke-width="2" filter="url(#vp13Elevate)"></rect>
+            <path d="M 200,320 q 40,-14 80,0 t 80,0 t 80,0 t 80,0 v60 h-320 z" fill="#f4d35e" opacity="0.55"></path>
+            <text x="350" y="232" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">الوعاء الزجاجي</text>
+          </g>
+
+          <!-- U-tube dipping into the liquid -->
+          <g class="hotspot" data-component="u-tube" tabindex="0" role="button" aria-label="أنبوبة على شكل حرف U">
+            <rect class="box-shape" x="290" y="215" width="150" height="150" rx="10" fill="#132436" fill-opacity="0.35" stroke="#e2e8f0" stroke-width="1.6" filter="url(#vp13Elevate)"></rect>
+            <path d="M 320,225 L 320,335 Q 320,350 335,350 L 395,350 Q 410,350 410,335 L 410,225" fill="none" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round"></path>
+            <text x="365" y="380" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">أنبوبة U</text>
+          </g>
+
+          <g class="link" data-link="u-tube" data-link-to="gas-outlet">
+            <path id="vp13-wire-2" d="M 280,232 L 200,175" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#vp13-arrow)"></path>
+            <path class="trail" d="M 278,231 L 200,177" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3.2" fill="#FBBF24" filter="url(#vp13Glow)" style="offset-path: url(#vp13-wire-2); --flow-delay:1.2s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <text x="350" y="405" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">مبخر بسيط غير معاير، لا توجد فيه وسيلة للتعويض الحراري</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المبخر</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="metal-cap-plunger"><span class="status-dot dot-silver"></span><span class="status-label">مكبس الغطاء المعدني</span><span class="status-value"><span class="value-off">مضبوط</span><span class="value-on">يتحكم بالمسار</span></span></li>
+          <li class="status-row" data-status="gas-inlet"><span class="status-dot dot-blue"></span><span class="status-label">دخول الغاز</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يدخل الوعاء</span></span></li>
+          <li class="status-row" data-status="u-tube"><span class="status-dot dot-blue"></span><span class="status-label">أنبوبة U</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يغوص بالسائل</span></span></li>
+          <li class="status-row" data-status="glass-vessel"><span class="status-dot dot-yellow"></span><span class="status-label">الوعاء الزجاجي</span><span class="status-value"><span class="value-off">—</span><span class="value-on">سائل مخدر</span></span></li>
+          <li class="status-row" data-status="gas-outlet"><span class="status-dot dot-yellow"></span><span class="status-label">خروج الغاز</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">خليط مخدّر</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>دخول الغاز</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الوعاء الزجاجي وخروج الغاز</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .dot-silver { background: #cbd5e1; }
+
+  .hotspot .box-shape {
+    filter: url(#vp13Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#vp13Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#vp13Glow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes vp13-shape-activate { to { filter: url(#vp13Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes vp13-reveal-trail { to { opacity: 0.85; } }
+    @keyframes vp13-status-value-on { to { opacity: 1; } }
+    @keyframes vp13-status-value-off { to { opacity: 0; } }
+    @keyframes vp13-dot-on-silver { to { background: #cbd5e1; box-shadow: 0 0 8px 1px rgba(203, 213, 225, 0.8); } }
+    @keyframes vp13-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes vp13-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="metal-cap-plunger"] .box-shape { animation: vp13-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="metal-cap-plunger"] .status-dot { animation: vp13-dot-on-silver 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="metal-cap-plunger"] .value-on { animation: vp13-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="metal-cap-plunger"] .value-off { animation: vp13-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="gas-inlet"] .box-shape { animation: vp13-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="gas-inlet"] .status-dot { animation: vp13-dot-on-blue 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="gas-inlet"] .value-on { animation: vp13-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="gas-inlet"] .value-off { animation: vp13-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="gas-inlet"] .trail { animation: vp13-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="u-tube"] .box-shape { animation: vp13-shape-activate 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="u-tube"] .status-dot { animation: vp13-dot-on-blue 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="u-tube"] .value-on { animation: vp13-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="u-tube"] .value-off { animation: vp13-status-value-off 0.4s ease-out 1.2s forwards; }
+
+    .playing [data-component="glass-vessel"] .box-shape { animation: vp13-shape-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="glass-vessel"] .status-dot { animation: vp13-dot-on-yellow 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="glass-vessel"] .value-on { animation: vp13-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="glass-vessel"] .value-off { animation: vp13-status-value-off 0.4s ease-out 1.5s forwards; }
+
+    .playing [data-link="u-tube"] .trail { animation: vp13-reveal-trail 0.3s ease-out 1.8s forwards; }
+    .playing [data-component="gas-outlet"] .box-shape { animation: vp13-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="gas-outlet"] .status-dot { animation: vp13-dot-on-yellow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="gas-outlet"] .value-on { animation: vp13-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="gas-outlet"] .value-off { animation: vp13-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes vp13-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: vp13-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "metal-cap-plunger": {
+      title: "مكبس الغطاء المعدني",
+      text: "يحمل علامتي التشغيل (ON) والإيقاف (OFF) لتحديد ما إذا كانت الغازات تمر عبر الوعاء الزجاجي أم تتجاوزه مباشرة.",
+    },
+    "gas-inlet": {
+      title: "دخول الغاز",
+      text: "دخول خليط الغازات القادم من العمود الخلفي إلى مبخر بويل.",
+    },
+    "u-tube": {
+      title: "أنبوبة على شكل حرف U",
+      text: "أنبوبة تغوص داخل السائل المخدر داخل الوعاء الزجاجي، فتزيد من مساحة تلامس الغاز مع سطح السائل قبل خروجه محمّلا ببخار المادة المخدرة.",
+    },
+    "glass-vessel": {
+      title: "الوعاء الزجاجي",
+      text: "يحوي سائل التخدير مثل الأثير أو التريلين أو الميثوكسيفلورين. مبخر بويل مبخر بسيط غير معاير، لا توجد فيه وسيلة للتعويض الحراري.",
+    },
+    "gas-outlet": {
+      title: "خروج الغاز",
+      text: "خروج خليط الغازات بعد تحميله ببخار المادة المخدرة، متجها إلى بقية أجزاء الجهاز.",
+    },
+  };
+
+  wireDiagramSimulator(".boyle-vaporizer-diagram", { cycleMs: 2500, componentInfo: COMPONENT_INFO });
+</script>

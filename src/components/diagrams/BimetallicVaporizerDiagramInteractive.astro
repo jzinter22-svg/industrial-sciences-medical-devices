@@ -1,0 +1,314 @@
+---
+// Figure 9-12-أ (مبخر ذو القطعة الثنائية المعدن) — the automatic
+// counterpart to Figure 9-12: instead of a human reading a thermometer
+// and turning a valve, a bimetallic strip inside the valve itself curves
+// with temperature and automatically re-splits the gas stream between
+// the direct path and the vaporizing chamber. The strip is deliberately
+// the star of this diagram (biggest hotspot, most detailed info text)
+// since it is the one part that makes this vaporizer "self-compensating".
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft bimetallic-vaporizer-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مبخر ذو القطعة الثنائية المعدن</span>
+      <span class="simulator-subtitle">شكل 9-12-أ — التعويض الحراري الآلي</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="v12a-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="مبخر ذو القطعة الثنائية المعدن"
+        >
+          <defs>
+            <marker id="v12a-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="v12aBgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="v12aGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="v12aGradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="v12aGradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="v12aGradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="v12aGradMagenta" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#331229"></stop><stop offset="100%" stop-color="#1a0916"></stop></linearGradient>
+            <linearGradient id="v12aGradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+
+            <filter id="v12aElevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="v12aGlow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#v12aBgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#v12aGrid)"></rect>
+
+          <text x="450" y="24" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">مبخر ذو القطعة الثنائية المعدن (Bimetallic)</text>
+
+          <!-- 1. gas inlet -->
+          <g class="hotspot" data-component="gas-inlet" tabindex="0" role="button" aria-label="مدخل الغاز">
+            <rect class="box-shape" x="30" y="40" width="100" height="65" rx="10" fill="url(#v12aGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#v12aElevate)"></rect>
+            <text x="80" y="70" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">مدخل الغاز</text>
+            <text x="80" y="85" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7" fill="#9fd8f8" direction="ltr">Inlet</text>
+          </g>
+
+          <g class="link" data-link="gas-inlet" data-link-to="bimetallic-strip">
+            <line id="v12a-wire-1" x1="80" y1="105" x2="80" y2="158" stroke="#5b6478" stroke-width="2.5" marker-end="url(#v12a-arrow)"></line>
+            <line class="trail" x1="80" y1="105" x2="80" y2="156" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#38BDF8" filter="url(#v12aGlow)" style="offset-path: url(#v12a-wire-1); --flow-delay:0.2s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- 2. bimetallic strip valve — the star of the diagram -->
+          <g class="hotspot" data-component="bimetallic-strip" tabindex="0" role="button" aria-label="صمام حراري ثنائي المعدن">
+            <rect class="box-shape" x="30" y="160" width="180" height="120" rx="14" fill="url(#v12aGradOrange)" stroke="#FB923C" stroke-width="2.5" filter="url(#v12aElevate)"></rect>
+            <text x="55" y="180" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#9fd8f8" direction="ltr">Cold</text>
+            <text x="185" y="180" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#f2a35a" direction="ltr">Hot</text>
+            <path d="M 55,195 Q 120,225 185,195" fill="none" stroke="#FB923C" stroke-width="3" stroke-linecap="round"></path>
+            <path d="M 55,195 Q 120,175 185,195" fill="none" stroke="#f2a35a" stroke-width="1.6" stroke-dasharray="3 4" opacity="0.6"></path>
+            <text x="120" y="250" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">صمام حراري ثنائي المعدن</text>
+            <text x="120" y="264" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7" fill="#fcd9b6" direction="ltr">Bimetallic strip valve</text>
+          </g>
+
+          <g class="link" data-link="bimetallic-strip" data-link-to="wick">
+            <line id="v12a-wire-2" x1="120" y1="280" x2="120" y2="308" stroke="#5b6478" stroke-width="2.5" marker-end="url(#v12a-arrow)"></line>
+            <line class="trail" x1="120" y1="280" x2="120" y2="306" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FB923C" filter="url(#v12aGlow)" style="offset-path: url(#v12a-wire-2); --flow-delay:0.9s; --flow-duration:0.6s;"></circle>
+          </g>
+
+          <!-- 3. vaporizing chamber with wick + liquid -->
+          <g class="hotspot" data-component="wick" tabindex="0" role="button" aria-label="فتيلة وغرفة التبخير">
+            <rect class="box-shape" x="30" y="310" width="200" height="90" rx="12" fill="url(#v12aGradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#v12aElevate)"></rect>
+            <path d="M 55,325 v20 M 65,325 v20 M 75,325 v20 M 85,325 v20 M 95,325 v20" stroke="#4ADE80" stroke-width="1.4"></path>
+            <path d="M 30,375 q 20,-8 40,0 t 40,0 t 40,0 t 40,0 t 40,0 v25 h-200 z" fill="#c9a03a" opacity="0.55"></path>
+            <text x="150" y="335" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">فتيلة + غرفة التبخير</text>
+            <text x="150" y="392" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#f3e2ad" direction="rtl">السائل المخدر</text>
+          </g>
+
+          <g class="link" data-link="wick" data-link-to="concentration-dial">
+            <line id="v12a-wire-3" x1="230" y1="355" x2="298" y2="355" stroke="#5b6478" stroke-width="2.5" marker-end="url(#v12a-arrow)"></line>
+            <line class="trail" x1="230" y1="355" x2="296" y2="355" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#4ADE80" filter="url(#v12aGlow)" style="offset-path: url(#v12a-wire-3); --flow-delay:1.5s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- 4. concentration control dial + helical shaft (decorative) -->
+          <path d="M 380,355 q 10,-15 0,-30 t 0,-30" fill="none" stroke="#E879F9" stroke-width="1.4" stroke-dasharray="2 4" opacity="0.6"></path>
+          <g class="hotspot" data-component="concentration-dial" tabindex="0" role="button" aria-label="قرص التحكم بالتركيز">
+            <rect class="box-shape" x="300" y="310" width="150" height="90" rx="12" fill="url(#v12aGradMagenta)" stroke="#E879F9" stroke-width="2" filter="url(#v12aElevate)"></rect>
+            <circle cx="375" cy="348" r="22" fill="none" stroke="#E879F9" stroke-width="1.6"></circle>
+            <line x1="375" y1="348" x2="392" y2="336" stroke="#E879F9" stroke-width="1.8"></line>
+            <text x="375" y="386" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">قرص التحكم بالتركيز</text>
+          </g>
+
+          <g class="link" data-link="concentration-dial" data-link-to="non-return-valve">
+            <line id="v12a-wire-4" x1="450" y1="355" x2="518" y2="355" stroke="#5b6478" stroke-width="2.5" marker-end="url(#v12a-arrow)"></line>
+            <line class="trail" x1="450" y1="355" x2="516" y2="355" stroke="#E879F9" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#E879F9" filter="url(#v12aGlow)" style="offset-path: url(#v12a-wire-4); --flow-delay:2.1s; --flow-duration:0.6s;"></circle>
+          </g>
+
+          <!-- 5. non-return valve -->
+          <g class="hotspot" data-component="non-return-valve" tabindex="0" role="button" aria-label="صمام عدم رجوع">
+            <rect class="box-shape" x="520" y="315" width="140" height="80" rx="12" fill="url(#v12aGradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#v12aElevate)"></rect>
+            <path d="M 555,355 L 590,335 L 590,375 Z" fill="none" stroke="#FBBF24" stroke-width="1.8"></path>
+            <line x1="590" y1="355" x2="625" y2="355" stroke="#FBBF24" stroke-width="1.8"></line>
+            <text x="590" y="390" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#eef1f8" direction="rtl">صمام عدم رجوع</text>
+          </g>
+
+          <g class="link" data-link="non-return-valve" data-link-to="gas-outlet">
+            <path id="v12a-wire-5" d="M 660,355 L 800,355 L 800,105" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#v12a-arrow)"></path>
+            <path class="trail" d="M 660,355 L 800,355 L 800,107" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.4" fill="#38BDF8" filter="url(#v12aGlow)" style="offset-path: url(#v12a-wire-5); --flow-delay:2.7s; --flow-duration:1s;"></circle>
+          </g>
+
+          <!-- 6. gas outlet -->
+          <g class="hotspot" data-component="gas-outlet" tabindex="0" role="button" aria-label="خروج الغاز">
+            <rect class="box-shape" x="750" y="40" width="100" height="65" rx="10" fill="url(#v12aGradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#v12aElevate)"></rect>
+            <text x="800" y="70" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">خروج الغاز</text>
+            <text x="800" y="85" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7" fill="#9fd8f8" direction="ltr">Outlet</text>
+          </g>
+
+          <text x="450" y="405" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">الشريحة الثنائية المعدن تتمدد أو تتقلص تلقائيا مع الحرارة — دون أي تدخل يدوي من المشغّل</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المبخر</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="gas-inlet"><span class="status-dot dot-blue"></span><span class="status-label">مدخل الغاز</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يدخل المبخر</span></span></li>
+          <li class="status-row" data-status="bimetallic-strip"><span class="status-dot dot-orange"></span><span class="status-label">الشريحة الثنائية المعدن</span><span class="status-value"><span class="value-off">ثابتة</span><span class="value-on">توزّع تلقائيا</span></span></li>
+          <li class="status-row" data-status="wick"><span class="status-dot dot-green"></span><span class="status-label">الفتيلة وغرفة التبخير</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">تبخّر السائل</span></span></li>
+          <li class="status-row" data-status="concentration-dial"><span class="status-dot dot-magenta"></span><span class="status-label">قرص التحكم بالتركيز</span><span class="status-value"><span class="value-off">مضبوط</span><span class="value-on">يضبط النسبة</span></span></li>
+          <li class="status-row" data-status="non-return-valve"><span class="status-dot dot-yellow"></span><span class="status-label">صمام عدم الرجوع</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">يسمح بالمرور</span></span></li>
+          <li class="status-row" data-status="gas-outlet"><span class="status-dot dot-blue"></span><span class="status-label">خروج الغاز</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">خليط مخدّر</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>مدخل/مخرج الغاز</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الصمام الحراري الآلي</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الفتيلة وغرفة التبخير</li>
+      <li class="legend-item"><span class="legend-swatch legend-magenta"></span>التحكم بالتركيز</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>صمام عدم الرجوع</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .legend-magenta { background: #E879F9; }
+
+  .hotspot .box-shape {
+    filter: url(#v12aElevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#v12aElevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#v12aGlow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes v12a-shape-activate { to { filter: url(#v12aElevate) saturate(1.35) brightness(1.4); } }
+    @keyframes v12a-reveal-trail { to { opacity: 0.85; } }
+    @keyframes v12a-status-value-on { to { opacity: 1; } }
+    @keyframes v12a-status-value-off { to { opacity: 0; } }
+    @keyframes v12a-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes v12a-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes v12a-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes v12a-dot-on-magenta { to { background: #E879F9; box-shadow: 0 0 8px 1px rgba(232, 121, 249, 0.8); } }
+    @keyframes v12a-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="gas-inlet"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .status-dot { animation: v12a-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .value-on { animation: v12a-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="gas-inlet"] .value-off { animation: v12a-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="gas-inlet"] .trail { animation: v12a-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="bimetallic-strip"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bimetallic-strip"] .status-dot { animation: v12a-dot-on-orange 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bimetallic-strip"] .value-on { animation: v12a-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="bimetallic-strip"] .value-off { animation: v12a-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="bimetallic-strip"] .trail { animation: v12a-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="wick"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="wick"] .status-dot { animation: v12a-dot-on-green 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="wick"] .value-on { animation: v12a-status-value-on 0.4s ease-out 1.2s forwards; }
+    .playing [data-status="wick"] .value-off { animation: v12a-status-value-off 0.4s ease-out 1.2s forwards; }
+    .playing [data-link="wick"] .trail { animation: v12a-reveal-trail 0.3s ease-out 1.5s forwards; }
+
+    .playing [data-component="concentration-dial"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="concentration-dial"] .status-dot { animation: v12a-dot-on-magenta 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="concentration-dial"] .value-on { animation: v12a-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="concentration-dial"] .value-off { animation: v12a-status-value-off 0.4s ease-out 1.8s forwards; }
+    .playing [data-link="concentration-dial"] .trail { animation: v12a-reveal-trail 0.3s ease-out 2.1s forwards; }
+
+    .playing [data-component="non-return-valve"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="non-return-valve"] .status-dot { animation: v12a-dot-on-yellow 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="non-return-valve"] .value-on { animation: v12a-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="non-return-valve"] .value-off { animation: v12a-status-value-off 0.4s ease-out 2.4s forwards; }
+    .playing [data-link="non-return-valve"] .trail { animation: v12a-reveal-trail 0.3s ease-out 2.7s forwards; }
+
+    .playing [data-component="gas-outlet"] .box-shape { animation: v12a-shape-activate 0.4s ease-out 3.3s forwards; }
+    .playing [data-status="gas-outlet"] .status-dot { animation: v12a-dot-on-blue 0.4s ease-out 3.3s forwards; }
+    .playing [data-status="gas-outlet"] .value-on { animation: v12a-status-value-on 0.4s ease-out 3.3s forwards; }
+    .playing [data-status="gas-outlet"] .value-off { animation: v12a-status-value-off 0.4s ease-out 3.3s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes v12a-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: v12a-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "gas-inlet": {
+      title: "مدخل الغاز",
+      text: "دخول خليط الغازات المتدفق إلى مبخر ذي القطعة الثنائية المعدن، متجها أولا نحو الصمام الحراري.",
+    },
+    "bimetallic-strip": {
+      title: "الشريحة الثنائية المعدن (Bimetallic Strip)",
+      text: "شريحة مصنوعة من معدنين مختلفين تستجيب بسرعة لتغيرات الحرارة، توضع داخل الصمام. بحسب درجة الحرارة الخارجية تتمدد الشريحة أو تتقلص (تنحني نحو Cold أو نحو Hot)، فتوزّع تلقائيا الخليط الغازي المتدفق بين غرفة التبخير والمسار المباشر — دون أي تدخل يدوي من المشغّل، بعكس مبخر دريجر ذي التحكم الحراري اليدوي (شكل 9-12).",
+    },
+    wick: {
+      title: "الفتيلة وغرفة التبخير",
+      text: "الفتيلة (Wick) تلامس السائل المخدر وتزيد من مساحة سطحه المعرّضة لمرور الغاز، مما يسرّع عملية تبخّره داخل غرفة التبخير.",
+    },
+    "concentration-dial": {
+      title: "قرص التحكم بالتركيز",
+      text: "يتصل بمحور حلزوني (Helical Shaft) يضبط نسبة الغاز المارة عبر غرفة التبخير مقابل المسار المباشر، فيحدد تركيز بخار المادة المخدرة في الخليط الخارج.",
+    },
+    "non-return-valve": {
+      title: "صمام عدم رجوع",
+      text: "يمنع رجوع الغازات المتبخرة إلى الخلف نحو مصدرها، ويضمن اتجاه التدفق نحو المريض فقط.",
+    },
+    "gas-outlet": {
+      title: "خروج الغاز",
+      text: "خروج خليط الغازات المخدرة بالتركيز الذي ضبطته الشريحة الحرارية تلقائيا، متجها إلى بقية دائرة الجهاز.",
+    },
+  };
+
+  wireDiagramSimulator(".bimetallic-vaporizer-diagram", { cycleMs: 3800, componentInfo: COMPONENT_INFO });
+</script>

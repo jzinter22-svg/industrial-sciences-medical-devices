@@ -1,0 +1,326 @@
+---
+// Figure 9-5 (نظام توصيل الغازات الرئيس والتابع) — the Oxygen regulator is
+// wired as the PRIMARY: besides feeding its own gas to the manifold, it
+// sends a pilot-pressure line to the N2O and CO2 regulators, which are
+// wired as SECONDARY/slave regulators that only pass gas while they are
+// themselves receiving adequate O2 pilot pressure. This is a safety
+// interlock, not just plumbing convenience: if O2 pressure drops or is cut
+// off for any reason, the N2O and CO2 regulators shut off automatically
+// too, so the patient can never end up breathing N2O or CO2 without O2.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft primary-secondary-gas-connection-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة نظام توصيل الغازات الرئيس والتابع</span>
+      <span class="simulator-subtitle">شكل 9-5 — الأوكسجين رئيسا وثاني أوكسيد الكربون وأوكسيد النتروز تابعين</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="pr5-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="480"
+          viewBox="0 0 900 480"
+          role="img"
+          aria-label="نظام توصيل الغازات الرئيس والتابع"
+        >
+          <defs>
+            <marker id="pr5-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="pr5BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="pr5Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="pr5GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="pr5GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="pr5GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="pr5GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="pr5GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+
+            <filter id="pr5Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="pr5Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="480" rx="20" fill="url(#pr5BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="480" rx="20" fill="url(#pr5Grid)"></rect>
+
+          <text x="450" y="28" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">نظام توصيل الغازات الرئيس والتابع</text>
+
+          <!-- O2 primary regulator -->
+          <g class="hotspot" data-component="o2-regulator-primary" tabindex="0" role="button" aria-label="منظم ضغط الأوكسجين الرئيسي">
+            <rect class="box-shape" x="375" y="25" width="150" height="90" rx="10" fill="url(#pr5GradBlue)" stroke="#38BDF8" stroke-width="3" filter="url(#pr5Elevate)"></rect>
+            <circle cx="410" cy="60" r="13" fill="none" stroke="#38BDF8" stroke-width="1.6"></circle>
+            <line x1="410" y1="60" x2="417" y2="51" stroke="#38BDF8" stroke-width="1.6"></line>
+            <text x="450" y="70" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">منظم ضغط O2</text>
+            <text x="450" y="100" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#38BDF8" direction="rtl">(الرئيسي)</text>
+          </g>
+
+          <!-- N2O secondary regulator -->
+          <g class="hotspot" data-component="n2o-regulator-secondary" tabindex="0" role="button" aria-label="منظم ضغط أوكسيد النتروز التابع">
+            <rect class="box-shape" x="105" y="165" width="150" height="85" rx="10" fill="url(#pr5GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#pr5Elevate)"></rect>
+            <text x="180" y="205" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">منظم ضغط N2O</text>
+            <text x="180" y="234" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" direction="rtl">(تابع)</text>
+          </g>
+
+          <!-- CO2 secondary regulator -->
+          <g class="hotspot" data-component="co2-regulator-secondary" tabindex="0" role="button" aria-label="منظم ضغط ثاني أوكسيد الكربون التابع">
+            <rect class="box-shape" x="645" y="165" width="150" height="85" rx="10" fill="url(#pr5GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#pr5Elevate)"></rect>
+            <text x="720" y="205" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">منظم ضغط CO2</text>
+            <text x="720" y="234" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FB923C" direction="rtl">(تابع)</text>
+          </g>
+
+          <!-- pilot pressure lines: O2 -> N2O secondary, O2 -> CO2 secondary -->
+          <g class="link pilot-link" data-link="o2-regulator-primary" data-link-to="n2o-regulator-secondary">
+            <path id="pr5-wire-1" d="M 400,115 L 260,165" fill="none" stroke="#5b6478" stroke-width="1.8" stroke-dasharray="3 5" marker-end="url(#pr5-arrow)"></path>
+            <path class="trail" d="M 400,115 L 264,163" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3 5"></path>
+            <circle class="current-particle" r="2.6" fill="#38BDF8" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-1); --flow-delay:0.4s; --flow-duration:0.9s;"></circle>
+          </g>
+          <g class="link pilot-link" data-link="o2-regulator-primary" data-link-to="co2-regulator-secondary">
+            <path id="pr5-wire-2" d="M 500,115 L 640,165" fill="none" stroke="#5b6478" stroke-width="1.8" stroke-dasharray="3 5" marker-end="url(#pr5-arrow)"></path>
+            <path class="trail" d="M 500,115 L 636,163" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="3 5"></path>
+            <circle class="current-particle" r="2.6" fill="#38BDF8" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-2); --flow-delay:0.4s; --flow-duration:0.9s;"></circle>
+          </g>
+          <text x="330" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" fill="#9fd8f8" direction="rtl">ضغط تجاوبي (Pilot)</text>
+          <text x="575" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" fill="#9fd8f8" direction="rtl">ضغط تجاوبي (Pilot)</text>
+
+          <!-- Main gas flow lines into the manifold -->
+          <g class="link" data-link="o2-regulator-primary" data-link-to="manifold">
+            <path id="pr5-wire-3" d="M 450,115 L 450,280" fill="none" stroke="#5b6478" stroke-width="2.4" marker-end="url(#pr5-arrow)"></path>
+            <path class="trail" d="M 450,115 L 450,278" fill="none" stroke="#38BDF8" stroke-width="2.4" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.2" fill="#38BDF8" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-3); --flow-delay:1.2s; --flow-duration:0.8s;"></circle>
+          </g>
+          <g class="link" data-link="n2o-regulator-secondary" data-link-to="manifold">
+            <path id="pr5-wire-4" d="M 200,250 L 365,280" fill="none" stroke="#5b6478" stroke-width="2.4" marker-end="url(#pr5-arrow)"></path>
+            <path class="trail" d="M 200,250 L 361,278" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.2" fill="#4ADE80" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-4); --flow-delay:1.0s; --flow-duration:0.9s;"></circle>
+          </g>
+          <g class="link" data-link="co2-regulator-secondary" data-link-to="manifold">
+            <path id="pr5-wire-5" d="M 700,250 L 535,280" fill="none" stroke="#5b6478" stroke-width="2.4" marker-end="url(#pr5-arrow)"></path>
+            <path class="trail" d="M 700,250 L 539,278" fill="none" stroke="#FB923C" stroke-width="2.4" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.2" fill="#FB923C" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-5); --flow-delay:1.0s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <!-- manifold -->
+          <g class="hotspot" data-component="manifold" tabindex="0" role="button" aria-label="مشعب التجميع">
+            <rect class="box-shape" x="350" y="280" width="200" height="65" rx="10" fill="url(#pr5GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#pr5Elevate)"></rect>
+            <path d="M 380,305 L 390,325 L 400,305 M 415,305 L 425,325 L 435,305 M 450,305 L 460,325 L 470,305" fill="none" stroke="#C084FC" stroke-width="1.4"></path>
+            <text x="450" y="338" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">مشعب التجميع</text>
+          </g>
+
+          <g class="link" data-link="manifold" data-link-to="flowmeters">
+            <line id="pr5-wire-6" x1="450" y1="345" x2="450" y2="375" stroke="#5b6478" stroke-width="2.4" marker-end="url(#pr5-arrow)"></line>
+            <line class="trail" x1="450" y1="345" x2="450" y2="373" stroke="#C084FC" stroke-width="2.4" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.2" fill="#C084FC" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-6); --flow-delay:1.8s; --flow-duration:0.5s;"></circle>
+          </g>
+
+          <!-- flowmeters -->
+          <g class="hotspot" data-component="flowmeters" tabindex="0" role="button" aria-label="فلوميترات الغازات">
+            <rect class="box-shape" x="350" y="380" width="200" height="65" rx="10" fill="url(#pr5GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#pr5Elevate)"></rect>
+            <line x1="380" y1="393" x2="380" y2="430" stroke="#FBBF24" stroke-width="1.6"></line>
+            <line x1="450" y1="393" x2="450" y2="430" stroke="#FBBF24" stroke-width="1.6"></line>
+            <line x1="520" y1="393" x2="520" y2="430" stroke="#FBBF24" stroke-width="1.6"></line>
+            <text x="380" y="440" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#FBBF24" direction="ltr">O</text>
+            <text x="450" y="440" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#FBBF24" direction="ltr">A</text>
+            <text x="520" y="440" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#FBBF24" direction="ltr">B</text>
+            <text x="450" y="405" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">فلوميترات</text>
+          </g>
+
+          <g class="link" data-link="flowmeters" data-link-to="patient-output">
+            <line id="pr5-wire-7" x1="550" y1="412" x2="615" y2="412" stroke="#5b6478" stroke-width="2.4" marker-end="url(#pr5-arrow)"></line>
+            <line class="trail" x1="550" y1="412" x2="613" y2="412" stroke="#FBBF24" stroke-width="2.4" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.2" fill="#FBBF24" filter="url(#pr5Glow)" style="offset-path: url(#pr5-wire-7); --flow-delay:2.4s; --flow-duration:0.5s;"></circle>
+          </g>
+
+          <!-- patient output -->
+          <g class="hotspot" data-component="patient-output" tabindex="0" role="button" aria-label="إلى المريض">
+            <rect class="box-shape" x="620" y="380" width="180" height="65" rx="10" fill="url(#pr5GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#pr5Elevate)"></rect>
+            <text x="710" y="405" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">إلى المريض</text>
+            <text x="710" y="422" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" fill="#9fd8f8" direction="rtl">مزيج الغازات</text>
+          </g>
+
+          <text x="450" y="465" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">إن انخفض أو انقطع ضغط الأوكسجين لأي سبب، ينقطع الضغط التجاوبي فتُغلق منظمات N2O و CO2 تلقائيا معه</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="o2-regulator-primary"><span class="status-dot dot-blue"></span><span class="status-label">منظم O2 (رئيسي)</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يغذّي ويتحكم</span></span></li>
+          <li class="status-row" data-status="n2o-regulator-secondary"><span class="status-dot dot-green"></span><span class="status-label">منظم N2O (تابع)</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">مفتوح بإذن O2</span></span></li>
+          <li class="status-row" data-status="co2-regulator-secondary"><span class="status-dot dot-orange"></span><span class="status-label">منظم CO2 (تابع)</span><span class="status-value"><span class="value-off">مغلق</span><span class="value-on">مفتوح بإذن O2</span></span></li>
+          <li class="status-row" data-status="manifold"><span class="status-dot dot-purple"></span><span class="status-label">مشعب التجميع</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يجمع الغازات</span></span></li>
+          <li class="status-row" data-status="flowmeters"><span class="status-dot dot-yellow"></span><span class="status-label">الفلوميترات</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">تضبط النسب</span></span></li>
+          <li class="status-row" data-status="patient-output"><span class="status-dot dot-blue"></span><span class="status-label">إلى المريض</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">مزيج آمن</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي منظم أو مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الأوكسجين (الرئيسي)</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>أوكسيد النتروز (تابع)</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>ثاني أوكسيد الكربون (تابع)</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مشعب التجميع</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الفلوميترات</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#pr5Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#pr5Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#pr5Glow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pr5-shape-activate { to { filter: url(#pr5Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes pr5-reveal-trail { to { opacity: 0.85; } }
+    @keyframes pr5-status-value-on { to { opacity: 1; } }
+    @keyframes pr5-status-value-off { to { opacity: 0; } }
+    @keyframes pr5-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes pr5-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes pr5-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes pr5-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes pr5-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+
+    .playing [data-component="o2-regulator-primary"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="o2-regulator-primary"] .status-dot { animation: pr5-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="o2-regulator-primary"] .value-on { animation: pr5-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="o2-regulator-primary"] .value-off { animation: pr5-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="o2-regulator-primary"][data-link-to="n2o-regulator-secondary"] .trail { animation: pr5-reveal-trail 0.3s ease-out 0.4s forwards; }
+    .playing [data-link="o2-regulator-primary"][data-link-to="co2-regulator-secondary"] .trail { animation: pr5-reveal-trail 0.3s ease-out 0.4s forwards; }
+    .playing [data-link="o2-regulator-primary"][data-link-to="manifold"] .trail { animation: pr5-reveal-trail 0.3s ease-out 1.2s forwards; }
+
+    .playing [data-component="n2o-regulator-secondary"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="n2o-regulator-secondary"] .status-dot { animation: pr5-dot-on-green 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="n2o-regulator-secondary"] .value-on { animation: pr5-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="n2o-regulator-secondary"] .value-off { animation: pr5-status-value-off 0.4s ease-out 0.7s forwards; }
+    .playing [data-link="n2o-regulator-secondary"] .trail { animation: pr5-reveal-trail 0.3s ease-out 1.0s forwards; }
+
+    .playing [data-component="co2-regulator-secondary"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="co2-regulator-secondary"] .status-dot { animation: pr5-dot-on-orange 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="co2-regulator-secondary"] .value-on { animation: pr5-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="co2-regulator-secondary"] .value-off { animation: pr5-status-value-off 0.4s ease-out 0.7s forwards; }
+    .playing [data-link="co2-regulator-secondary"] .trail { animation: pr5-reveal-trail 0.3s ease-out 1.0s forwards; }
+
+    .playing [data-component="manifold"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="manifold"] .status-dot { animation: pr5-dot-on-purple 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="manifold"] .value-on { animation: pr5-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="manifold"] .value-off { animation: pr5-status-value-off 0.4s ease-out 1.5s forwards; }
+    .playing [data-link="manifold"] .trail { animation: pr5-reveal-trail 0.3s ease-out 1.8s forwards; }
+
+    .playing [data-component="flowmeters"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="flowmeters"] .status-dot { animation: pr5-dot-on-yellow 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="flowmeters"] .value-on { animation: pr5-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="flowmeters"] .value-off { animation: pr5-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="flowmeters"] .trail { animation: pr5-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="patient-output"] .box-shape { animation: pr5-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="patient-output"] .status-dot { animation: pr5-dot-on-blue 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="patient-output"] .value-on { animation: pr5-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="patient-output"] .value-off { animation: pr5-status-value-off 0.4s ease-out 2.9s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes pr5-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: pr5-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "o2-regulator-primary": {
+      title: "منظم ضغط الأوكسجين (الرئيسي)",
+      text: "يتحكم ضغط الأوكسجين بضغوط باقي الغازات: يرسل ضغطا تجاوبيا (Pilot) لمنظمي N2O وCO2 التابعين. إن انخفض أو انقطع ضغط الأوكسجين لأي سبب، ينقطع معه الضغط التجاوبي فتُغلق المنظمات التابعة تلقائيا، مما يمنع خطر استنشاق المريض لنسبة عالية من أي غاز آخر دون أوكسجين.",
+    },
+    "n2o-regulator-secondary": {
+      title: "منظم ضغط أوكسيد النتروز (تابع)",
+      text: "لا يسمح بمرور الغاز إلا إذا كان يتلقى ضغطا تجاوبيا كافيا من منظم الأوكسجين الرئيسي؛ فإذا انخفض ضغط الأوكسجين ينغلق هذا المنظم معه.",
+    },
+    "co2-regulator-secondary": {
+      title: "منظم ضغط ثاني أوكسيد الكربون (تابع)",
+      text: "يعمل بنفس مبدأ منظم N2O التابع: يعتمد في عمله على الضغط التجاوبي القادم من منظم الأوكسجين الرئيسي.",
+    },
+    manifold: {
+      title: "مشعب التجميع (Manifold)",
+      text: "يجمع الغازات الثلاثة القادمة من المنظمات (O2، N2O، CO2) قبل توزيعها على أجهزة قياس التدفق (الفلوميترات).",
+    },
+    flowmeters: {
+      title: "الفلوميترات (O، A، B)",
+      text: "تضبط معدل تدفق كل غاز على حدة قبل امتزاجها معا في طريقها إلى المريض.",
+    },
+    "patient-output": {
+      title: "إلى المريض (مزيج الغازات)",
+      text: "تؤمّن طريقة التوصيل هذه أن الأوكسجين سيصل للمريض في كل الأحوال، وعدم إمكانية تأثير غازي أوكسيد النتروز وثاني أوكسيد الكربون على وصول الأوكسجين للمريض.",
+    },
+  };
+
+  wireDiagramSimulator(".primary-secondary-gas-connection-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
+</script>

@@ -1,0 +1,292 @@
+---
+// Figure 9-8 (الأنبوبة الروتاميترية ذات العوامة — Rotameter). A glass tube
+// tapered narrower at the bottom and wider toward the top; gas flowing
+// upward lifts the float to a height proportional to flow rate, and since
+// the gap between float and tube wall grows non-linearly as the float
+// rises, the tube's L/min graduation marks are spaced closer together
+// near the bottom and farther apart near the top. Slits on the float's
+// upper rim make it spin in the gas stream so it never sticks to the
+// glass. This is the one diagram in the batch built for real
+// interactivity: three flow-rate buttons (low/medium/high) reposition the
+// float via a CSS custom state on top of the standard play/pause/replay
+// engine.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft rotameter-float-diagram">
+  <div class="simulator-shell" data-flow="low">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة الأنبوبة الروتاميترية ذات العوامة</span>
+      <span class="simulator-subtitle">شكل 9-8 — الروتاميتر: العلاقة بين معدل التدفق وارتفاع العوامة</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="rm8-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="620"
+          height="480"
+          viewBox="0 0 620 480"
+          role="img"
+          aria-label="الأنبوبة الروتاميترية ذات العوامة"
+        >
+          <defs>
+            <marker id="rm8-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="rm8BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="rm8Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="rm8GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="rm8GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="rm8GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+
+            <filter id="rm8Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="rm8Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="620" height="480" rx="20" fill="url(#rm8BgGrad)"></rect>
+          <rect x="0" y="0" width="620" height="480" rx="20" fill="url(#rm8Grid)"></rect>
+
+          <text x="310" y="28" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">الأنبوبة الروتاميترية ذات العوامة</text>
+
+          <!-- decorative gas inlet arrow (not a hotspot) -->
+          <path d="M 260,455 L 260,432" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#rm8-arrow)"></path>
+          <text x="260" y="470" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#dbe0ec" direction="rtl">من الفلوميتر</text>
+
+          <g class="link" data-link="conical-tube" data-link-to="float">
+            <line id="rm8-wire-1" x1="260" y1="420" x2="260" y2="80" stroke="none"></line>
+            <circle class="current-particle" r="3" fill="#38BDF8" filter="url(#rm8Glow)" style="offset-path: url(#rm8-wire-1); --flow-delay:0.6s; --flow-duration:1.3s;"></circle>
+          </g>
+
+          <!-- conical tube -->
+          <g class="hotspot" data-component="conical-tube" tabindex="0" role="button" aria-label="أنبوبة مخروطية">
+            <path class="box-shape" d="M 230,430 L 190,60 L 330,60 L 290,430 Z" fill="url(#rm8GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#rm8Elevate)"></path>
+          </g>
+
+          <!-- graduation marks -->
+          <g class="hotspot" data-component="graduations" tabindex="0" role="button" aria-label="التدريج غير الخطي">
+            <rect class="box-shape" x="295" y="50" width="120" height="390" rx="8" fill="rgba(192,132,252,0.05)" stroke="#C084FC" stroke-width="1.4" filter="url(#rm8Elevate)"></rect>
+            <g stroke="#C084FC" stroke-width="1" fill="#dcc8fb" font-family="Cairo, sans-serif" font-size="9" direction="ltr">
+              <line x1="300" y1="420" x2="330" y2="420"></line><text x="336" y="424">200</text>
+              <line x1="300" y1="406" x2="330" y2="406"></line><text x="336" y="410">400</text>
+              <line x1="300" y1="388" x2="330" y2="388"></line><text x="336" y="392">600</text>
+              <line x1="300" y1="366" x2="330" y2="366"></line><text x="336" y="370">800</text>
+              <line x1="300" y1="340" x2="330" y2="340"></line><text x="336" y="344">1000</text>
+              <line x1="300" y1="310" x2="330" y2="310"></line><text x="336" y="314">1500</text>
+              <line x1="300" y1="276" x2="330" y2="276"></line><text x="336" y="280">2000</text>
+              <line x1="300" y1="238" x2="330" y2="238"></line><text x="336" y="242">3 L</text>
+              <line x1="300" y1="196" x2="330" y2="196"></line><text x="336" y="200">4 L</text>
+              <line x1="300" y1="150" x2="330" y2="150"></line><text x="336" y="154">6 L</text>
+              <line x1="300" y1="100" x2="330" y2="100"></line><text x="336" y="104">8 L</text>
+              <line x1="300" y1="64" x2="330" y2="64"></line><text x="336" y="68">10 L</text>
+            </g>
+            <text x="355" y="450" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#dcc8fb" direction="rtl">لتر/دقيقة (غير خطي)</text>
+          </g>
+
+          <!-- float (position driven by data-flow on the shell) -->
+          <g class="hotspot" data-component="float" tabindex="0" role="button" aria-label="عوامة">
+            <g class="float-group">
+              <ellipse class="box-shape" cx="260" cy="400" rx="22" ry="14" fill="url(#rm8GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#rm8Elevate)"></ellipse>
+              <g class="float-spin">
+                <path d="M 244,400 L 276,400 M 249,394 L 271,406 M 271,394 L 249,406" stroke="#0a1712" stroke-width="1.2"></path>
+              </g>
+            </g>
+          </g>
+
+          <text x="150" y="440" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#9fd8f8" direction="rtl">قطر متضيق تدريجيا للأسفل</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الروتاميتر</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="conical-tube"><span class="status-dot dot-blue"></span><span class="status-label">أنبوبة مخروطية</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يرتفع الغاز</span></span></li>
+          <li class="status-row" data-status="graduations"><span class="status-dot dot-purple"></span><span class="status-label">التدريج</span><span class="status-value"><span class="value-off">—</span><span class="value-on">غير خطي</span></span></li>
+          <li class="status-row" data-status="float"><span class="status-dot dot-green"></span><span class="status-label">عوامة</span><span class="status-value" data-flow-value>
+            <span class="value-off">في القاع</span>
+            <span class="value-on flow-low">تدفق منخفض</span>
+            <span class="value-on flow-medium">تدفق متوسط</span>
+            <span class="value-on flow-high">تدفق مرتفع</span>
+          </span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي جزء لعرض شرحه — أو جرّب أزرار التدفق أدناه لرفع العوامة</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>الأنبوبة المخروطية</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>التدريج غير الخطي</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>العوامة الدوّارة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+    <button type="button" class="diagram-replay-button flow-button" data-flow-button="low" aria-pressed="true">تدفق منخفض</button>
+    <button type="button" class="diagram-replay-button flow-button" data-flow-button="medium" aria-pressed="false">تدفق متوسط</button>
+    <button type="button" class="diagram-replay-button flow-button" data-flow-button="high" aria-pressed="false">تدفق مرتفع</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#rm8Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#rm8Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#rm8Glow); }
+
+  .flow-button[aria-pressed="true"] {
+    background: #4ADE80;
+    color: #0a1712;
+  }
+
+  /* Float vertical position: three fixed, non-linear stops driven by
+     data-flow on the shell (default = low). */
+  .float-group {
+    transform: translateY(0px);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .simulator-shell[data-flow="medium"] .float-group { transform: translateY(-160px); }
+  .simulator-shell[data-flow="high"] .float-group { transform: translateY(-310px); }
+
+  /* Only the label matching the current flow mode is ever rendered; which
+     one is visible during playback is still governed by the shared
+     value-on/value-off opacity animation below. */
+  .simulator-shell:not([data-flow="low"]) [data-flow-value] .flow-low,
+  .simulator-shell:not([data-flow="medium"]) [data-flow-value] .flow-medium,
+  .simulator-shell:not([data-flow="high"]) [data-flow-value] .flow-high {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Gentle continuous spin on the float's slot marks, representing the
+       anti-sticking rotation described in the source text — ambient, not
+       gated to the play button. */
+    .float-spin {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: rm8-float-spin 4s linear infinite;
+    }
+    @keyframes rm8-float-spin { to { transform: rotate(360deg); } }
+
+    @keyframes rm8-shape-activate { to { filter: url(#rm8Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes rm8-reveal-trail { to { opacity: 0.85; } }
+    @keyframes rm8-status-value-on { to { opacity: 1; } }
+    @keyframes rm8-status-value-off { to { opacity: 0; } }
+    @keyframes rm8-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes rm8-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes rm8-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="conical-tube"] .box-shape { animation: rm8-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="conical-tube"] .status-dot { animation: rm8-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="conical-tube"] .value-on { animation: rm8-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="conical-tube"] .value-off { animation: rm8-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="conical-tube"] .trail { animation: rm8-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="graduations"] .box-shape { animation: rm8-shape-activate 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="graduations"] .status-dot { animation: rm8-dot-on-purple 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="graduations"] .value-on { animation: rm8-status-value-on 0.4s ease-out 0.7s forwards; }
+    .playing [data-status="graduations"] .value-off { animation: rm8-status-value-off 0.4s ease-out 0.7s forwards; }
+
+    .playing [data-component="float"] .box-shape { animation: rm8-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="float"] .status-dot { animation: rm8-dot-on-green 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="float"] .value-on { animation: rm8-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="float"] .value-off { animation: rm8-status-value-off 0.4s ease-out 1.3s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes rm8-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: rm8-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "conical-tube": {
+      title: "الأنبوبة المخروطية",
+      text: "أنبوبة زجاجية بقطر متضيق تدريجيا نحو الأسفل ومتسع نحو الأعلى. يتدفق الغاز خلالها من الأسفل إلى الأعلى ويؤثر في العوامة الموجودة بداخلها.",
+    },
+    graduations: {
+      title: "التدريج (غير خطي)",
+      text: "تُدرَّج الأنبوبة عادة بوحدة معدل التدفق (لتر/دقيقة)، لكن التدريج غير خطي: كلما ارتفعت العوامة نحو الأعلى ازدادت المساحة الفارغة بينها وبين جدار الأنبوبة، فتتقارب العلامات عند الأسفل وتتباعد عند الأعلى.",
+    },
+    float: {
+      title: "العوامة (Float)",
+      text: "عندما يتدفق الغاز فإنه يؤثر في العوامة فترتفع نحو الأعلى بشكل متناسب مع معدل تدفق الغاز. تدور العوامة بفضل الشقوق الموجودة على إطارها العلوي كي لا يحدث التصاق لها مع جدار الأنبوبة. جرّب أزرار التدفق أدناه لرؤية تأثير كل معدل.",
+    },
+  };
+
+  wireDiagramSimulator(".rotameter-float-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+
+  document.querySelectorAll(".rotameter-float-diagram [data-flow-button]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".rotameter-float-diagram")?.querySelector(".simulator-shell");
+      const flow = btn.getAttribute("data-flow-button");
+      if (!(shell instanceof HTMLElement) || !flow) return;
+      shell.dataset.flow = flow;
+      shell.querySelectorAll("[data-flow-button]").forEach((b) => {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+    });
+  });
+</script>
