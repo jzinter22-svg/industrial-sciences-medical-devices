@@ -1,0 +1,235 @@
+---
+// Figure 9-11 (طريقة الكأس المعدني وطريقة الفتيلة لزيادة معدل التبخير).
+// Two independent ways to increase a vaporizer's evaporation rate, shown
+// side by side exactly as in the source figure: (أ) a wick — a strip of
+// cloth dipped in the anesthetic liquid that draws it upward by
+// capillary action and spreads it over a larger surface area; (ب) a
+// movable metal cup on a plunger (Boyle's bottle) — the deeper the cup is
+// pushed into the liquid, the higher the concentration of anesthetic
+// vapor picked up by the gas stream.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft vaporizer-wick-metal-cup-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة طريقتي الفتيلة والكأس المعدني</span>
+      <span class="simulator-subtitle">شكل 9-11 — طريقتان لزيادة معدل التبخير</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="vp11-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="420"
+          viewBox="0 0 900 420"
+          role="img"
+          aria-label="طريقة الكأس المعدني وطريقة الفتيلة لزيادة معدل التبخير"
+        >
+          <defs>
+            <marker id="vp11-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="vp11BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="vp11Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="vp11GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="vp11GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+
+            <filter id="vp11Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="vp11Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#vp11BgGrad)"></rect>
+          <rect x="0" y="0" width="900" height="420" rx="20" fill="url(#vp11Grid)"></rect>
+
+          <text x="450" y="26" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">طريقتا الفتيلة والكأس المعدني لزيادة معدل التبخير</text>
+
+          <line x1="450" y1="55" x2="450" y2="390" stroke="rgba(148,163,184,0.2)" stroke-width="1.5" stroke-dasharray="4 6"></line>
+
+          <!-- (أ) wick method -->
+          <g class="hotspot" data-component="wick-method" tabindex="0" role="button" aria-label="طريقة الفتيلة">
+            <rect class="box-shape" x="55" y="70" width="360" height="300" rx="12" fill="url(#vp11GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#vp11Elevate)"></rect>
+            <text x="235" y="98" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">(أ) طريقة الفتيلة (Wick)</text>
+
+            <!-- glass container -->
+            <rect x="140" y="130" width="190" height="210" rx="6" fill="none" stroke="#9fd8f8" stroke-width="1.6"></rect>
+            <rect x="140" y="280" width="190" height="60" fill="rgba(56,189,248,0.18)"></rect>
+            <text x="235" y="325" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#9fd8f8" direction="rtl">سائل التخدير</text>
+
+            <!-- wick strip -->
+            <rect x="220" y="140" width="30" height="195" fill="rgba(159,216,248,0.25)" stroke="#9fd8f8" stroke-width="1.2"></rect>
+            <rect class="wick-wet-fill" x="220" y="140" width="30" height="195" fill="#38BDF8"></rect>
+            <text x="235" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#9fd8f8" direction="rtl">فتيلة قماشية</text>
+          </g>
+
+          <!-- (ب) metal cup method -->
+          <g class="hotspot" data-component="metal-cup-method" tabindex="0" role="button" aria-label="طريقة الكأس المعدني">
+            <rect class="box-shape" x="485" y="70" width="360" height="300" rx="12" fill="url(#vp11GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#vp11Elevate)"></rect>
+            <text x="665" y="98" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">(ب) طريقة الكأس المعدني</text>
+
+            <!-- glass container -->
+            <rect x="570" y="130" width="190" height="210" rx="6" fill="none" stroke="#fcd9b6" stroke-width="1.6"></rect>
+            <rect x="570" y="280" width="190" height="60" fill="rgba(251,146,60,0.18)"></rect>
+            <text x="665" y="325" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#fcd9b6" direction="rtl">سائل التخدير</text>
+
+            <!-- plunger + cap -->
+            <line x1="665" y1="95" x2="665" y2="255" stroke="#FB923C" stroke-width="3"></line>
+            <g class="plunger-cap">
+              <rect x="635" y="255" width="60" height="24" rx="4" fill="#FB923C" stroke="#fcd9b6" stroke-width="1.4"></rect>
+              <text x="665" y="271" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#1a0f08" direction="rtl">غطاء</text>
+            </g>
+
+            <!-- double-headed arrow -->
+            <path d="M 715,170 L 715,240" fill="none" stroke="#fcd9b6" stroke-width="1.6" marker-end="url(#vp11-arrow)" marker-start="url(#vp11-arrow)"></path>
+            <text x="740" y="210" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#fcd9b6" direction="rtl" writing-mode="vertical-rl">مكبس متحرك</text>
+          </g>
+
+          <text x="235" y="380" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#9fd8f8" direction="rtl">تمتص الفتيلة السائل وتنشره على مساحة أكبر</text>
+          <text x="665" y="380" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#fcd9b6" direction="rtl">كلما حُرك الغطاء للأسفل ازداد تركيز المخدر</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">الطريقتان</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="wick-method"><span class="status-dot dot-blue"></span><span class="status-label">(أ) الفتيلة</span><span class="status-value"><span class="value-off">جافة</span><span class="value-on">تمتص السائل</span></span></li>
+          <li class="status-row" data-status="metal-cup-method"><span class="status-dot dot-orange"></span><span class="status-label">(ب) الكأس المعدني</span><span class="status-value"><span class="value-off">ثابت</span><span class="value-on">يتحرك المكبس</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على إحدى الطريقتين لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>طريقة الفتيلة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>طريقة الكأس المعدني</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#vp11Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#vp11Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#vp11Glow); }
+
+  .wick-wet-fill {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    transform: scaleY(0.18);
+    transition: transform 0.6s ease;
+  }
+
+  .plunger-cap {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes vp11-shape-activate { to { filter: url(#vp11Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes vp11-reveal-trail { to { opacity: 0.85; } }
+    @keyframes vp11-status-value-on { to { opacity: 1; } }
+    @keyframes vp11-status-value-off { to { opacity: 0; } }
+    @keyframes vp11-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes vp11-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="wick-method"] .box-shape { animation: vp11-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wick-method"] .status-dot { animation: vp11-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wick-method"] .value-on { animation: vp11-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="wick-method"] .value-off { animation: vp11-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing .wick-wet-fill { animation: vp11-wick-climb 1.6s ease-out 0.2s forwards; }
+    @keyframes vp11-wick-climb { to { transform: scaleY(1); } }
+
+    .playing [data-component="metal-cup-method"] .box-shape { animation: vp11-shape-activate 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="metal-cup-method"] .status-dot { animation: vp11-dot-on-orange 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="metal-cup-method"] .value-on { animation: vp11-status-value-on 0.4s ease-out 0.8s forwards; }
+    .playing [data-status="metal-cup-method"] .value-off { animation: vp11-status-value-off 0.4s ease-out 0.8s forwards; }
+    .playing .plunger-cap { animation: vp11-plunger-move 1.6s ease-in-out 1.0s forwards; }
+    @keyframes vp11-plunger-move { 0% { transform: translateY(0); } 60% { transform: translateY(28px); } 100% { transform: translateY(28px); } }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes vp11-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: vp11-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "wick-method": {
+      title: "(أ) طريقة الفتيلة (Wick)",
+      text: "استخدام فتيلة، وهي عبارة عن قطعة قماش يُغمس أحد طرفيها في السائل المخدر حيث تمتصه بالخاصية الشعرية وينتشر على الجزء العلوي منها، مما يزيد من مساحة السطح المعرَّضة للغاز ويرفع معدل التبخير.",
+    },
+    "metal-cup-method": {
+      title: "(ب) طريقة الكأس المعدني (مبخر بويل)",
+      text: "استخدام غطاء معدني يُحرَّك باستخدام مكبس، والذي كلما حُرِّك نحو الأسفل (أعمق في السائل) ازداد تركيز المادة المخدرة في الخليط الغازي الخارج.",
+    },
+  };
+
+  wireDiagramSimulator(".vaporizer-wick-metal-cup-diagram", { cycleMs: 2600, componentInfo: COMPONENT_INFO });
+</script>

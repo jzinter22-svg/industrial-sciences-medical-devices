@@ -1,0 +1,414 @@
+---
+// Figure 9-15 (مبخر التعويض الحراري — فلوتيك مارك 2) — the most detailed
+// vaporizer in the chapter. Closed mode: gas goes A -> S (direct path) ->
+// B, with valve half F blocking the chamber entry (C) while G lets it
+// out to S. Open mode: turning knob M counter-clockwise moves the F/G
+// shaft (via helical groove R and guide pin Q), opening C and D so gas
+// instead flows A -> C -> vaporizing chamber N -> D/E -> B, while the
+// direct path narrows. A bimetallic thermal valve inside N opens further
+// as N cools, admitting more gas when the natural evaporation rate
+// drops. Every hotspot keeps the source's letter label (A, S, F/G, M, N,
+// B) per the brief.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft thermo-compensated-vaporizer-diagram">
+  <div class="simulator-shell" data-mode="closed">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مبخر التعويض الحراري (فلوتيك مارك 2)</span>
+      <span class="simulator-subtitle">شكل 9-15 — الوضع المغلق مقابل المفتوح</span>
+    </div>
+
+    <div class="mode-toggle-row">
+      <button type="button" class="mode-toggle-button" data-mode-button="closed" aria-pressed="true">مغلق (Closed)</button>
+      <button type="button" class="mode-toggle-button" data-mode-button="open" aria-pressed="false">مفتوح (Open)</button>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="vp15-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="920"
+          height="480"
+          viewBox="0 0 920 480"
+          role="img"
+          aria-label="مبخر التعويض الحراري فلوتيك مارك 2"
+        >
+          <defs>
+            <marker id="vp15-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="vp15BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="vp15Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="vp15GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f2438"></stop><stop offset="100%" stop-color="#081420"></stop></linearGradient>
+            <linearGradient id="vp15GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+            <linearGradient id="vp15GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="vp15GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="vp15GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#1a0a0a"></stop></linearGradient>
+            <linearGradient id="vp15GradGray" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a3242"></stop><stop offset="100%" stop-color="#12161f"></stop></linearGradient>
+
+            <filter id="vp15Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="vp15Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="920" height="480" rx="20" fill="url(#vp15BgGrad)"></rect>
+          <rect x="0" y="0" width="920" height="480" rx="20" fill="url(#vp15Grid)"></rect>
+
+          <text x="460" y="24" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="rtl">مبخر التعويض الحراري — فلوتيك مارك 2</text>
+
+          <!-- A: inlet -->
+          <g class="hotspot" data-component="inlet-a" tabindex="0" role="button" aria-label="المدخل A">
+            <rect class="box-shape" x="30" y="210" width="90" height="70" rx="10" fill="url(#vp15GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#vp15Elevate)"></rect>
+            <text x="75" y="240" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">المدخل</text>
+            <text x="75" y="256" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#9fd8f8" direction="ltr">(A)</text>
+          </g>
+
+          <g class="link" data-link="inlet-a" data-link-to="valve-fg">
+            <line id="vp15-wire-1" x1="120" y1="245" x2="168" y2="245" stroke="#5b6478" stroke-width="2.5" marker-end="url(#vp15-arrow)"></line>
+            <line class="trail" x1="120" y1="245" x2="166" y2="245" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#38BDF8" filter="url(#vp15Glow)" style="offset-path: url(#vp15-wire-1); --flow-delay:0.2s; --flow-duration:0.6s;"></circle>
+          </g>
+
+          <!-- F/G valve -->
+          <g class="hotspot" data-component="valve-fg" tabindex="0" role="button" aria-label="الصمام F و G">
+            <rect class="box-shape" x="170" y="175" width="140" height="140" rx="14" fill="url(#vp15GradOrange)" stroke="#FB923C" stroke-width="2.5" filter="url(#vp15Elevate)"></rect>
+            <rect class="gate-f" x="188" y="195" width="34" height="20" rx="4" fill="#EF4444"></rect>
+            <text x="205" y="209" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#1a0a0a" direction="ltr">F</text>
+            <rect class="gate-g" x="258" y="280" width="34" height="20" rx="4" fill="#4ADE80"></rect>
+            <text x="275" y="294" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#0a1712" direction="ltr">G</text>
+            <text x="240" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">صمام F / G</text>
+          </g>
+
+          <!-- M: calibrated control knob, with shaft R/Q -->
+          <line x1="240" y1="145" x2="240" y2="175" stroke="#C084FC" stroke-width="2"></line>
+          <text x="252" y="163" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#d9b3fb" direction="ltr">R</text>
+          <text x="228" y="172" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#d9b3fb" direction="ltr">Q</text>
+          <g class="hotspot" data-component="control-knob-m" tabindex="0" role="button" aria-label="مقبض التحكم المعاير M">
+            <circle class="box-shape" cx="240" cy="95" r="52" fill="url(#vp15GradPurple)" stroke="#C084FC" stroke-width="2.5" filter="url(#vp15Elevate)"></circle>
+            <line class="control-knob-arrow" x1="240" y1="95" x2="240" y2="55" stroke="#C084FC" stroke-width="2.4"></line>
+            <text x="240" y="120" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">مقبض M</text>
+          </g>
+
+          <!-- S: direct path channel -->
+          <g class="hotspot" data-component="direct-path-s" tabindex="0" role="button" aria-label="المسار المباشر S">
+            <rect class="box-shape" x="310" y="228" width="380" height="34" rx="10" fill="#3a4258" stroke="#94a3b8" stroke-width="1.6" filter="url(#vp15Elevate)"></rect>
+            <text x="335" y="222" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#cbd5e1" direction="ltr">S</text>
+          </g>
+
+          <line id="vp15-wire-s-full" x1="170" y1="245" x2="758" y2="245" stroke="none" fill="none"></line>
+          <g class="link" data-link="valve-fg" data-link-to="direct-path-s">
+            <line x1="310" y1="245" x2="308" y2="245" stroke="#5b6478" stroke-width="2"></line>
+            <line class="trail" x1="300" y1="245" x2="312" y2="245" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="4 6"></line>
+          </g>
+          <g class="link" data-link="direct-path-s" data-link-to="outlet-b">
+            <line id="vp15-wire-3" x1="690" y1="245" x2="758" y2="245" stroke="#5b6478" stroke-width="2.5" marker-end="url(#vp15-arrow)"></line>
+            <line class="trail" x1="690" y1="245" x2="756" y2="245" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.2" fill="#cbd5e1" filter="url(#vp15Glow)" style="offset-path: url(#vp15-wire-s-full); --flow-delay:0.8s; --flow-duration:1.6s;"></circle>
+          </g>
+
+          <!-- N: vaporizing chamber, containing the thermal valve -->
+          <g class="chamber-path">
+            <path id="vp15-wire-c" d="M 280,178 C 350,120 480,120 560,140" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#vp15-arrow)"></path>
+            <path class="trail" d="M 280,178 C 350,120 480,120 558,140" fill="none" stroke="#4ADE80" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3.2" fill="#4ADE80" filter="url(#vp15Glow)" style="offset-path: url(#vp15-wire-c); --flow-delay:1.2s; --flow-duration:0.8s;"></circle>
+          </g>
+          <text class="chamber-path" x="330" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#a8f0c0" direction="ltr">C</text>
+
+          <g class="hotspot" data-component="vaporizing-chamber-n" tabindex="0" role="button" aria-label="غرفة التبخير N">
+            <rect class="box-shape" x="560" y="60" width="210" height="160" rx="16" fill="url(#vp15GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#vp15Elevate)"></rect>
+            <path d="M 585,175 q 40,-12 80,0 t 90,0 v25 h-170 z" fill="#c9a03a" opacity="0.45"></path>
+            <path d="M 600,150 v20 M 610,150 v20 M 620,150 v20" stroke="#4ADE80" stroke-width="1.3"></path>
+            <text x="665" y="80" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">غرفة التبخير</text>
+            <text x="665" y="95" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#bcf5d1" direction="ltr">(N)</text>
+          </g>
+
+          <!-- thermal valve inside N -->
+          <g class="hotspot" data-component="thermal-valve" tabindex="0" role="button" aria-label="الصمام الحراري ثنائي المعدن">
+            <rect class="box-shape" x="595" y="105" width="140" height="40" rx="8" fill="url(#vp15GradRed)" stroke="#EF4444" stroke-width="2" filter="url(#vp15Elevate)"></rect>
+            <path d="M 610,125 Q 665,110 720,125" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round"></path>
+            <text x="665" y="138" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#f7c9c9" direction="rtl">صمام حراري</text>
+          </g>
+
+          <g class="chamber-path">
+            <path id="vp15-wire-de" d="M 665,220 C 700,270 760,280 805,240" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#vp15-arrow)"></path>
+            <path class="trail" d="M 665,220 C 700,270 760,280 803,241" fill="none" stroke="#4ADE80" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3.2" fill="#4ADE80" filter="url(#vp15Glow)" style="offset-path: url(#vp15-wire-de); --flow-delay:2.0s; --flow-duration:0.9s;"></circle>
+          </g>
+          <text class="chamber-path" x="740" y="270" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#a8f0c0" direction="ltr">D · E</text>
+
+          <!-- B: outlet -->
+          <g class="hotspot" data-component="outlet-b" tabindex="0" role="button" aria-label="المخرج B">
+            <rect class="box-shape" x="760" y="210" width="90" height="70" rx="10" fill="url(#vp15GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#vp15Elevate)"></rect>
+            <text x="805" y="240" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#eef1f8" direction="rtl">المخرج</text>
+            <text x="805" y="256" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#9fd8f8" direction="ltr">(B)</text>
+          </g>
+
+          <text class="mode-caption-closed" x="460" y="450" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">مغلق: المسار A → S → B فقط، والجزء F يغلق الفتحة C إلى غرفة التبخير</text>
+          <text class="mode-caption-open" x="460" y="450" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">مفتوح: A → C → غرفة التبخير N → D → E → B، ويضيق المسار المباشر S</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المبخر</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="inlet-a"><span class="status-dot dot-blue"></span><span class="status-label">المدخل (A)</span><span class="status-value"><span class="value-off">لا سريان</span><span class="value-on">يدخل الغاز</span></span></li>
+          <li class="status-row" data-status="valve-fg"><span class="status-dot dot-orange"></span><span class="status-label">الصمام (F/G)</span><span class="status-value"><span class="value-off">مغلق نحو N</span><span class="value-on">يوزّع الغاز</span></span></li>
+          <li class="status-row" data-status="control-knob-m"><span class="status-dot dot-purple"></span><span class="status-label">مقبض M</span><span class="status-value"><span class="value-off">صفر %</span><span class="value-on">مضبوط</span></span></li>
+          <li class="status-row" data-status="direct-path-s"><span class="status-dot dot-gray"></span><span class="status-label">المسار المباشر (S)</span><span class="status-value"><span class="value-off">—</span><span class="value-on">يمر الغاز</span></span></li>
+          <li class="status-row" data-status="vaporizing-chamber-n"><span class="status-dot dot-green"></span><span class="status-label">غرفة التبخير (N)</span><span class="status-value"><span class="value-off">معزولة</span><span class="value-on">تضيف البخار</span></span></li>
+          <li class="status-row" data-status="thermal-valve"><span class="status-dot dot-red"></span><span class="status-label">الصمام الحراري</span><span class="status-value"><span class="value-off">—</span><span class="value-on">يعوّض حراريا</span></span></li>
+          <li class="status-row" data-status="outlet-b"><span class="status-dot dot-blue"></span><span class="status-label">المخرج (B)</span><span class="status-value"><span class="value-off">لا خرج</span><span class="value-on">خليط مخدّر</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه — أو بدّل بين الوضع المغلق والمفتوح من الأزرار أعلاه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>المدخل A / المخرج B</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الصمام F/G</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مقبض التحكم M</li>
+      <li class="legend-item"><span class="legend-swatch legend-gray"></span>المسار المباشر S</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>غرفة التبخير N (C·D·E)</li>
+      <li class="legend-item"><span class="legend-swatch legend-red"></span>الصمام الحراري</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .dot-gray { background: #94a3b8; }
+  .legend-gray { background: #94a3b8; }
+
+  .mode-toggle-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0 var(--neo-space-md) var(--neo-space-sm);
+    flex-wrap: wrap;
+  }
+
+  .mode-toggle-button {
+    font-family: "Cairo", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.04);
+    color: #c3c9dc;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .mode-toggle-button:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .mode-toggle-button[aria-pressed="true"] {
+    background: #FBBF24;
+    border-color: #FBBF24;
+    color: #1a1608;
+  }
+
+  .hotspot .box-shape {
+    filter: url(#vp15Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#vp15Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#vp15Glow); }
+
+  .control-knob-arrow {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.4s ease;
+  }
+  .simulator-shell[data-mode="open"] .control-knob-arrow { transform: rotate(-70deg); }
+
+  .gate-f { transition: fill 0.3s ease; }
+  .simulator-shell[data-mode="open"] .gate-f { fill: #4ADE80; }
+
+  .chamber-path { opacity: 0.2; transition: opacity 0.3s ease; }
+  .simulator-shell[data-mode="open"] .chamber-path { opacity: 1; }
+
+  [data-component="direct-path-s"] .box-shape { transition: opacity 0.3s ease; }
+  .simulator-shell[data-mode="open"] [data-component="direct-path-s"] .box-shape,
+  .simulator-shell[data-mode="open"] [data-link="valve-fg"][data-link-to="direct-path-s"] .trail,
+  .simulator-shell[data-mode="open"] [data-link="direct-path-s"][data-link-to="outlet-b"] .trail {
+    opacity: 0.35;
+  }
+
+  .mode-caption-open { opacity: 0; }
+  .simulator-shell[data-mode="open"] .mode-caption-closed { opacity: 0; }
+  .simulator-shell[data-mode="open"] .mode-caption-open { opacity: 1; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes vp15-shape-activate { to { filter: url(#vp15Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes vp15-reveal-trail { to { opacity: 0.85; } }
+    @keyframes vp15-status-value-on { to { opacity: 1; } }
+    @keyframes vp15-status-value-off { to { opacity: 0; } }
+    @keyframes vp15-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes vp15-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes vp15-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes vp15-dot-on-gray { to { background: #94a3b8; box-shadow: 0 0 8px 1px rgba(148, 163, 184, 0.8); } }
+    @keyframes vp15-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes vp15-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+
+    .playing [data-component="inlet-a"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inlet-a"] .status-dot { animation: vp15-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inlet-a"] .value-on { animation: vp15-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="inlet-a"] .value-off { animation: vp15-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="inlet-a"] .trail { animation: vp15-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="valve-fg"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="valve-fg"] .status-dot { animation: vp15-dot-on-orange 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="valve-fg"] .value-on { animation: vp15-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="valve-fg"] .value-off { animation: vp15-status-value-off 0.4s ease-out 0.6s forwards; }
+
+    .playing [data-component="control-knob-m"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="control-knob-m"] .status-dot { animation: vp15-dot-on-purple 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="control-knob-m"] .value-on { animation: vp15-status-value-on 0.4s ease-out 1.0s forwards; }
+    .playing [data-status="control-knob-m"] .value-off { animation: vp15-status-value-off 0.4s ease-out 1.0s forwards; }
+
+    .playing [data-component="direct-path-s"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="direct-path-s"] .status-dot { animation: vp15-dot-on-gray 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="direct-path-s"] .value-on { animation: vp15-status-value-on 0.4s ease-out 1.4s forwards; }
+    .playing [data-status="direct-path-s"] .value-off { animation: vp15-status-value-off 0.4s ease-out 1.4s forwards; }
+    .playing [data-link="direct-path-s"] .trail { animation: vp15-reveal-trail 0.3s ease-out 1.7s forwards; }
+
+    .playing .chamber-path .trail { animation: vp15-reveal-trail 0.3s ease-out 1.7s forwards; }
+    .playing [data-component="vaporizing-chamber-n"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 2.0s forwards; }
+    .playing [data-status="vaporizing-chamber-n"] .status-dot { animation: vp15-dot-on-green 0.4s ease-out 2.0s forwards; }
+    .playing [data-status="vaporizing-chamber-n"] .value-on { animation: vp15-status-value-on 0.4s ease-out 2.0s forwards; }
+    .playing [data-status="vaporizing-chamber-n"] .value-off { animation: vp15-status-value-off 0.4s ease-out 2.0s forwards; }
+
+    .playing [data-component="thermal-valve"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="thermal-valve"] .status-dot { animation: vp15-dot-on-red 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="thermal-valve"] .value-on { animation: vp15-status-value-on 0.4s ease-out 2.4s forwards; }
+    .playing [data-status="thermal-valve"] .value-off { animation: vp15-status-value-off 0.4s ease-out 2.4s forwards; }
+
+    .playing [data-component="outlet-b"] .box-shape { animation: vp15-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="outlet-b"] .status-dot { animation: vp15-dot-on-blue 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="outlet-b"] .value-on { animation: vp15-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="outlet-b"] .value-off { animation: vp15-status-value-off 0.4s ease-out 2.9s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes vp15-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: vp15-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+    .simulator-shell[data-mode="open"] [data-link="direct-path-s"][data-link-to="outlet-b"] .current-particle {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+    .simulator-shell:not([data-mode="open"]) .chamber-path .current-particle {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "inlet-a": {
+      title: "المدخل (A)",
+      text: "نقطة دخول خليط الغازات إلى مبخر الفلوتيك مارك 2، القادم من العمود الخلفي.",
+    },
+    "direct-path-s": {
+      title: "المسار المباشر (S)",
+      text: "في الوضع المغلق تمر الغازات من (A) مباشرة عبر المسار (S) إلى (B) دون الدخول إلى غرفة التبخير. وعند فتح الصمام يُقلَّل تدريجيا من فتحة هذا المسار المباشر لصالح المسار عبر غرفة التبخير.",
+    },
+    "valve-fg": {
+      title: "الصمام المعاير (F/G)",
+      text: "يتكون من جزءين F و G يتحكمان بنسبة تركيز الغازات المارة عبر كل من المسارين. في الوضع المغلق يُغلق الجزء (F) فتحة الدخول (C) إلى غرفة التبخير (N)، بينما يسمح الجزء (G) بخروج الغاز عبر المسار (S) ثم (B).",
+    },
+    "control-knob-m": {
+      title: "مقبض التحكم المعاير (M)",
+      text: "بإدارة المقبض عكس اتجاه عقارب الساعة يتحرك محور الدوران المتصل بالجزءين (F) و(G) نحو اليمين، بفعل الأخدود الحلزوني (R) ومسمار الدليل (Q)، ففتح المسارين (C) و(D) وتقليل فتحة المسار المباشر. تُدرَّج حافة المقبض بقيم تراكيز مختلفة حتى 5%.",
+    },
+    "vaporizing-chamber-n": {
+      title: "غرفة التبخير (N)",
+      text: "تحوي فتيلة وسائل التخدير (كالفلوثين/الهالوثين). في الوضع المفتوح تدخل الغازات إليها عبر الفتحة (C) وتخرج عبر (D) ثم (E) إلى (B) بعد أن تحمل بخار المادة المخدرة.",
+    },
+    "thermal-valve": {
+      title: "الصمام الحراري (شريحة ثنائية المعدن)",
+      text: "بانخفاض درجة الحرارة داخل غرفة التبخير يفتح هذا الصمام بدرجة أكبر، ليسمح لجزء أكبر من الغازات الكلية بالمرور داخل الغرفة، تعويضا عن انخفاض معدل التبخر الطبيعي مع البرودة.",
+    },
+    "outlet-b": {
+      title: "المخرج (B) إلى المريض",
+      text: "نقطة خروج خليط الغازات النهائي، سواء أتى مباشرة عبر المسار (S) في الوضع المغلق، أو محمّلا ببخار المادة المخدرة من غرفة التبخير في الوضع المفتوح، متجها بعدها إلى دائرة المريض.",
+    },
+  };
+
+  wireDiagramSimulator(".thermo-compensated-vaporizer-diagram", { cycleMs: 3600, componentInfo: COMPONENT_INFO });
+
+  document.querySelectorAll(".thermo-compensated-vaporizer-diagram .mode-toggle-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".thermo-compensated-vaporizer-diagram")?.querySelector(".simulator-shell");
+      const mode = btn.getAttribute("data-mode-button");
+      if (!(shell instanceof HTMLElement) || !mode) return;
+      shell.dataset.mode = mode;
+      shell.querySelectorAll(".mode-toggle-button").forEach((b) => {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+    });
+  });
+</script>
