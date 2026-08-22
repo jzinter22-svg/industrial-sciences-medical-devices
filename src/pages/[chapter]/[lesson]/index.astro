@@ -219,6 +219,36 @@ const chapter08Lesson01Pages = [
   c8page10, c8page11, c8page12, c8page13,
 ];
 
+import c9page00 from "../../../data/chapter-09/page-00.json";
+import c9page01 from "../../../data/chapter-09/page-01.json";
+import c9page02 from "../../../data/chapter-09/page-02.json";
+import c9page03 from "../../../data/chapter-09/page-03.json";
+import c9page04 from "../../../data/chapter-09/page-04.json";
+import c9page05 from "../../../data/chapter-09/page-05.json";
+import c9page06 from "../../../data/chapter-09/page-06.json";
+import c9page07 from "../../../data/chapter-09/page-07.json";
+import c9page08 from "../../../data/chapter-09/page-08.json";
+import c9page09 from "../../../data/chapter-09/page-09.json";
+import c9page10 from "../../../data/chapter-09/page-10.json";
+import c9page11 from "../../../data/chapter-09/page-11.json";
+import c9page12 from "../../../data/chapter-09/page-12.json";
+import c9page13 from "../../../data/chapter-09/page-13.json";
+import c9page14 from "../../../data/chapter-09/page-14.json";
+import c9page15 from "../../../data/chapter-09/page-15.json";
+import c9page16 from "../../../data/chapter-09/page-16.json";
+import c9page17 from "../../../data/chapter-09/page-17.json";
+import c9page18 from "../../../data/chapter-09/page-18.json";
+import c9page19 from "../../../data/chapter-09/page-19.json";
+import c9page20 from "../../../data/chapter-09/page-20.json";
+
+const chapter09Lesson01Pages = [
+  c9page00, c9page01, c9page02, c9page03, c9page04,
+  c9page05, c9page06, c9page07, c9page08, c9page09,
+  c9page10, c9page11, c9page12, c9page13, c9page14,
+  c9page15, c9page16, c9page17, c9page18, c9page19,
+  c9page20,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -238,7 +268,8 @@ const isChapter05Lesson01 = chapter.id === "chapter-05" && lesson.id === "lesson
 const isChapter06Lesson01 = chapter.id === "chapter-06" && lesson.id === "lesson-01";
 const isChapter07Lesson01 = chapter.id === "chapter-07" && lesson.id === "lesson-01";
 const isChapter08Lesson01 = chapter.id === "chapter-08" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01 || isChapter07Lesson01 || isChapter08Lesson01;
+const isChapter09Lesson01 = chapter.id === "chapter-09" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01 || isChapter07Lesson01 || isChapter08Lesson01 || isChapter09Lesson01;
 const lessonPages = isChapter01Lesson01
   ? chapter01Lesson01Pages
   : isChapter02Lesson01
@@ -255,7 +286,9 @@ const lessonPages = isChapter01Lesson01
               ? chapter07Lesson01Pages
               : isChapter08Lesson01
                 ? chapter08Lesson01Pages
-                : [];
+                : isChapter09Lesson01
+                  ? chapter09Lesson01Pages
+                  : [];
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>

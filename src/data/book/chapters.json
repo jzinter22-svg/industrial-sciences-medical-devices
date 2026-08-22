@@ -146,7 +146,7 @@
           "number": 1,
           "id": "lesson-01",
           "title": { "ar": "جهاز التخدير", "en": "Anesthesia Ventilator" },
-          "status": "coming-soon"
+          "status": "available"
         }
       ]
     },

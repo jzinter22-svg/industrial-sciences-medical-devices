@@ -114,6 +114,21 @@ import CutCoagSwitchSelectorDiagramInteractive from "./diagrams/CutCoagSwitchSel
 import AstableMultivibratorDiagramInteractive from "./diagrams/AstableMultivibratorDiagramInteractive.astro";
 import TransistorOscillatorSwitchDiagramInteractive from "./diagrams/TransistorOscillatorSwitchDiagramInteractive.astro";
 import ModulationFunctionGeneratorDiagramInteractive from "./diagrams/ModulationFunctionGeneratorDiagramInteractive.astro";
+import AnesthesiaGeneralBlockDiagramInteractive from "./diagrams/AnesthesiaGeneralBlockDiagramInteractive.astro";
+import PressureRegulatorInternalDiagramInteractive from "./diagrams/PressureRegulatorInternalDiagramInteractive.astro";
+import PrimarySecondaryGasConnectionDiagramInteractive from "./diagrams/PrimarySecondaryGasConnectionDiagramInteractive.astro";
+import NeedleValveDiagramInteractive from "./diagrams/NeedleValveDiagramInteractive.astro";
+import RotameterFloatDiagramInteractive from "./diagrams/RotameterFloatDiagramInteractive.astro";
+import FlowmeterManifoldDiagramInteractive from "./diagrams/FlowmeterManifoldDiagramInteractive.astro";
+import VaporizerGeneralStructureDiagramInteractive from "./diagrams/VaporizerGeneralStructureDiagramInteractive.astro";
+import VaporizerWickMetalCupDiagramInteractive from "./diagrams/VaporizerWickMetalCupDiagramInteractive.astro";
+import DragerVaporizerDiagramInteractive from "./diagrams/DragerVaporizerDiagramInteractive.astro";
+import BimetallicVaporizerDiagramInteractive from "./diagrams/BimetallicVaporizerDiagramInteractive.astro";
+import BoyleVaporizerDiagramInteractive from "./diagrams/BoyleVaporizerDiagramInteractive.astro";
+import BoyleVaporizerLeverPositionsDiagramInteractive from "./diagrams/BoyleVaporizerLeverPositionsDiagramInteractive.astro";
+import ThermoCompensatedVaporizerDiagramInteractive from "./diagrams/ThermoCompensatedVaporizerDiagramInteractive.astro";
+import CheckSafetyValveDiagramInteractive from "./diagrams/CheckSafetyValveDiagramInteractive.astro";
+import PatientCircuitBreathingDiagramInteractive from "./diagrams/PatientCircuitBreathingDiagramInteractive.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -258,6 +273,28 @@ const chapter8AnimatedDiagrams: Record<string, any> = {
   "c8-fig-8-17": ModulationFunctionGeneratorDiagramInteractive,
 };
 
+// Chapter 9 diagram ids (c9-fig-9-X). Figure 9-12's two variants (manual
+// thermal control vs. automatic bimetallic-strip control) keep separate
+// ids "c9-fig-9-12" and "c9-fig-9-12-a" since the source shows them as
+// two distinct devices, not a single toggle.
+const chapter9AnimatedDiagrams: Record<string, any> = {
+  "c9-fig-9-1": AnesthesiaGeneralBlockDiagramInteractive,
+  "c9-fig-9-4": PressureRegulatorInternalDiagramInteractive,
+  "c9-fig-9-5": PrimarySecondaryGasConnectionDiagramInteractive,
+  "c9-fig-9-7": NeedleValveDiagramInteractive,
+  "c9-fig-9-8": RotameterFloatDiagramInteractive,
+  "c9-fig-9-9": FlowmeterManifoldDiagramInteractive,
+  "c9-fig-9-10": VaporizerGeneralStructureDiagramInteractive,
+  "c9-fig-9-11": VaporizerWickMetalCupDiagramInteractive,
+  "c9-fig-9-12": DragerVaporizerDiagramInteractive,
+  "c9-fig-9-12-a": BimetallicVaporizerDiagramInteractive,
+  "c9-fig-9-13": BoyleVaporizerDiagramInteractive,
+  "c9-fig-9-14": BoyleVaporizerLeverPositionsDiagramInteractive,
+  "c9-fig-9-15": ThermoCompensatedVaporizerDiagramInteractive,
+  "c9-fig-9-16": CheckSafetyValveDiagramInteractive,
+  "c9-fig-9-17": PatientCircuitBreathingDiagramInteractive,
+};
+
 // Chapter 1 device ids (device-0N) that have a hand-built animated
 // inline-SVG illustration, rendered through DeviceCard's "illustration"
 // slot. Any device not listed here falls back to DeviceCard's existing
@@ -295,6 +332,7 @@ const Chapter5Diagram = block.type === "diagram" ? chapter5AnimatedDiagrams[bloc
 const Chapter6Diagram = block.type === "diagram" ? chapter6AnimatedDiagrams[block.id] : undefined;
 const Chapter7Diagram = block.type === "diagram" ? chapter7AnimatedDiagrams[block.id] : undefined;
 const Chapter8Diagram = block.type === "diagram" ? chapter8AnimatedDiagrams[block.id] : undefined;
+const Chapter9Diagram = block.type === "diagram" ? chapter9AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -393,6 +431,10 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter8Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter9Diagram && (
+  <Chapter9Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
@@ -403,6 +445,7 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   !Chapter6Diagram &&
   !Chapter7Diagram &&
   !Chapter8Diagram &&
+  !Chapter9Diagram &&
   block.src && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}
