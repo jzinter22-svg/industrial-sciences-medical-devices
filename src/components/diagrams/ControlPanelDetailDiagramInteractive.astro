@@ -217,6 +217,14 @@ const { caption } = Astro.props;
     .playing [data-status="indicator-lights"] .status-dot { animation: cpd1-dot-on-yellow 0.4s ease-out 2.1s forwards; }
     .playing [data-status="indicator-lights"] .value-on { animation: cpd1-status-value-on 0.4s ease-out 2.1s forwards; }
     .playing [data-status="indicator-lights"] .value-off { animation: cpd1-status-value-off 0.4s ease-out 2.1s forwards; }
+
+    @keyframes cpd1-emergency-pulse {
+      0%, 100% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 16px 34px rgba(8, 12, 22, 0.35); }
+      50% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 16px 34px rgba(8, 12, 22, 0.35), 0 0 0 4px rgba(239, 68, 68, 0.65); }
+    }
+    .control-panel-detail-diagram .simulator-shell.emergency-flash {
+      animation: cpd1-emergency-pulse 0.5s ease-out 2;
+    }
   }
 </style>
 
@@ -247,4 +255,21 @@ const { caption } = Astro.props;
   };
 
   wireDiagramSimulator(".control-panel-detail-diagram", { cycleMs: 2900, componentInfo: COMPONENT_INFO });
+
+  // Emergency-stop behaviour: clicking the emergency-stop hotspot while the
+  // simulation is running cuts the animation immediately (same effect as
+  // reset, triggered without waiting for the current stage to finish) and
+  // flags the shell with a brief red pulse — the one interaction in this
+  // diagram that is *not* part of the normal play sequence.
+  document.querySelectorAll(".control-panel-detail-diagram [data-component=\"emergency-stop\"]").forEach((hotspot) => {
+    hotspot.addEventListener("click", () => {
+      const shell = hotspot.closest(".simulator-shell");
+      if (!shell || !shell.classList.contains("playing")) return;
+      shell.querySelector(".reset-button")?.dispatchEvent(new MouseEvent("click"));
+      shell.classList.remove("emergency-flash");
+      void shell.offsetWidth;
+      shell.classList.add("emergency-flash");
+      shell.addEventListener("animationend", () => shell.classList.remove("emergency-flash"), { once: true });
+    });
+  });
 </script>

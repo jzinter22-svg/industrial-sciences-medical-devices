@@ -355,6 +355,14 @@ const { caption } = Astro.props;
     .playing [data-status="status-indicators"] .status-dot { animation: ecs1-dot-on-yellow 0.4s ease-out 3.8s forwards; }
     .playing [data-status="status-indicators"] .value-on { animation: ecs1-status-value-on 0.4s ease-out 3.8s forwards; }
     .playing [data-status="status-indicators"] .value-off { animation: ecs1-status-value-off 0.4s ease-out 3.8s forwards; }
+
+    @keyframes ecs1-emergency-pulse {
+      0%, 100% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 16px 34px rgba(8, 12, 22, 0.35); }
+      50% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 16px 34px rgba(8, 12, 22, 0.35), 0 0 0 4px rgba(239, 68, 68, 0.65); }
+    }
+    .electrical-control-system-diagram .simulator-shell.emergency-flash {
+      animation: ecs1-emergency-pulse 0.5s ease-out 2;
+    }
   }
 </style>
 
@@ -405,4 +413,21 @@ const { caption } = Astro.props;
   };
 
   wireDiagramSimulator(".electrical-control-system-diagram", { cycleMs: 4500, componentInfo: COMPONENT_INFO });
+
+  // Emergency-stop behaviour: clicking the emergency-stop hotspot while the
+  // simulation is running cuts the animation immediately (same effect as
+  // reset, triggered without waiting for the current stage to finish) and
+  // flags the shell with a brief red pulse — the one interaction in this
+  // diagram that is *not* part of the normal play sequence.
+  document.querySelectorAll(".electrical-control-system-diagram [data-component=\"emergency-stop\"]").forEach((hotspot) => {
+    hotspot.addEventListener("click", () => {
+      const shell = hotspot.closest(".simulator-shell");
+      if (!shell || !shell.classList.contains("playing")) return;
+      shell.querySelector(".reset-button")?.dispatchEvent(new MouseEvent("click"));
+      shell.classList.remove("emergency-flash");
+      void shell.offsetWidth;
+      shell.classList.add("emergency-flash");
+      shell.addEventListener("animationend", () => shell.classList.remove("emergency-flash"), { once: true });
+    });
+  });
 </script>
