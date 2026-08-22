@@ -41,7 +41,7 @@ const { caption } = Astro.props;
 ---
 
 <figure class="diagram-block neo-surface-soft electrical-control-system-diagram">
-  <div class="simulator-shell" data-breaker-state="closed">
+  <div class="simulator-shell" data-breaker-state="closed" data-emergency-tripped="false">
     <div class="simulator-toolbar">
       <span class="simulator-title">محاكاة الدائرة الكهربائية للتحكم</span>
       <span class="simulator-subtitle">شكل 21-7 و 31-7 و 32-7 — من مصدر التيار إلى المحركات ولوحة التحكم</span>
@@ -111,6 +111,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="power-supply" data-link-to="main-switch">
             <line id="ecs1-wire-1" x1="180" y1="140" x2="225" y2="140" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></line>
             <line class="trail" x1="180" y1="140" x2="223" y2="140" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-1); --flow-delay:0.4s; --flow-duration:1s;"></circle>
           </g>
 
           <g class="hotspot" data-component="main-switch" tabindex="0" role="button" aria-label="المفتاح الرئيسي">
@@ -122,6 +123,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="main-switch" data-link-to="circuit-breaker">
             <line id="ecs1-wire-2" x1="365" y1="140" x2="410" y2="140" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></line>
             <line class="trail" x1="365" y1="140" x2="408" y2="140" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-2); --flow-delay:0.9s; --flow-duration:1s;"></circle>
           </g>
 
           <g class="hotspot" data-component="circuit-breaker" tabindex="0" role="button" aria-label="قاطع الدائرة، انقر لفتحه أو إغلاقه">
@@ -135,6 +137,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="circuit-breaker" data-link-to="distribution">
             <line id="ecs1-wire-3" x1="550" y1="140" x2="595" y2="140" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></line>
             <line class="trail" x1="550" y1="140" x2="593" y2="140" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle downstream-particle" r="3.6" fill="#C084FC" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-3); --flow-delay:1.4s; --flow-duration:1s;"></circle>
           </g>
 
           <g class="hotspot" data-component="distribution" tabindex="0" role="button" aria-label="التوزيع الكهربائي">
@@ -147,6 +150,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="distribution" data-link-to="control-panel">
             <path id="ecs1-wire-4" d="M 655,80 L 655,45" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 655,80 L 655,47" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 6"></path>
+            <circle class="current-particle downstream-particle" r="3" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-4); --flow-delay:2.0s; --flow-duration:0.8s;"></circle>
           </g>
 
           <g class="hotspot" data-component="control-panel" tabindex="0" role="button" aria-label="لوحة التحكم">
@@ -157,6 +161,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="distribution" data-link-to="emergency-stop">
             <path id="ecs1-wire-5" d="M 715,140 L 748,140" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 715,140 L 746,140" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="5 6"></path>
+            <circle class="current-particle downstream-particle" r="3" fill="#EF4444" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-5); --flow-delay:2.3s; --flow-duration:0.8s;"></circle>
           </g>
 
           <g class="hotspot" data-component="emergency-stop" tabindex="0" role="button" aria-label="مفتاح الطوارئ">
@@ -169,14 +174,17 @@ const { caption } = Astro.props;
           <g class="link" data-link="distribution" data-link-to="compressor-starter">
             <path id="ecs1-wire-6" d="M 620,195 L 620,240 L 165,240 L 165,280" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 620,195 L 620,240 L 165,240 L 165,278" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle downstream-particle" r="3.6" fill="#4ADE80" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-6); --flow-delay:2.7s; --flow-duration:1.8s;"></circle>
           </g>
           <g class="link" data-link="distribution" data-link-to="chair-starter">
             <path id="ecs1-wire-7" d="M 655,200 L 655,280" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 655,200 L 655,278" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle downstream-particle" r="3.6" fill="#38BDF8" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-7); --flow-delay:3.0s; --flow-duration:1.4s;"></circle>
           </g>
           <g class="link" data-link="distribution" data-link-to="suction-starter">
             <path id="ecs1-wire-8" d="M 690,195 L 690,240 L 780,240 L 780,280" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 690,195 L 690,240 L 780,240 L 780,278" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle downstream-particle" r="3.6" fill="#C084FC" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-8); --flow-delay:3.3s; --flow-duration:1.8s;"></circle>
           </g>
 
           <!-- Row 2: motor starters -->
@@ -209,6 +217,7 @@ const { caption } = Astro.props;
           <g class="link" data-link="chair-starter" data-link-to="status-indicators">
             <path id="ecs1-wire-9" d="M 655,375 L 655,420" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#ecs1-arrow)"></path>
             <path class="trail" d="M 655,375 L 655,418" fill="none" stroke="#4ADE80" stroke-width="2" stroke-dasharray="5 6"></path>
+            <circle class="current-particle downstream-particle" r="3" fill="#4ADE80" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-9); --flow-delay:3.7s; --flow-duration:1s;"></circle>
           </g>
 
           <g class="hotspot" data-component="status-indicators" tabindex="0" role="button" aria-label="لوحة مؤشرات الحالة">
@@ -222,9 +231,11 @@ const { caption } = Astro.props;
             <text x="555" y="484" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" direction="ltr">Status Panel</text>
           </g>
 
-          <!-- LIVING SIMULATION LAYER: energy-arrival rings + continuous current-flow
-               particles. Particles reuse the exact wire geometry above via
-               offset-path: url(#ecs1-wire-N) — no path data is duplicated. -->
+          <!-- LIVING SIMULATION LAYER: energy-arrival rings. Current-flow
+               particles now live inside their own .link groups above (next
+               to the wire they follow via offset-path) so the shared
+               hover/click focus-mode dims/highlights them together with
+               their wire — see diagram-simulator.css .link.is-related. -->
           <g class="flow-layer" aria-hidden="true">
             <circle class="arrival-ring" cx="110" cy="140" r="4" fill="none" stroke="#FBBF24" style="--ring-delay:0.1s;"></circle>
             <circle class="arrival-ring" cx="295" cy="140" r="4" fill="none" stroke="#FBBF24" style="--ring-delay:0.6s;"></circle>
@@ -233,16 +244,6 @@ const { caption } = Astro.props;
             <circle class="arrival-ring" cx="165" cy="315" r="4" fill="none" stroke="#4ADE80" style="--ring-delay:2.8s;"></circle>
             <circle class="arrival-ring" cx="655" cy="315" r="4" fill="none" stroke="#38BDF8" style="--ring-delay:3.1s;"></circle>
             <circle class="arrival-ring" cx="780" cy="315" r="4" fill="none" stroke="#C084FC" style="--ring-delay:3.4s;"></circle>
-
-            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-1); --flow-delay:0.4s; --flow-duration:1s;"></circle>
-            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-2); --flow-delay:0.9s; --flow-duration:1s;"></circle>
-            <circle class="current-particle" r="3.6" fill="#C084FC" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-3); --flow-delay:1.4s; --flow-duration:1s;"></circle>
-            <circle class="current-particle downstream-particle" r="3" fill="#FBBF24" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-4); --flow-delay:2.0s; --flow-duration:0.8s;"></circle>
-            <circle class="current-particle downstream-particle" r="3" fill="#EF4444" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-5); --flow-delay:2.3s; --flow-duration:0.8s;"></circle>
-            <circle class="current-particle downstream-particle" r="3.6" fill="#4ADE80" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-6); --flow-delay:2.7s; --flow-duration:1.8s;"></circle>
-            <circle class="current-particle downstream-particle" r="3.6" fill="#38BDF8" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-7); --flow-delay:3.0s; --flow-duration:1.4s;"></circle>
-            <circle class="current-particle downstream-particle" r="3.6" fill="#C084FC" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-8); --flow-delay:3.3s; --flow-duration:1.8s;"></circle>
-            <circle class="current-particle downstream-particle" r="3" fill="#4ADE80" filter="url(#ecs1Glow)" style="offset-path: url(#ecs1-wire-9); --flow-delay:3.7s; --flow-duration:1s;"></circle>
           </g>
         </svg>
       </div>
@@ -257,7 +258,7 @@ const { caption } = Astro.props;
           <li class="status-row" data-status="circuit-breaker"><span class="status-dot dot-yellow"></span><span class="status-label">قاطع الدائرة</span><span class="status-value"><span class="value-off">مفصول</span><span class="value-on">موصول</span><span class="fault-badge" data-fault-badge>مفتوح</span></span></li>
           <li class="status-row" data-status="distribution"><span class="status-dot dot-purple"></span><span class="status-label">التوزيع الكهربائي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
           <li class="status-row" data-status="control-panel"><span class="status-dot dot-yellow"></span><span class="status-label">لوحة التحكم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
-          <li class="status-row" data-status="emergency-stop"><span class="status-dot dot-red"></span><span class="status-label">مفتاح الطوارئ</span><span class="status-value"><span class="value-off">جاهز</span><span class="value-on">مراقبة</span></span></li>
+          <li class="status-row" data-status="emergency-stop"><span class="status-dot dot-red"></span><span class="status-label">مفتاح الطوارئ</span><span class="status-value"><span class="value-off">جاهز</span><span class="value-on">مراقبة</span><span class="fault-badge" data-fault-badge>تم التفعيل</span></span></li>
           <li class="status-row" data-status="compressor-starter"><span class="status-dot dot-green"></span><span class="status-label">ستارتر الضاغط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
           <li class="status-row" data-status="chair-starter"><span class="status-dot dot-blue"></span><span class="status-label">ستارتر الكرسي</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
           <li class="status-row" data-status="suction-starter"><span class="status-dot dot-purple"></span><span class="status-label">ستارتر الشفط</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
@@ -355,6 +356,29 @@ const { caption } = Astro.props;
     font-weight: 700;
     white-space: nowrap;
   }
+
+  /* LIVING SIMULATION LAYER — a genuine FAULT state distinct from plain
+     idle: after an emergency stop, the system doesn't just look "off",
+     it looks "tripped", until Play or Reset is used, which mirrors how a
+     real emergency-stop circuit latches until deliberately cleared. */
+  .simulator-shell[data-emergency-tripped="true"] [data-status="system-status"] .status-dot,
+  .simulator-shell[data-emergency-tripped="true"] [data-status="emergency-stop"] .status-dot {
+    background: #EF4444 !important;
+    box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8) !important;
+  }
+  .simulator-shell[data-emergency-tripped="true"] [data-status="system-status"] .value-off,
+  .simulator-shell[data-emergency-tripped="true"] [data-status="system-status"] .value-on,
+  .simulator-shell[data-emergency-tripped="true"] [data-status="emergency-stop"] .value-off,
+  .simulator-shell[data-emergency-tripped="true"] [data-status="emergency-stop"] .value-on {
+    opacity: 0 !important;
+  }
+  .simulator-shell[data-emergency-tripped="true"] [data-status="system-status"] .fault-badge,
+  .simulator-shell[data-emergency-tripped="true"] [data-status="emergency-stop"] .fault-badge {
+    opacity: 1 !important;
+  }
+  .simulator-shell[data-emergency-tripped="true"] [data-component="emergency-stop"] .box-shape {
+    stroke: #EF4444 !important;
+  }
   .system-status-row .status-label {
     font-weight: 700;
   }
@@ -389,7 +413,10 @@ const { caption } = Astro.props;
     .playing [data-status="circuit-breaker"] .status-dot { animation: ecs1-dot-on-yellow 0.4s ease-out 1.1s forwards; }
     .playing [data-status="circuit-breaker"] .value-on { animation: ecs1-status-value-on 0.4s ease-out 1.1s forwards; }
     .playing [data-status="circuit-breaker"] .value-off { animation: ecs1-status-value-off 0.4s ease-out 1.1s forwards; }
-    .playing [data-link="circuit-breaker"] .trail { animation: ecs1-reveal-trail 0.3s ease-out 1.4s forwards; }
+    /* This wire carries current OUT of the breaker's own contacts, so it
+       must stop the instant the breaker opens too — gated the same way as
+       everything further downstream. */
+    .playing:not([data-breaker-state="open"]) [data-link="circuit-breaker"] .trail { animation: ecs1-reveal-trail 0.3s ease-out 1.4s forwards; }
 
     /* Everything from here on is downstream of the breaker: gated with
        :not([data-breaker-state="open"]) so opening the breaker removes
@@ -533,6 +560,22 @@ const { caption } = Astro.props;
 
   wireDiagramSimulator(".electrical-control-system-diagram", { cycleMs: 4500, componentInfo: COMPONENT_INFO });
 
+  // LIVING SIMULATION LAYER — a real emergency-stop is a latching fault,
+  // not a momentary blip: once tripped, the status panel keeps saying so
+  // (system-status + emergency-stop rows switch to a red FAULT badge)
+  // until the operator deliberately presses Play or Reset, distinguishing
+  // "emergency-tripped" from ordinary idle.
+  const setEmergencyTripped = (shell: Element, tripped: boolean) => {
+    if (!(shell instanceof HTMLElement)) return;
+    shell.dataset.emergencyTripped = tripped ? "true" : "false";
+    const badge = shell.querySelector('[data-status="system-status"] [data-fault-badge]');
+    if (badge) {
+      badge.textContent = tripped
+        ? "متوقف — تم الضغط على مفتاح الطوارئ"
+        : "معطّل — القاطع مفتوح";
+    }
+  };
+
   // Emergency-stop behaviour: clicking the emergency-stop hotspot while the
   // simulation is running performs a hard stop — every running animation is
   // cancelled outright and the shell is left idle, never touching the
@@ -558,10 +601,27 @@ const { caption } = Astro.props;
         pauseButton.textContent = "⏸ إيقاف مؤقت";
       }
 
+      setEmergencyTripped(shell, true);
+
       shell.classList.remove("emergency-flash");
       void shell.offsetWidth;
       shell.classList.add("emergency-flash");
       shell.addEventListener("animationend", () => shell.classList.remove("emergency-flash"), { once: true });
+    });
+  });
+
+  // Pressing Play after a trip is how the operator clears the fault (per
+  // the existing requirement that Play alone can resume after an
+  // emergency stop, with no separate interlock button).
+  //
+  // Note: .play-button/.reset-button live in .diagram-controls, a SIBLING
+  // of .simulator-shell (both children of the outer <figure>), not a
+  // descendant of it — so `closest(".simulator-shell")` from a button
+  // never matches. Go up to the figure, then back down to the shell.
+  document.querySelectorAll(".electrical-control-system-diagram .play-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".electrical-control-system-diagram")?.querySelector(".simulator-shell");
+      if (shell) setEmergencyTripped(shell, false);
     });
   });
 
@@ -582,8 +642,9 @@ const { caption } = Astro.props;
   // "إعادة التشغيل" truly returns the whole diagram to its initial state.
   document.querySelectorAll(".electrical-control-system-diagram .reset-button").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const shell = btn.closest(".simulator-shell");
+      const shell = btn.closest(".electrical-control-system-diagram")?.querySelector(".simulator-shell");
       if (shell instanceof HTMLElement) shell.dataset.breakerState = "closed";
+      if (shell) setEmergencyTripped(shell, false);
     });
   });
 </script>
