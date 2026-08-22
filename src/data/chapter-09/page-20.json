@@ -1,0 +1,148 @@
+{
+  "id": "page-20",
+  "pageNumber": 174,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 174
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-questions",
+      "number": "",
+      "title": {
+        "ar": "أسئلة الفصل التاسع"
+      },
+      "blocks": [
+        {
+          "type": "question",
+          "id": "question-01",
+          "number": 1,
+          "question": { "ar": "ما هي أهم الغازات والسوائل المستخدمة في التخدير؟ وما هي النسب الآمنة لاستخدامها؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-02",
+          "number": 2,
+          "question": { "ar": "ما هي الأجزاء الرئيسة لجهاز التخدير؟ اشرح مع الرسم." }
+        },
+        {
+          "type": "question",
+          "id": "question-03",
+          "number": 3,
+          "question": { "ar": "اشرح كيف يتم تمييز نوع الغاز من لون الأسطوانة." }
+        },
+        {
+          "type": "question",
+          "id": "question-04",
+          "number": 4,
+          "question": { "ar": "ما فائدة منظمات الضغط؟ وعلى أي مبدأ يعمل؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-05",
+          "number": 5,
+          "question": { "ar": "ما هي أنواع عدادات قياس الضغط؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-06",
+          "number": 6,
+          "question": { "ar": "ما هي أنواع الخراطيم وكيف يتم تمييز لون الخرطوم حسب الغاز التابع له؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-07",
+          "number": 7,
+          "question": { "ar": "اذكر فائدة صمام التحكم الدقيق." }
+        },
+        {
+          "type": "question",
+          "id": "question-08",
+          "number": 8,
+          "question": { "ar": "ما هو الروتاميتر؟ وما هو مبدأ عمله؟ اشرح مع الرسم." }
+        },
+        {
+          "type": "question",
+          "id": "question-09",
+          "number": 9,
+          "question": { "ar": "ما المقصود بمشعب التجميع، ولأي غرض وُجد؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-10",
+          "number": 10,
+          "question": { "ar": "اشرح النظرية العامة للمبخر مع الرسم." }
+        },
+        {
+          "type": "question",
+          "id": "question-11",
+          "number": 11,
+          "question": { "ar": "ما هي العوامل المؤثرة على معدل التبخير؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-12",
+          "number": 12,
+          "question": { "ar": "ما هي الطرق المعتمدة لمعالجة انخفاض معدل التبخير نتيجة انخفاض مستوى السائل؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-13",
+          "number": 13,
+          "question": { "ar": "ما هي العوامل التي تؤدي إلى انخفاض معدل التبخر؟ وكيف يتم معالجتها؟" }
+        },
+        {
+          "type": "question",
+          "id": "question-14",
+          "number": 14,
+          "question": { "ar": "ما هي أنواع المبخرات؟ واشرح مبدأ عمل كل نوع." }
+        },
+        {
+          "type": "question",
+          "id": "question-15",
+          "number": 15,
+          "question": { "ar": "اشرح مبخر بويل مع الرسم." }
+        },
+        {
+          "type": "question",
+          "id": "question-16",
+          "number": 16,
+          "question": { "ar": "اشرح المبخر ذا التعويض الحراري مع الرسم." }
+        },
+        {
+          "type": "question",
+          "id": "question-17",
+          "number": 17,
+          "question": {
+            "ar": "ما فائدة كل مما يلي:"
+          },
+          "parts": [
+            { "id": "q17-a", "label": "أ", "content": { "ar": "صمام عدم الرجوع." } },
+            { "id": "q17-b", "label": "ب", "content": { "ar": "صمام الأمان." } },
+            { "id": "q17-c", "label": "جـ", "content": { "ar": "صمام الأوكسجين الاحتياطي." } },
+            { "id": "q17-d", "label": "د", "content": { "ar": "جهاز الإنذار." } }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

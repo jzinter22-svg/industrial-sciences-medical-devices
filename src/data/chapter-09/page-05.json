@@ -1,0 +1,80 @@
+{
+  "id": "page-05",
+  "pageNumber": 159,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 159
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-9-4-1",
+      "number": "9-4-1",
+      "title": {
+        "ar": "مصدر الغاز",
+        "en": "Gas supply"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "figure-9-3",
+          "src": "/assets/diagrams/chapter-09/fig-03.jpg",
+          "alt": "صورة لأسطوانتي غاز طبي بألوان مختلفة موصولتين بمنظمات ضغط",
+          "caption": {
+            "ar": "شكل (9-3) أنواع الأسطوانات"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-color-table-intro",
+          "content": {
+            "ar": "والجدول (9-3) التالي يبين الألوان المستخدمة لتمييز الأسطوانات:"
+          }
+        },
+        {
+          "type": "table",
+          "id": "table-9-3-cylinder-colors",
+          "caption": { "ar": "جدول (9-3) ألوان تمييز أسطوانات الغازات الطبية" },
+          "headers": ["الغاز (Gas)", "لون الجسم (Body)", "لون الصمام (Valve End)"],
+          "rows": [
+            ["الأوكسجين (Oxygen)", "أسود (Black)", "أبيض (White)"],
+            ["أوكسيد النتروز (Nitrous Oxide)", "أزرق (Blue)", "أزرق (Blue)"],
+            ["البروبان الحلقي (Cyclopropane)", "برتقالي (Orange)", "برتقالي (Orange)"],
+            ["ثاني أوكسيد الكربون (Carbon Dioxide)", "رمادي (Grey)", "رمادي (Grey)"],
+            ["الإثيلين (Ethylene)", "بنفسجي (Violet)", "بنفسجي (Violet)"],
+            ["الهيليوم (Helium)", "بني (Brown)", "بني (Brown)"],
+            ["النيتروجين (Nitrogen)", "أسود (Black)", "رمادي (Grey)"],
+            ["O2 + CO2", "أسود (Black)", "أبيض/رمادي (White/Gray)"],
+            ["O2 + He", "أسود (Black)", "أبيض/بني (White/Brown)"],
+            ["الهواء (Air)", "رمادي (Grey)", "أبيض/أسود (White/Black)"]
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "para-yoke-connection",
+          "content": {
+            "ar": "يتم توصيل هذه الأسطوانات مع خراطيم الجهاز عن طريق صمامات الأسطوانات، ويُدعى جزء جهاز التخدير الذي يصل بين الخرطوم وصمام الأسطوانة بـ (مفرق التعليق أو المقرن YOKE)."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

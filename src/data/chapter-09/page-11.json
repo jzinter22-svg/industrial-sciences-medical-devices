@@ -1,0 +1,140 @@
+{
+  "id": "page-11",
+  "pageNumber": 165,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 165
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+  "sections": [
+    {
+      "id": "section-9-4-3",
+      "number": "9-4-3",
+      "title": {
+        "ar": "عمود التجميع الخلفي",
+        "en": "Back Bar"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-vaporizer-general-theory",
+          "number": "هـ-1",
+          "title": {
+            "ar": "النظرية العامة للمبخرات"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-vaporizer-general-theory-body",
+          "content": {
+            "ar": "المبخر ببساطة هو وعاء معدني له فتحة دخول وفتحة خروج وبداخله يوجد سائل التخدير. فعند مرور خليط الغازات بداخله فإنه سيحمل كمية محددة من بخار مادة التخدير التي يختلف تركيزها بهذا الخليط بحسب:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-vaporizer-factors",
+          "items": [
+            {
+              "id": "factor-01",
+              "content": {
+                "ar": "درجة الحرارة: كلما ازدادت درجة الحرارة تزداد كمية الغاز المتبخر والعكس صحيح."
+              }
+            },
+            {
+              "id": "factor-02",
+              "content": {
+                "ar": "ومستوى السائل."
+              }
+            },
+            {
+              "id": "factor-03",
+              "content": {
+                "ar": "ومعدل تدفق هذه الغازات عبر المبخر: عند زيادة معدل التدفق تقل نسبة الغاز المحمل."
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "para-vaporizer-fig-ref",
+          "content": {
+            "ar": "والشكل (9-10) يوضح الأجزاء العامة للمبخر."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c9-fig-9-10",
+          "caption": {
+            "ar": "شكل (9-10) يوضح البنية العامة للمبخر"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-vaporizer-channels",
+          "content": {
+            "ar": "يتم التحكم بالمبخر بواسطة قناتين، إحداهما تؤدي إلى غرفة التبخير والأخرى ذات مسار مباشر ما بين الدخول والخروج، دون أن تلامس الغازات سائل التخدير. فعندما يكون المبخر في الوضع المغلق فإن كل الغازات المتدفقة من فتحة الدخول ستمر إلى فتحة الخروج مباشرة. أما عندما يكون المبخر في الوضع المفتوح فإن كل أو بعض الغازات ستمر عبر المسار المؤدي إلى غرفة التبخير ومنه إلى فتحة الخروج."
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-vaporization-factors",
+          "number": "هـ-2",
+          "title": {
+            "ar": "العوامل المؤثرة في معدل التبخير"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-vaporization-rate-factors",
+          "items": [
+            {
+              "id": "vfactor-01",
+              "content": {
+                "ar": "معدل تدفق الغازات على المبخر."
+              }
+            },
+            {
+              "id": "vfactor-02",
+              "content": {
+                "ar": "مستوى السائل المخدر في المبخر."
+              }
+            },
+            {
+              "id": "vfactor-03",
+              "content": {
+                "ar": "درجة الحرارة."
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "para-level-drop-effect",
+          "content": {
+            "ar": "إن انخفاض مستوى السائل المخدر سيؤدي إلى انخفاض معدل التبخير."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-solutions-intro",
+          "content": {
+            "ar": "ومن الحلول المستخدمة:"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

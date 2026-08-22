@@ -1,0 +1,93 @@
+{
+  "id": "page-04",
+  "pageNumber": 158,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 158
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-9-4-1",
+      "number": "9-4-1",
+      "title": {
+        "ar": "مصدر الغاز",
+        "en": "Gas supply"
+      },
+      "blocks": [
+        {
+          "type": "photo",
+          "id": "figure-9-2",
+          "src": "/assets/diagrams/chapter-09/fig-02.jpg",
+          "alt": "مخطط توضيحي لتوزيع أنابيب الغازات الطبية على أقسام المستشفى المختلفة",
+          "caption": {
+            "ar": "شكل (9-2) يوضح توزيع الأنابيب على المستشفى"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-gas-cylinders",
+          "number": "ب",
+          "title": {
+            "ar": "أسطوانات الغازات"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-gas-cylinders-body",
+          "content": {
+            "ar": "تحتوي هذه الأسطوانات على غازات، وتكون مصنوعة عادة بمقاسات مختلفة ومن مادة فولاذ المولبيدنيوم الصلبة جدا والمقاومة. يمكن تقسيم الأسطوانات إلى نوعين حسب حالة المادة الموجودة بداخلها:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-cylinder-types",
+          "items": [
+            {
+              "id": "cylinder-type-01",
+              "content": {
+                "ar": "الأسطوانات الغازية (الأوكسجين والأنتونوكس)."
+              }
+            },
+            {
+              "id": "cylinder-type-02",
+              "content": {
+                "ar": "الأسطوانات التي تحوي على غازات بالحالة السائلة (أوكسيد النتروز)، وهي لا يتم ملؤها بالكامل، لأنه إذا مُلئت بالكامل فإن أي ارتفاع بدرجة الحرارة سيؤدي إلى تحول السائل إلى غاز، ومن ثم انفجار الأسطوانة. لذلك هنا نستخدم:"
+              }
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "id": "equation-fill-ratio",
+          "formula": "نسبة الامتلاء = وزن المادة الفعلية الموجودة في الأسطوانة / وزن الماء اللازم لملء نفس الأسطوانة"
+        },
+        {
+          "type": "paragraph",
+          "id": "para-color-classification",
+          "content": {
+            "ar": "يمكن تمييز الأسطوانات بالألوان، حيث من لون الأسطوانة نستطيع معرفة نوعية الغاز الموجود بداخلها، وهذا التصنيف عالمي تبعا للمنظمة الدولية للتوحيد القياسي ISO (International Organization for Standardization). والشكل (9-3) يوضح أشكال الأسطوانات."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

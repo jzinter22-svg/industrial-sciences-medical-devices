@@ -1,0 +1,83 @@
+{
+  "id": "page-13",
+  "pageNumber": 167,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 167
+  },
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+  "sections": [
+    {
+      "id": "section-9-4-3",
+      "number": "9-4-3",
+      "title": {
+        "ar": "عمود التجميع الخلفي",
+        "en": "Back Bar"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "para-bimetallic-method",
+          "content": {
+            "ar": "ب. أو آليا باستخدام شريحة مصنوعة من معدنين مختلفين تستجيب بسرعة لتغيرات الحرارة توضع داخل الصمام، وبالتالي بحسب درجة الحرارة الخارجية سوف تتمدد أو تتقلص الشريحة، موزعة بذلك الخليط الغازي المتدفق على المبخر (على غرفة التبخير وعلى المسار المباشر). وذلك للمحافظة على تركيز ثابت لبخار المادة المخدرة مع تغير درجات الحرارة الخارجية. مثال على ذلك مبخر ذو القطعة الثنائية المعدن، كما في الشكل (9-12-أ)."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c9-fig-9-12-a",
+          "caption": {
+            "ar": "شكل (9-12-أ) مبخر ذو القطعة الثنائية المعدن"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-vaporizer-types",
+          "number": "هـ-3",
+          "title": {
+            "ar": "أنواع المبخرات"
+          }
+        },
+        {
+          "type": "definition",
+          "id": "definition-boyle-vaporizer",
+          "number": "1",
+          "term": {
+            "ar": "مبخر بويل"
+          },
+          "definition": {
+            "ar": "مبخر بسيط غير معاير، لا توجد فيه وسيلة للتعويض الحراري، ويستخدم لتبخير الأيثر والتريلين والميثوكسيفلورين."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c9-fig-9-13",
+          "caption": {
+            "ar": "شكل (9-13) يوضح مبخر بويل"
+          }
+        },
+        {
+          "type": "photo",
+          "id": "figure-9-13-photo",
+          "src": "/assets/diagrams/chapter-09/fig-06.jpg",
+          "alt": "صورة حقيقية لمبخر إيثر زجاجي من نوع بويل موصول بصمام تحكم علوي",
+          "caption": {
+            "ar": "مبخر إيثر حقيقي من نوع بويل"
+          }
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

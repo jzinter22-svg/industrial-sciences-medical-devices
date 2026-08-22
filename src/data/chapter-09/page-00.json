@@ -1,0 +1,148 @@
+{
+  "id": "page-00",
+  "pageNumber": 154,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 154
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objective-general",
+          "content": {
+            "ar": "الهدف العام: يهدف هذا الفصل إلى دراسة جهاز التخدير، أجزاءه ومكوناته وكيفية عمل كل جزء منه بالتفصيل."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "الهدف الخاص: يُفترض من الطالب أن يكون قادرا على:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "فهم ماهية التخدير وماهي الغازات والسوائل المستخدمة لهذا الغرض مع حفظ النسب المئوية لكل غاز."
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "استيعاب المخطط العام لجهاز التخدير وأجزائه وتفاصيله."
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "التعرف على بعض الأجهزة المهمة مثل صمام التحكم الدقيق والروتاميتر."
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "فهم نظرية عمل المبخرات ودراسة أنواعها."
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "دراسة دائرة عدم الرجوع ودائرة المريض وتتبع مسار الغازات."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "المحتويات"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            {
+              "id": "toc-9-1",
+              "number": "9-1",
+              "content": {
+                "ar": "تمهيد"
+              }
+            },
+            {
+              "id": "toc-9-2",
+              "number": "9-2",
+              "content": {
+                "ar": "غازات التخدير ومواده"
+              }
+            },
+            {
+              "id": "toc-9-3",
+              "number": "9-3",
+              "content": {
+                "ar": "مواد التخدير السائلة"
+              }
+            },
+            {
+              "id": "toc-9-4",
+              "number": "9-4",
+              "content": {
+                "ar": "الأجزاء الرئيسة لجهاز التخدير"
+              }
+            },
+            {
+              "id": "toc-9-5",
+              "number": "9-5",
+              "content": {
+                "ar": "دائرة مسار الغاز"
+              }
+            }
+          ]
+        },
+        {
+          "type": "photo",
+          "id": "figure-opener",
+          "src": "/assets/diagrams/chapter-09/fig-01.jpg",
+          "alt": "نموذجان لأجهزة التخدير الحديثة المستخدمة في غرف العمليات",
+          "caption": {
+            "ar": "أجهزة التخدير الحديثة (Anesthesia Ventilator)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

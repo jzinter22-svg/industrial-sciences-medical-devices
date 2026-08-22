@@ -1,0 +1,94 @@
+{
+  "id": "page-07",
+  "pageNumber": 161,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 161
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-9-4-1",
+      "number": "9-4-1",
+      "title": {
+        "ar": "مصدر الغاز",
+        "en": "Gas supply"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c9-fig-9-5",
+          "caption": {
+            "ar": "شكل (9-5) يوضح نظام توصيل الغازات الرئيس والتابع"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-pressure-gauges",
+          "number": "د",
+          "title": {
+            "ar": "عدادات قياس الضغط"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-gauges-intro",
+          "content": {
+            "ar": "وهناك ثلاثة أنواع رئيسة من عدادات الضغط، وهي:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-gauge-types",
+          "items": [
+            {
+              "id": "gauge-type-01",
+              "content": {
+                "ar": "أنبوبة بوردون Bourdon Tube: من (1-7000) ضغط جوي."
+              }
+            },
+            {
+              "id": "gauge-type-02",
+              "content": {
+                "ar": "المنفاخ Bellow: من 100-700 سم ماء."
+              }
+            },
+            {
+              "id": "gauge-type-03",
+              "content": {
+                "ar": "الغشاء المرن Metallic Diaphragm: من 15-100 سم ماء ضغط جوي."
+              }
+            }
+          ]
+        },
+        {
+          "type": "photo",
+          "id": "figure-9-6",
+          "src": "/assets/diagrams/chapter-09/fig-05.jpg",
+          "alt": "صورة عداد ضغط من نوع أنبوبة بوردون يُظهر التدريج بوحدتي bar وpsi",
+          "caption": {
+            "ar": "شكل (9-6) عداد قياس الضغط العام من نوع Bourdon Tube"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

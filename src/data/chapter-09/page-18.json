@@ -1,0 +1,73 @@
+{
+  "id": "page-18",
+  "pageNumber": 172,
+  "chapterNumber": 9,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل التاسع",
+    "printedPage": 172
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "جهاز التخدير",
+    "en": "Anesthesia Ventilator"
+  },
+
+  "sections": [
+    {
+      "id": "section-9-4-6",
+      "number": "9-4-6",
+      "title": {
+        "ar": "هيكل الجهاز",
+        "en": "Frame Metal Work"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "para-frame-intro",
+          "content": {
+            "ar": "ويتكون من عربة تتحرك على أربع عجلات غير قابلة لتراكم الشحنات الكهروستاتيكية، والعجلتان الأماميتان مزودتان بكوابح. يحتوي على الأجزاء الآتية:"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-frame-parts",
+          "items": [
+            {
+              "id": "frame-part-01",
+              "content": {
+                "ar": "درج معدني (Drawer Unit): أسفل العربة يُستخدم لحفظ متعلقات الجهاز."
+              }
+            },
+            {
+              "id": "frame-part-02",
+              "content": {
+                "ar": "منضدة (Top Frame): أعلى العربة لوضع الأجزاء الإضافية مثل عدادات قياس الضغط."
+              }
+            }
+          ]
+        },
+        {
+          "type": "photo",
+          "id": "figure-9-18",
+          "src": "/assets/diagrams/chapter-09/fig-07.jpg",
+          "alt": "صورة كاملة لعربة جهاز تخدير حديث تُظهر شاشة الإظهار، المنفسة، مقاييس التدفق، المبخرات، والدرج المعدني",
+          "caption": {
+            "ar": "شكل (9-18) عربة التخدير"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}
