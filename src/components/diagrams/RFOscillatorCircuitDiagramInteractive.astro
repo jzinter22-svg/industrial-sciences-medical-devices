@@ -1,0 +1,243 @@
+---
+// Figure 8-11 (مذبذب الترددات العالية RF نوع RC) — an Op-Amp RC
+// oscillator: feedback network (R3/R4/C5/C6) sets the oscillation
+// condition, the op-amp (UTC 2822) provides gain, and the output is a
+// continuous RF sine wave. The educational point is the feedback loop
+// itself, so Play traces input -> feedback -> op-amp -> output, then the
+// output keeps "oscillating" (a looping sine trace) for as long as the
+// diagram plays — representing a self-sustaining oscillator rather than a
+// one-shot signal chain.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+
+function continuousSine(width: number, cycles: number, amp: number, y0: number): string {
+  const step = width / cycles / 2;
+  let d = `M 0,${y0}`;
+  for (let i = 0; i < cycles; i++) {
+    d += ` q ${step / 2},${-amp} ${step},0`;
+    d += ` q ${step / 2},${amp} ${step},0`;
+  }
+  return d;
+}
+
+const outputWave = continuousSine(150, 6, 16, 20);
+---
+
+<figure class="diagram-block neo-surface-soft rf-oscillator-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مذبذب الترددات العالية (RF)</span>
+      <span class="simulator-subtitle">شكل 8-11 — مذبذب نوع (RC) بالتغذية العكسية</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es11-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="320"
+          viewBox="0 0 760 320"
+          role="img"
+          aria-label="مذبذب الترددات العالية RF"
+        >
+          <defs>
+            <marker id="es11-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="es11BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es11Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es11GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="es11GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+
+            <filter id="es11Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es11Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="760" height="320" rx="20" fill="url(#es11BgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="320" rx="20" fill="url(#es11Grid)"></rect>
+
+          <text x="380" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">مذبذب الترددات العالية (RF) نوع RC</text>
+
+          <g class="hotspot" data-component="feedback-network" tabindex="0" role="button" aria-label="شبكة التغذية العكسية">
+            <rect class="box-shape" x="50" y="90" width="170" height="110" rx="10" fill="url(#es11GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es11Elevate)"></rect>
+            <text x="135" y="130" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">شبكة التغذية</text>
+            <text x="135" y="146" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">العكسية</text>
+            <text x="135" y="166" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#38BDF8" direction="ltr">R3, R4, C5, C6</text>
+          </g>
+
+          <g class="link" data-link="feedback-network" data-link-to="op-amp">
+            <line id="es11-wire-1" x1="220" y1="145" x2="270" y2="145" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es11-arrow)"></line>
+            <line class="trail" x1="220" y1="145" x2="268" y2="145" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#38BDF8" filter="url(#es11Glow)" style="offset-path: url(#es11-wire-1); --flow-delay:0.4s; --flow-duration:1s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="op-amp" tabindex="0" role="button" aria-label="مكبر العمليات">
+            <path class="box-shape" d="M 270,90 L 270,200 L 380,145 Z" fill="url(#es11GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#es11Elevate)"></path>
+            <text x="305" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="ltr">Op.Amp</text>
+            <text x="305" y="155" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#C084FC" direction="ltr">UTC 2822</text>
+          </g>
+
+          <g class="link" data-link="op-amp" data-link-to="output">
+            <line id="es11-wire-2" x1="380" y1="145" x2="440" y2="145" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es11-arrow)"></line>
+            <line class="trail" x1="380" y1="145" x2="438" y2="145" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#C084FC" filter="url(#es11Glow)" style="offset-path: url(#es11-wire-2); --flow-delay:0.9s; --flow-duration:1s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="خرج المذبذب">
+            <rect class="box-shape" x="440" y="90" width="270" height="110" rx="10" fill="url(#es11GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#es11Elevate)"></rect>
+            <path class="wave-path" d={outputWave} transform="translate(475,145)" fill="none" stroke="#C084FC" stroke-width="2.2" stroke-linecap="round" filter="url(#es11Glow)"></path>
+            <text x="575" y="180" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">Vout — موجة جيبية راديوية</text>
+          </g>
+
+          <!-- Feedback loop indicator, top arc from output back to feedback network -->
+          <path class="feedback-loop" d="M 620,90 C 620,55 150,55 150,90" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="4 6" marker-end="url(#es11-arrow)" opacity="0.6"></path>
+          <text x="380" y="55" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" fill="#8fb8e0" direction="rtl">تغذية عكسية بين الخرج والدخل → تذبذب مستمر</text>
+
+          <text x="380" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">هذا المذبذب يولّد موجات جيبية-راديوية باستمرار طالما الجهاز يعمل</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة المذبذب</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="feedback-network"><span class="status-dot dot-blue"></span><span class="status-label">شبكة التغذية العكسية</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">تحدد التردد</span></span></li>
+          <li class="status-row" data-status="op-amp"><span class="status-dot dot-purple"></span><span class="status-label">مكبر العمليات</span><span class="status-value"><span class="value-off">متوقف</span><span class="value-on">يكبّر</span></span></li>
+          <li class="status-row" data-status="output"><span class="status-dot dot-purple"></span><span class="status-label">الخرج</span><span class="status-value"><span class="value-off">لا يوجد</span><span class="value-on">موجة RF مستمرة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>التغذية العكسية</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>المكبر والخرج</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#es11Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es11Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#es11Glow); }
+  .feedback-loop { opacity: 0; }
+  .wave-path { stroke-dasharray: 400; stroke-dashoffset: 400; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es11-shape-activate { to { filter: url(#es11Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es11-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es11-status-value-on { to { opacity: 1; } }
+    @keyframes es11-status-value-off { to { opacity: 0; } }
+    @keyframes es11-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es11-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes es11-loop-glow { to { opacity: 0.6; } }
+    @keyframes es11-trace-wave { to { stroke-dashoffset: 0; } }
+
+    .playing [data-component="feedback-network"] .box-shape { animation: es11-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedback-network"] .status-dot { animation: es11-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedback-network"] .value-on { animation: es11-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="feedback-network"] .value-off { animation: es11-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="feedback-network"] .trail { animation: es11-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="op-amp"] .box-shape { animation: es11-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="op-amp"] .status-dot { animation: es11-dot-on-purple 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="op-amp"] .value-on { animation: es11-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="op-amp"] .value-off { animation: es11-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="op-amp"] .trail { animation: es11-reveal-trail 0.3s ease-out 1.0s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: es11-shape-activate 0.4s ease-out 1.3s forwards; }
+    .playing [data-component="output"] .wave-path { animation: es11-trace-wave 1s ease-out 1.4s forwards; }
+    .playing [data-status="output"] .status-dot { animation: es11-dot-on-purple 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="output"] .value-on { animation: es11-status-value-on 0.4s ease-out 1.3s forwards; }
+    .playing [data-status="output"] .value-off { animation: es11-status-value-off 0.4s ease-out 1.3s forwards; }
+    .playing .feedback-loop { animation: es11-loop-glow 0.5s ease-out 1.6s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes es11-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: es11-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "feedback-network": {
+      title: "شبكة التغذية العكسية (R3, R4, C5, C6)",
+      text: "تحدد شرط التذبذب وتردده، وتُعيد جزءا من إشارة الخرج إلى دخل المكبر لتُبقي التذبذب مستمرا.",
+    },
+    "op-amp": {
+      title: "مكبر العمليات (Op.Amp)",
+      text: "يقوم بتوليد موجات جيبية راديوية عبر التغذية العكسية بين خرجه ودخله؛ هذا المكبر (UTC 2822) هو قلب مذبذب نوع RC.",
+    },
+    output: {
+      title: "خرج المذبذب (Vout)",
+      text: "موجة جيبية راديوية مستمرة تُغذّى إلى مكبر القدرة لتكبيرها قبل الوصول إلى قطبي الجهاز.",
+    },
+  };
+
+  wireDiagramSimulator(".rf-oscillator-diagram", { cycleMs: 3200, componentInfo: COMPONENT_INFO });
+</script>

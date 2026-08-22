@@ -1,0 +1,461 @@
+---
+// Figure 8-8 (المخطط الكتلوي لوحدة الجراحة الكهربائية) — the flagship
+// Chapter 8 diagram, built the same way as Chapter 7's electrical control
+// diagram: sequential activation on Play, continuous current/signal-flow
+// particles along the real block-diagram wiring, and a Cut/Coagulation
+// mode toggle that changes which path actually drives the relay (source
+// 8-7/8-13: in Cut mode the relay is fed directly by +12V for a
+// continuous output; in Coagulation mode the relay is instead fed by the
+// astable multivibrator's low-frequency square wave, chopping the output
+// into pulses) — exactly the kind of state-dependent behavior the
+// existing breaker-toggle pattern was built for.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft electrosurgical-unit-block-diagram">
+  <div class="simulator-shell" data-mode="cut">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة المخطط الكتلوي لوحدة الجراحة الكهربائية</span>
+      <span class="simulator-subtitle">شكل 8-8 — من مجهز القدرة إلى قطبي الجراحة</span>
+    </div>
+
+    <div class="mode-toggle-row">
+      <button type="button" class="mode-toggle-button" data-mode-button="cut" aria-pressed="true">نمط القطع (Cut)</button>
+      <button type="button" class="mode-toggle-button" data-mode-button="coag" aria-pressed="false">نمط التخثر (Coagulation)</button>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es8-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="920"
+          height="520"
+          viewBox="0 0 920 520"
+          role="img"
+          aria-label="المخطط الكتلوي لوحدة الجراحة الكهربائية"
+        >
+          <defs>
+            <marker id="es8-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="es8BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es8Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es8GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="es8GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+            <linearGradient id="es8GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es8GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+            <linearGradient id="es8GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#1a0a0a"></stop></linearGradient>
+            <linearGradient id="es8GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+
+            <filter id="es8Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es8Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="920" height="520" rx="20" fill="url(#es8BgGrad)"></rect>
+          <rect x="0" y="0" width="920" height="520" rx="20" fill="url(#es8Grid)"></rect>
+
+          <text x="460" y="32" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">المخطط الكتلوي لوحدة الجراحة الكهربائية</text>
+
+          <!-- Main chain, top row -->
+          <g class="hotspot" data-component="power-supply" tabindex="0" role="button" aria-label="مجهز القدرة">
+            <rect class="box-shape" x="30" y="90" width="110" height="90" rx="10" fill="url(#es8GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="85" y="128" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">مجهز القدرة</text>
+            <text x="85" y="144" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#FBBF24" direction="ltr">Power Supply</text>
+          </g>
+
+          <g class="link" data-link="power-supply" data-link-to="protection-control">
+            <line id="es8-wire-1" x1="140" y1="135" x2="185" y2="135" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="140" y1="135" x2="183" y2="135" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FBBF24" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-1); --flow-delay:0.4s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="protection-control" tabindex="0" role="button" aria-label="الحماية والسيطرة ومنظم الفولتية">
+            <rect class="box-shape" x="185" y="80" width="150" height="110" rx="10" fill="url(#es8GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="260" y="118" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">الحماية والسيطرة</text>
+            <text x="260" y="134" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">ومنظم الفولتية</text>
+            <text x="260" y="152" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#FB923C" direction="ltr">Protection &amp; Control</text>
+          </g>
+
+          <g class="link" data-link="protection-control" data-link-to="rf-oscillator">
+            <line id="es8-wire-2" x1="335" y1="135" x2="380" y2="135" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="335" y1="135" x2="378" y2="135" stroke="#FB923C" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#FB923C" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-2); --flow-delay:0.9s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="rf-oscillator" tabindex="0" role="button" aria-label="مذبذب التردد الراديوي">
+            <rect class="box-shape" x="380" y="90" width="130" height="90" rx="10" fill="url(#es8GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="445" y="128" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">مذبذب التردد</text>
+            <text x="445" y="144" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#C084FC" direction="ltr">RF Oscillator</text>
+          </g>
+
+          <g class="link" data-link="rf-oscillator" data-link-to="power-amp">
+            <line id="es8-wire-3" x1="510" y1="135" x2="555" y2="135" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="510" y1="135" x2="553" y2="135" stroke="#C084FC" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#C084FC" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-3); --flow-delay:1.4s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="power-amp" tabindex="0" role="button" aria-label="مكبر القدرة">
+            <rect class="box-shape" x="555" y="90" width="120" height="90" rx="10" fill="url(#es8GradRed)" stroke="#EF4444" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="615" y="128" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">مكبر القدرة</text>
+            <text x="615" y="144" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#EF4444" direction="ltr">Power Amp.</text>
+          </g>
+
+          <g class="link" data-link="power-amp" data-link-to="relay">
+            <line id="es8-wire-4" x1="675" y1="135" x2="720" y2="135" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="675" y1="135" x2="718" y2="135" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.4" fill="#EF4444" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-4); --flow-delay:1.9s; --flow-duration:0.9s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="relay" tabindex="0" role="button" aria-label="المرحل">
+            <rect class="box-shape" x="720" y="100" width="80" height="70" rx="10" fill="url(#es8GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <circle cx="745" cy="125" r="3" fill="#1c2436" stroke="#8b94aa" stroke-width="1.3"></circle>
+            <circle cx="775" cy="125" r="3" fill="#1c2436" stroke="#8b94aa" stroke-width="1.3"></circle>
+            <line class="relay-blade" x1="745" y1="125" x2="768" y2="120" stroke="#FB923C" stroke-width="2"></line>
+            <text x="760" y="150" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">المرحل</text>
+            <text x="760" y="162" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7" font-weight="700" fill="#FB923C" direction="ltr">Relay</text>
+          </g>
+
+          <g class="link" data-link="relay" data-link-to="electrodes">
+            <line id="es8-wire-5" x1="800" y1="135" x2="845" y2="135" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="800" y1="135" x2="843" y2="135" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle output-particle" r="3.6" fill="#4ADE80" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-5); --flow-delay:2.4s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="electrodes" tabindex="0" role="button" aria-label="قطبا الجهاز">
+            <circle class="box-shape" cx="875" cy="135" r="44" fill="url(#es8GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#es8Elevate)"></circle>
+            <text x="875" y="131" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">قطبا</text>
+            <text x="875" y="146" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">الجهاز</text>
+          </g>
+
+          <!-- Branch row: select switch + astable multivibrator, both feeding the relay -->
+          <g class="hotspot" data-component="select-switch" tabindex="0" role="button" aria-label="مفتاح الاختيار قطع/تخثر">
+            <rect class="box-shape" x="185" y="330" width="150" height="90" rx="10" fill="url(#es8GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="260" y="368" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">مفتاح الاختيار</text>
+            <text x="260" y="384" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" direction="rtl">قطع / تخثر</text>
+          </g>
+
+          <!-- select-switch -> relay directly (CUT path) -->
+          <g class="link cut-path" data-link="select-switch" data-link-to="relay">
+            <path id="es8-wire-6" d="M 335,345 L 700,345 L 700,165 L 730,165" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#es8-arrow)"></path>
+            <path class="trail" d="M 335,345 L 700,345 L 700,165 L 728,165" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3" fill="#38BDF8" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-6); --flow-delay:2.0s; --flow-duration:1.6s;"></circle>
+          </g>
+
+          <!-- select-switch -> astable multivibrator -->
+          <g class="link" data-link="select-switch" data-link-to="astable-multivibrator">
+            <line id="es8-wire-7" x1="335" y1="395" x2="380" y2="395" stroke="#5b6478" stroke-width="2.2" marker-end="url(#es8-arrow)"></line>
+            <line class="trail" x1="335" y1="395" x2="378" y2="395" stroke="#38BDF8" stroke-width="2.2" stroke-dasharray="5 7"></line>
+          </g>
+
+          <g class="hotspot" data-component="astable-multivibrator" tabindex="0" role="button" aria-label="المذبذب المتعدد">
+            <rect class="box-shape" x="380" y="350" width="150" height="90" rx="10" fill="url(#es8GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es8Elevate)"></rect>
+            <text x="455" y="388" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">المذبذب المتعدد</text>
+            <text x="455" y="404" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#38BDF8" direction="ltr">Astable Multivibrator</text>
+          </g>
+
+          <!-- astable -> relay (COAG path) -->
+          <g class="link coag-path" data-link="astable-multivibrator" data-link-to="relay">
+            <path id="es8-wire-8" d="M 530,395 L 760,395 L 760,172" fill="none" stroke="#5b6478" stroke-width="2.2" marker-end="url(#es8-arrow)"></path>
+            <path class="trail" d="M 530,395 L 760,395 L 760,174" fill="none" stroke="#C084FC" stroke-width="2.2" stroke-dasharray="5 7"></path>
+            <circle class="current-particle" r="3" fill="#C084FC" filter="url(#es8Glow)" style="offset-path: url(#es8-wire-8); --flow-delay:2.9s; --flow-duration:1.1s;"></circle>
+          </g>
+
+          <text x="700" y="470" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">نمط القطع: يزوَّد المرحل مباشرة بـ +12V (خرج مستمر)</text>
+          <text x="700" y="488" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#dbe0ec" direction="rtl">نمط التخثر: المذبذب المتعدد يقطّع تغذية المرحل (خرج متقطع)</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة النظام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="power-supply"><span class="status-dot dot-yellow"></span><span class="status-label">مجهز القدرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="protection-control"><span class="status-dot dot-orange"></span><span class="status-label">الحماية والسيطرة</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="rf-oscillator"><span class="status-dot dot-purple"></span><span class="status-label">مذبذب RF</span><span class="status-value"><span class="value-off">متوقف</span><span class="value-on">يذبذب</span></span></li>
+          <li class="status-row" data-status="power-amp"><span class="status-dot dot-red"></span><span class="status-label">مكبر القدرة</span><span class="status-value"><span class="value-off">متوقف</span><span class="value-on">يكبّر</span></span></li>
+          <li class="status-row" data-status="select-switch"><span class="status-dot dot-blue"></span><span class="status-label">مفتاح الاختيار</span><span class="status-value"><span class="value-off">—</span><span class="value-on value-cut">وضع القطع</span><span class="value-on value-coag">وضع التخثر</span></span></li>
+          <li class="status-row" data-status="astable-multivibrator"><span class="status-dot dot-blue"></span><span class="status-label">المذبذب المتعدد</span><span class="status-value"><span class="value-off">غير مستخدم</span><span class="value-on">يقطّع الموجة</span></span></li>
+          <li class="status-row" data-status="relay"><span class="status-dot dot-orange"></span><span class="status-label">المرحل</span><span class="status-value"><span class="value-off">مفتوح</span><span class="value-on">مغلق</span></span></li>
+          <li class="status-row" data-status="electrodes"><span class="status-dot dot-green"></span><span class="status-label">قطبا الجهاز</span><span class="status-value"><span class="value-off">لا خرج</span><span class="value-on value-cut">خرج مستمر</span><span class="value-on value-coag">خرج متقطع</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها — أو بدّل بين نمط القطع والتخثر من الأزرار أعلاه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مجهز القدرة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الحماية/السيطرة/المرحل</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>مذبذب RF</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>مسار التحكم (قطع/تخثر)</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>الخرج إلى القطبين</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .mode-toggle-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0 var(--neo-space-md) var(--neo-space-sm);
+    flex-wrap: wrap;
+  }
+
+  .mode-toggle-button {
+    font-family: "Cairo", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.04);
+    color: #c3c9dc;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .mode-toggle-button:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .mode-toggle-button[aria-pressed="true"] {
+    background: #FBBF24;
+    border-color: #FBBF24;
+    color: #1a1608;
+  }
+
+  .hotspot .box-shape {
+    filter: url(#es8Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es8Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#es8Glow); }
+
+  /* Only one control path is "live" per mode — the inactive one dims to
+     communicate that it is physically not carrying current right now. */
+  .coag-path { opacity: 0.25; transition: opacity 0.3s ease; }
+  .cut-path { opacity: 1; transition: opacity 0.3s ease; }
+  .simulator-shell[data-mode="coag"] .cut-path { opacity: 0.25; }
+  .simulator-shell[data-mode="coag"] .coag-path { opacity: 1; }
+
+  .value-cut, .value-coag { opacity: 0; }
+  .simulator-shell[data-mode="coag"] .value-cut { display: none; }
+  .simulator-shell:not([data-mode="coag"]) .value-coag { display: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es8-shape-activate { to { filter: url(#es8Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es8-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es8-status-value-on { to { opacity: 1; } }
+    @keyframes es8-status-value-off { to { opacity: 0; } }
+    @keyframes es8-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es8-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes es8-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+    @keyframes es8-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+    @keyframes es8-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es8-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="power-supply"] .box-shape { animation: es8-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .status-dot { animation: es8-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .value-on { animation: es8-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="power-supply"] .value-off { animation: es8-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="power-supply"] .trail { animation: es8-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="protection-control"] .box-shape { animation: es8-shape-activate 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="protection-control"] .status-dot { animation: es8-dot-on-orange 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="protection-control"] .value-on { animation: es8-status-value-on 0.4s ease-out 0.6s forwards; }
+    .playing [data-status="protection-control"] .value-off { animation: es8-status-value-off 0.4s ease-out 0.6s forwards; }
+    .playing [data-link="protection-control"] .trail { animation: es8-reveal-trail 0.3s ease-out 0.9s forwards; }
+
+    .playing [data-component="rf-oscillator"] .box-shape { animation: es8-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="rf-oscillator"] .status-dot { animation: es8-dot-on-purple 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="rf-oscillator"] .value-on { animation: es8-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="rf-oscillator"] .value-off { animation: es8-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="rf-oscillator"] .trail { animation: es8-reveal-trail 0.3s ease-out 1.4s forwards; }
+
+    .playing [data-component="power-amp"] .box-shape { animation: es8-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="power-amp"] .status-dot { animation: es8-dot-on-red 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="power-amp"] .value-on { animation: es8-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="power-amp"] .value-off { animation: es8-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="power-amp"] .trail { animation: es8-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="select-switch"] .box-shape { animation: es8-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="select-switch"] .status-dot { animation: es8-dot-on-blue 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="select-switch"] .value-on { animation: es8-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="select-switch"] .value-off { animation: es8-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="select-switch"][data-link-to="astable-multivibrator"] .trail { animation: es8-reveal-trail 0.3s ease-out 1.9s forwards; }
+    .playing .cut-path .trail { animation: es8-reveal-trail 0.3s ease-out 2.2s forwards; }
+
+    .playing [data-component="astable-multivibrator"] .box-shape { animation: es8-shape-activate 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="astable-multivibrator"] .status-dot { animation: es8-dot-on-blue 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="astable-multivibrator"] .value-on { animation: es8-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="astable-multivibrator"] .value-off { animation: es8-status-value-off 0.4s ease-out 2.2s forwards; }
+    .playing .coag-path .trail { animation: es8-reveal-trail 0.3s ease-out 2.7s forwards; }
+
+    .playing [data-component="relay"] .box-shape { animation: es8-shape-activate 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="relay"] .status-dot { animation: es8-dot-on-orange 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="relay"] .value-on { animation: es8-status-value-on 0.4s ease-out 3.0s forwards; }
+    .playing [data-status="relay"] .value-off { animation: es8-status-value-off 0.4s ease-out 3.0s forwards; }
+    .playing [data-link="relay"] .trail { animation: es8-reveal-trail 0.3s ease-out 3.3s forwards; }
+
+    .playing [data-component="electrodes"] .box-shape { animation: es8-shape-activate 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="electrodes"] .status-dot { animation: es8-dot-on-green 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="electrodes"] .value-on { animation: es8-status-value-on 0.4s ease-out 3.6s forwards; }
+    .playing [data-status="electrodes"] .value-off { animation: es8-status-value-off 0.4s ease-out 3.6s forwards; }
+
+    /* Only feed astable-multivibrator's own OWN activation glow (not the
+       select-switch->astable link) is gated to coag mode — its box still
+       gets a faint "standing by" reveal in cut mode via the trail above,
+       but the astable's own oscillation glow only makes sense in coag: */
+    .simulator-shell:not([data-mode="coag"]) [data-component="astable-multivibrator"] .box-shape { animation: none !important; filter: url(#es8Elevate) saturate(0.7) brightness(0.85) !important; }
+    .simulator-shell:not([data-mode="coag"]) [data-status="astable-multivibrator"] .status-dot,
+    .simulator-shell:not([data-mode="coag"]) [data-status="astable-multivibrator"] .value-on,
+    .simulator-shell:not([data-mode="coag"]) [data-status="astable-multivibrator"] .value-off {
+      animation: none !important;
+    }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes es8-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: es8-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+    /* Control-path particles only flow along the currently-live path */
+    .simulator-shell:not([data-mode="coag"]) .coag-path .current-particle,
+    .simulator-shell[data-mode="coag"] .cut-path .current-particle {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+    /* Output particle: continuous stream in Cut mode, chopped into
+       visible/invisible pulses in Coagulation mode — the one visual that
+       most directly represents "continuous RF" vs "intermittent RF". */
+    @keyframes es8-output-flow-cut {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    @keyframes es8-output-flow-coag {
+      0%, 100% { offset-distance: 0%; opacity: 0; }
+      6% { opacity: 1; }
+      22% { opacity: 1; }
+      28% { opacity: 0; }
+      34% { opacity: 1; }
+      50% { opacity: 1; }
+      56% { opacity: 0; }
+      62% { opacity: 1; }
+      78% { opacity: 1; }
+      84% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .output-particle { animation: es8-output-flow-cut var(--flow-duration, 0.7s) linear var(--flow-delay, 0s) infinite; }
+    .simulator-shell[data-mode="coag"] .playing .output-particle { animation: es8-output-flow-coag 1.6s linear var(--flow-delay, 0s) infinite; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "power-supply": {
+      title: "مجهز القدرة (Power Supply)",
+      text: "يتكون من محولة خافضة ودائرة قنطرة لتقويم موجة كاملة، والمتسعة (C1) ترشّح التيار وتزيل التعرجات في موجة الخرج.",
+    },
+    "protection-control": {
+      title: "الحماية والسيطرة ومنظم الفولتية",
+      text: "تحمي عناصر الجهاز من ارتفاع التيار (Over Load) عبر المقاومة الحرارية (R1) والثايرستور، وتنظّم الفولتية بواسطة الدائرة المتكاملة (7812) لتغذية بقية الدوائر بفولتية مستقرة (+12V).",
+    },
+    "rf-oscillator": {
+      title: "مذبذب التردد الراديوي (RF Oscillator)",
+      text: "يولّد موجات جيبية راديوية عالية التردد باستخدام مكبر عمليات (Op.Amp) وتغذية عكسية بين خرجه ودخله.",
+    },
+    "power-amp": {
+      title: "مكبر القدرة (Power Amplifier)",
+      text: "ترانزستور تأثير مجال (MOS FET) يكبّر موجات التردد الراديوي القادمة من المذبذب، وتستخدم محولة رافعة نوع فرايت في خرجه.",
+    },
+    "select-switch": {
+      title: "مفتاح الاختيار (قطع/ تخثر)",
+      text: "يحدد مسار تغذية المرحل: في وضع القطع يغذّي المرحل مباشرة بالفولتية (+12V)؛ في وضع التخثر يُشغّل دائرة المذبذب المتعدد بدلا من ذلك.",
+    },
+    "astable-multivibrator": {
+      title: "المذبذب المتعدد (Astable Multivibrator)",
+      text: "لا يعمل إلا في وضع التخثر: يولّد موجات مربعة ذات تردد واطئ تعمل على تشغيل المرحل بصورة متقطعة، فيتحول خرج الجهاز إلى موجة متقطعة.",
+    },
+    relay: {
+      title: "المرحل (Relay)",
+      text: "يقطّع مسار التردد العالي إلى قطبي الجهاز: يبقى مغلقا باستمرار في وضع القطع (خرج مستمر)، ويُفتح ويُغلق بصورة متكررة في وضع التخثر (خرج متقطع).",
+    },
+    electrodes: {
+      title: "قطبا الجهاز",
+      text: "الخرج النهائي الذي يصل إلى القطب الفعال وقطب المريض: موجة جيبية مستمرة في وضع القطع، أو موجة جيبية متقطعة في وضع التخثر.",
+    },
+  };
+
+  wireDiagramSimulator(".electrosurgical-unit-block-diagram", { cycleMs: 4800, componentInfo: COMPONENT_INFO });
+
+  document.querySelectorAll(".electrosurgical-unit-block-diagram .mode-toggle-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".electrosurgical-unit-block-diagram")?.querySelector(".simulator-shell");
+      const mode = btn.getAttribute("data-mode-button");
+      if (!(shell instanceof HTMLElement) || !mode) return;
+      shell.dataset.mode = mode;
+      shell.querySelectorAll(".mode-toggle-button").forEach((b) => {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+    });
+  });
+</script>

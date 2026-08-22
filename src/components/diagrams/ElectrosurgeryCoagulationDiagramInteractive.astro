@@ -1,0 +1,262 @@
+---
+// Figure 8-7 (عملية التخثر) — the two Coagulation variants the source
+// distinguishes (a vs b): direct-contact coagulation, where heat disperses
+// in many directions through the touching electrode and dries the tissue
+// into a clot; and spray (no-contact) coagulation, where a wide spark
+// jumps a small air gap to cover a broader surface without touching it.
+// A mode toggle switches between them, mirroring the Monopolar/Bipolar
+// toggle pattern used for Fig 8-3/8-4.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft electrosurgery-coagulation-diagram">
+  <div class="simulator-shell" data-mode="contact">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة عملية التخثر بالجراحة الكهربائية</span>
+      <span class="simulator-subtitle">شكل 8-7 — تخثر بالملامسة مقابل تخثر بالرذاذ</span>
+    </div>
+
+    <div class="mode-toggle-row">
+      <button type="button" class="mode-toggle-button" data-mode-button="contact" aria-pressed="true">تخثر بالملامسة</button>
+      <button type="button" class="mode-toggle-button" data-mode-button="spray" aria-pressed="false">تخثر بالرذاذ (بدون ملامسة)</button>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es7-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="360"
+          viewBox="0 0 700 360"
+          role="img"
+          aria-label="عملية التخثر"
+        >
+          <defs>
+            <linearGradient id="es7BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es7Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es7GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es7GradTissue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2419"></stop><stop offset="100%" stop-color="#1a120c"></stop></linearGradient>
+
+            <filter id="es7Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="360" rx="20" fill="url(#es7BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="360" rx="20" fill="url(#es7Grid)"></rect>
+
+          <text x="350" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">عملية التخثر</text>
+
+          <!-- Electrode: contact position (touching tissue) -->
+          <g class="hotspot contact-only" data-component="electrode" tabindex="0" role="button" aria-label="القطب">
+            <rect class="box-shape" x="326" y="90" width="48" height="90" rx="8" fill="url(#es7GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es7Elevate)"></rect>
+            <line x1="350" y1="180" x2="350" y2="220" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"></line>
+          </g>
+
+          <!-- Electrode: spray position (held above, gap to tissue) -->
+          <g class="hotspot spray-only" data-component="electrode" tabindex="0" role="button" aria-label="القطب">
+            <rect class="box-shape" x="326" y="60" width="48" height="90" rx="8" fill="url(#es7GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es7Elevate)"></rect>
+            <line x1="350" y1="150" x2="350" y2="185" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"></line>
+          </g>
+
+          <!-- Tissue -->
+          <g class="hotspot" data-component="tissue" tabindex="0" role="button" aria-label="النسيج">
+            <rect class="box-shape" x="180" y="222" width="340" height="90" rx="10" fill="url(#es7GradTissue)" stroke="#8a6b4a" stroke-width="1.5"></rect>
+            <ellipse class="coag-mark" cx="350" cy="240" rx="46" ry="14" fill="#5a4130" opacity="0"></ellipse>
+            <text x="350" y="300" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">النسيج</text>
+          </g>
+
+          <!-- Heat-dispersal arrows: contact mode (multi-directional through touching tip) -->
+          <g class="heat-arrows contact-only" aria-hidden="true">
+            <path d="M 350,222 L 310,255" stroke="#FBBF24" stroke-width="2" marker-end="url(#es7-heat-arrow)" opacity="0"></path>
+            <path d="M 350,222 L 350,262" stroke="#FBBF24" stroke-width="2" marker-end="url(#es7-heat-arrow)" opacity="0"></path>
+            <path d="M 350,222 L 390,255" stroke="#FBBF24" stroke-width="2" marker-end="url(#es7-heat-arrow)" opacity="0"></path>
+          </g>
+
+          <!-- Spark across gap: spray mode -->
+          <g class="spark-group spray-only" aria-hidden="true">
+            <path d="M 340,185 L 355,202 L 330,210 L 350,222" fill="none" stroke="#FFE08A" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M 365,185 L 375,205 L 395,215 L 380,222" fill="none" stroke="#FFE08A" stroke-width="1.6" stroke-linecap="round" opacity="0.75"></path>
+          </g>
+          <ellipse class="coag-wide spray-only" cx="350" cy="240" rx="130" ry="16" fill="#5a4130" opacity="0"></ellipse>
+
+          <defs>
+            <marker id="es7-heat-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#FBBF24"></path>
+            </marker>
+          </defs>
+
+          <text class="contact-only" x="605" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#dbe0ec" direction="rtl">تخثر عميق موضعي</text>
+          <text class="spray-only" x="605" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" fill="#dbe0ec" direction="rtl">تخثر سطحي واسع</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة التخثر</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="electrode"><span class="status-dot dot-blue"></span><span class="status-label">القطب</span><span class="status-value"><span class="value-off">بارد</span><span class="value-on">موجة متقطعة</span></span></li>
+          <li class="status-row" data-status="tissue"><span class="status-dot dot-orange"></span><span class="status-label">النسيج</span><span class="status-value"><span class="value-off">طري</span><span class="value-on">خثرة جافة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على القطب أو النسيج لعرض شرحهما — أو بدّل بين وضعي التخثر من الأزرار أعلاه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>القطب</li>
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>الحرارة / الشرارة</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>الخثرة</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .mode-toggle-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0 var(--neo-space-md) var(--neo-space-sm);
+    flex-wrap: wrap;
+  }
+
+  .mode-toggle-button {
+    font-family: "Cairo", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.04);
+    color: #c3c9dc;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .mode-toggle-button:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .mode-toggle-button[aria-pressed="true"] {
+    background: #38BDF8;
+    border-color: #38BDF8;
+    color: #081826;
+  }
+
+  .spray-only { opacity: 0; }
+  .simulator-shell[data-mode="spray"] .spray-only { opacity: 1; }
+  .simulator-shell[data-mode="spray"] .contact-only { opacity: 0; }
+
+  .hotspot .box-shape {
+    filter: url(#es7Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es7Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .spark-group { opacity: 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es7-shape-activate { to { filter: url(#es7Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es7-status-value-on { to { opacity: 1; } }
+    @keyframes es7-status-value-off { to { opacity: 0; } }
+    @keyframes es7-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es7-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+    @keyframes es7-heat-arrow-reveal { to { opacity: 0.9; } }
+    @keyframes es7-spark-flicker {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    @keyframes es7-coag-form { to { opacity: 0.85; } }
+
+    .playing [data-component="electrode"] .box-shape { animation: es7-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electrode"] .status-dot { animation: es7-dot-on-blue 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electrode"] .value-on { animation: es7-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="electrode"] .value-off { animation: es7-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing .heat-arrows path:nth-child(1) { animation: es7-heat-arrow-reveal 0.3s ease-out 0.8s forwards; }
+    .playing .heat-arrows path:nth-child(2) { animation: es7-heat-arrow-reveal 0.3s ease-out 1.0s forwards; }
+    .playing .heat-arrows path:nth-child(3) { animation: es7-heat-arrow-reveal 0.3s ease-out 1.2s forwards; }
+    .playing .spark-group { animation: es7-spark-flicker 0.35s ease-in-out 0.8s infinite; }
+
+    .playing [data-component="tissue"] .box-shape { animation: es7-shape-activate 0.4s ease-out 1.8s forwards; }
+    .playing .coag-mark { animation: es7-coag-form 0.6s ease-out 1.8s forwards; }
+    .playing .coag-wide { animation: es7-coag-form 0.6s ease-out 1.8s forwards; }
+    .playing [data-status="tissue"] .status-dot { animation: es7-dot-on-orange 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="tissue"] .value-on { animation: es7-status-value-on 0.4s ease-out 1.8s forwards; }
+    .playing [data-status="tissue"] .value-off { animation: es7-status-value-off 0.4s ease-out 1.8s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    electrode: {
+      title: "القطب أثناء التخثر",
+      text: "يحمل موجة جيبية متقطعة. في وضع الملامسة يلامس النسيج مباشرة، وفي وضع الرذاذ يبقى على مسافة قريبة فتقفز شرارة كهربائية إليه.",
+    },
+    tissue: {
+      title: "النسيج بعد التخثر",
+      text: "يتشتت التيار في اتجاهات عديدة داخل النسيج ويولّد حرارة كافية لتجفّ الخلايا وتتشكل خثرة بدلا من التبخر السريع كما في القطع. متوسط قدرة تيار التخثر أقل بكثير من متوسط قدرة تيار القطع.",
+    },
+  };
+
+  wireDiagramSimulator(".electrosurgery-coagulation-diagram", { cycleMs: 3200, componentInfo: COMPONENT_INFO });
+
+  document.querySelectorAll(".electrosurgery-coagulation-diagram .mode-toggle-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".electrosurgery-coagulation-diagram")?.querySelector(".simulator-shell");
+      const mode = btn.getAttribute("data-mode-button");
+      if (!(shell instanceof HTMLElement) || !mode) return;
+      shell.dataset.mode = mode;
+      shell.querySelectorAll(".mode-toggle-button").forEach((b) => {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+    });
+  });
+</script>

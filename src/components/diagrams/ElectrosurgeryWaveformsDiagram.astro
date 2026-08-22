@@ -1,0 +1,240 @@
+---
+// Figure 8-2 (الإشكال الموجية المستعملة في أنماط الجراحة) — three
+// reference waveforms: a continuous RF sine (used for Cut), a damped
+// intermittent burst (contact Coagulation), and a plain intermittent
+// burst (spray/no-contact Coagulation). This is a reference chart, not a
+// signal-flow circuit, so it reuses the same simulator-shell/hotspot
+// engine as every other diagram (for visual and interaction consistency)
+// but with each "hotspot" being one waveform strip: clicking/hovering
+// highlights it and explains what it represents, and Play sequentially
+// traces each waveform left-to-right (via stroke-dashoffset) the way a
+// real oscilloscope trace would sweep.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+
+// Small helpers to build clean repeating-cycle waveform paths at build
+// time, instead of hand-typing (or brute-force point-sampling) long path
+// strings.
+function continuousSine(width: number, cycles: number, amp: number, y0: number): string {
+  const step = width / cycles / 2;
+  let d = `M 0,${y0}`;
+  for (let i = 0; i < cycles; i++) {
+    d += ` q ${step / 2},${-amp} ${step},0`;
+    d += ` q ${step / 2},${amp} ${step},0`;
+  }
+  return d;
+}
+
+function burstGroup(totalWidth: number, burstWidth: number, gapWidth: number, burstCount: number, cyclesPerBurst: number, amp: number, y0: number, damped: boolean): string {
+  const step = burstWidth / cyclesPerBurst / 2;
+  let d = "";
+  let x = (totalWidth - burstCount * burstWidth - (burstCount - 1) * gapWidth) / 2;
+  for (let b = 0; b < burstCount; b++) {
+    d += ` M ${x},${y0}`;
+    for (let i = 0; i < cyclesPerBurst; i++) {
+      const envelope = damped ? amp * (1 - i / (cyclesPerBurst * 1.15)) : amp;
+      d += ` q ${step / 2},${-envelope} ${step},0`;
+      d += ` q ${step / 2},${envelope} ${step},0`;
+    }
+    x += burstWidth + gapWidth;
+  }
+  return d;
+}
+
+const cutWave = continuousSine(640, 26, 17, 40);
+const coagContactWave = burstGroup(640, 165, 55, 3, 6, 20, 40, true);
+const coagSprayWave = burstGroup(640, 165, 55, 3, 6, 18, 40, false);
+---
+
+<figure class="diagram-block neo-surface-soft electrosurgery-waveforms-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">الإشكال الموجية المستعملة في أنماط الجراحة</span>
+      <span class="simulator-subtitle">شكل 8-2 — موجة القطع وموجتا التخثر</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es2-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="330"
+          viewBox="0 0 820 330"
+          role="img"
+          aria-label="الإشكال الموجية المستعملة في أنماط الجراحة"
+        >
+          <defs>
+            <linearGradient id="es2BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es2Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es2GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="es2GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es2GradPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#241530"></stop><stop offset="100%" stop-color="#100a18"></stop></linearGradient>
+
+            <filter id="es2Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es2Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="330" rx="20" fill="url(#es2BgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="330" rx="20" fill="url(#es2Grid)"></rect>
+
+          <text x="410" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">الإشكال الموجية المستعملة في أنماط الجراحة</text>
+
+          <!-- Cut: continuous sine -->
+          <g class="hotspot" data-component="cut-wave" tabindex="0" role="button" aria-label="موجة القطع المستمرة">
+            <rect class="box-shape" x="60" y="52" width="700" height="80" rx="10" fill="url(#es2GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es2Elevate)"></rect>
+            <path class="wave-path" d={cutWave} transform="translate(90,72)" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" filter="url(#es2Glow)"></path>
+            <text x="105" y="66" text-anchor="start" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">موجة القطع (مستمرة)</text>
+            <text x="740" y="66" text-anchor="end" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#FBBF24" direction="ltr">Cut — continuous</text>
+          </g>
+
+          <!-- Coag contact: damped intermittent -->
+          <g class="hotspot" data-component="coag-contact-wave" tabindex="0" role="button" aria-label="موجة التخثر بالملامسة المتخامدة">
+            <rect class="box-shape" x="60" y="142" width="700" height="80" rx="10" fill="url(#es2GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es2Elevate)"></rect>
+            <path class="wave-path" d={coagContactWave} transform="translate(90,162)" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" filter="url(#es2Glow)"></path>
+            <text x="105" y="156" text-anchor="start" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">موجة تخثر متخامدة متقطعة (بالملامسة)</text>
+            <text x="740" y="156" text-anchor="end" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#38BDF8" direction="ltr">Coag — damped</text>
+          </g>
+
+          <!-- Coag spray: plain intermittent -->
+          <g class="hotspot" data-component="coag-spray-wave" tabindex="0" role="button" aria-label="موجة التخثر المتقطعة">
+            <rect class="box-shape" x="60" y="232" width="700" height="80" rx="10" fill="url(#es2GradPurple)" stroke="#C084FC" stroke-width="2" filter="url(#es2Elevate)"></rect>
+            <path class="wave-path" d={coagSprayWave} transform="translate(90,252)" fill="none" stroke="#C084FC" stroke-width="2.2" stroke-linecap="round" filter="url(#es2Glow)"></path>
+            <text x="105" y="246" text-anchor="start" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">موجة تخثر متقطعة (بدون ملامسة)</text>
+            <text x="740" y="246" text-anchor="end" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#C084FC" direction="ltr">Coag — spray</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">دلالة الموجات</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="cut-wave"><span class="status-dot dot-yellow"></span><span class="status-label">موجة القطع</span><span class="status-value"><span class="value-off">—</span><span class="value-on">جيبية مستمرة</span></span></li>
+          <li class="status-row" data-status="coag-contact-wave"><span class="status-dot dot-blue"></span><span class="status-label">تخثر بالملامسة</span><span class="status-value"><span class="value-off">—</span><span class="value-on">متقطعة متخامدة</span></span></li>
+          <li class="status-row" data-status="coag-spray-wave"><span class="status-dot dot-purple"></span><span class="status-label">تخثر بالرذاذ</span><span class="status-value"><span class="value-off">—</span><span class="value-on">متقطعة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي موجة لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>القطع</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>تخثر بالملامسة</li>
+      <li class="legend-item"><span class="legend-swatch legend-purple"></span>تخثر بالرذاذ</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#es2Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es2Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .wave-path {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es2-shape-activate { to { filter: url(#es2Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es2-trace-wave { to { stroke-dashoffset: 0; } }
+    @keyframes es2-status-value-on { to { opacity: 1; } }
+    @keyframes es2-status-value-off { to { opacity: 0; } }
+    @keyframes es2-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es2-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es2-dot-on-purple { to { background: #C084FC; box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.8); } }
+
+    .playing [data-component="cut-wave"] .box-shape { animation: es2-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-component="cut-wave"] .wave-path { animation: es2-trace-wave 1.1s ease-out 0.2s forwards; }
+    .playing [data-status="cut-wave"] .status-dot { animation: es2-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="cut-wave"] .value-on { animation: es2-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="cut-wave"] .value-off { animation: es2-status-value-off 0.4s ease-out 0.1s forwards; }
+
+    .playing [data-component="coag-contact-wave"] .box-shape { animation: es2-shape-activate 0.4s ease-out 1.5s forwards; }
+    .playing [data-component="coag-contact-wave"] .wave-path { animation: es2-trace-wave 1.1s ease-out 1.6s forwards; }
+    .playing [data-status="coag-contact-wave"] .status-dot { animation: es2-dot-on-blue 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="coag-contact-wave"] .value-on { animation: es2-status-value-on 0.4s ease-out 1.5s forwards; }
+    .playing [data-status="coag-contact-wave"] .value-off { animation: es2-status-value-off 0.4s ease-out 1.5s forwards; }
+
+    .playing [data-component="coag-spray-wave"] .box-shape { animation: es2-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-component="coag-spray-wave"] .wave-path { animation: es2-trace-wave 1.1s ease-out 3.0s forwards; }
+    .playing [data-status="coag-spray-wave"] .status-dot { animation: es2-dot-on-purple 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="coag-spray-wave"] .value-on { animation: es2-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="coag-spray-wave"] .value-off { animation: es2-status-value-off 0.4s ease-out 2.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "cut-wave": {
+      title: "موجة القطع (Cut Waveform)",
+      text: "موجة جيبية مستمرة عالية التردد (RF). تولّد شرارة مستمرة تُبخّر ماء الخلايا بسرعة فتقطع النسيج، بأقل حرارة جانبية ممكنة.",
+    },
+    "coag-contact-wave": {
+      title: "موجة التخثر بالملامسة (Damped Coagulation)",
+      text: "موجة جيبية متقطعة تتخامد (يقل سعتها) داخل كل نبضة. عند ملامسة القطب للنسيج تتوزع الحرارة في اتجاهات عديدة فتجفّ الخلايا وتتشكل خثرة بدلا من التبخر السريع.",
+    },
+    "coag-spray-wave": {
+      title: "موجة التخثر بالرذاذ (Spray Coagulation)",
+      text: "موجة جيبية متقطعة تُطلق كشرارة كهربائية بدون ملامسة مباشرة للنسيج، فتغطي مساحة أوسع من سطح النسيج النازف — مفيدة للنزيف السطحي الواسع.",
+    },
+  };
+
+  wireDiagramSimulator(".electrosurgery-waveforms-diagram", { cycleMs: 4200, componentInfo: COMPONENT_INFO });
+</script>

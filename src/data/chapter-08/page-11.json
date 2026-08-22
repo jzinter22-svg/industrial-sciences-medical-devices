@@ -1,0 +1,145 @@
+{
+  "id": "page-11",
+  "pageNumber": 151,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 151
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-8-cont",
+      "number": "8-8",
+      "title": {
+        "ar": "أنواع أجهزة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-modulation-type",
+          "number": "5",
+          "title": {
+            "ar": "أجهزة الجراحة الكهربائية التي تعمل بتقنية التضمين ومولد الدالة"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-modulation-description",
+          "content": {
+            "ar": "الشكل (8-17) يوضح المخطط الكتلوي لوحدة الجراحة الكهربائية باستعمال مضمّن ومولد الدالة. ففي نمط (Mode) القطع يعمل فقط مذبذب التردد الراديوي (RF) على توليد الموجات المستمرة. أما في نمط التخثر فيتم تضمين الموجات المستمرة للمذبذب ذي التردد الراديوي (RF) بموجات مربعة ذات تردد واطئ متولدة في مولد الدالة، فيكون الخرج عبارة عن موجة متقطعة تُوصل إلى مكبر القدرة."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-17",
+          "caption": {
+            "ar": "شكل 8-17: المخطط الكتلوي لوحدة الجراحة الكهربائية باستعمال مضمّن ومولد الدالة"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-microprocessor-type",
+          "number": "6",
+          "title": {
+            "ar": "أجهزة الجراحة الحديثة متعددة الوظائف التي تعمل بتقنية المعالجات الدقيقة"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-microprocessor-intro",
+          "content": {
+            "ar": "ولهذه الأجهزة مميزات كثيرة منها عرض مقدار القدرة المطلوبة على شاشة رقمية أثناء إجراء العملية الجراحية. أما أنماط هذه الأجهزة فهي:-"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-bipolar-cut-intro",
+          "content": {
+            "ar": "في الأقطاب الثنائية (Bipolar): تُستعمل ثلاثة أنواع من القطع:-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-bipolar-cut-types",
+          "items": [
+            {
+              "id": "bipolar-cut-precise",
+              "content": {
+                "ar": "القطع الدقيق (Precise): وهو خاص بالأنسجة الرقيقة."
+              }
+            },
+            {
+              "id": "bipolar-cut-standard",
+              "content": {
+                "ar": "القطع المتوسط (Standard): وهو خاص بالأنسجة المتوسطة."
+              }
+            },
+            {
+              "id": "bipolar-cut-macro",
+              "content": {
+                "ar": "القطع المرتفع (Macro): وهو خاص بالأنسجة عالية السمك."
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "para-monopolar-intro",
+          "content": {
+            "ar": "في الأقطاب الأحادية (Monopolar) تُستعمل ثلاثة أنواع لكل من القطع والتخثر:-"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-monopolar-cut",
+          "number": "ا",
+          "title": {
+            "ar": "القطع"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-monopolar-cut-types",
+          "items": [
+            {
+              "id": "monopolar-cut-low",
+              "content": {
+                "ar": "القطع الواطئ (Low Cut): يُستعمل هذا القطع للأنسجة الرخوة."
+              }
+            },
+            {
+              "id": "monopolar-cut-pure",
+              "content": {
+                "ar": "القطع الصافي (النظيف) (Pure Cut): يُستعمل هذا النمط للقطع الدقيق لأي نسيج."
+              }
+            },
+            {
+              "id": "monopolar-cut-blend",
+              "content": {
+                "ar": "قطع وتخثر الدمج (Blend): يُستعمل للقطع والتخثر للحالات التي يُخشى فيها من النزيف الشديد."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

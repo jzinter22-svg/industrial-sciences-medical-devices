@@ -1,0 +1,84 @@
+{
+  "id": "page-07",
+  "pageNumber": 147,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 147
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-7-cont",
+      "number": "8-7",
+      "title": {
+        "ar": "مكونات وحدة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-voltage-regulator",
+          "number": "3",
+          "title": {
+            "ar": "منظم الفولتية",
+            "en": "Voltage Regulator"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-voltage-regulator-description",
+          "content": {
+            "ar": "لتنظيم فولتية كل من مذبذب التردد الراديوي (RF) ومذبذب التردد الواطئ (المذبذب المتعدد)، يتم ذلك بواسطة الدائرة المتكاملة (7812) ذات الأطراف الثلاثة، حيث تعطي فولتية خرج مستقرة مقدارها (+12) V، كما هو موضح في شكل (8-10)."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-10",
+          "caption": {
+            "ar": "شكل 8-10: منظم الفولتية (7812)"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-rf-oscillator",
+          "number": "4",
+          "title": {
+            "ar": "مذبذب الترددات العالية",
+            "en": "RF Oscillator"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-rf-oscillator-description",
+          "content": {
+            "ar": "في أجهزة الجراحة تُستعمل مذبذبات مختلفة التصميم في توليد الإشارات بالترددات العالية، ومنها مذبذبات (LC) كمذبذب هارتلي، أو مذبذبات من نوع (RC) كما في الشكل (8-11). وهذا المذبذب في أجهزة الجراحة يتكون من مكبر عمليات (Op.Amp) يقوم بتوليد موجات جيبية راديوية، وتحدث عملية التذبذب عن طريق التغذية العكسية بين خرج المكبر ودخله."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-11",
+          "caption": {
+            "ar": "شكل 8-11: مذبذب الترددات العالية (RF) نوع (RC)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

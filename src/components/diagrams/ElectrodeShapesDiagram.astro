@@ -1,0 +1,173 @@
+---
+// Figure 8-5 (نوعا قطب الجراحة) — a compact side-by-side comparison of
+// the two electrode shapes' physical form (pen-shaped monopolar tip vs
+// forceps-shaped bipolar tip) resting on tissue. Simpler than Fig 8-3/8-4
+// (which cover the full circuit/current-path difference) — this figure is
+// purely about physical shape recognition, so it gets a lighter two-hotspot
+// treatment using the same simulator engine for visual consistency.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft electrode-shapes-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">نوعا قطب الجراحة من حيث الشكل</span>
+      <span class="simulator-subtitle">شكل 8-5 — القطب الأحادي (قلم) والقطب الثنائي (ملقط)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es5-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="300"
+          viewBox="0 0 700 300"
+          role="img"
+          aria-label="نوعا قطب الجراحة"
+        >
+          <defs>
+            <linearGradient id="es5BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es5Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es5GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#1a0a0a"></stop></linearGradient>
+            <linearGradient id="es5GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es5GradTissue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332419"></stop><stop offset="100%" stop-color="#1a120c"></stop></linearGradient>
+
+            <filter id="es5Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="300" rx="20" fill="url(#es5BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="300" rx="20" fill="url(#es5Grid)"></rect>
+
+          <text x="350" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">نوعا قطب الجراحة</text>
+
+          <!-- shared tissue base -->
+          <ellipse cx="350" cy="230" rx="260" ry="45" fill="url(#es5GradTissue)" stroke="#8a6b4a" stroke-width="1.5"></ellipse>
+          <text x="350" y="234" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" fill="#c7ad8c" direction="rtl">سطح النسيج</text>
+
+          <!-- Monopolar pen -->
+          <g class="hotspot" data-component="monopolar-pen" tabindex="0" role="button" aria-label="القطب الأحادي (قلم)">
+            <rect class="box-shape" x="140" y="60" width="46" height="90" rx="10" fill="url(#es5GradRed)" stroke="#EF4444" stroke-width="2" filter="url(#es5Elevate)"></rect>
+            <line x1="163" y1="150" x2="163" y2="205" stroke="#EF4444" stroke-width="4" stroke-linecap="round"></line>
+            <text x="163" y="188" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">قطب أحادي</text>
+          </g>
+
+          <!-- Bipolar forceps -->
+          <g class="hotspot" data-component="bipolar-forceps" tabindex="0" role="button" aria-label="القطب الثنائي (ملقط)">
+            <rect class="box-shape" x="500" y="60" width="46" height="90" rx="10" fill="url(#es5GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es5Elevate)"></rect>
+            <line x1="514" y1="150" x2="504" y2="205" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="532" y1="150" x2="542" y2="205" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"></line>
+            <text x="523" y="188" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#eef1f8" direction="rtl">قطب ثنائي</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">الشكل والاستخدام</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="monopolar-pen"><span class="status-dot dot-red"></span><span class="status-label">قطب أحادي (قلم)</span><span class="status-value"><span class="value-off">—</span><span class="value-on">مقطع صغير جدا</span></span></li>
+          <li class="status-row" data-status="bipolar-forceps"><span class="status-dot dot-blue"></span><span class="status-label">قطب ثنائي (ملقط)</span><span class="status-value"><span class="value-off">—</span><span class="value-on">قطبان في أداة واحدة</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أحد القطبين لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>قطب أحادي</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>قطب ثنائي</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#es5Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es5Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es5-shape-activate { to { filter: url(#es5Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es5-status-value-on { to { opacity: 1; } }
+    @keyframes es5-status-value-off { to { opacity: 0; } }
+    @keyframes es5-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+    @keyframes es5-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+
+    .playing [data-component="monopolar-pen"] .box-shape { animation: es5-shape-activate 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="monopolar-pen"] .status-dot { animation: es5-dot-on-red 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="monopolar-pen"] .value-on { animation: es5-status-value-on 0.4s ease-out 0.2s forwards; }
+    .playing [data-status="monopolar-pen"] .value-off { animation: es5-status-value-off 0.4s ease-out 0.2s forwards; }
+
+    .playing [data-component="bipolar-forceps"] .box-shape { animation: es5-shape-activate 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="bipolar-forceps"] .status-dot { animation: es5-dot-on-blue 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="bipolar-forceps"] .value-on { animation: es5-status-value-on 0.4s ease-out 0.9s forwards; }
+    .playing [data-status="bipolar-forceps"] .value-off { animation: es5-status-value-off 0.4s ease-out 0.9s forwards; }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "monopolar-pen": {
+      title: "القطب الأحادي (Monopolar)",
+      text: "على شكل قلم بمقطع عرضي صغير جدا، يستخدمه الجراح بيد واحدة، ويحتاج إلى قطب غير فعال منفصل (صفيحة أرضية) على جسم المريض.",
+    },
+    "bipolar-forceps": {
+      title: "القطب الثنائي (Bipolar)",
+      text: "على شكل ملقط يحمل قطبين في أداة واحدة، فالنسيج يكون محصورا بينهما مباشرة، دون الحاجة لصفيحة أرضية منفصلة.",
+    },
+  };
+
+  wireDiagramSimulator(".electrode-shapes-diagram", { cycleMs: 2200, componentInfo: COMPONENT_INFO });
+</script>

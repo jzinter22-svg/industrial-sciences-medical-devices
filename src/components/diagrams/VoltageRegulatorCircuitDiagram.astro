@@ -1,0 +1,216 @@
+---
+// Figure 8-10 (منظم الفولتية 7812) — the simplest circuit in the
+// chapter: a 3-terminal regulator IC taking an unregulated input and
+// giving a stable +12V output. Small hotspot chain, no branching, no
+// stateful toggle needed.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft voltage-regulator-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة منظم الفولتية</span>
+      <span class="simulator-subtitle">شكل 8-10 — الدائرة المتكاملة (7812)</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es10-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="700"
+          height="260"
+          viewBox="0 0 700 260"
+          role="img"
+          aria-label="منظم الفولتية 7812"
+        >
+          <defs>
+            <marker id="es10-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="es10BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es10Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es10GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="es10GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+
+            <filter id="es10Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es10Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="700" height="260" rx="20" fill="url(#es10BgGrad)"></rect>
+          <rect x="0" y="0" width="700" height="260" rx="20" fill="url(#es10Grid)"></rect>
+
+          <text x="350" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">منظم الفولتية (7812)</text>
+
+          <g class="hotspot" data-component="unregulated-in" tabindex="0" role="button" aria-label="فولتية غير منظمة">
+            <rect class="box-shape" x="60" y="90" width="140" height="80" rx="10" fill="url(#es10GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es10Elevate)"></rect>
+            <text x="130" y="126" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">فولتية</text>
+            <text x="130" y="142" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">غير منظمة</text>
+          </g>
+
+          <g class="link" data-link="unregulated-in" data-link-to="ic-7812">
+            <line id="es10-wire-1" x1="200" y1="130" x2="255" y2="130" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es10-arrow)"></line>
+            <line class="trail" x1="200" y1="130" x2="253" y2="130" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#es10Glow)" style="offset-path: url(#es10-wire-1); --flow-delay:0.4s; --flow-duration:1s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="ic-7812" tabindex="0" role="button" aria-label="الدائرة المتكاملة 7812">
+            <rect class="box-shape" x="255" y="80" width="190" height="100" rx="10" fill="url(#es10GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#es10Elevate)"></rect>
+            <text x="350" y="125" text-anchor="middle" font-family="Cairo, sans-serif" font-size="13" font-weight="700" fill="#eef1f8" direction="ltr">IC 7812</text>
+            <text x="350" y="147" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" font-weight="700" fill="#4ADE80" direction="rtl">منظم ثلاثي الأطراف</text>
+            <line x1="350" y1="180" x2="350" y2="210" stroke="#5b6478" stroke-width="2"></line>
+            <text x="350" y="230" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" fill="#8b94aa" direction="rtl">GND</text>
+          </g>
+
+          <g class="link" data-link="ic-7812" data-link-to="regulated-out">
+            <line id="es10-wire-2" x1="445" y1="130" x2="500" y2="130" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es10-arrow)"></line>
+            <line class="trail" x1="445" y1="130" x2="498" y2="130" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle" r="3.6" fill="#4ADE80" filter="url(#es10Glow)" style="offset-path: url(#es10-wire-2); --flow-delay:1.5s; --flow-duration:1s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="regulated-out" tabindex="0" role="button" aria-label="فولتية منظمة +12 فولت">
+            <rect class="box-shape" x="500" y="90" width="140" height="80" rx="10" fill="url(#es10GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#es10Elevate)"></rect>
+            <text x="570" y="126" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">فولتية منظمة</text>
+            <text x="570" y="146" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#4ADE80" direction="ltr">+12V</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الدائرة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="unregulated-in"><span class="status-dot dot-yellow"></span><span class="status-label">الدخل غير المنظم</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">نشط</span></span></li>
+          <li class="status-row" data-status="ic-7812"><span class="status-dot dot-green"></span><span class="status-label">IC 7812</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">ينظّم</span></span></li>
+          <li class="status-row" data-status="regulated-out"><span class="status-dot dot-green"></span><span class="status-label">الخرج المنظم</span><span class="status-value"><span class="value-off">لا يوجد</span><span class="value-on">+12V مستقر</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>دخل غير منظم</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>خرج منظم +12V</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#es10Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es10Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#es10Glow); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es10-shape-activate { to { filter: url(#es10Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es10-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es10-status-value-on { to { opacity: 1; } }
+    @keyframes es10-status-value-off { to { opacity: 0; } }
+    @keyframes es10-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es10-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+
+    .playing [data-component="unregulated-in"] .box-shape { animation: es10-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="unregulated-in"] .status-dot { animation: es10-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="unregulated-in"] .value-on { animation: es10-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="unregulated-in"] .value-off { animation: es10-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="unregulated-in"] .trail { animation: es10-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="ic-7812"] .box-shape { animation: es10-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="ic-7812"] .status-dot { animation: es10-dot-on-green 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="ic-7812"] .value-on { animation: es10-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="ic-7812"] .value-off { animation: es10-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="ic-7812"] .trail { animation: es10-reveal-trail 0.3s ease-out 1.5s forwards; }
+
+    .playing [data-component="regulated-out"] .box-shape { animation: es10-shape-activate 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="regulated-out"] .status-dot { animation: es10-dot-on-green 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="regulated-out"] .value-on { animation: es10-status-value-on 0.4s ease-out 2.2s forwards; }
+    .playing [data-status="regulated-out"] .value-off { animation: es10-status-value-off 0.4s ease-out 2.2s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes es10-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: es10-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "unregulated-in": {
+      title: "الفولتية غير المنظمة",
+      text: "الخرج القادم من مجهز القدرة، وقد يحتوي على تعرجات أو تغيرات بسيطة في قيمته.",
+    },
+    "ic-7812": {
+      title: "الدائرة المتكاملة (IC 7812)",
+      text: "منظم فولتية ثلاثي الأطراف. تُستخدم لتنظيم فولتية كل من مذبذب التردد الراديوي ومذبذب التردد الواطئ (المذبذب المتعدد).",
+    },
+    "regulated-out": {
+      title: "الفولتية المنظمة",
+      text: "فولتية خرج مستقرة مقدارها (+12V)، تُستخدم لتغذية بقية دوائر جهاز الجراحة الكهربائية.",
+    },
+  };
+
+  wireDiagramSimulator(".voltage-regulator-diagram", { cycleMs: 3200, componentInfo: COMPONENT_INFO });
+</script>

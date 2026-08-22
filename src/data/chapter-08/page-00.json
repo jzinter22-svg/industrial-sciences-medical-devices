@@ -1,0 +1,192 @@
+{
+  "id": "page-00",
+  "pageNumber": 140,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 140
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-objectives",
+      "number": "",
+      "title": {
+        "ar": "الأهداف"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "objectives-intro",
+          "content": {
+            "ar": "بعد ان يكتمل الفصل يستطيع الطالب أن:-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-objectives",
+          "items": [
+            {
+              "id": "objective-01",
+              "content": {
+                "ar": "يعرف مبدأ عمل جهاز الجراحة الكهربائي."
+              }
+            },
+            {
+              "id": "objective-02",
+              "content": {
+                "ar": "يعرف أنواع أقطاب أجهزة الجراحة الكهربائية."
+              }
+            },
+            {
+              "id": "objective-03",
+              "content": {
+                "ar": "يعرف العوامل التي تعتمد عليها كمية الحرارة المتولدة في النسيج."
+              }
+            },
+            {
+              "id": "objective-04",
+              "content": {
+                "ar": "يعرف الإشكال الموجية المستعملة في أنماط الجراحة."
+              }
+            },
+            {
+              "id": "objective-05",
+              "content": {
+                "ar": "يعرف تطبيقات أجهزة الجراحة الكهربائية."
+              }
+            },
+            {
+              "id": "objective-06",
+              "content": {
+                "ar": "يرسم المخطط الكتلي لوحدة الجراحة الكهربائية."
+              }
+            },
+            {
+              "id": "objective-07",
+              "content": {
+                "ar": "يعرف مبدأ عمل دوائر وحدة الجراحة الكهربائية مع رسم دائرة كل منها."
+              }
+            },
+            {
+              "id": "objective-08",
+              "content": {
+                "ar": "يعرف أنواع أجهزة الجراحة الكهربائية."
+              }
+            },
+            {
+              "id": "objective-09",
+              "content": {
+                "ar": "يعرف وظائف أجهزة الجراحة الكهربائية الحديثة."
+              }
+            },
+            {
+              "id": "objective-10",
+              "content": {
+                "ar": "يعرف احتياطات استعمال أجهزة الجراحة الكهربائية."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-contents",
+      "number": "",
+      "title": {
+        "ar": "المحتويات"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-contents",
+          "items": [
+            {
+              "id": "toc-8-1",
+              "number": "8-1",
+              "content": {
+                "ar": "جهاز الجراحة الكهربائي"
+              }
+            },
+            {
+              "id": "toc-8-2",
+              "number": "8-2",
+              "content": {
+                "ar": "مبدأ عمل جهاز الجراحة الكهربائي"
+              }
+            },
+            {
+              "id": "toc-8-3",
+              "number": "8-3",
+              "content": {
+                "ar": "العوامل التي تعتمد عليها كمية حرارة النسيج"
+              }
+            },
+            {
+              "id": "toc-8-4",
+              "number": "8-4",
+              "content": {
+                "ar": "أنواع أقطاب أجهزة الجراحة"
+              }
+            },
+            {
+              "id": "toc-8-5",
+              "number": "8-5",
+              "content": {
+                "ar": "القطع والتخثر"
+              }
+            },
+            {
+              "id": "toc-8-6",
+              "number": "8-6",
+              "content": {
+                "ar": "المخطط الكتلوي لوحدة الجراحة الكهربائية"
+              }
+            },
+            {
+              "id": "toc-8-7",
+              "number": "8-7",
+              "content": {
+                "ar": "مكونات وحدة الجراحة الكهربائية"
+              }
+            },
+            {
+              "id": "toc-8-8",
+              "number": "8-8",
+              "content": {
+                "ar": "أنواع أجهزة الجراحة الكهربائية"
+              }
+            }
+          ]
+        },
+        {
+          "type": "photo",
+          "id": "figure-opener",
+          "src": "/assets/diagrams/chapter-08/fig-01.jpg",
+          "alt": "نموذجان لأجهزة الجراحة الكهربائية المستخدمة في العيادات والمستشفيات",
+          "caption": {
+            "ar": "أجهزة الجراحة الكهربائية الحديثة (أحادية وثنائية القطب)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

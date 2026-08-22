@@ -1,0 +1,105 @@
+{
+  "id": "page-06",
+  "pageNumber": 146,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 146
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-7",
+      "number": "8-7",
+      "title": {
+        "ar": "مكونات وحدة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "para-components-intro",
+          "content": {
+            "ar": "تتكون وحدة الجراحة الكهربائية من ما يأتي:-"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-power-supply",
+          "number": "1",
+          "title": {
+            "ar": "مجهز القدرة",
+            "en": "Power Supply"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-power-supply-description",
+          "content": {
+            "ar": "يتكون مجهز القدرة من محولة خافضة، وتُستخدم دائرة قنطرة لتقويم موجة كاملة. وتعمل المتسعة (C1) على ترشيح التيار وإزالة التعرجات في موجة الخرج. شكل (8-9) يوضح دائرة مجهز القدرة."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-9",
+          "caption": {
+            "ar": "شكل 8-9: دائرة مجهز القدرة والحماية والسيطرة"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-protection-control",
+          "number": "2",
+          "title": {
+            "ar": "دائرة الحماية والسيطرة",
+            "en": "Protection and Control Department"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-protection-overload",
+          "content": {
+            "ar": "لحماية عناصر جهاز الجراحة من التلف بسبب ارتفاع قيمة التيار (Over Load) المار فيها، حيث يحدث ارتفاع التيار نتيجة انخفاض ممانعة الجهاز أثناء الضغط على طرف الإخراج (القطب الفعال)، وأن ذلك يؤدي إلى سحب تيار عالٍ من خلال مكبر القدرة، وينتقل هذا التأثير إلى مجهز القدرة مارّا خلال المقاومة الحرارية (R1) ذات المعامل الحراري السالب كما في شكل (8-9)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-protection-thyristor",
+          "content": {
+            "ar": "حيث تقوم هذه المقاومة بامتصاص التيار العالي وتعمل على خفض الفولتية لحظياً بمقدار (3–5) V، فيصبح مفتاح السيطرة الالكترونية (الثايرستور) في حالة قطع أي عدم مرور التيار فيه، وبالتالي إطفاء الجهاز نهائياً."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-protection-start-stop",
+          "content": {
+            "ar": "ولإعادة تشغيل الجهاز نُغلق مفتاح (البوش Start-S2) فيبدأ عمل الثايرستور ويصبح في حالة توصيل. أما المفتاح (بوش Stop-S1) فيعمل دائرة قصيرة (Short Circuit) على طرفي الثايرستور، وينقطع خلاله مرور التيار ويتوقف عمل الجهاز."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-protection-r2-outputs",
+          "content": {
+            "ar": "المقاومة (R2) لتحديد قيمة التيار المار في بوابة الثايرستور. نلاحظ أن الدائرة تحتوي على فولتيتين للخرج: الأولى من خلال المقاومة (R1) لتغذية مكبر القدرة، والثانية من خلال الثايرستور."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

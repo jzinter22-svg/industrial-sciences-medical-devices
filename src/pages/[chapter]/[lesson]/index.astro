@@ -198,6 +198,27 @@ const chapter07Lesson01Pages = [
   c7page25, c7page26, c7page27,
 ];
 
+import c8page00 from "../../../data/chapter-08/page-00.json";
+import c8page01 from "../../../data/chapter-08/page-01.json";
+import c8page02 from "../../../data/chapter-08/page-02.json";
+import c8page03 from "../../../data/chapter-08/page-03.json";
+import c8page04 from "../../../data/chapter-08/page-04.json";
+import c8page05 from "../../../data/chapter-08/page-05.json";
+import c8page06 from "../../../data/chapter-08/page-06.json";
+import c8page07 from "../../../data/chapter-08/page-07.json";
+import c8page08 from "../../../data/chapter-08/page-08.json";
+import c8page09 from "../../../data/chapter-08/page-09.json";
+import c8page10 from "../../../data/chapter-08/page-10.json";
+import c8page11 from "../../../data/chapter-08/page-11.json";
+import c8page12 from "../../../data/chapter-08/page-12.json";
+import c8page13 from "../../../data/chapter-08/page-13.json";
+
+const chapter08Lesson01Pages = [
+  c8page00, c8page01, c8page02, c8page03, c8page04,
+  c8page05, c8page06, c8page07, c8page08, c8page09,
+  c8page10, c8page11, c8page12, c8page13,
+];
+
 export function getStaticPaths() {
   return bookData.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({
@@ -216,7 +237,8 @@ const isChapter04Lesson01 = chapter.id === "chapter-04" && lesson.id === "lesson
 const isChapter05Lesson01 = chapter.id === "chapter-05" && lesson.id === "lesson-01";
 const isChapter06Lesson01 = chapter.id === "chapter-06" && lesson.id === "lesson-01";
 const isChapter07Lesson01 = chapter.id === "chapter-07" && lesson.id === "lesson-01";
-const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01 || isChapter07Lesson01;
+const isChapter08Lesson01 = chapter.id === "chapter-08" && lesson.id === "lesson-01";
+const hasContent = isChapter01Lesson01 || isChapter02Lesson01 || isChapter03Lesson01 || isChapter04Lesson01 || isChapter05Lesson01 || isChapter06Lesson01 || isChapter07Lesson01 || isChapter08Lesson01;
 const lessonPages = isChapter01Lesson01
   ? chapter01Lesson01Pages
   : isChapter02Lesson01
@@ -231,7 +253,9 @@ const lessonPages = isChapter01Lesson01
             ? chapter06Lesson01Pages
             : isChapter07Lesson01
               ? chapter07Lesson01Pages
-              : [];
+              : isChapter08Lesson01
+                ? chapter08Lesson01Pages
+                : [];
 ---
 
 <PageLayout title={`${lesson.title.ar} — ${chapter.title.ar} — ${bookData.book.ar}`}>

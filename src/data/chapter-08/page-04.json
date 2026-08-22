@@ -1,0 +1,78 @@
+{
+  "id": "page-04",
+  "pageNumber": 144,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 144
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-4-cont-2",
+      "number": "8-4",
+      "title": {
+        "ar": "أنواع أقطاب أجهزة الجراحة"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-5",
+          "caption": {
+            "ar": "شكل 8-5: نوعا قطب الجراحة (أحادي وثنائي)"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "section-8-5",
+      "number": "8-5",
+      "title": {
+        "ar": "القطع والتخثر"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-cut",
+          "number": "",
+          "title": {
+            "ar": "القطع",
+            "en": "Cut"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-cut-description",
+          "content": {
+            "ar": "القطع هو عملية تدمير لخلايا النسيج، وتُستعمل موجة (RF) مستمرة كما في شكل (8-6، a)، وتعمل على توليد شرارة صغيرة بين النسيج والقطب. وحرارة الشرارة بالإضافة إلى حرارة التيار المار خلال النسيج تعملان على تبخّر الماء الخلوي للنسيج بصورة سريعة، مما يسبب تدميراً لحظياً للخلايا وتكون النتيجة عملية القطع كما في شكل (8-6، b)."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-6",
+          "caption": {
+            "ar": "شكل 8-6: عملية قطع النسيج"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

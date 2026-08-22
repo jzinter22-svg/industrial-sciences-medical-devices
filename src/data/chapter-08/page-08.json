@@ -1,0 +1,98 @@
+{
+  "id": "page-08",
+  "pageNumber": 148,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 148
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-7-cont-2",
+      "number": "8-7",
+      "title": {
+        "ar": "مكونات وحدة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-power-amplifier",
+          "number": "5",
+          "title": {
+            "ar": "مكبر القدرة",
+            "en": "Power Amplifier"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-power-amplifier-description",
+          "content": {
+            "ar": "يتكون مكبر القدرة من ترانزستور تأثير المجال ذي البوابة (G) المعزولة (MOS FET) يعمل على تكبير الترددات الراديوية العالية (RF) القادمة من مذبذب (RC). شكل (8-12) يوضح دائرة مكبر القدرة، حيث أن الموجة الخارجة والمكبرة تكون عند المصرف (D)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-power-amplifier-ferrite",
+          "content": {
+            "ar": "وتُستخدم محولة رافعة نوع فرايت في خرج المكبر، ويتصل الملف الثانوي بقطبي الجهاز عن طريق نقطتي توصيل المرحل (Relay)، حيث أن قلب هذه المحولة مصنوع من الفرايت والتي تتميز بكفاءتها العالية للعمل في الترددات الراديوية العالية، وأنها اقتصادية من ناحية تبديد الطاقة أو الحرارة."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-12",
+          "caption": {
+            "ar": "شكل 8-12: دائرة مكبر القدرة"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-cut-coag-switch",
+          "number": "6",
+          "title": {
+            "ar": "مفتاح الاختيار (قطع/ تخثر)",
+            "en": "Cut / Coagulation Switch Selector"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-cut-coag-switch-cut",
+          "content": {
+            "ar": "يقوم المفتاح باختيار نمط عملية القطع أو نمط عملية التخثر كما موضح في شكل (8-13). ففي عملية القطع يتم تزويد المرحل مباشرة بالفولتية (+12V)، فتنغلق نقطتا توصيل المرحل ويكون الخرج عند قطبي الجهاز موجات جيبية مستمرة (تردد راديوي)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-cut-coag-switch-coag",
+          "content": {
+            "ar": "أما عند اختيار عملية التخثر، فيؤدي ذلك إلى عمل دائرة المذبذب المتعدد، والذي بدوره يولّد موجات مربعة الشكل ذات تردد واطئ تعمل على تشغيل المرحل بصورة متقطعة، فيكون الخرج موجات جيبية متقطعة."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-13",
+          "caption": {
+            "ar": "شكل 8-13: مفتاح الاختيار (قطع/ تخثر)"
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

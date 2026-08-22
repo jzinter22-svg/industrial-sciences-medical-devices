@@ -1,0 +1,285 @@
+---
+// Figure 8-1 (مبدأ عمل جهاز الجراحة الكهربائي) — the RF generator drives
+// current out through the small-area active electrode, through the
+// patient's tissue (where the current density is high enough to heat and
+// vaporize it), and back through the large-area passive (return) electrode
+// to the generator, completing a loop. Built with the same dark
+// neumorphic simulator-shell/hotspot/link engine as every other chapter's
+// diagrams, sized to a compact 4-node loop.
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft electrosurgery-principle-diagram">
+  <div class="simulator-shell">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مبدأ عمل جهاز الجراحة الكهربائي</span>
+      <span class="simulator-subtitle">شكل 8-1 — من المولد إلى القطبين وجسم المريض</span>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es1-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="820"
+          height="420"
+          viewBox="0 0 820 420"
+          role="img"
+          aria-label="مبدأ عمل جهاز الجراحة الكهربائي"
+        >
+          <defs>
+            <marker id="es1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+
+            <linearGradient id="es1BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es1Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es1GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="es1GradRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1414"></stop><stop offset="100%" stop-color="#1a0a0a"></stop></linearGradient>
+            <linearGradient id="es1GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es1GradGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123322"></stop><stop offset="100%" stop-color="#0a1712"></stop></linearGradient>
+
+            <filter id="es1Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es1Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="820" height="420" rx="20" fill="url(#es1BgGrad)"></rect>
+          <rect x="0" y="0" width="820" height="420" rx="20" fill="url(#es1Grid)"></rect>
+
+          <text x="410" y="34" text-anchor="middle" font-family="Cairo, sans-serif" font-size="15" font-weight="700" fill="#eef1f8" direction="rtl">مبدأ عمل جهاز الجراحة الكهربائي</text>
+
+          <!-- Generator -->
+          <g class="hotspot" data-component="generator" tabindex="0" role="button" aria-label="المولد">
+            <rect class="box-shape" x="40" y="160" width="130" height="100" rx="10" fill="url(#es1GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es1Elevate)"></rect>
+            <text x="105" y="202" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12.5" font-weight="700" fill="#eef1f8" direction="rtl">المولد</text>
+            <text x="105" y="222" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#FBBF24" direction="ltr">Generator</text>
+          </g>
+
+          <!-- generator -> active electrode -->
+          <g class="link" data-link="generator" data-link-to="active-electrode">
+            <path id="es1-wire-1" d="M 170,190 L 320,190 L 320,150" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es1-arrow)"></path>
+            <path class="trail" d="M 170,190 L 320,190 L 320,152" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#es1Glow)" style="offset-path: url(#es1-wire-1); --flow-delay:0.4s; --flow-duration:1.2s;"></circle>
+          </g>
+
+          <!-- Active electrode (small cross-section, held by the surgeon) -->
+          <g class="hotspot" data-component="active-electrode" tabindex="0" role="button" aria-label="القطب الفعال">
+            <rect class="box-shape" x="290" y="80" width="60" height="70" rx="8" fill="url(#es1GradRed)" stroke="#EF4444" stroke-width="2" filter="url(#es1Elevate)"></rect>
+            <line x1="320" y1="150" x2="320" y2="185" stroke="#EF4444" stroke-width="4" stroke-linecap="round"></line>
+            <text x="320" y="105" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">القطب</text>
+            <text x="320" y="120" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">الفعال</text>
+            <text x="320" y="136" text-anchor="middle" font-family="Cairo, sans-serif" font-size="7.5" font-weight="700" fill="#EF4444" direction="ltr">Active</text>
+          </g>
+
+          <!-- active electrode -> patient (spark gap) -->
+          <g class="link" data-link="active-electrode" data-link-to="patient">
+            <path id="es1-wire-2" d="M 320,185 L 320,215" fill="none" stroke="#5b6478" stroke-width="2" marker-end="url(#es1-arrow)"></path>
+            <path class="trail" d="M 320,185 L 320,213" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="4 5"></path>
+            <circle class="current-particle" r="3" fill="#EF4444" filter="url(#es1Glow)" style="offset-path: url(#es1-wire-2); --flow-delay:1.6s; --flow-duration:0.5s;"></circle>
+          </g>
+          <g class="spark-mark" aria-hidden="true">
+            <path d="M 312,196 L 320,210 L 328,196" fill="none" stroke="#FFE08A" stroke-width="2" stroke-linecap="round"></path>
+          </g>
+
+          <!-- Patient body -->
+          <g class="hotspot" data-component="patient" tabindex="0" role="button" aria-label="جسم المريض">
+            <rect class="box-shape" x="220" y="215" width="200" height="90" rx="35" fill="url(#es1GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es1Elevate)"></rect>
+            <text x="320" y="255" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="rtl">جسم المريض</text>
+            <text x="320" y="272" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="700" fill="#38BDF8" direction="ltr">Patient</text>
+          </g>
+
+          <!-- patient -> passive electrode -->
+          <g class="link" data-link="patient" data-link-to="passive-electrode">
+            <path id="es1-wire-3" d="M 320,305 L 320,335" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es1-arrow)"></path>
+            <path class="trail" d="M 320,305 L 320,333" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.6" fill="#38BDF8" filter="url(#es1Glow)" style="offset-path: url(#es1-wire-3); --flow-delay:2.2s; --flow-duration:0.7s;"></circle>
+          </g>
+
+          <!-- Passive (return) electrode: large flat plate -->
+          <g class="hotspot" data-component="passive-electrode" tabindex="0" role="button" aria-label="القطب غير الفعال">
+            <rect class="box-shape" x="210" y="335" width="220" height="34" rx="8" fill="url(#es1GradGreen)" stroke="#4ADE80" stroke-width="2" filter="url(#es1Elevate)"></rect>
+            <text x="320" y="357" text-anchor="middle" font-family="Cairo, sans-serif" font-size="11" font-weight="700" fill="#eef1f8" direction="rtl">القطب غير الفعال (صفيحة كبيرة)</text>
+          </g>
+
+          <!-- passive electrode -> back to generator (return path) -->
+          <g class="link" data-link="passive-electrode" data-link-to="generator">
+            <path id="es1-wire-4" d="M 210,352 L 105,352 L 105,260" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es1-arrow)"></path>
+            <path class="trail" d="M 210,352 L 105,352 L 105,262" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.6" fill="#4ADE80" filter="url(#es1Glow)" style="offset-path: url(#es1-wire-4); --flow-delay:2.9s; --flow-duration:1.3s;"></circle>
+          </g>
+
+          <!-- Current-density annotation -->
+          <text x="605" y="140" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#EF4444" direction="rtl">كثافة تيار عالية عند القطب الفعال</text>
+          <text x="605" y="158" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" fill="#dbe0ec" direction="rtl">(تسخين شديد → قطع/تخثر)</text>
+          <text x="605" y="392" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#4ADE80" direction="rtl">كثافة تيار منخفضة عند القطب غير الفعال</text>
+          <text x="605" y="410" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9" fill="#dbe0ec" direction="rtl">(مساحة كبيرة → تسخين ضئيل)</text>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">حالة الدائرة</h3>
+        <ul class="status-list">
+          <li class="status-row" data-status="generator"><span class="status-dot dot-yellow"></span><span class="status-label">المولد</span><span class="status-value"><span class="value-off">متوقف</span><span class="value-on">يولّد RF</span></span></li>
+          <li class="status-row" data-status="active-electrode"><span class="status-dot dot-red"></span><span class="status-label">القطب الفعال</span><span class="status-value"><span class="value-off">بارد</span><span class="value-on">حرارة عالية</span></span></li>
+          <li class="status-row" data-status="patient"><span class="status-dot dot-blue"></span><span class="status-label">جسم المريض</span><span class="status-value"><span class="value-off">غير متأثر</span><span class="value-on">يمر به التيار</span></span></li>
+          <li class="status-row" data-status="passive-electrode"><span class="status-dot dot-green"></span><span class="status-label">القطب غير الفعال</span><span class="status-value"><span class="value-off">غير نشط</span><span class="value-on">تيار عائد</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>انقر على أي مرحلة في المخطط لعرض شرحها</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>المولد</li>
+      <li class="legend-item"><span class="legend-swatch legend-orange"></span>القطب الفعال</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>جسم المريض</li>
+      <li class="legend-item"><span class="legend-swatch legend-green"></span>القطب غير الفعال</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .hotspot .box-shape {
+    filter: url(#es1Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es1Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail {
+    opacity: 0;
+    stroke-width: 2.5px;
+    filter: url(#es1Glow);
+  }
+
+  .spark-mark {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es1-shape-activate { to { filter: url(#es1Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es1-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es1-status-value-on { to { opacity: 1; } }
+    @keyframes es1-status-value-off { to { opacity: 0; } }
+    @keyframes es1-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es1-dot-on-red { to { background: #EF4444; box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.8); } }
+    @keyframes es1-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es1-dot-on-green { to { background: #4ADE80; box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.8); } }
+    @keyframes es1-spark-flash {
+      0%, 100% { opacity: 0; }
+      40%, 60% { opacity: 1; }
+    }
+
+    .playing [data-component="generator"] .box-shape { animation: es1-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .status-dot { animation: es1-dot-on-yellow 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .value-on { animation: es1-status-value-on 0.4s ease-out 0.1s forwards; }
+    .playing [data-status="generator"] .value-off { animation: es1-status-value-off 0.4s ease-out 0.1s forwards; }
+    .playing [data-link="generator"] .trail { animation: es1-reveal-trail 0.3s ease-out 0.4s forwards; }
+
+    .playing [data-component="active-electrode"] .box-shape { animation: es1-shape-activate 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="active-electrode"] .status-dot { animation: es1-dot-on-red 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="active-electrode"] .value-on { animation: es1-status-value-on 0.4s ease-out 1.1s forwards; }
+    .playing [data-status="active-electrode"] .value-off { animation: es1-status-value-off 0.4s ease-out 1.1s forwards; }
+    .playing [data-link="active-electrode"] .trail { animation: es1-reveal-trail 0.3s ease-out 1.6s forwards; }
+    .playing .spark-mark { animation: es1-spark-flash 0.9s ease-in-out 1.7s 3; }
+
+    .playing [data-component="patient"] .box-shape { animation: es1-shape-activate 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="patient"] .status-dot { animation: es1-dot-on-blue 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="patient"] .value-on { animation: es1-status-value-on 0.4s ease-out 2.1s forwards; }
+    .playing [data-status="patient"] .value-off { animation: es1-status-value-off 0.4s ease-out 2.1s forwards; }
+    .playing [data-link="patient"] .trail { animation: es1-reveal-trail 0.3s ease-out 2.4s forwards; }
+
+    .playing [data-component="passive-electrode"] .box-shape { animation: es1-shape-activate 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="passive-electrode"] .status-dot { animation: es1-dot-on-green 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="passive-electrode"] .value-on { animation: es1-status-value-on 0.4s ease-out 2.9s forwards; }
+    .playing [data-status="passive-electrode"] .value-off { animation: es1-status-value-off 0.4s ease-out 2.9s forwards; }
+    .playing [data-link="passive-electrode"] .trail { animation: es1-reveal-trail 0.3s ease-out 3.2s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes es1-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: es1-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    generator: {
+      title: "المولد (Generator)",
+      text: "يولّد موجات راديوية (RF) عالية التردد تعمل على توليد طاقة حرارية تُستخدم داخل الأنسجة لإجراء القطع أو عملية التخثر.",
+    },
+    "active-electrode": {
+      title: "القطب الفعال (Active Electrode)",
+      text: "مقطعه العرضي صغير جدا (بضعة ملم²) مع مقبض بلاستيكي عازل في يد الجراح. لصِغر مساحته تكون كثافة التيار فيه عالية جدا فيسخّن الأنسجة بشدة.",
+    },
+    patient: {
+      title: "جسم المريض (Patient)",
+      text: "يمر التيار خلال جسم المريض من القطب الفعال إلى القطب غير الفعال؛ عند منطقة العلاج فقط تكون كثافة التيار كافية للتسخين والقطع أو التخثر.",
+    },
+    "passive-electrode": {
+      title: "القطب غير الفعال (Passive Electrode)",
+      text: "صفيحة معدنية كبيرة (100 سم² أو أكثر) تُوضع أسفل المريض. بسبب مساحتها الكبيرة تكون كثافة التيار فيها قليلة جدا فلا تُحدث تسخينا يُذكر، ويعود التيار منها إلى المولد.",
+    },
+  };
+
+  wireDiagramSimulator(".electrosurgery-principle-diagram", { cycleMs: 4200, componentInfo: COMPONENT_INFO });
+</script>

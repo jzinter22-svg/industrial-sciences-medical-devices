@@ -1,0 +1,71 @@
+{
+  "id": "page-03",
+  "pageNumber": 143,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 143
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-4-cont",
+      "number": "8-4",
+      "title": {
+        "ar": "أنواع أقطاب أجهزة الجراحة"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "id": "list-monopolar-circuit-parts",
+          "items": [
+            { "id": "part-a", "number": "أ", "content": { "ar": "مولد تيار متناوب" } },
+            { "id": "part-b", "number": "ب", "content": { "ar": "المريض" } },
+            { "id": "part-c", "number": "جـ", "content": { "ar": "القطب الفعال" } },
+            { "id": "part-d", "number": "د", "content": { "ar": "القطب غير الفعال" } }
+          ]
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-3",
+          "caption": {
+            "ar": "شكل 8-3 و 8-4: الجراحة الكهربائية أحادية القطب (Monopolar) وثنائية القطب (Bipolar)"
+          }
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-bipolar",
+          "number": "2",
+          "title": {
+            "ar": "الأقطاب الثنائية",
+            "en": "Bipolar"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-bipolar-description",
+          "content": {
+            "ar": "في هذا النوع تكون الأقطاب على شكل ملقط. يسري التيار من المولد إلى القطبين في يد الجراح، يعمل أحدهما كقطب فعال ويسري التيار منه إلى نسيج المريض ثم إلى القطب الآخر الذي يعمل كقطب لرجوع التيار إلى المولد ليكمل الدائرة. لا يحتاج في الجراحة الثنائية القطب إلى استعمال صفيحة الأرض لأن النسيج يكون محصورا فقط بين جانبي الملقط، كما هو موضح في الشكل (8-4)."
+          }
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

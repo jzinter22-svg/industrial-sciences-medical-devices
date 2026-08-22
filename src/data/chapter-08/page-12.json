@@ -1,0 +1,110 @@
+{
+  "id": "page-12",
+  "pageNumber": 152,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 152
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-8-cont-2",
+      "number": "8-8",
+      "title": {
+        "ar": "أنواع أجهزة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-monopolar-coag",
+          "number": "ب",
+          "title": {
+            "ar": "التخثر"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-monopolar-coag-types",
+          "items": [
+            {
+              "id": "monopolar-coag-desiccate",
+              "content": {
+                "ar": "التخثر العميق (Desiccate): يُستعمل للتخثر العميق عن طريق التماس المباشر مع النسيج."
+              }
+            },
+            {
+              "id": "monopolar-coag-fulguration",
+              "content": {
+                "ar": "التخثر الدقيق (Fulguration): يُستعمل للتخثر الدقيق عن طريق إطلاق شرارة كهربائية بدون تماس مباشر مع النسيج، ويشمل ذلك مساحات واسعة من سطح النسيج الوعائي النازف."
+              }
+            },
+            {
+              "id": "monopolar-coag-spray",
+              "content": {
+                "ar": "تخثر الرذاذ (Spray): هو تخثر عن طريق الرذاذ، ويتم عن طريق إطلاق شرارة كهربائية واسعة المساحة."
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "section-precautions",
+      "number": "",
+      "title": {
+        "ar": "احتياطات استعمال أجهزة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "numbered-list",
+          "id": "list-precautions",
+          "items": [
+            {
+              "id": "precaution-01",
+              "content": {
+                "ar": "لا تُستخدم الجهاز في غرفة العمليات مع أجهزة التخدير، لأن الشرارة والحرارة المصاحبة مع عملية الجراحة تكون مصدرا للحريق والانفجار مع غازات التخدير."
+              }
+            },
+            {
+              "id": "precaution-02",
+              "content": {
+                "ar": "يجب ربط الجهاز بأرضي جيد لتجنب خطر الصدمة الكهربائية من جسم الجهاز، وقبل تنظيف الجهاز يجب فصل الجهاز عن مصدر القدرة الكهربائية."
+              }
+            },
+            {
+              "id": "precaution-03",
+              "content": {
+                "ar": "يجب التأكد من توصيل قطب الرجوع (غير الفعال) بصورة مضبوطة لتجنب حدوث حروق للمريض عند موضع القطب."
+              }
+            },
+            {
+              "id": "precaution-04",
+              "content": {
+                "ar": "يجب الاختبار الدوري للجهاز لتجنب إعطاء الجهاز اخراجات قدرة خاطئة."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

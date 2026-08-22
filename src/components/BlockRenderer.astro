@@ -99,6 +99,21 @@ import MotorStarterCircuitDiagramInteractive from "./diagrams/MotorStarterCircui
 import SyringeAnatomyDiagramInteractive from "./diagrams/SyringeAnatomyDiagramInteractive.astro";
 import SuctionPumpInternalsDiagramInteractive from "./diagrams/SuctionPumpInternalsDiagramInteractive.astro";
 import SuctionElectricalCircuitDiagramInteractive from "./diagrams/SuctionElectricalCircuitDiagramInteractive.astro";
+import ElectrosurgeryPrincipleDiagramInteractive from "./diagrams/ElectrosurgeryPrincipleDiagramInteractive.astro";
+import ElectrosurgeryWaveformsDiagram from "./diagrams/ElectrosurgeryWaveformsDiagram.astro";
+import ElectrodeTypesDiagramInteractive from "./diagrams/ElectrodeTypesDiagramInteractive.astro";
+import ElectrodeShapesDiagram from "./diagrams/ElectrodeShapesDiagram.astro";
+import ElectrosurgeryCuttingDiagramInteractive from "./diagrams/ElectrosurgeryCuttingDiagramInteractive.astro";
+import ElectrosurgeryCoagulationDiagramInteractive from "./diagrams/ElectrosurgeryCoagulationDiagramInteractive.astro";
+import ElectrosurgicalUnitBlockDiagramInteractive from "./diagrams/ElectrosurgicalUnitBlockDiagramInteractive.astro";
+import PowerSupplyProtectionCircuitDiagramInteractive from "./diagrams/PowerSupplyProtectionCircuitDiagramInteractive.astro";
+import VoltageRegulatorCircuitDiagram from "./diagrams/VoltageRegulatorCircuitDiagram.astro";
+import RFOscillatorCircuitDiagramInteractive from "./diagrams/RFOscillatorCircuitDiagramInteractive.astro";
+import PowerAmplifierCircuitDiagramInteractive from "./diagrams/PowerAmplifierCircuitDiagramInteractive.astro";
+import CutCoagSwitchSelectorDiagramInteractive from "./diagrams/CutCoagSwitchSelectorDiagramInteractive.astro";
+import AstableMultivibratorDiagramInteractive from "./diagrams/AstableMultivibratorDiagramInteractive.astro";
+import TransistorOscillatorSwitchDiagramInteractive from "./diagrams/TransistorOscillatorSwitchDiagramInteractive.astro";
+import ModulationFunctionGeneratorDiagramInteractive from "./diagrams/ModulationFunctionGeneratorDiagramInteractive.astro";
 
 // Chapter 2 diagram ids (c2-fig-2-XX) that have a hand-built animated
 // replacement, same rationale as the Chapter 1 table above — the rest
@@ -219,6 +234,30 @@ const chapter7AnimatedDiagrams: Record<string, any> = {
   "c7-fig-7-7c": SuctionElectricalCircuitDiagramInteractive,
 };
 
+// Chapter 8 diagram ids (c8-fig-8-X) — every figure in the chapter is a
+// hand-built interactive diagram on the same simulator-shell template.
+// Figures 8-3 (Monopolar) and 8-4 (Bipolar) share one merged
+// before/after-comparison component (id c8-fig-8-3, placed once at
+// Fig 8-3's position, with a mode toggle covering both); there is no
+// separate c8-fig-8-4 id for the same reason.
+const chapter8AnimatedDiagrams: Record<string, any> = {
+  "c8-fig-8-1": ElectrosurgeryPrincipleDiagramInteractive,
+  "c8-fig-8-2": ElectrosurgeryWaveformsDiagram,
+  "c8-fig-8-3": ElectrodeTypesDiagramInteractive,
+  "c8-fig-8-5": ElectrodeShapesDiagram,
+  "c8-fig-8-6": ElectrosurgeryCuttingDiagramInteractive,
+  "c8-fig-8-7": ElectrosurgeryCoagulationDiagramInteractive,
+  "c8-fig-8-8": ElectrosurgicalUnitBlockDiagramInteractive,
+  "c8-fig-8-9": PowerSupplyProtectionCircuitDiagramInteractive,
+  "c8-fig-8-10": VoltageRegulatorCircuitDiagram,
+  "c8-fig-8-11": RFOscillatorCircuitDiagramInteractive,
+  "c8-fig-8-12": PowerAmplifierCircuitDiagramInteractive,
+  "c8-fig-8-13": CutCoagSwitchSelectorDiagramInteractive,
+  "c8-fig-8-14": AstableMultivibratorDiagramInteractive,
+  "c8-fig-8-16": TransistorOscillatorSwitchDiagramInteractive,
+  "c8-fig-8-17": ModulationFunctionGeneratorDiagramInteractive,
+};
+
 // Chapter 1 device ids (device-0N) that have a hand-built animated
 // inline-SVG illustration, rendered through DeviceCard's "illustration"
 // slot. Any device not listed here falls back to DeviceCard's existing
@@ -255,6 +294,7 @@ const Chapter4Diagram = block.type === "diagram" ? chapter4AnimatedDiagrams[bloc
 const Chapter5Diagram = block.type === "diagram" ? chapter5AnimatedDiagrams[block.id] : undefined;
 const Chapter6Diagram = block.type === "diagram" ? chapter6AnimatedDiagrams[block.id] : undefined;
 const Chapter7Diagram = block.type === "diagram" ? chapter7AnimatedDiagrams[block.id] : undefined;
+const Chapter8Diagram = block.type === "diagram" ? chapter8AnimatedDiagrams[block.id] : undefined;
 const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.id] : undefined;
 ---
 
@@ -349,6 +389,10 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   <Chapter7Diagram caption={block.caption?.ar} />
 )}
 
+{block.type === "diagram" && Chapter8Diagram && (
+  <Chapter8Diagram caption={block.caption?.ar} />
+)}
+
 {block.type === "diagram" &&
   !["diagram-01", "diagram-02", "diagram-03", "diagram-04", "diagram-05", "diagram-06", "diagram-11"].includes(block.id) &&
   !(block.id in pulseGeneratorVariantByDiagramId) &&
@@ -358,6 +402,7 @@ const DeviceIllustration = block.type === "device" ? deviceIllustrations[block.i
   !Chapter5Diagram &&
   !Chapter6Diagram &&
   !Chapter7Diagram &&
+  !Chapter8Diagram &&
   block.src && (
     <DiagramBlock src={block.src} alt={block.alt} caption={block.caption?.ar} />
   )}

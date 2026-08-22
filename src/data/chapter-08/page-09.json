@@ -1,0 +1,120 @@
+{
+  "id": "page-09",
+  "pageNumber": 149,
+  "chapterNumber": 8,
+  "lessonNumber": 1,
+
+  "source": {
+    "book": "العلوم الصناعية",
+    "chapter": "الفصل الثامن",
+    "printedPage": 149
+  },
+
+  "metadata": {
+    "language": "ar",
+    "direction": "rtl",
+    "status": "draft",
+    "goldenReference": false
+  },
+
+  "title": {
+    "ar": "أجهزة الجراحة الكهربائية",
+    "en": "Electrosurgical Instruments"
+  },
+
+  "sections": [
+    {
+      "id": "section-8-7-cont-3",
+      "number": "8-7",
+      "title": {
+        "ar": "مكونات وحدة الجراحة الكهربائية"
+      },
+      "blocks": [
+        {
+          "type": "subsection",
+          "id": "subsection-astable-multivibrator",
+          "number": "7",
+          "title": {
+            "ar": "المذبذب المتعدد الغير مستقر",
+            "en": "Astable Multivibrator"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-astable-description",
+          "content": {
+            "ar": "شكل (8-14) يوضح دائرة المذبذب المتعدد، يقوم بتوليد موجات مربعة الشكل ذات ترددات منخفضة. عندما يكون الترانزستور Q1 في حالة توصيل (on) يصبح الترانزستور Q2 في حالة قطع (off) والعكس بالعكس، حيث يمكن التحكم بزمن التوصيل والقطع عن طريق تغيير قيمة المقاومة المتغيرة (Rp)."
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-astable-timing",
+          "content": {
+            "ar": "وحيث أن: R1 = R2 = R ، C1 = C2 = C. فعندما تكون Rp = 0 يكون زمن التوصيل Toff = 0.7 R1 C1 مساوياً لزمن القطع Ton = 0.7 R2 C2."
+          }
+        },
+        {
+          "type": "diagram",
+          "id": "c8-fig-8-14",
+          "caption": {
+            "ar": "شكل 8-14: دائرة المذبذب المتعدد"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-astable-frequency-intro",
+          "content": {
+            "ar": "وإذا زادت قيمة المقاومة المتغيرة (Rp) زاد زمن القطع والتوصيل، ويتم حساب تردد المذبذب كما في المعادلة الآتية:-"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation-astable-frequency",
+          "formula": "F = 1 / (0.7 × (R + Rp) × C)",
+          "legend": [
+            { "symbol": "F", "meaning": "تردد المذبذب المتعدد" },
+            { "symbol": "R", "meaning": "قيمة المقاومة الثابتة (R1 = R2)" },
+            { "symbol": "Rp", "meaning": "قيمة المقاومة المتغيرة" },
+            { "symbol": "C", "meaning": "قيمة المتسعة (C1 = C2)" }
+          ]
+        },
+        {
+          "type": "subsection",
+          "id": "subsection-onoff-switches",
+          "number": "8",
+          "title": {
+            "ar": "مفاتيح التشغيل (قطع/ تخثر)",
+            "en": "Cut/Coagulation ON-OFF Switch"
+          }
+        },
+        {
+          "type": "paragraph",
+          "id": "para-onoff-switches-intro",
+          "content": {
+            "ar": "تحتوي أجهزة الجراحة على نوعين من مفاتيح التشغيل هما:-"
+          }
+        },
+        {
+          "type": "numbered-list",
+          "id": "list-onoff-switches",
+          "items": [
+            {
+              "id": "switch-hand",
+              "content": {
+                "ar": "المفاتيح اليدوية (Hand Switches): يحتوي المقبض البلاستيكي للقطب الفعال على زرين، أحدهما للقطع والآخر للتخثر، في المقبض نفسه."
+              }
+            },
+            {
+              "id": "switch-foot",
+              "content": {
+                "ar": "مفاتيح (دواسة) قدم (Foot Switches): وتقوم بتشغيل دائرة الخرج لجميع وظائف الجهاز كالقطع أو التخثر، حيث يمكن للجراح تفعيل الجهاز عند الضغط على دواسة القدم بدلا من الضغط على أحد زرّي القطع أو التخثر. شكل (8-15) يوضح: أ- نموذجاً لأحد أجهزة الجراحة، ب- دواسة القدم وصفيحة المريض."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "assets": []
+}

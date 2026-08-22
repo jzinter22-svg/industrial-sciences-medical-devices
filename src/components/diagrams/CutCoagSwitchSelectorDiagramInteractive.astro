@@ -1,0 +1,303 @@
+---
+// Figure 8-13 (مفتاح الاختيار قطع/ تخثر) — a focused close-up of exactly
+// how the Select Switch drives the relay differently in each mode: direct
+// +12V for a continuous Cut output, versus the Astable Multivibrator's
+// square wave for an intermittent Coagulation output. This is the same
+// relationship shown inside the Fig 8-8 flagship diagram, isolated here
+// as its own figure since the source numbers it separately — a simple
+// click-toggle (no play/pause sequencing needed, the whole point is the
+// instantaneous path difference).
+import "../../styles/diagram-simulator.css";
+
+interface Props {
+  caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="diagram-block neo-surface-soft cut-coag-switch-diagram">
+  <div class="simulator-shell" data-mode="cut">
+    <div class="simulator-toolbar">
+      <span class="simulator-title">محاكاة مفتاح الاختيار (قطع/ تخثر)</span>
+      <span class="simulator-subtitle">شكل 8-13 — مسارا تغذية المرحل</span>
+    </div>
+
+    <div class="mode-toggle-row">
+      <button type="button" class="mode-toggle-button" data-mode-button="cut" aria-pressed="true">قطع (Cut)</button>
+      <button type="button" class="mode-toggle-button" data-mode-button="coag" aria-pressed="false">تخثر (Coagulation)</button>
+    </div>
+
+    <div class="simulator-main">
+      <div class="diagram-block-image">
+        <svg
+          class="es13-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="760"
+          height="300"
+          viewBox="0 0 760 300"
+          role="img"
+          aria-label="مفتاح الاختيار قطع/تخثر"
+        >
+          <defs>
+            <marker id="es13-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#5b6478"></path>
+            </marker>
+            <linearGradient id="es13BgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#141d30"></stop>
+              <stop offset="100%" stop-color="#0a0f1a"></stop>
+            </linearGradient>
+            <pattern id="es13Grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0 H0 V36" fill="none" stroke="rgba(148,163,184,0.07)" stroke-width="1"></path>
+            </pattern>
+            <linearGradient id="es13GradYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332c10"></stop><stop offset="100%" stop-color="#1a1608"></stop></linearGradient>
+            <linearGradient id="es13GradBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#123249"></stop><stop offset="100%" stop-color="#081826"></stop></linearGradient>
+            <linearGradient id="es13GradOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2210"></stop><stop offset="100%" stop-color="#1a0f08"></stop></linearGradient>
+
+            <filter id="es13Elevate" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blurOuter"></feGaussianBlur>
+              <feOffset in="blurOuter" dx="0" dy="8" result="offsetOuter"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity="0.58" result="colorOuter"></feFlood>
+              <feComposite in="colorOuter" in2="offsetOuter" operator="in" result="shadowOuter"></feComposite>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blurHalo"></feGaussianBlur>
+              <feOffset in="blurHalo" dx="-4" dy="-4" result="offsetHalo"></feOffset>
+              <feFlood flood-color="#9fb4ff" flood-opacity="0.16" result="colorHalo"></feFlood>
+              <feComposite in="colorHalo" in2="offsetHalo" operator="in" result="haloOuter"></feComposite>
+              <feMerge>
+                <feMergeNode in="shadowOuter"></feMergeNode>
+                <feMergeNode in="haloOuter"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+            <filter id="es13Glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"></feGaussianBlur>
+              <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#es13BgGrad)"></rect>
+          <rect x="0" y="0" width="760" height="300" rx="20" fill="url(#es13Grid)"></rect>
+
+          <text x="380" y="30" text-anchor="middle" font-family="Cairo, sans-serif" font-size="14" font-weight="700" fill="#eef1f8" direction="rtl">مفتاح الاختيار (قطع/ تخثر)</text>
+
+          <g class="hotspot" data-component="supply-12v" tabindex="0" role="button" aria-label="فولتية +12 فولت">
+            <rect class="box-shape" x="40" y="60" width="110" height="70" rx="10" fill="url(#es13GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es13Elevate)"></rect>
+            <text x="95" y="102" text-anchor="middle" font-family="Cairo, sans-serif" font-size="12" font-weight="700" fill="#eef1f8" direction="ltr">+12V</text>
+          </g>
+
+          <!-- Cut path: direct to relay -->
+          <g class="link cut-path" data-link="supply-12v" data-link-to="relay">
+            <path id="es13-wire-cut" d="M 150,95 L 300,95 L 300,150 L 400,150" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es13-arrow)"></path>
+            <path class="trail" d="M 150,95 L 300,95 L 300,150 L 398,150" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.6" fill="#FBBF24" filter="url(#es13Glow)" style="offset-path: url(#es13-wire-cut); --flow-delay:0.4s; --flow-duration:1.4s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="astable" tabindex="0" role="button" aria-label="المذبذب المتعدد">
+            <rect class="box-shape" x="40" y="180" width="150" height="80" rx="10" fill="url(#es13GradBlue)" stroke="#38BDF8" stroke-width="2" filter="url(#es13Elevate)"></rect>
+            <text x="115" y="215" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">المذبذب المتعدد</text>
+            <text x="115" y="232" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#38BDF8" direction="ltr">Astable Multivibrator</text>
+          </g>
+
+          <!-- Coag path: via astable multivibrator -->
+          <g class="link coag-path" data-link="astable" data-link-to="relay">
+            <path id="es13-wire-coag" d="M 190,220 L 300,220 L 300,180 L 400,180" fill="none" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es13-arrow)"></path>
+            <path class="trail" d="M 190,220 L 300,220 L 300,180 L 398,180" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="6 8"></path>
+            <circle class="current-particle" r="3.6" fill="#38BDF8" filter="url(#es13Glow)" style="offset-path: url(#es13-wire-coag); --flow-delay:0.4s; --flow-duration:1.4s;"></circle>
+          </g>
+
+          <!-- Select switch icon at the junction -->
+          <g class="hotspot" data-component="select-switch" tabindex="0" role="button" aria-label="مفتاح الاختيار">
+            <circle class="box-shape" cx="300" cy="150" r="22" fill="url(#es13GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#es13Elevate)"></circle>
+            <text x="300" y="106" text-anchor="middle" font-family="Cairo, sans-serif" font-size="9.5" font-weight="700" fill="#eef1f8" direction="rtl">مفتاح الاختيار</text>
+          </g>
+
+          <g class="hotspot" data-component="relay" tabindex="0" role="button" aria-label="المرحل">
+            <rect class="box-shape" x="400" y="130" width="100" height="70" rx="10" fill="url(#es13GradOrange)" stroke="#FB923C" stroke-width="2" filter="url(#es13Elevate)"></rect>
+            <text x="450" y="170" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10.5" font-weight="700" fill="#eef1f8" direction="rtl">المرحل</text>
+          </g>
+
+          <g class="link" data-link="relay" data-link-to="output">
+            <line id="es13-wire-out" x1="500" y1="165" x2="545" y2="165" stroke="#5b6478" stroke-width="2.5" marker-end="url(#es13-arrow)"></line>
+            <line class="trail" x1="500" y1="165" x2="543" y2="165" stroke="#4ADE80" stroke-width="2.5" stroke-dasharray="6 8"></line>
+            <circle class="current-particle output-particle" r="3.6" fill="#4ADE80" filter="url(#es13Glow)" style="offset-path: url(#es13-wire-out); --flow-delay:1.9s; --flow-duration:0.6s;"></circle>
+          </g>
+
+          <g class="hotspot" data-component="output" tabindex="0" role="button" aria-label="خرج قطبي الجهاز">
+            <rect class="box-shape" x="545" y="120" width="175" height="90" rx="10" fill="url(#es13GradYellow)" stroke="#FBBF24" stroke-width="2" filter="url(#es13Elevate)"></rect>
+            <text class="cut-only" x="632" y="158" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">موجات جيبية مستمرة</text>
+            <text class="coag-only" x="632" y="158" text-anchor="middle" font-family="Cairo, sans-serif" font-size="10" font-weight="700" fill="#eef1f8" direction="rtl">موجات جيبية متقطعة</text>
+            <text x="632" y="178" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8" font-weight="700" fill="#FBBF24" direction="rtl">(عند قطبي الجهاز)</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="status-panel" aria-live="polite">
+        <h3 class="status-title">مسار التغذية الحالي</h3>
+        <ul class="status-list">
+          <li class="status-row cut-only" data-status="path"><span class="status-dot dot-yellow"></span><span class="status-label">المسار النشط</span><span class="status-value"><span class="value-off">—</span><span class="value-on">+12V مباشرة إلى المرحل</span></span></li>
+          <li class="status-row coag-only" data-status="path"><span class="status-dot dot-blue"></span><span class="status-label">المسار النشط</span><span class="status-value"><span class="value-off">—</span><span class="value-on">عبر المذبذب المتعدد</span></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="info-panel" data-info-panel>
+      <p class="info-hint" data-info-hint>بدّل بين القطع والتخثر من الأزرار أعلاه، أو انقر على أي مكون لعرض شرحه</p>
+      <div class="info-content" data-info-content hidden>
+        <p class="info-title" data-info-title></p>
+        <p class="info-text" data-info-text></p>
+      </div>
+    </div>
+
+    <ul class="legend-panel">
+      <li class="legend-item"><span class="legend-swatch legend-yellow"></span>مسار القطع (مباشر)</li>
+      <li class="legend-item"><span class="legend-swatch legend-blue"></span>مسار التخثر (عبر المذبذب)</li>
+    </ul>
+  </div>
+
+  {caption && <figcaption class="diagram-block-caption">{caption}</figcaption>}
+
+  <div class="diagram-controls">
+    <button type="button" class="diagram-replay-button play-button">▶ تشغيل المخطط</button>
+    <button type="button" class="diagram-replay-button pause-button" disabled>⏸ إيقاف مؤقت</button>
+    <button type="button" class="diagram-replay-button reset-button">↻ إعادة التشغيل</button>
+    <button type="button" class="diagram-replay-button speed-down-button">إبطاء −</button>
+    <button type="button" class="diagram-replay-button speed-up-button">تسريع +</button>
+  </div>
+</figure>
+
+<style>
+  .mode-toggle-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0 var(--neo-space-md) var(--neo-space-sm);
+    flex-wrap: wrap;
+  }
+
+  .mode-toggle-button {
+    font-family: "Cairo", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.04);
+    color: #c3c9dc;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .mode-toggle-button:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .mode-toggle-button[aria-pressed="true"] {
+    background: #FBBF24;
+    border-color: #FBBF24;
+    color: #1a1608;
+  }
+
+  .coag-path, .coag-only { opacity: 0; }
+  .simulator-shell[data-mode="coag"] .coag-path,
+  .simulator-shell[data-mode="coag"] .coag-only { opacity: 1; }
+  .simulator-shell[data-mode="coag"] .cut-path,
+  .simulator-shell[data-mode="coag"] .cut-only { opacity: 0; }
+  li.cut-only, li.coag-only { transition: opacity 0.2s ease; }
+  text.cut-only, text.coag-only { transition: opacity 0.2s ease; }
+
+  .hotspot .box-shape {
+    filter: url(#es13Elevate) saturate(0.95) brightness(0.98);
+    transition: filter 0.2s ease, transform 0.25s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hotspot:hover .box-shape,
+  .hotspot:focus-visible .box-shape,
+  .hotspot.is-selected .box-shape {
+    filter: url(#es13Elevate) saturate(1.35) brightness(1.45);
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .trail { opacity: 0; stroke-width: 2.5px; filter: url(#es13Glow); }
+  .cut-path, .coag-path { transition: opacity 0.3s ease; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes es13-shape-activate { to { filter: url(#es13Elevate) saturate(1.35) brightness(1.4); } }
+    @keyframes es13-reveal-trail { to { opacity: 0.85; } }
+    @keyframes es13-status-value-on { to { opacity: 1; } }
+    @keyframes es13-status-value-off { to { opacity: 0; } }
+    @keyframes es13-dot-on-yellow { to { background: #FBBF24; box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.8); } }
+    @keyframes es13-dot-on-blue { to { background: #38BDF8; box-shadow: 0 0 8px 1px rgba(56, 189, 248, 0.8); } }
+    @keyframes es13-dot-on-orange { to { background: #FB923C; box-shadow: 0 0 8px 1px rgba(251, 146, 60, 0.8); } }
+
+    .playing [data-component="supply-12v"] .box-shape { animation: es13-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-component="astable"] .box-shape { animation: es13-shape-activate 0.4s ease-out 0.1s forwards; }
+    .playing [data-component="select-switch"] .box-shape { animation: es13-shape-activate 0.4s ease-out 0.2s forwards; }
+    .playing .cut-path .trail { animation: es13-reveal-trail 0.3s ease-out 0.5s forwards; }
+    .playing .coag-path .trail { animation: es13-reveal-trail 0.3s ease-out 0.5s forwards; }
+
+    .playing [data-component="relay"] .box-shape { animation: es13-shape-activate 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="path"] .status-dot { animation: es13-dot-on-orange 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="path"] .value-on { animation: es13-status-value-on 0.4s ease-out 1.6s forwards; }
+    .playing [data-status="path"] .value-off { animation: es13-status-value-off 0.4s ease-out 1.6s forwards; }
+    .playing [data-link="relay"] .trail { animation: es13-reveal-trail 0.3s ease-out 1.9s forwards; }
+
+    .playing [data-component="output"] .box-shape { animation: es13-shape-activate 0.4s ease-out 2.2s forwards; }
+
+    .current-particle { opacity: 0; offset-rotate: 0deg; }
+    @keyframes es13-current-flow {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .playing .current-particle {
+      animation: es13-current-flow var(--flow-duration, 1.2s) linear var(--flow-delay, 0s) infinite;
+    }
+    .simulator-shell:not([data-mode="coag"]) .coag-path .current-particle,
+    .simulator-shell[data-mode="coag"] .cut-path .current-particle {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+  }
+</style>
+
+<script>
+  import { wireDiagramSimulator } from "../../scripts/diagramSimulator.js";
+
+  const COMPONENT_INFO: Record<string, { title: string; text: string }> = {
+    "supply-12v": {
+      title: "فولتية +12V",
+      text: "في نمط القطع، تُزوَّد نقطتا توصيل المرحل مباشرة بهذه الفولتية فتنغلقان باستمرار.",
+    },
+    astable: {
+      title: "المذبذب المتعدد",
+      text: "في نمط التخثر، يولّد هذا المذبذب موجات مربعة ذات تردد واطئ تعمل على تشغيل المرحل بصورة متقطعة بدلا من التغذية المباشرة.",
+    },
+    "select-switch": {
+      title: "مفتاح الاختيار",
+      text: "يختار مسار تغذية المرحل: مباشرة من +12V في نمط القطع، أو عبر المذبذب المتعدد في نمط التخثر.",
+    },
+    relay: {
+      title: "المرحل",
+      text: "تنغلق نقطتاه باستمرار في نمط القطع (خرج مستمر)، أو تُفتحان وتُغلقان بصورة متكررة في نمط التخثر (خرج متقطع).",
+    },
+    output: {
+      title: "الخرج عند قطبي الجهاز",
+      text: "موجات جيبية مستمرة (تردد راديوي) في نمط القطع، أو موجات جيبية متقطعة في نمط التخثر.",
+    },
+  };
+
+  wireDiagramSimulator(".cut-coag-switch-diagram", { cycleMs: 3000, componentInfo: COMPONENT_INFO });
+
+  document.querySelectorAll(".cut-coag-switch-diagram .mode-toggle-button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const shell = btn.closest(".cut-coag-switch-diagram")?.querySelector(".simulator-shell");
+      const mode = btn.getAttribute("data-mode-button");
+      if (!(shell instanceof HTMLElement) || !mode) return;
+      shell.dataset.mode = mode;
+      shell.querySelectorAll(".mode-toggle-button").forEach((b) => {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+    });
+  });
+</script>
